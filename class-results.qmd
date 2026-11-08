@@ -22,6 +22,9 @@ if (!released.length) {
 } else {
   const Plot = await import("https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6.16/+esm");
   root.replaceChildren();
+  let draftPicks = null;
+  const leagueErr = {};
+  const leagueExps = new Set();
   for (const [id] of released) {
     let data, exp;
     try {
@@ -32,7 +35,8 @@ if (!released.length) {
       const [mid, bid] = cond.split("|");
       const m = exp.methods.find((x) => x.id === mid);
       for (const [rxn, s] of Object.entries(byRxn)) {
-        cells.push({ method: exp.bases.length > 1 ? `${m?.label ?? mid} / ${bid}` : (m?.label ?? mid), reaction: rxn, median: s.median, n: s.n, q1: s.q1, q3: s.q3 });
+        const bl = exp.bases.find((x) => x.id === bid);
+        cells.push({ method: exp.bases.length > 1 ? `${m?.label ?? mid} / ${bl?.label ?? bid}` : (m?.label ?? mid), reaction: rxn, median: s.median, n: s.n, q1: s.q1, q3: s.q3 });
       }
     }
     const max = Math.max(1, ...cells.map((c) => Math.abs(c.median)));
@@ -48,17 +52,37 @@ if (!released.length) {
       ],
     });
     const sec = h("section", { class: "lab-card", style: "margin-bottom:1.5rem" }, h("h2", {}, exp.title), heat);
-    if (data.draft && Object.keys(data.draft).length) {
-      const rows = Object.entries(data.draft).map(([k, v]) => ({ method: k, picks: v.picks, mae: v.mae })).sort((a, b) => (a.mae ?? 99) - (b.mae ?? 99));
-      sec.append(h("h3", {}, "🏆 Functional draft league"),
+    if (data.methods_chosen && Object.keys(data.methods_chosen).length) {
+      sec.append(h("h3", {}, "Methods the class chose"),
         h("table", { class: "res-table compact" },
-          h("thead", {}, h("tr", {}, h("th", {}, "Method"), h("th", {}, "students who picked it"), h("th", {}, "class-median MAE so far"))),
-          h("tbody", {}, rows.map((r) => h("tr", {}, h("th", {}, r.method), h("td", { class: "num" }, String(r.picks)), h("td", { class: "num" }, r.mae == null ? "—" : r.mae.toFixed(2)))))));
+          h("thead", {}, h("tr", {}, h("th", {}, "method / basis"), h("th", {}, "students"), h("th", {}, "median signed error"))),
+          h("tbody", {}, Object.entries(data.methods_chosen).sort((a, b) => b[1].n - a[1].n).map(([k, v]) =>
+            h("tr", {}, h("th", {}, k), h("td", { class: "num" }, String(v.n)), h("td", { class: "num" }, v.median_error == null ? "—" : v.median_error.toFixed(2)))))));
+    }
+    if (data.draft) draftPicks = data.draft;
+    for (const [cond, byRxn] of Object.entries(data.stats)) {
+      if (!["ex03", "ex04", "ex05"].includes(id)) break;
+      const mid = cond.split("|")[0];
+      const lbl = exp.methods.find((x) => x.id === mid)?.label ?? mid;
+      for (const s of Object.values(byRxn)) (leagueErr[lbl] = leagueErr[lbl] || []).push(Math.abs(s.median));
+      leagueExps.add(exp.number);
     }
     if (data.muddiest?.length) {
       sec.append(h("h3", {}, "Muddiest points (anonymous)"), h("ul", {}, data.muddiest.slice(0, 12).map((t) => h("li", {}, t))));
     }
     root.append(sec);
+  }
+  // Functional draft (picked in Experiment 3): class-median MAE over every
+  // released reaction of Experiments 3-5.
+  if (draftPicks) {
+    const rows = Object.entries(leagueErr).map(([m, v]) => ({ method: m, mae: v.reduce((a, b) => a + b, 0) / v.length, picks: draftPicks[m]?.picks ?? 0 }))
+      .sort((a, b) => a.mae - b.mae);
+    root.prepend(h("section", { class: "lab-card", style: "margin-bottom:1.5rem" },
+      h("h2", {}, "🏆 Functional draft league"),
+      h("p", { class: "lab-small lab-muted" }, `Ranked by the class-median MAE over all released reactions of Experiment${leagueExps.size > 1 ? "s" : ""} ${[...leagueExps].sort().join(", ")}.`),
+      h("table", { class: "res-table compact" },
+        h("thead", {}, h("tr", {}, h("th", {}, "#"), h("th", {}, "method"), h("th", {}, "students who drafted it"), h("th", {}, "class-median MAE"))),
+        h("tbody", {}, rows.map((r, i) => h("tr", {}, h("td", { class: "num" }, String(i + 1)), h("th", {}, (i === 0 ? "🥇 " : i === 1 ? "🥈 " : i === 2 ? "🥉 " : "") + r.method), h("td", { class: "num" }, String(r.picks)), h("td", { class: "num" }, r.mae.toFixed(2))))))));
   }
 }
 </script>

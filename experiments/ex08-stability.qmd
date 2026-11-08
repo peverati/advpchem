@@ -7,7 +7,13 @@ description: "Excitation energies of Fe and Ru+ with and without SCF stability a
 <div data-lab-exp="ex08" hidden></div>
 
 ::: {.callout-tip appearance="simple" icon=false}
-**At a glance.** Four atomic states, ten methods, each run twice (without and with stability analysis), def2-TZVP. **You will learn** what an unstable SCF solution is, how to detect and fix it, and why transition metals need extra care.
+**At a glance.** Five functionals on the Fe and Ru⁺ states, each run twice (without and with stability analysis), def2-TZVP: **24 jobs**. **You will learn** what an unstable SCF solution is, how to detect and fix it, and why transition metals need extra care.
+:::
+
+## Warm-up
+
+::: {data-lab="quiz"}
+*Loading the concept check…*
 :::
 
 ## Background
@@ -18,7 +24,7 @@ A converged SCF solution is a *stationary point*, but we can't know in advance w
 
 How can an SCF end on an unstable solution? For example, it can land on an excited state while you are computing the ground state. With a reasonable guess this is unlikely for molecules made mostly of main-group elements, but it is much more likely for systems with nearly degenerate low-lying states, such as transition-metal atoms. Without a stability analysis you would never notice. Good descriptions of the procedure are in @seeger1977, @bauernschmitt1996 and @fukutome1981.
 
-In this experiment you will use SPW92 [@slater1951; @perdew1992; @perdew2018], BP86 [@becke1988; @perdew1986; @perdew1986a], B3LYP [@vosko1980; @becke1988; @lee1988; @becke1993; @stephens1994], PBE [@perdew1996], PBE0 [@adamo1999; @ernzerhof1999], M06-2X [@zhao2008], SCAN [@sun2015], B97M-V [@mardirossian2015; @vydrov2010], ωB97M-V [@vydrov2010; @mardirossian2016a] and Hartree–Fock [@hartree1928; @hartree1928a; @fock1930; @slater1930], with the **def2-TZVP** basis set [@weigend2005]. Ru needs an effective core potential (`ECP = def2-ECP`).
+In this experiment you will use five functionals with the **def2-TZVP** basis set [@weigend2005]: PBE [@perdew1996] for both atoms, BP86 [@becke1988; @perdew1986; @perdew1986a] and PBE0 [@adamo1999; @ernzerhof1999] for Ru⁺, and M06-2X [@zhao2008] and B97M-V [@mardirossian2015; @vydrov2010] for Fe. These are the combinations whose calculations converge reliably both with and without stability analysis. Other functionals (SPW92, B3LYP, SCAN, ωB97M-V) and Hartree–Fock were left out because their SCF often fails to converge for these atoms, itself a lesson about transition metals. Ru needs an effective core potential (`ECP = def2-ECP`).
 
 You will compute the excitation energies of two atoms, **Fe** (reference 34.32 kcal/mol) and **Ru⁺** (reference 21.96 kcal/mol). The data come from the 3dAEE8 [@hoyer2014; @luo2014; @yu2014] and 4dAEE5 [@luo2012] subsets of the Minnesota 2015B database [@yu2016a]. Run two sets of calculations:
 
@@ -27,25 +33,64 @@ You will compute the excitation energies of two atoms, **Fe** (reference 34.32 k
 
 As usual, compute the errors with respect to the reference values.
 
+## The stability landscape
+
+Before running anything, play with this toy model of what stability analysis does.
+
+::: {data-lab="landscape"}
+*Loading the stability landscape…*
+:::
+
 ## The atoms
 
 ::: {data-lab="molecules"}
+*Loading the molecules…*
+:::
+
+## Predict first
+
+::: {data-lab="predict"}
 *Loading…*
 :::
 
-::: {.callout-warning appearance="simple"}
-**Pilot version.** The input generator with the stability option, the results table and the stability "energy landscape" widget for this experiment come after the pilot.
+## Run the calculations
+
+Each functional/atom pair appears twice: **without** and **with** stability analysis (the second set of inputs adds `INTERNAL_STABILITY TRUE`). In the output of the second run, look for the stability-analysis section, which reports whether an instability was found.
+
+::: {data-lab="run"}
+*Loading the job list…*
+:::
+
+## Enter your results
+
+Record the **total energy**, **SCF cycles** and **wall time** for both runs, then enter the two excitation energies (excited − ground) for each run in the last tab.
+
+::: {data-lab="results"}
+*Loading the results table…*
+:::
+
+## Explore your data
+
+::: {data-lab="explore"}
+*Loading…*
 :::
 
 ## Questions
 
-1. Compare the errors with and without stability analysis. Do you need the stability analysis here?
-2. How does HF perform? Why do you think it performs this way?
-3. Which functional would you recommend for this case?
+::: {data-lab="questions"}
+*Loading the questions…*
+:::
+
 
 ::: {.callout-tip}
 ## Tip
 This simple example shows that calculations involving transition metals are not easy. Even for "reactions" between atomic states the errors can be very large, and in extreme cases [@cao2019] it isn't clear which functionals give the right answer. As general advice, always run a stability analysis on the final solution. It is mandatory for systems with low-lying states, such as transition metals, especially with a small basis set. In these problematic cases, it is always a good idea to seek help from a theoretician.
+:::
+
+## Submit
+
+::: {data-lab="submit"}
+*Loading…*
 :::
 
 ```{=html}

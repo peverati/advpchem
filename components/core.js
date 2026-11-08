@@ -35,7 +35,7 @@ export function createStore(expId) {
   }
   state = state || memoryFallback[key] || {};
   const defaults = {
-    student: { name: "", id: "" },
+    student: { name: "", email: "" },
     predictions: { values: {}, locked_at: null },
     quiz: {},
     results: {},
@@ -111,27 +111,56 @@ export function createStore(expId) {
 }
 
 // ------------------------------------------------------------- experiment --
-// A "condition" is one method/basis combination; a "job" is a condition × species.
+// A "condition" is one method + one setting (usually a basis set, but in some
+// experiments an integration grid or a stability-analysis option, given as
+// entries of exp.bases with their own label and $rem keywords). A "job" is a
+// condition × species.
+//
+// By default every method is combined with every setting. An experiment can
+// instead list its conditions explicitly, optionally restricted to some
+// species:  "conditions": [{ "method": "B3LYP", "basis": "6-31G*", "species": ["a", "b"] }]
+export function basisLabel(b) {
+  return b.label || b.id;
+}
+
 export function conditions(exp) {
-  const out = [];
   const bases = exp.bases || [];
-  for (const b of bases) {
-    for (const m of exp.methods || []) {
-      out.push({
-        key: `${m.id}|${b.id}`,
-        method: m,
-        basis: b,
-        label: bases.length > 1 ? `${m.label} / ${b.id}` : m.label,
-      });
-    }
+  const methods = exp.methods || [];
+  const multi = bases.length > 1;
+  const make = (m, b, species = null) => ({
+    key: `${m.id}|${b.id}`,
+    method: m,
+    basis: b,
+    species,
+    label: multi ? `${m.label} / ${basisLabel(b)}` : m.label,
+  });
+  if (Array.isArray(exp.conditions)) {
+    return exp.conditions.map((c) => {
+      const m = methods.find((x) => x.id === c.method);
+      const b = bases.find((x) => x.id === c.basis);
+      if (!m || !b) throw new Error(`Unknown condition ${c.method} / ${c.basis} in ${exp.id}.json`);
+      return make(m, b, c.species || null);
+    });
   }
+  const out = [];
+  for (const b of bases) for (const m of methods) out.push(make(m, b));
   return out;
+}
+
+export function speciesFor(exp, cond) {
+  const all = exp.species || [];
+  return cond.species ? all.filter((s) => cond.species.includes(s.id)) : all;
+}
+
+// A reaction applies to a condition only if all of its species are run there.
+export function applies(cond, rxn) {
+  return !cond.species || Object.keys(rxn.nu).every((s) => cond.species.includes(s));
 }
 
 export function jobs(exp) {
   const out = [];
   for (const c of conditions(exp)) {
-    for (const s of exp.species || []) {
+    for (const s of speciesFor(exp, c)) {
       out.push({ key: `${c.key}|${s.id}`, cond: c, species: s });
     }
   }
@@ -146,7 +175,8 @@ export function num(v) {
   return Number.isFinite(x) ? x : null;
 }
 
-// Reaction energy in kcal/mol from the student's own total energies (Eh).
+// Reaction energy in kcal/mol from the student's own total energies (Eh):
+// ΔE = Σ ν_i E_i with ν > 0 for products and ν < 0 for reactants.
 export function computedDelta(exp, state, condKey, rxn) {
   let sum = 0;
   for (const [sid, nu] of Object.entries(rxn.nu)) {
@@ -163,10 +193,13 @@ export function deltaTolerance(computed) {
   return Math.max(0.06, Math.abs(computed) * 0.002);
 }
 
-// Status of one reaction-energy cell: empty | incomplete | ok | mismatch
+// Status of one reaction-energy cell: empty | incomplete | ok | mismatch.
+// With exp.auto_delta the page computes ΔE itself (no typing), so any
+// reaction with all its total energies present counts as "ok".
 export function deltaStatus(exp, state, condKey, rxn) {
-  const entered = num(state.deltas?.[condKey]?.[rxn.id]);
   const comp = computedDelta(exp, state, condKey, rxn);
+  if (exp.auto_delta) return comp === null ? { status: "incomplete", entered: null, comp } : { status: "ok", entered: comp, comp };
+  const entered = num(state.deltas?.[condKey]?.[rxn.id]);
   if (entered === null) return { status: "empty", entered, comp };
   if (comp === null) return { status: "incomplete", entered, comp };
   const ok = Math.abs(entered - comp) <= deltaTolerance(comp);
@@ -178,28 +211,50 @@ export function deltaStatus(exp, state, condKey, rxn) {
 export function verifiedRows(exp, state) {
   const rows = [];
   for (const c of conditions(exp)) {
-    for (const r of exp.reactions) {
+    for (const r of exp.reactions || []) {
+      if (!applies(c, r)) continue;
       const s = deltaStatus(exp, state, c.key, r);
       if (s.status === "ok") {
         rows.push({
           cond: c.key,
+          condLabel: c.label,
           method: c.method.label,
           methodId: c.method.id,
           rung: c.method.rung,
+          disp: c.method.disp,
           basis: c.basis.id,
+          basisLabel: basisLabel(c.basis),
           family: c.basis.family,
           zeta: c.basis.zeta,
           reaction: r.id,
           reactionLabel: r.label,
+          group: r.group,
           delta: s.entered,
           ref: r.ref,
           error: s.entered - r.ref,
           absError: Math.abs(s.entered - r.ref),
+          relError: r.ref ? (100 * (s.entered - r.ref)) / Math.abs(r.ref) : null,
         });
       }
     }
   }
   return rows;
+}
+
+// Number of reaction energies a condition is expected to produce.
+export function expectedReactions(exp, cond) {
+  return (exp.reactions || []).filter((r) => applies(cond, r)).length;
+}
+
+// Read-only access to the student's own work on another experiment (same
+// browser), e.g. to compare Experiments 3, 4 and 5 or import def2-TZVP results.
+export async function loadOther(expId) {
+  let state = null;
+  try {
+    state = JSON.parse(localStorage.getItem(`advpchem:${expId}`) || "null");
+  } catch (e) {}
+  const exp = await loadJSON(`data/experiments/${expId}.json`).catch(() => null);
+  return { exp, state: state || { results: {}, deltas: {}, predictions: { values: {} } } };
 }
 
 export function mae(values) {
@@ -265,4 +320,18 @@ export function downloadBlob(blob, filename) {
 
 export function slug(s) {
   return String(s).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+}
+
+// Number of local minima along a curve (values ordered by distance). A smooth
+// dissociation curve has exactly one; grid noise adds spurious extra minima.
+// End points count as minima only if the curve rises from them.
+export function localMinima(values, tol = 0.01) {
+  let n = 0;
+  for (let i = 0; i < values.length; i++) {
+    const left = i === 0 ? Infinity : values[i - 1];
+    const right = i === values.length - 1 ? -Infinity : values[i + 1];
+    if (i === values.length - 1) continue; // the dissociation limit is not a minimum
+    if (values[i] < left - tol && values[i] <= right + tol) n += 1; // plateaus count once
+  }
+  return n;
 }

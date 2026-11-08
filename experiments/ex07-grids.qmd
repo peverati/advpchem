@@ -7,7 +7,13 @@ description: "How the numerical integration grid affects DFT results, studied on
 <div data-lab-exp="ex07" hidden></div>
 
 ::: {.callout-tip appearance="simple" icon=false}
-**At a glance.** 31 Ar₂ distances plus the Ar atom, five functionals, three grids, all with def2-QZVP. Each job is small, but there are many of them: plan your submissions. **You will learn** what the integration grid is, why meta-GGAs are sensitive to it, and how to choose a grid you can trust.
+**At a glance.** 31 Ar₂ distances plus the Ar atom, five functionals, three grids, all with def2-QZVP: **480 jobs** of a few seconds each. Plan your submissions. **You will learn** what the integration grid is, why meta-GGAs are sensitive to it, and how to choose a grid you can trust.
+:::
+
+## Warm-up
+
+::: {data-lab="quiz"}
+*Loading the concept check…*
 :::
 
 ## Background
@@ -58,25 +64,60 @@ Present your results as a dissociation curve like the one in @fig-vsxc, which sh
 | 3.9 | –0.66 | 5.0 | –0.06 | | |
 | 4.0 | –0.58 | 5.1 | –0.12 | | |
 
+## What a grid looks like
+
+::: {data-lab="grid"}
+*Loading the grid explorer…*
+:::
+
 ## The molecules
 
 ::: {data-lab="molecules"}
-*Loading the structures…*
+*Loading the molecules…*
 :::
 
-::: {.callout-warning appearance="simple"}
-**Pilot version.** The grid explorer, the input generator with grid options and the interactive curve plot for this experiment come after the pilot.
+## Predict first
+
+::: {data-lab="predict"}
+*Loading…*
+:::
+
+## Run the calculations
+
+This is the largest set of jobs of the course (5 functionals × 3 grids × 32 structures), but each one takes seconds. Work one functional and one grid at a time, and check the first curve before running the rest. Your instructor may split the functionals across the class.
+
+::: {data-lab="run"}
+*Loading the job list…*
+:::
+
+## Enter your results
+
+Record the **total energy**, **SCF cycles** and **wall time** of every job. The page computes all interaction energies ΔE(r) = E(Ar₂) − 2 E(Ar) for you and draws the curves as soon as one is complete. Pasting a column from a spreadsheet is the fastest way in.
+
+::: {data-lab="results"}
+*Loading the results table…*
+:::
+
+## Explore your data
+
+The dashed black line is the reference curve. Wiggles that the reference doesn't have are grid noise, not chemistry.
+
+::: {data-lab="explore"}
+*Loading…*
 :::
 
 ## Questions
 
-1. Can you find any problematic functionals?
-2. Why do you see several minima and maxima in some curves? Do you think they are physical?
-3. Compare the results with the smallest and the largest grid. Which functionals are well converged with respect to the grid?
-4. What are the minimum grid requirements for each functional you tested?
-5. Did the calculation time change with the grid? Tabulate and plot time against grid size. How noticeable is the increase?
-6. Based on your results, which grid(s) would you recommend?
-7. Does the HF method suffer from this problem? Why or why not?
+::: {data-lab="questions"}
+*Loading the questions…*
+:::
+
+
+## Submit
+
+::: {data-lab="submit"}
+*Loading…*
+:::
 
 ```{=html}
 <script type="module" src="../components/lab.js"></script>

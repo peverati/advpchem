@@ -44,7 +44,17 @@ def load_exp(exp_id):
 
 
 def conditions(exp):
-    return [(f"{m['id']}|{b['id']}", m, b) for b in exp.get("bases", []) for m in exp.get("methods", [])]
+    """(key, method, basis, species-or-None), mirroring components/core.js."""
+    methods = {m["id"]: m for m in exp.get("methods", [])}
+    bases = {b["id"]: b for b in exp.get("bases", [])}
+    if isinstance(exp.get("conditions"), list):
+        return [(f"{c['method']}|{c['basis']}", methods[c["method"]], bases[c["basis"]], c.get("species"))
+                for c in exp["conditions"]]
+    return [(f"{m['id']}|{b['id']}", m, b, None) for b in exp.get("bases", []) for m in exp.get("methods", [])]
+
+
+def applies(species, rxn):
+    return species is None or all(s in species for s in rxn["nu"])
 
 
 def recomputed_delta(sub, cond, rxn):
@@ -89,18 +99,24 @@ def summarize(exp, subs):
     conds = conditions(exp)
     species = exp.get("species", [])
     reactions = exp.get("reactions", [])
+    auto = bool(exp.get("auto_delta"))
+    n_jobs = sum(len(sp_ok) if sp_ok else len(species) for _, _, _, sp_ok in conds)
+    n_rxn = sum(1 for _, _, _, sp_ok in conds for r in reactions if applies(sp_ok, r))
     for sid, s in sorted(subs.items()):
-        n_e = sum(1 for c, _, _ in conds for sp in species
-                  if num(s.get("results", {}).get(c, {}).get(sp["id"], {}).get("energy")) is not None)
-        verified, errs = 0, []
-        for c, _, _ in conds:
+        n_e = sum(1 for c, _, _, sp_ok in conds for sp in species if (sp_ok is None or sp["id"] in sp_ok)
+                  and num(s.get("results", {}).get(c, {}).get(sp["id"], {}).get("energy")) is not None)
+        verified, errs, own = 0, [], {}
+        for c, _, _, sp_ok in conds:
             for r in reactions:
+                if not applies(sp_ok, r):
+                    continue
                 comp = recomputed_delta(s, c, r)
                 if comp is None:
                     continue
                 errors[(c, r["id"])].append(comp - r["ref"])
+                own[(c, r["id"])] = comp - r["ref"]
                 typed = num(s.get("deltas", {}).get(c, {}).get(r["id"]))
-                if typed is not None and abs(typed - comp) <= max(0.06, abs(comp) * 0.002):
+                if auto or (typed is not None and abs(typed - comp) <= max(0.06, abs(comp) * 0.002)):
                     verified += 1
                     errs.append(abs(comp - r["ref"]))
         rows.append({
@@ -108,13 +124,17 @@ def summarize(exp, subs):
             "name": s.get("student", {}).get("name", ""),
             "submitted": s.get("generated_at", ""),
             "predictions_locked": s.get("predictions", {}).get("locked_at") or "",
-            "energies": f"{n_e}/{len(conds) * len(species)}" if conds else "",
-            "verified_deltas": f"{verified}/{len(conds) * len(reactions)}" if conds else "",
+            "energies": f"{n_e}/{n_jobs}" if conds else "",
+            "verified_deltas": f"{verified}/{n_rxn}" if conds else "",
             "MAE (verified)": round(sum(errs) / len(errs), 3) if errs else None,
             "honor": bool(s.get("extra", {}).get("honor")),
             "answers": s.get("answers", {}),
             "predictions": s.get("predictions", {}).get("values", {}),
             "muddiest": s.get("muddiest", ""),
+            "methodcard": s.get("extra", {}).get("methodcard"),
+            "nist": s.get("extra", {}).get("nist"),
+            # single-condition experiments (Ex10): this student's own signed error
+            "_ex10_error": next(iter(own.values())) if len(conds) == 1 and len(reactions) == 1 and own else None,
             "file": s["_file"],
         })
     return rows, errors
@@ -147,7 +167,10 @@ def write_gradebook(exp, rows, out):
         vals = []
         for q in qs:
             a = r["answers"].get(q["id"], "")
-            vals.append("; ".join(f"{k}: {v}" for k, v in a.items()) if isinstance(a, dict) else a)
+            if q.get("type") == "report" and isinstance(a, dict):
+                vals.append(f"{a.get('title', '')}\n\n{a.get('body', '')}\n\nReferences:\n{a.get('refs', '')}")
+            else:
+                vals.append("; ".join(f"{k}: {v}" for k, v in a.items()) if isinstance(a, dict) else a)
         wa.append([r["id"], r["name"]] + vals + [r["muddiest"]])
     if exp.get("predictions"):
         wp = wb.create_sheet("Predictions")
@@ -161,6 +184,20 @@ def write_gradebook(exp, rows, out):
             picks = r["answers"].get("ladder", {})
             score = sum(picks.get(it["name"]) == it["answer"] for it in exp["ladder"])
             wl.append([r["id"], r["name"], score] + [picks.get(it["name"], "") for it in exp["ladder"]])
+    if any(r.get("methodcard") for r in rows):
+        wm = wb.create_sheet("Method card")
+        keys = ["functional", "other", "dispersion", "basis", "grid", "stability", "why_functional", "why_basis", "why_settings"]
+        wm.append(["email", "name"] + keys)
+        for r in rows:
+            mc = r.get("methodcard") or {}
+            wm.append([r["id"], r["name"]] + [str(mc.get(k, "")) for k in keys])
+    if any(r.get("nist") for r in rows):
+        wn = wb.create_sheet("NIST")
+        keys = ["unit", "fecl", "fe", "cl", "notes"]
+        wn.append(["email", "name"] + keys)
+        for r in rows:
+            n = r.get("nist") or {}
+            wn.append([r["id"], r["name"]] + [str(n.get(k, "")) for k in keys])
     for sheet in wb.worksheets:
         for c in sheet[1]:
             c.font = Font(bold=True)
@@ -193,6 +230,18 @@ def class_summary(exp, rows, errors, include_muddiest):
             meds = [s["median"] for c, by in stats.items() if c.split("|")[0] == mid for s in by.values()]
             draft[label] = {"picks": picks.get(label, 0), "mae": round(sum(abs(x) for x in meds) / len(meds), 3) if meds else None}
         out["draft"] = draft
+    # Experiment 10: which methods the class chose, and how they did (no names).
+    if any(r.get("methodcard") for r in rows):
+        choices = defaultdict(list)
+        for r in rows:
+            mc = r.get("methodcard") or {}
+            if not mc.get("functional"):
+                continue
+            f = mc.get("other") if mc.get("functional") == "other" else mc.get("functional")
+            label = f"{f}{'-D4' if mc.get('dispersion') == 'D4' else ''} / {mc.get('basis', '?')}"
+            choices[label].append(r.get("_ex10_error"))
+        out["methods_chosen"] = {k: {"n": len(v), "median_error": round(statistics.median([x for x in v if x is not None]), 3) if any(x is not None for x in v) else None}
+                                 for k, v in sorted(choices.items())}
     if include_muddiest:
         out["muddiest"] = [r["muddiest"].strip() for r in rows if r["muddiest"].strip()]
     return out

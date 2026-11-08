@@ -58,6 +58,8 @@ The four open questions were settled by the instructor in November 2026.
 **Ex6**
 - Said "compare with the def2-QZVP results of Experiments 3–5", but those experiments used **def2-TZVP**. The comparison is now with the def2-TZVP results (def2-QZVP would not fit in the free server's 10-minute limit).
 - "Ahrlichs" → Ahlrichs; B3LYP-D3(BJ) → B3LYP-D4.
+- Fixed set of reactions instead of all 30 molecules / a free choice: **4a** (Diels–Alder), **4b** (*n*-hexane → neohexane) and **5b** (CaO → Ca + O). In the answer key (`Lab_Notebook_DetailedKey.RP.xlsx`, sheet *Experiment_7*), B3LYP/6-31G* is much better than def2-QZVP for 4a (2.45 vs 11.41 kcal/mol), about the same for 4b (3.64 vs 3.77) and far worse for 5b (55.07 vs 7.30); the D3(BJ) rows show the same three behaviours. The key has no def2-TZVP column, so the comparison on the page (def2-TZVP) should be checked against real runs.
+- The basis-function question now uses a fixed molecule (cyclohexene), and the "try another functional" question a fixed one (ωB97M-V/6-31G\*).
 
 **Ex7**
 - Reference table: the 5.9 Å and 6.0 Å rows were merged into one cell; split (5.9 → –0.03, 6.0 → –0.02).
@@ -68,10 +70,13 @@ The four open questions were settled by the instructor in November 2026.
 **Ex8**
 - "second derivatives of the wave function" → second derivatives of the **energy** with respect to orbital rotations (electronic Hessian).
 - Noted that Ru needs `ECP = def2-ECP`.
+- Only functional/atom pairs that converged both without and with stability analysis in a recent student report (Fall 2026, Experiment 8 results): PBE (Fe and Ru⁺), BP86 and PBE0 (Ru⁺), M06-2X and B97M-V (Fe), 24 jobs. SPW92, B3LYP, SCAN, ωB97M-V and HF were removed because they failed to converge.
 
 **Ex9**
 - "SRTMBE17" → SR-TM-BE17; "Nist Webbook" → NIST Chemistry WebBook (linked).
 - Practice comment: listed the usual corrections (ZPE, thermal, spin–orbit) between experimental and electronic values.
+- Basis set **def2-QZVP → def2-TZVP**, so the *tert*-butanol jobs fit within the free server's 10-minute limit (same reasoning as Ex6). Revert in `data/experiments/ex09.json` and the page text if you have more computer time.
+- Reactions labelled 9a/9b in the text; the atomization reactions are listed explicitly (H₂ → 2 H, CH₄ → C + 4 H, …).
 
 **Ex10**
 - The structures come from **PdBE2**; the geometry files (named `*_SR-TM-BE17.xyz`) were renamed `Pd_PH3_2-C6H8_PdBE2.xyz`, `Pd_PH3_2_PdBE2.xyz` and `C6H8_PdBE2.xyz`.

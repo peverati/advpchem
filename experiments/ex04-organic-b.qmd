@@ -10,6 +10,12 @@ description: "Four more textbook reactions, where dispersion and changes in bond
 **At a glance.** 10 molecules × 16 methods = **160 jobs** with def2-TZVP. **You will learn** when error cancellation stops helping, and what dispersion corrections (-D4) and nonlocal correlation (VV10) actually fix.
 :::
 
+## Warm-up
+
+::: {data-lab="quiz"}
+*Loading the concept check…*
+:::
+
 ## Background
 
 ![Reactions studied in Experiment 4: Diels–Alder reaction of ethene and butadiene (4a), isomerization of *n*-hexane to neohexane (4b), and formation of the ethane (4c) and methanol (4d) dimers. Carbon is black, oxygen red, hydrogen white; the dotted line is a hydrogen bond.](../images/ex04-reactions.jpeg){fig-alt="Ball-and-stick and line drawings of reactions 4a to 4d" width="500"}
@@ -35,23 +41,44 @@ For the dimers (4c, 4d) the reaction is *monomers → dimer*, so a negative ΔE 
 *Loading the molecules…*
 :::
 
+## Predict first
+
+::: {data-lab="predict"}
+*Loading…*
+:::
+
 ## Run the calculations
 
 ::: {data-lab="run"}
 *Loading the job list…*
 :::
 
-::: {.callout-warning appearance="simple"}
-**Pilot version.** The interactive results table for this experiment opens after the pilot. For now, collect your total energies, SCF cycles and wall times in a spreadsheet.
+## Enter your results
+
+For every job, record the **total energy**, the **number of SCF cycles** and the **wall time** ([where to find them](../guides/reading-output.qmd)), then enter your reaction energies in the last tab. Reactions 4a and 4d involve three species each, and in 4c the ethane monomer counts twice (ν = −2): mind the coefficients.
+
+::: {data-lab="results"}
+*Loading the results table…*
+:::
+
+## Explore your data
+
+::: {data-lab="explore"}
+*Loading…*
 :::
 
 ## Questions
 
-1. Which functional has the most negative error? Which has the most positive?
-2. Which functional is the best performer for each reaction? Which is the best overall?
-3. Are there functionals that perform badly for these reactions?
-4. Compute the wall time divided by the number of SCF cycles for each functional. How do they compare? Compare B3LYP with the other hybrid functionals and with HF.
-5. Do the functionals with the **-D4** correction perform better than the corresponding uncorrected ones? For which reactions does it matter most, and why?
+::: {data-lab="questions"}
+*Loading the questions…*
+:::
+
+
+## Submit
+
+::: {data-lab="submit"}
+*Loading…*
+:::
 
 ```{=html}
 <script type="module" src="../components/lab.js"></script>

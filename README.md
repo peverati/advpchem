@@ -66,13 +66,34 @@ content.
 - `filters/print-handout.lua` removes the interactive parts from the Word/PDF
   versions of each experiment ("Other Formats" on each page).
 
-## Pilot status
+## What each experiment has
 
-- **Fully interactive:** Experiments 1, 2 and 3.
-- **Text, 3D molecules (and Q-Chem inputs for 4–6):** Experiments 4–10. Next step:
-  write predictions/quiz/questions in their JSON and add the special widgets
-  (D4 toggle, error-cancellation view, grid explorer, stability landscape, method-card builder).
-- **To verify with a real IQmol job:** the Q-Chem keywords used by the input
-  generator (`DFT_D D4`, `METHOD B97M-rV`, `METHOD SPW92`, `ECP def2-ECP`,
-  `XC_GRID`, `INTERNAL_STABILITY`) on the version of Q-Chem behind the free server,
-  and the IQmol menu names in `guides/` (then add screenshots).
+All ten experiments are interactive. Every page with calculations has a warm-up
+quiz, 3D molecules, locked predictions, a Q-Chem input generator with job
+checklist, a self-checking results table, live charts, questions and a submission
+file. Experiment-specific pieces:
+
+| Exp | Special parts | Data options used |
+|---|---|---|
+| 1 | error vs ζ, cost-scaling fit, Colab CBS notebook | |
+| 2 | Jacob's-ladder classification | `ladder` |
+| 3 | rung-coloured errors, cost vs accuracy, functional draft, Colab torsion notebook | |
+| 4 | D4 on/off pairs, dispersion-coloured dimer chart | method `disp` |
+| 5 | relative errors, CaO training-set spotlight, easy→hard chart across Exps 3–5 | `spotlight` |
+| 6 | three fixed reactions (4a, 4b, 5b), MAE by basis, "spot the anomaly", basis-size counter, import of def2-TZVP results from Exps 4–5 | `import`, reaction `group` |
+| 7 | grid explorer, Ar₂ curves, wiggle report, timing by grid | grids as `bases` with `XC_GRID`, `auto_delta` |
+| 8 | stability landscape, energy lowering by stability analysis | runs as `bases` with `INTERNAL_STABILITY`; explicit `conditions` limit each functional to the atoms that converge |
+| 9 | grouped errors, relative errors, NIST theory-vs-experiment panel | explicit `conditions` (B3LYP/6-31G* for tBuOH only) |
+| 10 | method card with cost check and input generator, result card, report editor | `custom` method |
+
+`tools/build_experiment_data.py` wrote the quiz/prediction/question content of
+Experiments 4–10 once; edit the JSON files directly from now on (re-running the
+script would overwrite your edits).
+
+## Still to verify with a real IQmol job
+
+The Q-Chem keywords used by the input generator (`DFT_D D4`, `METHOD B97M-rV`,
+`METHOD SPW92`, `ECP def2-ECP`, `XC_GRID`, `INTERNAL_STABILITY`, `METHOD MN15-L`,
+`BASIS pc-1`) on the version of Q-Chem behind the free server, the timing of the
+largest jobs against the 10-minute limit (Ex6, Ex9, Ex10), and the IQmol menu names
+in `guides/` (then add screenshots).

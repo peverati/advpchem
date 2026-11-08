@@ -126,7 +126,8 @@
    "rung": "LSDA",
    "rem": {
     "METHOD": "SPW92"
-   }
+   },
+   "disp": "none"
   },
   {
    "id": "BP86",
@@ -134,7 +135,8 @@
    "rung": "GGA",
    "rem": {
     "METHOD": "BP86"
-   }
+   },
+   "disp": "none"
   },
   {
    "id": "BLYP",
@@ -142,7 +144,8 @@
    "rung": "GGA",
    "rem": {
     "METHOD": "BLYP"
-   }
+   },
+   "disp": "none"
   },
   {
    "id": "PBE",
@@ -150,7 +153,8 @@
    "rung": "GGA",
    "rem": {
     "METHOD": "PBE"
-   }
+   },
+   "disp": "none"
   },
   {
    "id": "PBE-D4",
@@ -159,7 +163,8 @@
    "rem": {
     "METHOD": "PBE",
     "DFT_D": "D4"
-   }
+   },
+   "disp": "D4"
   },
   {
    "id": "SCAN",
@@ -167,7 +172,8 @@
    "rung": "meta-GGA",
    "rem": {
     "METHOD": "SCAN"
-   }
+   },
+   "disp": "none"
   },
   {
    "id": "B97M-rV",
@@ -175,7 +181,8 @@
    "rung": "meta-GGA",
    "rem": {
     "METHOD": "B97M-rV"
-   }
+   },
+   "disp": "VV10 (nonlocal)"
   },
   {
    "id": "B3LYP",
@@ -183,7 +190,8 @@
    "rung": "hybrid GGA",
    "rem": {
     "METHOD": "B3LYP"
-   }
+   },
+   "disp": "none"
   },
   {
    "id": "B3LYP-D4",
@@ -192,7 +200,8 @@
    "rem": {
     "METHOD": "B3LYP",
     "DFT_D": "D4"
-   }
+   },
+   "disp": "D4"
   },
   {
    "id": "B3PW91",
@@ -200,7 +209,8 @@
    "rung": "hybrid GGA",
    "rem": {
     "METHOD": "B3PW91"
-   }
+   },
+   "disp": "none"
   },
   {
    "id": "PBE0",
@@ -208,7 +218,8 @@
    "rung": "hybrid GGA",
    "rem": {
     "METHOD": "PBE0"
-   }
+   },
+   "disp": "none"
   },
   {
    "id": "M06-2X",
@@ -216,7 +227,8 @@
    "rung": "hybrid meta-GGA",
    "rem": {
     "METHOD": "M06-2X"
-   }
+   },
+   "disp": "fitted (Minnesota)"
   },
   {
    "id": "M11",
@@ -224,7 +236,8 @@
    "rung": "hybrid meta-GGA",
    "rem": {
     "METHOD": "M11"
-   }
+   },
+   "disp": "fitted (Minnesota)"
   },
   {
    "id": "MN15",
@@ -232,7 +245,8 @@
    "rung": "hybrid meta-GGA",
    "rem": {
     "METHOD": "MN15"
-   }
+   },
+   "disp": "fitted (Minnesota)"
   },
   {
    "id": "wB97M-V",
@@ -240,7 +254,8 @@
    "rung": "hybrid meta-GGA",
    "rem": {
     "METHOD": "wB97M-V"
-   }
+   },
+   "disp": "VV10 (nonlocal)"
   },
   {
    "id": "HF",
@@ -248,7 +263,8 @@
    "rung": "Hartree–Fock",
    "rem": {
     "METHOD": "HF"
-   }
+   },
+   "disp": "none"
   }
  ],
  "bases": [
@@ -262,5 +278,197 @@
   "energy",
   "scf",
   "time"
+ ],
+ "dimers": [
+  "4c",
+  "4d"
+ ],
+ "quiz": [
+  {
+   "q": "In the Diels–Alder reaction (4a) two π bonds become two new σ bonds. Why is error cancellation likely to be *worse* here than for the ethane rotation of Experiment 3?",
+   "options": [
+    "The bonding changes a lot between reactants and product, so errors in describing each bond type no longer cancel",
+    "The molecules are larger, so the basis set is incomplete",
+    "Diels–Alder reactions are spin-forbidden",
+    "The reference value is less accurate"
+   ],
+   "answer": 0,
+   "explain": "Error cancellation works best when reactants and products are chemically similar. Turning π bonds into σ bonds changes the electron density substantially, so each functional's systematic errors don't cancel."
+  },
+  {
+   "q": "What holds the ethane dimer (4c) together?",
+   "options": [
+    "A hydrogen bond",
+    "London dispersion",
+    "A weak covalent bond",
+    "Attraction between permanent charges"
+   ],
+   "answer": 1,
+   "explain": "Ethane has no dipole and no hydrogen-bond donors or acceptors. The ~1.3 kcal/mol of binding is almost entirely dispersion: correlated fluctuations of the electron clouds."
+  },
+  {
+   "q": "Many older functionals (e.g. B3LYP, PBE) miss most of the dispersion energy. For a dispersion-bound dimer they typically predict binding that is…",
+   "options": [
+    "too weak, or even repulsive",
+    "about right, because errors cancel",
+    "too strong"
+   ],
+   "answer": 0,
+   "explain": "Semilocal and hybrid functionals depend on the density at (or near) each point, so they cannot describe the long-range correlation behind dispersion. Corrections such as D4 or nonlocal VV10 add it back."
+  },
+  {
+   "q": "Branched alkanes are slightly more stable than their linear isomers. What sign do you expect for ΔE of *n*-hexane → neohexane (4b)?",
+   "options": [
+    "negative",
+    "positive",
+    "zero"
+   ],
+   "answer": 0,
+   "explain": "The product (neohexane) is lower in energy, so ΔE = Σ νᵢEᵢ < 0. Getting this small difference right is surprisingly hard for many functionals: it is partly a medium-range dispersion effect."
+  }
+ ],
+ "predictions": [
+  {
+   "id": "b3lyp_dimer",
+   "prompt": "For the ethane dimer (4c), **B3LYP without D4** will…",
+   "options": [
+    "bind too weakly (or not at all)",
+    "bind about right",
+    "bind too strongly"
+   ],
+   "check": {
+    "type": "errsign",
+    "method": "B3LYP",
+    "reaction": "4c",
+    "tol": 0.3,
+    "labels": [
+     "bind too weakly (or not at all)",
+     "bind about right",
+     "bind too strongly"
+    ]
+   }
+  },
+  {
+   "id": "d4",
+   "prompt": "Over all four reactions, adding **-D4** to B3LYP will make the mean absolute error…",
+   "options": [
+    "clearly smaller",
+    "about the same",
+    "clearly larger"
+   ],
+   "check": {
+    "type": "pair",
+    "a": "B3LYP",
+    "b": "B3LYP-D4"
+   }
+  },
+  {
+   "id": "isomer",
+   "prompt": "Which method will be **most accurate for the alkane isomerization** (4b)?",
+   "options": [
+    "SPW92",
+    "BP86",
+    "BLYP",
+    "PBE",
+    "PBE-D4",
+    "SCAN",
+    "B97M-rV",
+    "B3LYP",
+    "B3LYP-D4",
+    "B3PW91",
+    "PBE0",
+    "M06-2X",
+    "M11",
+    "MN15",
+    "ωB97M-V",
+    "HF"
+   ],
+   "check": {
+    "type": "best",
+    "reaction": "4b"
+   }
+  },
+  {
+   "id": "worst",
+   "prompt": "Which method will have the **largest mean absolute error** overall?",
+   "options": [
+    "SPW92",
+    "BP86",
+    "BLYP",
+    "PBE",
+    "PBE-D4",
+    "SCAN",
+    "B97M-rV",
+    "B3LYP",
+    "B3LYP-D4",
+    "B3PW91",
+    "PBE0",
+    "M06-2X",
+    "M11",
+    "MN15",
+    "ωB97M-V",
+    "HF"
+   ],
+   "check": {
+    "type": "worst"
+   }
+  },
+  {
+   "id": "harder",
+   "prompt": "Compared with Experiment 3, the typical error in this experiment will be…",
+   "options": [
+    "smaller",
+    "similar",
+    "much larger"
+   ],
+   "check": {
+    "type": "vs_previous",
+    "exps": [
+     "ex03"
+    ],
+    "labels": [
+     "smaller",
+     "similar",
+     "much larger"
+    ]
+   },
+   "pending": "Your data will answer this once this table is complete (it also needs your Experiment 3 results in this browser)."
+  }
+ ],
+ "questions": [
+  {
+   "id": "q1",
+   "text": "Which method has the most negative signed error? Which has the most positive?"
+  },
+  {
+   "id": "q2",
+   "text": "Which method is the best performer for each reaction? Which is the best overall?"
+  },
+  {
+   "id": "q3",
+   "text": "Are there methods that perform badly for these reactions? Compare with what you saw in Experiment 3: did the ranking change?"
+  },
+  {
+   "id": "q4",
+   "text": "Using the time per SCF cycle, compare B3LYP with the other hybrid functionals and with HF."
+  },
+  {
+   "id": "q5",
+   "text": "Do the functionals with **-D4** perform better than the uncorrected ones? Use the D4 chart: for which reactions does -D4 matter most, and why those?"
+  },
+  {
+   "id": "q6",
+   "text": "Look at the dimer chart. Which way of treating dispersion (none, D4, VV10, fitted) works best for the dispersion-bound ethane dimer? Is the same true for the hydrogen-bonded methanol dimer? Why might they differ?"
+  },
+  {
+   "id": "q7",
+   "text": "Compare your results with the predictions you locked in. Which one surprised you most?"
+  }
+ ],
+ "explore": [
+  "signed-errors",
+  "d4-pairs",
+  "dispersion-dimers",
+  "cost-accuracy"
  ]
 }

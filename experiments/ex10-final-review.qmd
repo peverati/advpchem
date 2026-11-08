@@ -10,6 +10,12 @@ description: "Design, run and report the calculation of a Pd–ligand bond disso
 **At a glance.** Three species, and every choice is yours. **You will show** that you can choose and justify a method, set up the calculations properly, and report the results the way a computational paper would.
 :::
 
+## Warm-up
+
+::: {data-lab="quiz"}
+*Loading the concept check…*
+:::
+
 ## The request
 
 ![Dissociation of the diphosphinohexatrienepalladium(0) complex. Carbon is black, phosphorus orange, hydrogen white and palladium light blue; dotted lines are dative bonds.](../images/ex10-pd-complex.jpeg){fig-alt="Pd(PH3)2(hexatriene) dissociating into Pd(PH3)2 and hexatriene" width="560"}
@@ -30,9 +36,37 @@ Remember that every calculation is a compromise between accuracy and computation
 *Loading…*
 :::
 
+## Predict first
+
+::: {data-lab="predict"}
+*Loading…*
+:::
+
+## Your method card
+
+Choose every setting and write down *why*. The card warns you about common pitfalls (double-counting dispersion, grid-sensitive functionals) and estimates whether each job fits in the free server's 10-minute limit. It then gives you the three Q-Chem inputs for your choice.
+
+::: {data-lab="methodcard"}
+*Loading the method card…*
+:::
+
+## Enter your results
+
+Record the three total energies, SCF cycles and wall times from your outputs, then your bond dissociation energy ΔE = E(Pd(PH₃)₂) + E(C₆H₈) − E(complex).
+
+::: {data-lab="results"}
+*Loading the results table…*
+:::
+
+## Explore your data
+
+::: {data-lab="explore"}
+*Loading…*
+:::
+
 ## Your report
 
-When you have finished all calculations, write a short report (**about 300 words**) that:
+Write a short report (**about 300 words**) that:
 
 1. has a title;
 2. states the method you chose and **why**, citing the literature;
@@ -40,8 +74,18 @@ When you have finished all calculations, write a short report (**about 300 words
 4. presents your results and compares them with the reference value of **16.20 kcal/mol**;
 5. ends with an appropriate reference section.
 
-::: {.callout-warning appearance="simple"}
-**Pilot version.** The "method card" builder and the report editor for this experiment come after the pilot. For now, write your report in Word and submit it as instructed in class.
+::: {data-lab="questions"}
+*Loading the report editor…*
+:::
+
+::: {.callout-note appearance="simple"}
+**Peer review.** Your instructor may ask you to review two classmates' reports on Canvas with a short rubric: is the method justified, is the setup reproducible, is the comparison with the reference honest?
+:::
+
+## Submit
+
+::: {data-lab="submit"}
+*Loading…*
 :::
 
 ```{=html}

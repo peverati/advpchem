@@ -10,6 +10,12 @@ description: "Ozonolysis, CaO dissociation, the atomization of sulfuric acid and
 **At a glance.** 12 species × 16 methods = **192 jobs** with def2-TZVP, including open-shell atoms (check the multiplicities!). **You will learn** why some chemically simple reactions are very hard for DFT, and why you can't treat calculations as a black box.
 :::
 
+## Warm-up
+
+::: {data-lab="quiz"}
+*Loading the concept check…*
+:::
+
 ## Background
 
 ![Reactions studied in Experiment 5: formation of the primary ozonide from ozone and ethene (5a), dissociation of CaO (5b), atomization of sulfuric acid (5c), and conversion of ozone into oxygen (5d). Carbon is black, oxygen red, hydrogen white, sulfur yellow and calcium grey.](../images/ex05-reactions.jpeg){fig-alt="Ball-and-stick drawings of reactions 5a to 5d" width="560"}
@@ -37,29 +43,40 @@ Atoms and O~2~ are open-shell: O, S and O~2~ are **triplets** and H is a **doubl
 *Loading the molecules…*
 :::
 
+## Predict first
+
+::: {data-lab="predict"}
+*Loading…*
+:::
+
 ## Run the calculations
 
 ::: {data-lab="run"}
 *Loading the job list…*
 :::
 
-::: {.callout-warning appearance="simple"}
-**Pilot version.** The interactive results table for this experiment opens after the pilot. For now, collect your total energies, SCF cycles and wall times in a spreadsheet.
+## Enter your results
+
+Record the **total energy**, **SCF cycles** and **wall time** of every job, then enter your reaction energies in the last tab. The coefficients get large here: in 5c, ν = +4 for the O atom and +2 for the H atom.
+
+::: {data-lab="results"}
+*Loading the results table…*
+:::
+
+## Explore your data
+
+The “easy → hard” chart combines this experiment with your Experiments 3 and 4, read from this browser. If you worked on another computer, load your saved files on those pages first.
+
+::: {data-lab="explore"}
+*Loading…*
 :::
 
 ## Questions
 
-1. Which functional has the most negative error? Which has the most positive?
-2. Which functional is the best performer for each reaction? Which is the best overall?
-3. Are there functionals that perform badly for these reactions?
-4. Compute the wall time per SCF cycle for each functional. How do they compare? Compare B3LYP with the other hybrids and with HF.
-5. Do the -D4-corrected functionals perform better or worse than the uncorrected ones here?
+::: {data-lab="questions"}
+*Loading the questions…*
+:::
 
-### Looking back at Experiments 3–5
-
-6. Which functional or method is the best overall performer? Which is the worst? (Check the functional draft you made in Experiment 3!)
-7. Is B3LYP faster than the other functionals and methods?
-8. Does adding the -D4 correction help? For which reactions?
 
 ::: {.callout-tip}
 ## Tip
@@ -73,6 +90,12 @@ The reactions in these experiments appear in organic chemistry textbooks and inv
 **The "medium" reactions (Experiment 4).** Here we need a functional that gets the electron density right. Reactants and products are generally very different, so we can't rely on the error cancellation that helped in the simpler cases. In the Diels–Alder reaction, for example, two fragments combine into a larger molecule. The same holds for isomerizations, which are very difficult for DFT. The other two reactions involve dimers held together by noncovalent interactions. In the 1990s it was recognized that many xc functionals fail to describe bonding in the van der Waals region [@kristyan1994; @hobza1995; @allen2002], and in 2012 correctly modeling van der Waals interactions was still listed as a challenge for DFT [@cohen2012]. The problem has been tackled many times [@grimme2011; @vydrov2010; @grimme2006b; @caldeweyher2017; @caldeweyher2019; @dion2004; @lee2010]. The two most used corrections today are the D corrections of Grimme, Goerigk and co-workers [@grimme2006b; @grimme2011; @caldeweyher2017; @caldeweyher2019] and the VV10 nonlocal functional of Vydrov and Van Voorhis [@vydrov2010]. As you may have noticed, adding the -D4 correction to B3LYP and PBE improved their results. Using -D4 whenever possible is a good idea, especially for geometry optimizations [@kruse2012], but it can sometimes overcorrect. B97M-rV and ωB97M-V include VV10 nonlocal correlation, and they are among the best-performing functionals overall. Dispersion corrections for the Minnesota functionals have also been proposed [@goerigk2017; @goerigk2011; @goerigk2015], but since those functionals were parametrized on van der Waals complexes too, in principle they don't need them.
 
 **The "hard" reactions (Experiment 5).** This group gave the worst results. No functional performs satisfactorily, apart from occasional exceptions: MN15 does well for CaO because that molecule was in its training set, i.e. MN15 was parametrized on the database that contains it. Yet these reactions don't look complicated chemically; the two largest molecules have only five atoms heavier than hydrogen. This is why we can't run calculations blindly. Always seek expert advice when different functionals give wildly different results. In an editorial in *Organometallics* [@hopmann2019], Kathrin Hopmann discusses what makes a computational paper interesting and advises: "Do not use DFT for mechanisms it cannot handle." That sums up the take-home message of Experiments 3–5. Every functional published over the past 40 years has strengths and weaknesses [@becke2014], and much of the effort in functional development has gone into broadening the former and narrowing the latter. As a result, xc functionals are improving statistically: on average, modern functionals give better results than older ones. But it is always up to the researcher to use judgment when choosing among them.
+
+## Submit
+
+::: {data-lab="submit"}
+*Loading…*
+:::
 
 ```{=html}
 <script type="module" src="../components/lab.js"></script>

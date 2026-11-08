@@ -9,70 +9,6 @@
  },
  "species": [
   {
-   "id": "eth_st",
-   "label": "ethane (staggered)",
-   "file": "BHROT27_ethane_st.xyz",
-   "charge": 0,
-   "mult": 1,
-   "dir": "ex03"
-  },
-  {
-   "id": "eth_ecl",
-   "label": "ethane (eclipsed)",
-   "file": "BHROT27_ethane_ecl.xyz",
-   "charge": 0,
-   "mult": 1,
-   "dir": "ex03"
-  },
-  {
-   "id": "meoh_st",
-   "label": "methanol (staggered)",
-   "file": "BHROT27_methanol_st.xyz",
-   "charge": 0,
-   "mult": 1,
-   "dir": "ex03"
-  },
-  {
-   "id": "meoh_ecl",
-   "label": "methanol (eclipsed)",
-   "file": "BHROT27_methanol_ecl.xyz",
-   "charge": 0,
-   "mult": 1,
-   "dir": "ex03"
-  },
-  {
-   "id": "diol_b1",
-   "label": "butane-1,4-diol B1",
-   "file": "BUT14DIOL_B1.xyz",
-   "charge": 0,
-   "mult": 1,
-   "dir": "ex03"
-  },
-  {
-   "id": "diol_b43",
-   "label": "butane-1,4-diol B43",
-   "file": "BUT14DIOL_B43.xyz",
-   "charge": 0,
-   "mult": 1,
-   "dir": "ex03"
-  },
-  {
-   "id": "pent_cis",
-   "label": "cis-pent-2-ene",
-   "file": "FH51_cis-2-pentene.xyz",
-   "charge": 0,
-   "mult": 1,
-   "dir": "ex03"
-  },
-  {
-   "id": "pent_trans",
-   "label": "trans-pent-2-ene",
-   "file": "FH51_trans-2-pentene.xyz",
-   "charge": 0,
-   "mult": 1,
-   "dir": "ex03"
-  },
-  {
    "id": "ethene",
    "label": "ethene",
    "file": "DARC_ethene.xyz",
@@ -113,70 +49,6 @@
    "dir": "ex04"
   },
   {
-   "id": "ethane",
-   "label": "ethane (monomer)",
-   "file": "ADIM6_AM2.xyz",
-   "charge": 0,
-   "mult": 1,
-   "dir": "ex04"
-  },
-  {
-   "id": "ethane2",
-   "label": "ethane dimer",
-   "file": "ADIM6_AD2.xyz",
-   "charge": 0,
-   "mult": 1,
-   "dir": "ex04"
-  },
-  {
-   "id": "meoh_a",
-   "label": "methanol (monomer A)",
-   "file": "4117_05MeOHMeOH_monA_S66.xyz",
-   "charge": 0,
-   "mult": 1,
-   "dir": "ex04"
-  },
-  {
-   "id": "meoh_b",
-   "label": "methanol (monomer B)",
-   "file": "4117_05MeOHMeOH_monB_S66.xyz",
-   "charge": 0,
-   "mult": 1,
-   "dir": "ex04"
-  },
-  {
-   "id": "meoh2",
-   "label": "methanol dimer",
-   "file": "4117_05MeOHMeOH_dim_S66.xyz",
-   "charge": 0,
-   "mult": 1,
-   "dir": "ex04"
-  },
-  {
-   "id": "o3",
-   "label": "ozone",
-   "file": "DC13_o3.xyz",
-   "charge": 0,
-   "mult": 1,
-   "dir": "ex05"
-  },
-  {
-   "id": "c2h4",
-   "label": "ethene",
-   "file": "DC13_c2h4.xyz",
-   "charge": 0,
-   "mult": 1,
-   "dir": "ex05"
-  },
-  {
-   "id": "ozonide",
-   "label": "primary ozonide",
-   "file": "DC13_o3_c2h4_add.xyz",
-   "charge": 0,
-   "mult": 1,
-   "dir": "ex05"
-  },
-  {
    "id": "cao",
    "label": "CaO",
    "file": "02_CaO_MR-MGM-BE4.xyz",
@@ -199,93 +71,9 @@
    "charge": 0,
    "mult": 3,
    "dir": "ex05"
-  },
-  {
-   "id": "h2so4",
-   "label": "sulfuric acid",
-   "file": "SMAE3_H2SO4.xyz",
-   "charge": 0,
-   "mult": 1,
-   "dir": "ex05"
-  },
-  {
-   "id": "s",
-   "label": "S atom (triplet)",
-   "file": "SMAE3_S.xyz",
-   "charge": 0,
-   "mult": 3,
-   "dir": "ex05"
-  },
-  {
-   "id": "o",
-   "label": "O atom (triplet)",
-   "file": "SMAE3_O.xyz",
-   "charge": 0,
-   "mult": 3,
-   "dir": "ex05"
-  },
-  {
-   "id": "h",
-   "label": "H atom (doublet)",
-   "file": "SMAE3_H.xyz",
-   "charge": 0,
-   "mult": 2,
-   "dir": "ex05"
-  },
-  {
-   "id": "o3_w4",
-   "label": "ozone (W4-17)",
-   "file": "W4-17_o3.xyz",
-   "charge": 0,
-   "mult": 1,
-   "dir": "ex05"
-  },
-  {
-   "id": "o2",
-   "label": "O₂ (triplet)",
-   "file": "W4-17_o2.xyz",
-   "charge": 0,
-   "mult": 3,
-   "dir": "ex05"
   }
  ],
  "reactions": [
-  {
-   "id": "3a",
-   "label": "3a  ethane: staggered → eclipsed",
-   "nu": {
-    "eth_st": -1,
-    "eth_ecl": 1
-   },
-   "ref": 2.73
-  },
-  {
-   "id": "3b",
-   "label": "3b  methanol: staggered → eclipsed",
-   "nu": {
-    "meoh_st": -1,
-    "meoh_ecl": 1
-   },
-   "ref": 1.01
-  },
-  {
-   "id": "3c",
-   "label": "3c  butane-1,4-diol: B1 → B43",
-   "nu": {
-    "diol_b1": -1,
-    "diol_b43": 1
-   },
-   "ref": 3.29
-  },
-  {
-   "id": "3d",
-   "label": "3d  cis- → trans-pent-2-ene",
-   "nu": {
-    "pent_cis": -1,
-    "pent_trans": 1
-   },
-   "ref": -1.15
-  },
   {
    "id": "4a",
    "label": "4a  ethene + butadiene → cyclohexene",
@@ -294,7 +82,8 @@
     "butadiene": -1,
     "cyclohexene": 1
    },
-   "ref": -45.4
+   "ref": -45.4,
+   "group": "4a · Diels–Alder"
   },
   {
    "id": "4b",
@@ -303,36 +92,8 @@
     "hexane": -1,
     "neohexane": 1
    },
-   "ref": -2.49
-  },
-  {
-   "id": "4c",
-   "label": "4c  2 ethane → (ethane)₂",
-   "nu": {
-    "ethane": -2,
-    "ethane2": 1
-   },
-   "ref": -1.34
-  },
-  {
-   "id": "4d",
-   "label": "4d  MeOH(A) + MeOH(B) → (MeOH)₂",
-   "nu": {
-    "meoh_a": -1,
-    "meoh_b": -1,
-    "meoh2": 1
-   },
-   "ref": -5.81
-  },
-  {
-   "id": "5a",
-   "label": "5a  O₃ + C₂H₄ → primary ozonide",
-   "nu": {
-    "o3": -1,
-    "c2h4": -1,
-    "ozonide": 1
-   },
-   "ref": -58.7
+   "ref": -2.49,
+   "group": "4b · alkane isomerization"
   },
   {
    "id": "5b",
@@ -342,27 +103,8 @@
     "ca": 1,
     "o_mgm": 1
    },
-   "ref": 96.15
-  },
-  {
-   "id": "5c",
-   "label": "5c  H₂SO₄ → S + 4 O + 2 H",
-   "nu": {
-    "h2so4": -1,
-    "s": 1,
-    "o": 4,
-    "h": 2
-   },
-   "ref": 602.18
-  },
-  {
-   "id": "5d",
-   "label": "5d  2 O₃ → 3 O₂",
-   "nu": {
-    "o3_w4": -2,
-    "o2": 3
-   },
-   "ref": -67.6
+   "ref": 96.15,
+   "group": "5b · CaO dissociation"
   }
  ],
  "methods": [
@@ -372,7 +114,8 @@
    "rung": "hybrid GGA",
    "rem": {
     "METHOD": "B3LYP"
-   }
+   },
+   "disp": "none"
   },
   {
    "id": "B3LYP-D4",
@@ -381,7 +124,8 @@
    "rem": {
     "METHOD": "B3LYP",
     "DFT_D": "D4"
-   }
+   },
+   "disp": "D4"
   }
  ],
  "bases": [
@@ -414,5 +158,167 @@
  "fields": [
   "energy",
   "nbf"
- ]
+ ],
+ "condition_label": "Method / basis",
+ "anomaly": {
+  "reference": "def2-TZVP"
+ },
+ "import": {
+  "from": [
+   "ex04",
+   "ex05"
+  ],
+  "conditions": [
+   "B3LYP|def2-TZVP",
+   "B3LYP-D4|def2-TZVP"
+  ],
+  "label": "⬇ Import my def2-TZVP energies from Experiments 4 and 5"
+ },
+ "quiz": [
+  {
+   "q": "What does the * in 6-31G* mean?",
+   "options": [
+    "Diffuse functions on all atoms",
+    "d-type polarization functions on the non-hydrogen atoms",
+    "An extra s function on hydrogen",
+    "It is a triple-ζ basis"
+   ],
+   "answer": 1,
+   "explain": "6-31G* (also written 6-31G(d)) adds one set of d functions to every non-hydrogen atom, letting the electron density polarize in bonds."
+  },
+  {
+   "q": "6-31G*, def2-SVP, cc-pVDZ and pc-1 are all…",
+   "options": [
+    "triple-ζ basis sets",
+    "polarized double-ζ basis sets",
+    "minimal basis sets",
+    "basis sets with diffuse functions"
+   ],
+   "answer": 1,
+   "explain": "All four use two functions per valence orbital plus polarization functions, but they were optimized in different ways, so their sizes and behavior differ."
+  },
+  {
+   "q": "If a small basis gives a *smaller* error than a large basis with the same functional, the most likely explanation is…",
+   "options": [
+    "the small basis is more accurate",
+    "a fortuitous cancellation between the basis-set error and the functional's own error",
+    "the large basis set is broken",
+    "the reference values are wrong"
+   ],
+   "answer": 1,
+   "explain": "The basis-set error and the functional error have different origins. When they happen to have opposite signs they cancel, which is luck, not accuracy, and it won't transfer to other problems."
+  }
+ ],
+ "predictions": [
+  {
+   "id": "gain",
+   "prompt": "For which reaction will **B3LYP/6-31G*** beat B3LYP/def2-TZVP by the **widest margin**?",
+   "options": [
+    "4a · Diels–Alder",
+    "4b · alkane isomerization",
+    "5b · CaO dissociation"
+   ],
+   "check": {
+    "type": "biggest_gain",
+    "method": "B3LYP",
+    "small": "6-31G*",
+    "large": "def2-TZVP"
+   }
+  },
+  {
+   "id": "cao",
+   "prompt": "For **CaO → Ca + O**, B3LYP/6-31G* will be…",
+   "options": [
+    "closer to the reference than def2-TZVP",
+    "about as good",
+    "much worse than def2-TZVP"
+   ],
+   "check": {
+    "type": "compare_abs",
+    "reaction": "5b",
+    "a": "B3LYP|6-31G*",
+    "b": "B3LYP|def2-TZVP",
+    "tol": 1.0,
+    "labels": [
+     "closer to the reference than def2-TZVP",
+     "much worse than def2-TZVP",
+     "about as good"
+    ]
+   }
+  },
+  {
+   "id": "best_dz",
+   "prompt": "Which double-ζ basis will give **B3LYP** the smallest error over the three reactions?",
+   "options": [
+    "6-31G*",
+    "def2-SVP",
+    "cc-pVDZ",
+    "pc-1"
+   ],
+   "check": {
+    "type": "best_basis",
+    "method": "B3LYP",
+    "bases": [
+     "6-31G*",
+     "def2-SVP",
+     "cc-pVDZ",
+     "pc-1"
+    ]
+   }
+  },
+  {
+   "id": "d4",
+   "prompt": "With the double-ζ basis sets, adding -D4 to B3LYP will…",
+   "options": [
+    "help",
+    "barely matter",
+    "hurt"
+   ],
+   "check": {
+    "type": "pair",
+    "a": "B3LYP",
+    "b": "B3LYP-D4",
+    "bases": [
+     "6-31G*",
+     "def2-SVP",
+     "cc-pVDZ",
+     "pc-1"
+    ],
+    "tol": 0.2,
+    "labels": [
+     "help",
+     "barely matter",
+     "hurt"
+    ]
+   }
+  }
+ ],
+ "questions": [
+  {
+   "id": "q1",
+   "text": "How many basis functions does **cyclohexene** (the Diels–Alder product) have with each basis set? Are all “double-ζ” sets the same size? (Use the basis-size table.)"
+  },
+  {
+   "id": "q2",
+   "text": "For each of the three reactions, which basis set gives B3LYP the smallest absolute error? Which is best overall?"
+  },
+  {
+   "id": "q3",
+   "text": "What happens with **B3LYP-D4** and the small basis sets? Do the results improve for all three reactions?"
+  },
+  {
+   "id": "q4",
+   "text": "Optional: run the three reactions with **ωB97M-V/6-31G\\*** and compare with your ωB97M-V/def2-TZVP results from Experiments 4 and 5. Does the modern functional benefit from the small basis the way B3LYP does?"
+  },
+  {
+   "id": "q5",
+   "text": "Compare B3LYP/def2-TZVP with B3LYP/6-31G* for each reaction. Which cells did you flag in “Spot the anomaly”, which were real, and why should a small basis that “wins” worry you more than one that loses?"
+  }
+ ],
+ "explore": [
+  "basis-mae",
+  "anomaly-spotter",
+  "nbf-counter"
+ ],
+ "nbf_species": "cyclohexene"
 }

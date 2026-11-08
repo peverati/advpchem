@@ -10,7 +10,29 @@ function autoGrow(t) {
 export function render(el, { exp, store }) {
   const items = exp.questions || [];
   const list = h("ol", { class: "q-list" });
+  const words = (s) => (String(s || "").trim().match(/\S+/g) || []).length;
   for (const q of items) {
+    if (q.type === "report") {
+      // A short report: title, body (with a live word count) and references.
+      const cur = Object.assign({ title: "", body: "", refs: "" }, store.state.answers[q.id]);
+      const save = () => store.update((s) => (s.answers[q.id] = { title: title.value, body: body.value, refs: refs.value }), { silent: true });
+      const title = h("input", { class: "form-control", placeholder: "Title of your report", value: cur.title, oninput: save, "aria-label": "Report title" });
+      const count = h("span", { class: "lab-small lab-muted report-count" });
+      const target = q.words || 300;
+      const upd = () => {
+        const n = words(body.value);
+        count.textContent = `${n} words (aim for about ${target})`;
+        count.className = "lab-small report-count " + (n > target * 1.4 ? "txt-bad" : n >= target * 0.7 ? "txt-ok" : "lab-muted");
+      };
+      const body = h("textarea", { class: "form-control q-answer report-body", rows: 12, placeholder: "Method and why you chose it · computational setup (program, functional, basis, ECP, grid, stability, convergence) · results and comparison with the reference · conclusion",
+        oninput: (e) => { autoGrow(e.target); upd(); save(); }, "aria-label": "Report text" });
+      body.value = cur.body;
+      const refs = h("textarea", { class: "form-control q-answer", rows: 4, placeholder: "References, one per line (author, journal, year, volume, pages)", oninput: (e) => { autoGrow(e.target); save(); }, "aria-label": "References" });
+      refs.value = cur.refs;
+      list.append(h("li", { class: "report-item" }, h("p", { class: "q-text", html: md(q.text) }), title, body, count, h("p", { class: "lab-small strong report-refs-label" }, "References"), refs));
+      requestAnimationFrame(() => { autoGrow(body); autoGrow(refs); upd(); });
+      continue;
+    }
     if (q.type === "classify") {
       const cur = store.state.answers[q.id] || {};
       const grid = h("div", { class: "q-classify" },

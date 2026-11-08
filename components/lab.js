@@ -15,6 +15,10 @@ const WIDGETS = {
   questions: () => import("./questions.js"),
   submit: () => import("./submit.js"),
   ladder: () => import("./ladder.js"),
+  grid: () => import("./grid-explorer.js"),
+  landscape: () => import("./landscape.js"),
+  nist: () => import("./nist.js"),
+  methodcard: () => import("./methodcard.js"),
 };
 
 async function main() {

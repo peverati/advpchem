@@ -232,5 +232,511 @@
    "charge": 0,
    "mult": 1
   }
+ ],
+ "reactions": [
+  {
+   "id": "3.0",
+   "label": "r = 3.0 Å",
+   "nu": {
+    "ar2_3.0": 1,
+    "ar": -2
+   },
+   "ref": 2.24
+  },
+  {
+   "id": "3.1",
+   "label": "r = 3.1 Å",
+   "nu": {
+    "ar2_3.1": 1,
+    "ar": -2
+   },
+   "ref": 1.21
+  },
+  {
+   "id": "3.2",
+   "label": "r = 3.2 Å",
+   "nu": {
+    "ar2_3.2": 1,
+    "ar": -2
+   },
+   "ref": 0.57
+  },
+  {
+   "id": "3.3",
+   "label": "r = 3.3 Å",
+   "nu": {
+    "ar2_3.3": 1,
+    "ar": -2
+   },
+   "ref": 0.18
+  },
+  {
+   "id": "3.4",
+   "label": "r = 3.4 Å",
+   "nu": {
+    "ar2_3.4": 1,
+    "ar": -2
+   },
+   "ref": -0.06
+  },
+  {
+   "id": "3.5",
+   "label": "r = 3.5 Å",
+   "nu": {
+    "ar2_3.5": 1,
+    "ar": -2
+   },
+   "ref": -0.19
+  },
+  {
+   "id": "3.6",
+   "label": "r = 3.6 Å",
+   "nu": {
+    "ar2_3.6": 1,
+    "ar": -2
+   },
+   "ref": -0.26
+  },
+  {
+   "id": "3.7",
+   "label": "r = 3.7 Å",
+   "nu": {
+    "ar2_3.7": 1,
+    "ar": -2
+   },
+   "ref": -0.28
+  },
+  {
+   "id": "3.8",
+   "label": "r = 3.8 Å",
+   "nu": {
+    "ar2_3.8": 1,
+    "ar": -2
+   },
+   "ref": -0.28
+  },
+  {
+   "id": "3.9",
+   "label": "r = 3.9 Å",
+   "nu": {
+    "ar2_3.9": 1,
+    "ar": -2
+   },
+   "ref": -0.27
+  },
+  {
+   "id": "4.0",
+   "label": "r = 4.0 Å",
+   "nu": {
+    "ar2_4.0": 1,
+    "ar": -2
+   },
+   "ref": -0.25
+  },
+  {
+   "id": "4.1",
+   "label": "r = 4.1 Å",
+   "nu": {
+    "ar2_4.1": 1,
+    "ar": -2
+   },
+   "ref": -0.23
+  },
+  {
+   "id": "4.2",
+   "label": "r = 4.2 Å",
+   "nu": {
+    "ar2_4.2": 1,
+    "ar": -2
+   },
+   "ref": -0.21
+  },
+  {
+   "id": "4.3",
+   "label": "r = 4.3 Å",
+   "nu": {
+    "ar2_4.3": 1,
+    "ar": -2
+   },
+   "ref": -0.18
+  },
+  {
+   "id": "4.4",
+   "label": "r = 4.4 Å",
+   "nu": {
+    "ar2_4.4": 1,
+    "ar": -2
+   },
+   "ref": -0.16
+  },
+  {
+   "id": "4.5",
+   "label": "r = 4.5 Å",
+   "nu": {
+    "ar2_4.5": 1,
+    "ar": -2
+   },
+   "ref": -0.14
+  },
+  {
+   "id": "4.6",
+   "label": "r = 4.6 Å",
+   "nu": {
+    "ar2_4.6": 1,
+    "ar": -2
+   },
+   "ref": -0.13
+  },
+  {
+   "id": "4.7",
+   "label": "r = 4.7 Å",
+   "nu": {
+    "ar2_4.7": 1,
+    "ar": -2
+   },
+   "ref": -0.11
+  },
+  {
+   "id": "4.8",
+   "label": "r = 4.8 Å",
+   "nu": {
+    "ar2_4.8": 1,
+    "ar": -2
+   },
+   "ref": -0.1
+  },
+  {
+   "id": "4.9",
+   "label": "r = 4.9 Å",
+   "nu": {
+    "ar2_4.9": 1,
+    "ar": -2
+   },
+   "ref": -0.09
+  },
+  {
+   "id": "5.0",
+   "label": "r = 5.0 Å",
+   "nu": {
+    "ar2_5.0": 1,
+    "ar": -2
+   },
+   "ref": -0.08
+  },
+  {
+   "id": "5.1",
+   "label": "r = 5.1 Å",
+   "nu": {
+    "ar2_5.1": 1,
+    "ar": -2
+   },
+   "ref": -0.07
+  },
+  {
+   "id": "5.2",
+   "label": "r = 5.2 Å",
+   "nu": {
+    "ar2_5.2": 1,
+    "ar": -2
+   },
+   "ref": -0.06
+  },
+  {
+   "id": "5.3",
+   "label": "r = 5.3 Å",
+   "nu": {
+    "ar2_5.3": 1,
+    "ar": -2
+   },
+   "ref": -0.05
+  },
+  {
+   "id": "5.4",
+   "label": "r = 5.4 Å",
+   "nu": {
+    "ar2_5.4": 1,
+    "ar": -2
+   },
+   "ref": -0.05
+  },
+  {
+   "id": "5.5",
+   "label": "r = 5.5 Å",
+   "nu": {
+    "ar2_5.5": 1,
+    "ar": -2
+   },
+   "ref": -0.04
+  },
+  {
+   "id": "5.6",
+   "label": "r = 5.6 Å",
+   "nu": {
+    "ar2_5.6": 1,
+    "ar": -2
+   },
+   "ref": -0.04
+  },
+  {
+   "id": "5.7",
+   "label": "r = 5.7 Å",
+   "nu": {
+    "ar2_5.7": 1,
+    "ar": -2
+   },
+   "ref": -0.03
+  },
+  {
+   "id": "5.8",
+   "label": "r = 5.8 Å",
+   "nu": {
+    "ar2_5.8": 1,
+    "ar": -2
+   },
+   "ref": -0.03
+  },
+  {
+   "id": "5.9",
+   "label": "r = 5.9 Å",
+   "nu": {
+    "ar2_5.9": 1,
+    "ar": -2
+   },
+   "ref": -0.03
+  },
+  {
+   "id": "6.0",
+   "label": "r = 6.0 Å",
+   "nu": {
+    "ar2_6.0": 1,
+    "ar": -2
+   },
+   "ref": -0.02
+  }
+ ],
+ "methods": [
+  {
+   "id": "B3LYP",
+   "label": "B3LYP",
+   "rung": "hybrid GGA",
+   "rem": {
+    "METHOD": "B3LYP"
+   }
+  },
+  {
+   "id": "M06-L",
+   "label": "M06-L",
+   "rung": "meta-GGA",
+   "rem": {
+    "METHOD": "M06-L"
+   }
+  },
+  {
+   "id": "M11-L",
+   "label": "M11-L",
+   "rung": "meta-GGA",
+   "rem": {
+    "METHOD": "M11-L"
+   }
+  },
+  {
+   "id": "M11",
+   "label": "M11",
+   "rung": "hybrid meta-GGA",
+   "rem": {
+    "METHOD": "M11"
+   }
+  },
+  {
+   "id": "wB97M-V",
+   "label": "ωB97M-V",
+   "rung": "hybrid meta-GGA",
+   "rem": {
+    "METHOD": "wB97M-V"
+   }
+  }
+ ],
+ "bases": [
+  {
+   "id": "SG-1",
+   "label": "SG-1",
+   "zeta": 4,
+   "rem": {
+    "BASIS": "def2-QZVP",
+    "XC_GRID": "1"
+   }
+  },
+  {
+   "id": "SG-2",
+   "label": "SG-2",
+   "zeta": 4,
+   "rem": {
+    "BASIS": "def2-QZVP",
+    "XC_GRID": "2"
+   }
+  },
+  {
+   "id": "SG-3",
+   "label": "SG-3",
+   "zeta": 4,
+   "rem": {
+    "BASIS": "def2-QZVP",
+    "XC_GRID": "3"
+   }
+  }
+ ],
+ "fields": [
+  "energy",
+  "scf",
+  "time"
+ ],
+ "auto_delta": true,
+ "explore_table": false,
+ "condition_label": "Functional / grid",
+ "quiz": [
+  {
+   "q": "What is the integration grid used for in Kohn–Sham DFT?",
+   "options": [
+    "To place the basis functions",
+    "To evaluate the exchange–correlation energy numerically, as a weighted sum over points in space",
+    "To optimize the geometry",
+    "To compute the Hartree–Fock exchange"
+   ],
+   "answer": 1,
+   "explain": "For almost every functional, the xc energy has no analytic integral over Gaussian basis functions, so it is computed numerically on a grid of points around each atom."
+  },
+  {
+   "q": "A (99,590) grid has…",
+   "options": [
+    "99 atoms and 590 basis functions",
+    "99 radial shells around each atom, each with 590 angular points",
+    "590 radial shells with 99 points each",
+    "99 × 590 basis functions"
+   ],
+   "answer": 1,
+   "explain": "So about 58,000 points per atom before pruning. Use the grid explorer below to see what that looks like."
+  },
+  {
+   "q": "Why can a coarse grid put wiggles into a dissociation curve?",
+   "options": [
+    "The grid points move with the atoms, so the numerical integration error changes erratically as the distance changes",
+    "The basis set is too small",
+    "Argon is a transition metal",
+    "The SCF did not converge"
+   ],
+   "answer": 0,
+   "explain": "The error of a numerical integration depends on how the density happens to fall on the points. When the atoms move, that changes from one geometry to the next, adding noise. A tiny binding energy (0.28 kcal/mol here) makes the noise obvious."
+  },
+  {
+   "q": "Which kind of functional is usually the most sensitive to the grid?",
+   "options": [
+    "LSDA",
+    "GGA",
+    "meta-GGA (especially heavily parametrized ones)",
+    "Hartree–Fock"
+   ],
+   "answer": 2,
+   "explain": "Meta-GGAs depend on the kinetic-energy density τ, which varies rapidly, and parametrized forms can amplify integration noise. HF needs no xc grid at all."
+  }
+ ],
+ "predictions": [
+  {
+   "id": "sensitive",
+   "prompt": "Which functional will be **most sensitive to the grid** (largest change from SG-1 to SG-3)?",
+   "options": [
+    "B3LYP",
+    "M06-L",
+    "M11-L",
+    "M11",
+    "ωB97M-V"
+   ],
+   "check": {
+    "type": "grid_sensitivity",
+    "from": "SG-1",
+    "to": "SG-3"
+   }
+  },
+  {
+   "id": "smooth",
+   "prompt": "With **SG-3**, will every functional give a smooth curve with a single minimum?",
+   "options": [
+    "yes",
+    "no"
+   ],
+   "check": {
+    "type": "smooth",
+    "basis": "SG-3",
+    "labels": [
+     "yes",
+     "no"
+    ]
+   }
+  },
+  {
+   "id": "cost",
+   "prompt": "How much longer will an **SG-3** job take than the same job with **SG-1**?",
+   "options": [
+    "less than 1.5×",
+    "1.5–3×",
+    "more than 3×"
+   ],
+   "check": {
+    "type": "time_ratio",
+    "from": "SG-1",
+    "to": "SG-3",
+    "labels": [
+     "less than 1.5×",
+     "1.5–3×",
+     "more than 3×"
+    ]
+   }
+  },
+  {
+   "id": "hf",
+   "prompt": "Would a Hartree–Fock curve depend on the grid?",
+   "options": [
+    "yes",
+    "no"
+   ],
+   "check": {
+    "type": "none"
+   },
+   "note": "Not computed here. Answer it in question 7, after you've seen what the grid is used for."
+  }
+ ],
+ "questions": [
+  {
+   "id": "q1",
+   "text": "Can you find any problematic functionals? Use the wiggle report."
+  },
+  {
+   "id": "q2",
+   "text": "Why do you see several minima and maxima in some curves? Are they physical? (Think about what the grid explorer shows.)"
+  },
+  {
+   "id": "q3",
+   "text": "Compare the smallest and the largest grid. Which functionals are well converged with respect to the grid?"
+  },
+  {
+   "id": "q4",
+   "text": "What are the minimum grid requirements for each functional you tested?"
+  },
+  {
+   "id": "q5",
+   "text": "Use the timing chart: how noticeable is the time increase with the grid size? Is it worth it?"
+  },
+  {
+   "id": "q6",
+   "text": "Given your results, which grid(s) would you recommend, and for which kinds of functionals?"
+  },
+  {
+   "id": "q7",
+   "text": "Does the HF method suffer from this problem? Why or why not?"
+  }
+ ],
+ "explore": [
+  "ar2-curves",
+  "grid-wiggles",
+  "grid-timing"
  ]
 }

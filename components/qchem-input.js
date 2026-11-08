@@ -1,6 +1,6 @@
 // "Run it" section: a checklist of every job with a ready-to-paste Q-Chem input,
 // a rough 10-minute-limit risk flag, and a zip with all inputs.
-import { h, jobs, conditions, loadText, downloadBlob, slug } from "./core.js";
+import { h, jobs, conditions, loadText, downloadBlob, slug, basisLabel } from "./core.js";
 
 const Z = { H: 1, He: 2, Li: 3, Be: 4, B: 5, C: 6, N: 7, O: 8, F: 9, Ne: 10, Na: 11, Mg: 12, Al: 13, Si: 14, P: 15, S: 16, Cl: 17, Ar: 18, K: 19, Ca: 20, Fe: 26, Ru: 44, Pd: 46 };
 
@@ -35,6 +35,9 @@ export function risk(atoms, basis, method) {
   if (/hf|b3|pbe0|m06|m11|mn15|wb97|ω|2x|x$/.test(id)) f *= 1.6; // exact exchange
   if (/-v$|rv$/.test(id)) f *= 1.3; // nonlocal VV10 correlation
   if (/scan|m06|m11|mn15/.test(id)) f *= 1.3; // meta-GGAs like fine grids
+  const grid = String(basis.rem?.XC_GRID || "");
+  if (grid === "3" || /0590|0974/.test(grid)) f *= 1.5; // finer integration grids
+  if (basis.rem?.INTERNAL_STABILITY) f *= 1.5; // stability analysis + re-optimization
   const heavy = atoms.some((el) => (Z[el] || 30) > 18);
   const score = Math.pow(n / 250, 3) * f * (heavy ? 2 : 1);
   if (score < 1) return { level: "low", text: "quick" };
@@ -42,7 +45,7 @@ export function risk(atoms, basis, method) {
   return { level: "high", text: "may hit the 10-min limit" };
 }
 
-function parseXYZ(text) {
+export function parseXYZ(text) {
   const lines = text.trim().split("\n");
   const [charge, mult] = lines[1].trim().split(/\s+/).map(Number);
   const atomLines = lines.slice(2).filter((l) => l.trim());
@@ -52,8 +55,9 @@ function parseXYZ(text) {
 export function buildInput(exp, cond, species, geom) {
   const rem = Object.assign({}, exp.rem_common || {}, cond.method.rem || {}, { BASIS: cond.basis.id }, cond.basis.rem || {}, species.rem || {});
   if (geom.mult > 1 && rem.UNRESTRICTED === undefined) rem.UNRESTRICTED = "TRUE";
-  if (/^def2/i.test(cond.basis.id) && geom.atoms.some((el) => (Z[el] || 0) > 36) && !rem.ECP) rem.ECP = "def2-ECP";
-  const order = ["JOBTYPE", "METHOD", "DFT_D", "BASIS", "ECP", "UNRESTRICTED", "XC_GRID"];
+  // def2 basis sets describe elements beyond Kr (here Ru, Pd) with an effective core potential.
+  if (/^def2/i.test(rem.BASIS) && geom.atoms.some((el) => (Z[el] || 0) > 36) && !rem.ECP) rem.ECP = "def2-ECP";
+  const order = ["JOBTYPE", "METHOD", "DFT_D", "BASIS", "ECP", "UNRESTRICTED", "XC_GRID", "INTERNAL_STABILITY"];
   const keys = Object.keys(rem).sort((a, b) => {
     const ia = order.indexOf(a), ib = order.indexOf(b);
     return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib) || a.localeCompare(b);
@@ -67,7 +71,7 @@ export function buildInput(exp, cond, species, geom) {
   return [
     "$comment",
     ascii(`Experiment ${exp.number}: ${exp.title}`),
-    ascii(`${cond.method.label} / ${cond.basis.id} : ${species.label}`),
+    ascii(`${cond.method.label} / ${basisLabel(cond.basis)} : ${species.label}`),
     "$end",
     "",
     "$molecule",
@@ -98,7 +102,7 @@ export async function render(el, { exp, store }) {
   const conds = conditions(exp);
 
   const filter = h("select", { class: "form-select form-select-sm", "aria-label": "Show jobs for" },
-    h("option", { value: "" }, `All ${conds.length} method${exp.bases.length > 1 ? "/basis combinations" : "s"}`),
+    h("option", { value: "" }, `All ${conds.length} ${exp.bases.length > 1 ? "combinations" : "methods"}`),
     conds.map((c) => h("option", { value: c.key }, c.label)));
 
   const progress = h("div", { class: "job-progress" });

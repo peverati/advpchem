@@ -2,7 +2,7 @@
 // predictions, answers), offers a printable report, and opens the Microsoft
 // Form where the file is uploaded. A saved file can be re-loaded to continue
 // on another computer.
-import { h, conditions, jobs, num, deltaStatus, verifiedRows, mae, fmt, downloadBlob, slug, md } from "./core.js";
+import { h, conditions, jobs, num, deltaStatus, verifiedRows, mae, fmt, downloadBlob, slug, md, applies, expectedReactions } from "./core.js";
 
 export const SCHEMA_VERSION = 1;
 
@@ -29,17 +29,20 @@ function completeness(exp, state) {
   let verified = 0, total = 0;
   for (const c of conditions(exp))
     for (const r of exp.reactions || []) {
+      if (!applies(c, r)) continue;
       total += 1;
       if (deltaStatus(exp, state, c.key, r).status === "ok") verified += 1;
     }
   const qs = (exp.questions || []).filter((q) => {
     const a = state.answers[q.id];
-    return q.type === "classify" ? a && q.items.every((i) => a[i]) : a && String(a).trim().length > 10;
+    if (q.type === "classify") return a && q.items.every((i) => a[i]);
+    if (q.type === "report") return a && (String(a.body || "").trim().match(/\S+/g) || []).length >= (q.words || 300) * 0.5 && String(a.title || "").trim();
+    return a && String(a).trim().length > 10;
   }).length;
   const list = [];
   if ((exp.predictions || []).length) list.push({ label: "Predictions locked", ok: !!state.predictions.locked_at });
   if (js.length) list.push({ label: `Energies entered: ${energies}/${js.length}`, ok: energies === js.length });
-  if (total) list.push({ label: `Reaction energies verified: ${verified}/${total}`, ok: verified === total });
+  if (total) list.push({ label: `Reaction energies ${exp.auto_delta ? "computed" : "verified"}: ${verified}/${total}`, ok: verified === total });
   if (exp.ladder) {
     const n = Object.values(state.answers.ladder || {}).filter(Boolean).length;
     list.push({ label: `Functionals classified: ${n}/${exp.ladder.length}`, ok: n === exp.ladder.length });
@@ -60,19 +63,42 @@ function reportHTML(exp, state) {
   const errTable = `<table><thead><tr><th>${exp.bases.length > 1 ? "Method / basis" : "Method"}</th>${exp.reactions.map((r) => `<th>${esc(r.id)}<br><small>ΔE / ε</small></th>`).join("")}<th>MAE</th></tr></thead><tbody>${conds.map((c) => {
     const rs = rows.filter((r) => r.cond === c.key);
     return `<tr><th>${esc(c.label)}</th>${exp.reactions.map((r) => {
+      if (!applies(c, r)) return "<td>n/a</td>";
       const x = rs.find((q) => q.reaction === r.id);
       return `<td>${x ? `${x.delta.toFixed(2)} / ${x.error >= 0 ? "+" : ""}${x.error.toFixed(2)}` : "—"}</td>`;
-    }).join("")}<td>${fmt(rs.length === exp.reactions.length ? mae(rs.map((r) => r.error)) : null)}</td></tr>`;
+    }).join("")}<td>${fmt(rs.length === expectedReactions(exp, c) ? mae(rs.map((r) => r.error)) : null)}</td></tr>`;
   }).join("")}</tbody></table>`;
   return reportShell(exp, state, `<h2>Reaction energies and signed errors (kcal/mol)</h2>${errTable}
 <p class="meta">Only values consistent with the student's own total energies are shown.</p>`);
+}
+
+// Experiment-specific extras: Ex10 method card, Ex9 NIST lookup.
+function extrasHTML(state) {
+  let out = "";
+  const mc = state.extra?.methodcard;
+  if (mc && mc.functional) {
+    const f = mc.functional === "other" ? mc.other : mc.functional;
+    out += `<h2>Method card</h2><table><tbody>
+<tr><th>Functional</th><td>${esc(f)}${mc.dispersion === "D4" ? "-D4" : ""}</td></tr>
+<tr><th>Basis set</th><td>${esc(mc.basis)}</td></tr>
+<tr><th>Grid</th><td>${esc(mc.grid || "default")}</td></tr>
+<tr><th>Stability analysis</th><td>${mc.stability ? "yes" : "no"}</td></tr></tbody></table>
+<p><b>Why this functional:</b> ${esc(mc.why_functional || "—")}</p><p><b>Why this basis:</b> ${esc(mc.why_basis || "—")}</p><p><b>Other settings:</b> ${esc(mc.why_settings || "—")}</p>`;
+  }
+  const n = state.extra?.nist;
+  if (n && (n.fecl || n.notes)) {
+    out += `<h2>NIST comparison (FeCl)</h2><p>ΔfH°: FeCl ${esc(n.fecl)}, Fe ${esc(n.fe)}, Cl ${esc(n.cl)} (${esc(n.unit)})</p><p class="ans">${esc(n.notes || "")}</p>`;
+  }
+  return out;
 }
 
 function reportShell(exp, state, dataHTML) {
   const preds = (exp.predictions || []).map((p) => `<li>${md(p.prompt)}<br><b>${esc(state.predictions.values[p.id] || "—")}</b></li>`).join("");
   const qs = (exp.questions || []).map((q) => {
     const a = state.answers[q.id];
-    const body = q.type === "classify" ? `<ul>${q.items.map((i) => `<li>${esc(i)}: <b>${esc(a?.[i] || "—")}</b></li>`).join("")}</ul>` : `<p class="ans">${esc(a || "—")}</p>`;
+    const body = q.type === "classify" ? `<ul>${q.items.map((i) => `<li>${esc(i)}: <b>${esc(a?.[i] || "—")}</b></li>`).join("")}</ul>`
+      : q.type === "report" ? `<h3>${esc(a?.title || "(untitled)")}</h3><p class="ans">${esc(a?.body || "—")}</p><h4>References</h4><p class="ans">${esc(a?.refs || "—")}</p>`
+      : `<p class="ans">${esc(a || "—")}</p>`;
     return `<li><p>${md(q.text)}</p>${body}</li>`;
   }).join("");
   return `<!doctype html><html><head><meta charset="utf-8"><title>${esc(exp.id)} report – ${esc(state.student.name)}</title>
@@ -83,6 +109,7 @@ table{border-collapse:collapse;font-variant-numeric:tabular-nums}td,th{border:1p
 <p class="meta">${esc(state.student.name)} · ${esc(state.student.email || state.student.id)} · generated ${new Date().toLocaleString()}${state.predictions.locked_at ? ` · predictions locked ${new Date(state.predictions.locked_at).toLocaleString()}` : ""}</p>
 ${preds ? `<h2>Predictions</h2><ol>${preds}</ol>` : ""}
 ${dataHTML}
+${extrasHTML(state)}
 <h2>Answers</h2><ol>${qs}</ol>
 <h2>Muddiest point</h2><p class="ans">${esc(state.muddiest || "—")}</p>
 <script>window.onload=()=>setTimeout(()=>window.print(),300)<\/script></body></html>`;

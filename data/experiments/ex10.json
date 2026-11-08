@@ -41,5 +41,115 @@
    },
    "ref": 16.2
   }
- ]
+ ],
+ "methods": [
+  {
+   "id": "custom",
+   "label": "your method",
+   "rung": "your choice",
+   "rem": {}
+  }
+ ],
+ "bases": [
+  {
+   "id": "custom",
+   "label": "your basis",
+   "zeta": 3
+  }
+ ],
+ "fields": [
+  "energy",
+  "scf",
+  "time"
+ ],
+ "quiz": [
+  {
+   "q": "With the def2 basis sets, how are palladium's inner (core) electrons described?",
+   "options": [
+    "Explicitly, with all 46 electrons",
+    "By an effective core potential (ECP) that replaces 28 core electrons",
+    "They are ignored",
+    "By a minimal basis"
+   ],
+   "answer": 1,
+   "explain": "For elements beyond Kr, the def2 basis sets come with an ECP that replaces the core and includes scalar-relativistic effects. Q-Chem needs ECP = def2-ECP."
+  },
+  {
+   "q": "This reaction breaks the bond between Pd and a large π ligand. Which effect from earlier experiments is likely to matter a lot?",
+   "options": [
+    "Dispersion (Experiment 4)",
+    "Spin–orbit coupling",
+    "Grid errors only",
+    "None: it's a simple bond"
+   ],
+   "answer": 0,
+   "explain": "Large, polarizable ligands bound to a metal have substantial dispersion contributions. Uncorrected functionals typically underbind."
+  },
+  {
+   "q": "Your job is killed at the 10-minute limit. The most sensible next step is…",
+   "options": [
+    "Give up on DFT",
+    "Use a smaller basis or a cheaper setting, and say in your report how this limits the accuracy",
+    "Submit the same job again",
+    "Remove the hydrogen atoms"
+   ],
+   "answer": 1,
+   "explain": "Every real calculation is a compromise between accuracy and cost. State the compromise you made and its likely consequences: that's part of a good report."
+  }
+ ],
+ "predictions": [
+  {
+   "id": "guess",
+   "prompt": "Before you compute: what bond dissociation energy do you expect for your method?",
+   "options": [
+    "below 10 kcal/mol",
+    "10–20 kcal/mol",
+    "20–30 kcal/mol",
+    "above 30 kcal/mol"
+   ],
+   "check": {
+    "type": "range",
+    "reaction": "10",
+    "bins": [
+     10,
+     20,
+     30
+    ],
+    "labels": [
+     "below 10 kcal/mol",
+     "10–20 kcal/mol",
+     "20–30 kcal/mol",
+     "above 30 kcal/mol"
+    ]
+   }
+  },
+  {
+   "id": "accuracy",
+   "prompt": "Will your method land within chemical accuracy (±1 kcal/mol) of the reference?",
+   "options": [
+    "yes",
+    "no"
+   ],
+   "check": {
+    "type": "none"
+   },
+   "note": "Check the result card in “Explore your data”."
+  }
+ ],
+ "questions": [
+  {
+   "id": "report",
+   "type": "report",
+   "words": 300,
+   "text": "Write your report (**about 300 words**): title, the method you chose and why (with references), the complete computational setup, your result compared with the reference value of 16.20 kcal/mol, and a short conclusion."
+  },
+  {
+   "id": "q2",
+   "text": "If you had ten times more computer time, what would you change in your calculation, and why?"
+  }
+ ],
+ "explore": [
+  "result-card"
+ ],
+ "explore_table": false
 }
