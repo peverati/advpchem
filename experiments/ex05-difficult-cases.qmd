@@ -1,0 +1,79 @@
+---
+title: "Experiment 5: Difficult Cases for DFT"
+subtitle: "When error cancellation stops working"
+description: "Ozonolysis, CaO dissociation, the atomization of sulfuric acid and the ozone–oxygen conversion."
+---
+
+<div data-lab-exp="ex05" hidden></div>
+
+::: {.callout-tip appearance="simple" icon=false}
+**At a glance.** 12 species × 16 methods = **192 jobs** with def2-TZVP, including open-shell atoms (check the multiplicities!). **You will learn** why some chemically simple reactions are very hard for DFT, and why you can't treat calculations as a black box.
+:::
+
+## Background
+
+![Reactions studied in Experiment 5: formation of the primary ozonide from ozone and ethene (5a), dissociation of CaO (5b), atomization of sulfuric acid (5c), and conversion of ozone into oxygen (5d). Carbon is black, oxygen red, hydrogen white, sulfur yellow and calcium grey.](../images/ex05-reactions.jpeg){fig-alt="Ball-and-stick drawings of reactions 5a to 5d" width="560"}
+
+In Experiment 4 we found that the -D4 dispersion correction can improve reaction energies. Unfortunately, -D4, like every other scheme designed to account for dispersion, is not a universal fix for more complicated problems.
+
+In this last experiment on functionals, you will deal with four reactions:
+
+- **5a**: ethene + ozone → the first intermediate (primary ozonide) of ozonolysis, as found in many textbooks. ΔE~ref~ = **–58.7 kcal/mol**.
+- **5b**: homolytic dissociation of CaO into calcium and oxygen atoms. ΔE~ref~ = **96.15 kcal/mol**.
+- **5c**: total atomization of sulfuric acid, H~2~SO~4~ → S + 4 O + 2 H. ΔE~ref~ = **602.18 kcal/mol**.
+- **5d**: conversion of ozone into molecular oxygen, 2 O~3~ → 3 O~2~. ΔE~ref~ = **–67.60 kcal/mol**.
+
+Reaction 5a comes from the DC13 subset [@goerigk2017; @zhao2008; @goerigk2010; @grimme2006; @grimme2006a; @piacenza2004; @woodcock2002; @schreiner2006; @lepetit2007; @lee2005; @karton2012; @zhao2009; @manna2016] of GMTKN55 [@goerigk2017]. 5b and 5c come from the MR-MGM-BE4 [@yu2015a] and SMAE3 subsets of the Minnesota 2015B database [@yu2016a]. 5d combines two data points of the W4-17 database [@karton2017].
+
+Once again, use the 16 methods of [Experiment 3](ex03-organic-a.qmd) with the **def2-TZVP** basis set [@weigend2005], and compute the reaction energies and their errors.
+
+::: {.callout-important}
+Atoms and O~2~ are open-shell: O, S and O~2~ are **triplets** and H is a **doublet**. The generated inputs already set the right multiplicity and `UNRESTRICTED = TRUE`. If you build inputs by hand in IQmol, set them yourself.
+:::
+
+## The molecules
+
+::: {data-lab="molecules"}
+*Loading the molecules…*
+:::
+
+## Run the calculations
+
+::: {data-lab="run"}
+*Loading the job list…*
+:::
+
+::: {.callout-warning appearance="simple"}
+**Pilot version.** The interactive results table for this experiment opens after the pilot. For now, collect your total energies, SCF cycles and wall times in a spreadsheet.
+:::
+
+## Questions
+
+1. Which functional has the most negative error? Which has the most positive?
+2. Which functional is the best performer for each reaction? Which is the best overall?
+3. Are there functionals that perform badly for these reactions?
+4. Compute the wall time per SCF cycle for each functional. How do they compare? Compare B3LYP with the other hybrids and with HF.
+5. Do the -D4-corrected functionals perform better or worse than the uncorrected ones here?
+
+### Looking back at Experiments 3–5
+
+6. Which functional or method is the best overall performer? Which is the worst? (Check the functional draft you made in Experiment 3!)
+7. Is B3LYP faster than the other functionals and methods?
+8. Does adding the -D4 correction help? For which reactions?
+
+::: {.callout-tip}
+## Tip
+The reactions in these experiments appear in organic chemistry textbooks and involve very simple molecules. Yet even in these conceptually simple cases the results are unpredictable, and different functionals behave in different ways. When a functional fails, it is not a failure of DFT as a whole but of the *approximation* in use. DFT is exact in principle, but in practice we rely on approximations to the exact theory, and our results are only as good as those approximations (the xc functionals).
+:::
+
+## Practice comment
+
+**The "easy" reactions (Experiment 3).** You may have noticed that almost all functionals give good results for the first group. For each reaction we compare electronic energies of very similar molecules: only the conformation, or for pent-2-ene the configuration, changes. The electron density barely changes, so even a functional that gets the density badly wrong in some regions can still give good results, as long as it describes the *change* consistently. Errors in regions that don't change cancel when you take products minus reactants. This is known as **cancellation of errors**. Error cancellation is hard to generalize, though: we cannot say that rotations around single bonds, conformational changes or cis–trans isomerizations are always easy to compute. There is no way to know in advance whether a reaction is easy, medium or hard. Before starting a computational study, analyze in detail the database subsets that contain molecules or properties close to the ones you want to study.
+
+**The "medium" reactions (Experiment 4).** Here we need a functional that gets the electron density right. Reactants and products are generally very different, so we can't rely on the error cancellation that helped in the simpler cases. In the Diels–Alder reaction, for example, two fragments combine into a larger molecule. The same holds for isomerizations, which are very difficult for DFT. The other two reactions involve dimers held together by noncovalent interactions. In the 1990s it was recognized that many xc functionals fail to describe bonding in the van der Waals region [@kristyan1994; @hobza1995; @allen2002], and in 2012 correctly modeling van der Waals interactions was still listed as a challenge for DFT [@cohen2012]. The problem has been tackled many times [@grimme2011; @vydrov2010; @grimme2006b; @caldeweyher2017; @caldeweyher2019; @dion2004; @lee2010]. The two most used corrections today are the D corrections of Grimme, Goerigk and co-workers [@grimme2006b; @grimme2011; @caldeweyher2017; @caldeweyher2019] and the VV10 nonlocal functional of Vydrov and Van Voorhis [@vydrov2010]. As you may have noticed, adding the -D4 correction to B3LYP and PBE improved their results. Using -D4 whenever possible is a good idea, especially for geometry optimizations [@kruse2012], but it can sometimes overcorrect. B97M-rV and ωB97M-V include VV10 nonlocal correlation, and they are among the best-performing functionals overall. Dispersion corrections for the Minnesota functionals have also been proposed [@goerigk2017; @goerigk2011; @goerigk2015], but since those functionals were parametrized on van der Waals complexes too, in principle they don't need them.
+
+**The "hard" reactions (Experiment 5).** This group gave the worst results. No functional performs satisfactorily, apart from occasional exceptions: MN15 does well for CaO because that molecule was in its training set, i.e. MN15 was parametrized on the database that contains it. Yet these reactions don't look complicated chemically; the two largest molecules have only five atoms heavier than hydrogen. This is why we can't run calculations blindly. Always seek expert advice when different functionals give wildly different results. In an editorial in *Organometallics* [@hopmann2019], Kathrin Hopmann discusses what makes a computational paper interesting and advises: "Do not use DFT for mechanisms it cannot handle." That sums up the take-home message of Experiments 3–5. Every functional published over the past 40 years has strengths and weaknesses [@becke2014], and much of the effort in functional development has gone into broadening the former and narrowing the latter. As a result, xc functionals are improving statistically: on average, modern functionals give better results than older ones. But it is always up to the researcher to use judgment when choosing among them.
+
+```{=html}
+<script type="module" src="../components/lab.js"></script>
+```

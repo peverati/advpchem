@@ -1,0 +1,37 @@
+---
+title: "Working on a shared machine"
+subtitle: "Guide 4 · queues, limits and good habits"
+---
+
+The Q-Chem server you use through IQmol is **shared**: by everyone in this class, by students in other courses, and by users around the world. Research clusters work the same way. Learning to use a shared resource well is one of the skills this lab teaches.
+
+## How a queue works
+
+When you click *Submit*, your job doesn't start right away. It joins a **queue**. A scheduler starts jobs as resources free up, usually first come, first served, sometimes with limits per user. Your job's life:
+
+> **queued** → **running** → **finished** (or **failed** / **killed**)
+
+The Job Monitor in IQmol shows which stage each job is in.
+
+## The limits of the free server
+
+- **Run time:** each job can run for at most **10 minutes**. After that it is killed and you get no energy.
+- **Concurrency:** you may not be able to run many jobs at the same time. Extra jobs just wait in the queue.
+- **Availability:** the server is a free service. It can be slow at busy times, and very occasionally unavailable. **Never leave the calculations for the night before the deadline.**
+
+Every experiment page shows a rough **cost flag** next to each job: *quick*, *a few minutes*, or *may hit the 10-min limit*. These are estimates based on the molecule size, the basis set and the type of functional, not guarantees.
+
+## Good habits
+
+1. **Test one job first.** Before submitting 128 jobs, run one, open the output and check it.
+2. **Submit in batches.** For example, all the molecules for one functional, then check them, then the next functional.
+3. **Name jobs systematically**, e.g. `ex03_b3lyp_def2-tzvp_eth_st`. The input generator does it for you.
+4. **Keep a job log.** The checklist on each experiment page ticks itself off as you enter energies, so you can see at a glance what's missing.
+5. **Keep every output**, organized in one folder per experiment.
+6. **Don't resubmit blindly.** If a job fails, read the end of the output first. Resubmitting a broken input just wastes everyone's queue time.
+7. **Start early.** Queues are longest right before deadlines, for every class, everywhere.
+
+::: {.callout-note}
+## Why not run everything on your laptop?
+For these small molecules you could, but real research calculations need hundreds of cores and days of time. The workflow you learn here (prepare locally → submit to a queue → retrieve and analyze) is exactly how computational chemists work on university clusters and national supercomputers.
+:::

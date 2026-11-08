@@ -1,0 +1,100 @@
+---
+title: "Experiment 3: Applying DFT to Organic Chemistry – Part A"
+subtitle: "Rotational barriers, conformers and cis–trans isomers"
+description: "Four textbook reactions computed with 15 density functionals and Hartree–Fock."
+---
+
+<div data-lab-exp="ex03" hidden></div>
+
+::: {.callout-tip appearance="simple" icon=false}
+**At a glance.** 8 molecules × 16 methods = **128 short jobs** with the def2-TZVP basis. Plan to submit them in batches (see [working on a shared machine](../guides/shared-machines.qmd)). **You will learn** how methods on different rungs of Jacob's ladder perform for "easy" organic reactions, what dispersion corrections do, and what each functional costs.
+:::
+
+## Warm-up
+
+::: {data-lab="quiz"}
+*Loading the concept check…*
+:::
+
+## Background
+
+![Reactions studied in Experiment 3: rotational barrier of ethane (3a) and methanol (3b), a conformational change of butane-1,4-diol (3c), and the cis–trans isomerization of pent-2-ene (3d). Carbon is black, oxygen red, hydrogen white; dotted lines are hydrogen bonds.](../images/ex03-reactions.jpeg){fig-alt="Ball-and-stick and line drawings of the four reactions 3a to 3d" width="480"}
+
+In this experiment you will analyze four reactions found in most introductory organic chemistry textbooks. For **3a** you will calculate the energy difference between the staggered and eclipsed conformations of ethane. For **3b** you will do the same for methanol. For **3c** you will look at a change of conformation in butane-1,4-diol, which breaks an intramolecular hydrogen bond. **3d** is the isomerization of *cis*-pent-2-ene to *trans*-pent-2-ene. The molecules come from the BHROT27 [@goerigk2017], BUT14DIOL [@kozuch2014] and FH51 [@friedrich2013; @friedrich2015] subsets of the GMTKN55 database [@goerigk2017].
+
+The methods are:
+
+- **LSDA:** SPW92 [@slater1951; @perdew1992; @perdew2018]
+- **GGA:** BP86 [@becke1988; @perdew1986; @perdew1986a], BLYP [@becke1988; @lee1988], PBE [@perdew1996] and PBE-D4 [@perdew1996; @caldeweyher2017; @caldeweyher2019]
+- **meta-GGA:** SCAN [@sun2015] and B97M-rV [@mardirossian2015; @mardirossian2017rv]
+- **hybrid GGA:** B3LYP [@vosko1980; @becke1988; @lee1988; @becke1993; @stephens1994], B3LYP-D4 [@caldeweyher2017; @caldeweyher2019], B3PW91 [@perdew1992; @perdew2018; @becke1988; @becke1993; @perdew1992a] and PBE0 [@adamo1999; @ernzerhof1999]
+- **hybrid meta-GGA:** M06-2X [@zhao2008], M11 [@peverati2011], MN15 [@yu2016a] and ωB97M-V [@vydrov2010; @mardirossian2016a]
+- **Hartree–Fock** [@hartree1928; @hartree1928a; @fock1930; @slater1930]
+
+Use the **def2-TZVP** basis set [@weigend2005] for every calculation.
+
+The reference energies are:
+
+| Reaction | 3a | 3b | 3c | 3d |
+|---|---:|---:|---:|---:|
+| ΔE~ref~ (kcal/mol) | 2.73 | 1.01 | 3.29 | –1.15 |
+
+: {.ref-table}
+
+Compute each reaction energy as ΔE = Σ ν~i~ E~i~, with ν~i~ > 0 for products and ν~i~ < 0 for reactants ([units guide](../guides/units-and-errors.qmd)), then the signed error ε = ΔE~comp~ − ΔE~ref~ and the absolute error |ε|.
+
+## The molecules
+
+::: {data-lab="molecules"}
+*Loading the molecules…*
+:::
+
+## Predict first
+
+::: {data-lab="predict"}
+*Loading…*
+:::
+
+## Run the calculations
+
+::: {data-lab="run"}
+*Loading the job list…*
+:::
+
+## Enter your results
+
+For every job, record the **total energy**, the **number of SCF cycles** and the **wall time** ([where to find them](../guides/reading-output.qmd)). The page computes the **time per SCF cycle** for you in the explore section. Then enter your reaction energies in the last tab.
+
+::: {data-lab="results"}
+*Loading the results table…*
+:::
+
+## Explore your data
+
+::: {data-lab="explore"}
+*Loading…*
+:::
+
+## Questions
+
+::: {data-lab="questions"}
+*Loading the questions…*
+:::
+
+We will discuss these results more extensively after Experiment 5, when you have seen "easy", "medium" and "hard" reactions.
+
+## Go further (optional)
+
+::: {.callout-note appearance="simple" icon=false}
+**Scan the full ethane rotation.** Reaction 3a compares just two points on a curve. In this Colab notebook you rotate one methyl group from 0° to 120°, compute the whole torsional profile with PySCF, and see where the barrier comes from. [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)]({{< meta colab-base >}}/ex03_ethane_torsion.ipynb)
+:::
+
+## Submit
+
+::: {data-lab="submit"}
+*Loading…*
+:::
+
+```{=html}
+<script type="module" src="../components/lab.js"></script>
+```

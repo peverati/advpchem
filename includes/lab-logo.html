@@ -1,0 +1,19 @@
+<!-- Peverati lab logo at the top right of the navbar (light and dark versions). -->
+<script>
+(function () {
+  var css = document.querySelector('link[href$="styles.css"]');
+  var root = css ? css.getAttribute("href").replace(/styles\.css$/, "") : "";
+  var nav = document.querySelector("#quarto-header nav.navbar .navbar-container") ||
+            document.querySelector("#quarto-header nav.navbar .container-fluid");
+  if (!nav) return;
+  var a = document.createElement("a");
+  a.className = "lab-logo";
+  a.href = "https://peverati.github.io";
+  a.title = "Peverati research group";
+  // Both versions are inserted; CSS shows the one that matches the light/dark theme.
+  a.innerHTML =
+    '<img class="logo-for-light" src="' + root + 'images/logo-light.png" alt="Peverati research group logo">' +
+    '<img class="logo-for-dark" src="' + root + 'images/logo-dark.png" alt="Peverati research group logo">';
+  nav.appendChild(a);
+})();
+</script>

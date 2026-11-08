@@ -1,0 +1,63 @@
+---
+title: "Reading a Q-Chem output"
+subtitle: "Guide 3 · where to find the four numbers you need"
+---
+
+A Q-Chem output file is long, but for this lab you need only **four numbers** from each job. Use your text editor's search (Ctrl+F / ⌘F) with the phrases below.
+
+| You need | Search for | Example line |
+|---|---|---|
+| **Total energy** (hartree) | `Total energy in the final basis set` | `Total energy in the final basis set =  -920.6431907520` |
+| **Number of SCF cycles** | `Convergence criterion met` | the cycle number at the start of that line, e.g. `12` |
+| **Wall time** (seconds) | `Total job time` | `Total job time:  14.52s(wall), 52.10s(cpu)` → use **14.52** |
+| **Number of basis functions** | `basis functions` | `There are 26 shells and 74 basis functions` → **74** |
+
+## An annotated example
+
+Here is an abridged output for a single-point energy, with the important lines highlighted.
+
+```{=html}
+<div class="output-annot"><pre>
+ ...
+ -----------------------------------------------------------------------
+  General SCF calculation program by
+  ...
+ -----------------------------------------------------------------------
+ <mark class="hl">There are 26 shells and 74 basis functions</mark>          ← number of basis functions
+ ...
+ ---------------------------------------
+  Cycle       Energy         DIIS error
+ ---------------------------------------
+    1    -920.4153225231      4.31e-02
+    2    -920.6017766913      7.45e-03
+    ...
+   11    -920.6431907518      1.12e-07
+   <mark class="hl">12    -920.6431907520      4.05e-09  Convergence criterion met</mark>   ← 12 SCF cycles
+ ---------------------------------------
+ SCF time:   CPU 41.36s  wall 11.73s
+ SCF   energy in the final basis set =     -920.6431907520
+ <mark class="hl">Total energy in the final basis set =     -920.6431907520</mark>   ← total energy (Eh)
+ ...
+ <mark class="hl">Total job time:  14.52s(wall), 52.10s(cpu)</mark>   ← wall time
+ ...
+        *  Thank you very much for using Q-Chem.  Have a nice day.  *
+</pre></div>
+```
+
+::: {.callout-note}
+## SCF energy or total energy?
+For plain DFT and HF the two lines are usually identical. With extra energy terms, such as a dispersion correction (-D4), they can differ, and the **total energy** is the one that includes everything. **Always use the total energy.**
+:::
+
+## Sanity checks before you trust a number
+
+- **Did the job finish?** The last lines should say *"Thank you very much for using Q-Chem. Have a nice day."* If they don't, the job crashed or ran out of time.
+- **Did the SCF converge?** Look for *Convergence criterion met*. If you see a warning that the SCF failed to converge, the energy is meaningless.
+- **Right charge and multiplicity?** Near the top, Q-Chem repeats the `$molecule` section. A triplet O atom run as a singlet gives a perfectly converged, perfectly wrong energy.
+- **Right method and basis?** The `$rem` section is echoed at the top as well. One typo (e.g. `def2-QZVP` instead of `def2-SVP`) changes everything.
+- **Do the significant figures look sensible?** Copy all the digits Q-Chem prints. Reaction energies are small differences between big numbers, so rounding total energies to 4 decimals adds errors of up to 0.03 kcal/mol.
+
+::: {.callout-tip}
+## Wall time vs CPU time
+*Wall* time is what you'd measure with a stopwatch; *CPU* time adds up the time of every processor core used. On a multi-core server CPU time is larger. In this lab we always compare **wall** times, and only between jobs run on the same server.
+:::

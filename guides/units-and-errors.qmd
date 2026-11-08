@@ -1,0 +1,68 @@
+---
+title: "Units, reaction energies and errors"
+subtitle: "Guide 5 · the arithmetic behind every experiment"
+---
+
+## From total energies to a reaction energy
+
+Q-Chem gives **total electronic energies** in **hartree** (E~h~), the atomic unit of energy. For any reaction, the reaction energy is a single sum over **all** species *i* taking part in it:
+
+$$
+\Delta E = \sum_i \nu_i\,E_i
+$$
+
+where E~i~ is the total energy of species *i* and ν~i~ is its **stoichiometric coefficient**.
+
+::: {.callout-important}
+## Sign convention: the coefficients carry their own sign
+Each stoichiometric coefficient includes its sign: **ν~i~ > 0 for products** and **ν~i~ < 0 for reactants**. With this convention you never write "products minus reactants" separately. The minus sign is already inside the reactants' coefficients, so ΔE is always just Σ ν~i~ E~i~.
+:::
+
+For example, for 2 O~3~ → 3 O~2~ the coefficients are ν(O~3~) = −2 and ν(O~2~) = +3, so
+
+$$
+\Delta E = (+3)\,E(\mathrm{O_2}) + (-2)\,E(\mathrm{O_3}).
+$$
+
+The same convention is used throughout this site: the results table checks your ΔE with exactly this sum.
+
+Then convert to kcal/mol:
+
+$$
+1\ E_\text{h} = 627.5095\ \text{kcal/mol}.
+$$
+
+::: {.callout-tip}
+## Worked example
+For 2 O~3~ → 3 O~2~ (ν = +3 for O~2~, −2 for O~3~): ΔE = (+3) E(O~2~) + (−2) E(O~3~). If E(O~2~) = −150.300000 E~h~ and E(O~3~) = −225.350000 E~h~ (made-up numbers), then ΔE = −450.900000 + 450.700000 = −0.200000 E~h~ = **−125.50 kcal/mol**.
+:::
+
+Keep **all the digits** of the total energies until the very end. Total energies are hundreds of hartree, while reaction energies are often a few kcal/mol (thousandths of a hartree).
+
+## Errors
+
+For each method we compare the computed reaction energy with a high-level **reference** value:
+
+- **Signed error:** ε = ΔE~comp~ − ΔE~ref~. Positive means the method *overestimates* the reaction energy.
+- **Absolute error:** |ε|. It tells you how far off the method is, regardless of direction.
+
+Over a set of *N* reactions:
+
+$$
+\text{MSE} = \frac{1}{N}\sum_k \varepsilon_k
+$$
+
+$$
+\text{MAE} = \frac{1}{N}\sum_k |\varepsilon_k|
+$$
+
+The **mean signed error** (MSE) reveals systematic bias: does the method always overshoot? The **mean absolute error** (MAE) measures overall accuracy. A method can have a small MSE but a large MAE, with big errors in both directions that cancel on average. That is why we look at both.
+
+::: {.callout-note}
+## Chemical accuracy
+An error of about **1 kcal/mol** is traditionally called "chemical accuracy": roughly the precision needed to predict reaction rates and equilibria in a useful way. Keep it in mind as a yardstick when you judge your results.
+:::
+
+## How the website checks your arithmetic
+
+When you enter a reaction energy, the page recomputes it from the total energies **you** entered and compares the two (allowing for rounding). Green means they agree; red means something is off (sign, stoichiometry, or unit conversion). The page **never shows you the correct value**. It only tells you whether your own numbers are consistent.

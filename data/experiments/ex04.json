@@ -1,0 +1,266 @@
+{
+ "id": "ex04",
+ "number": 4,
+ "title": "Applying DFT to Organic Chemistry – Part B",
+ "geometry_dir": "ex04",
+ "rem_common": {
+  "JOBTYPE": "SP",
+  "SCF_CONVERGENCE": "8"
+ },
+ "species": [
+  {
+   "id": "ethene",
+   "label": "ethene",
+   "file": "DARC_ethene.xyz",
+   "charge": 0,
+   "mult": 1
+  },
+  {
+   "id": "butadiene",
+   "label": "butadiene",
+   "file": "DARC_butadiene.xyz",
+   "charge": 0,
+   "mult": 1
+  },
+  {
+   "id": "cyclohexene",
+   "label": "cyclohexene",
+   "file": "DARC_P1.xyz",
+   "charge": 0,
+   "mult": 1
+  },
+  {
+   "id": "hexane",
+   "label": "n-hexane",
+   "file": "16_hexane_Alk44.xyz",
+   "charge": 0,
+   "mult": 1
+  },
+  {
+   "id": "neohexane",
+   "label": "neohexane",
+   "file": "25_neohexane_Alk44.xyz",
+   "charge": 0,
+   "mult": 1
+  },
+  {
+   "id": "ethane",
+   "label": "ethane (monomer)",
+   "file": "ADIM6_AM2.xyz",
+   "charge": 0,
+   "mult": 1
+  },
+  {
+   "id": "ethane2",
+   "label": "ethane dimer",
+   "file": "ADIM6_AD2.xyz",
+   "charge": 0,
+   "mult": 1
+  },
+  {
+   "id": "meoh_a",
+   "label": "methanol (monomer A)",
+   "file": "4117_05MeOHMeOH_monA_S66.xyz",
+   "charge": 0,
+   "mult": 1
+  },
+  {
+   "id": "meoh_b",
+   "label": "methanol (monomer B)",
+   "file": "4117_05MeOHMeOH_monB_S66.xyz",
+   "charge": 0,
+   "mult": 1
+  },
+  {
+   "id": "meoh2",
+   "label": "methanol dimer",
+   "file": "4117_05MeOHMeOH_dim_S66.xyz",
+   "charge": 0,
+   "mult": 1
+  }
+ ],
+ "reactions": [
+  {
+   "id": "4a",
+   "label": "4a  ethene + butadiene → cyclohexene",
+   "nu": {
+    "ethene": -1,
+    "butadiene": -1,
+    "cyclohexene": 1
+   },
+   "ref": -45.4
+  },
+  {
+   "id": "4b",
+   "label": "4b  n-hexane → neohexane",
+   "nu": {
+    "hexane": -1,
+    "neohexane": 1
+   },
+   "ref": -2.49
+  },
+  {
+   "id": "4c",
+   "label": "4c  2 ethane → (ethane)₂",
+   "nu": {
+    "ethane": -2,
+    "ethane2": 1
+   },
+   "ref": -1.34
+  },
+  {
+   "id": "4d",
+   "label": "4d  MeOH(A) + MeOH(B) → (MeOH)₂",
+   "nu": {
+    "meoh_a": -1,
+    "meoh_b": -1,
+    "meoh2": 1
+   },
+   "ref": -5.81
+  }
+ ],
+ "methods": [
+  {
+   "id": "SPW92",
+   "label": "SPW92",
+   "rung": "LSDA",
+   "rem": {
+    "METHOD": "SPW92"
+   }
+  },
+  {
+   "id": "BP86",
+   "label": "BP86",
+   "rung": "GGA",
+   "rem": {
+    "METHOD": "BP86"
+   }
+  },
+  {
+   "id": "BLYP",
+   "label": "BLYP",
+   "rung": "GGA",
+   "rem": {
+    "METHOD": "BLYP"
+   }
+  },
+  {
+   "id": "PBE",
+   "label": "PBE",
+   "rung": "GGA",
+   "rem": {
+    "METHOD": "PBE"
+   }
+  },
+  {
+   "id": "PBE-D4",
+   "label": "PBE-D4",
+   "rung": "GGA",
+   "rem": {
+    "METHOD": "PBE",
+    "DFT_D": "D4"
+   }
+  },
+  {
+   "id": "SCAN",
+   "label": "SCAN",
+   "rung": "meta-GGA",
+   "rem": {
+    "METHOD": "SCAN"
+   }
+  },
+  {
+   "id": "B97M-rV",
+   "label": "B97M-rV",
+   "rung": "meta-GGA",
+   "rem": {
+    "METHOD": "B97M-rV"
+   }
+  },
+  {
+   "id": "B3LYP",
+   "label": "B3LYP",
+   "rung": "hybrid GGA",
+   "rem": {
+    "METHOD": "B3LYP"
+   }
+  },
+  {
+   "id": "B3LYP-D4",
+   "label": "B3LYP-D4",
+   "rung": "hybrid GGA",
+   "rem": {
+    "METHOD": "B3LYP",
+    "DFT_D": "D4"
+   }
+  },
+  {
+   "id": "B3PW91",
+   "label": "B3PW91",
+   "rung": "hybrid GGA",
+   "rem": {
+    "METHOD": "B3PW91"
+   }
+  },
+  {
+   "id": "PBE0",
+   "label": "PBE0",
+   "rung": "hybrid GGA",
+   "rem": {
+    "METHOD": "PBE0"
+   }
+  },
+  {
+   "id": "M06-2X",
+   "label": "M06-2X",
+   "rung": "hybrid meta-GGA",
+   "rem": {
+    "METHOD": "M06-2X"
+   }
+  },
+  {
+   "id": "M11",
+   "label": "M11",
+   "rung": "hybrid meta-GGA",
+   "rem": {
+    "METHOD": "M11"
+   }
+  },
+  {
+   "id": "MN15",
+   "label": "MN15",
+   "rung": "hybrid meta-GGA",
+   "rem": {
+    "METHOD": "MN15"
+   }
+  },
+  {
+   "id": "wB97M-V",
+   "label": "ωB97M-V",
+   "rung": "hybrid meta-GGA",
+   "rem": {
+    "METHOD": "wB97M-V"
+   }
+  },
+  {
+   "id": "HF",
+   "label": "HF",
+   "rung": "Hartree–Fock",
+   "rem": {
+    "METHOD": "HF"
+   }
+  }
+ ],
+ "bases": [
+  {
+   "id": "def2-TZVP",
+   "family": "Ahlrichs def2",
+   "zeta": 3
+  }
+ ],
+ "fields": [
+  "energy",
+  "scf",
+  "time"
+ ]
+}

@@ -1,0 +1,62 @@
+---
+title: "Install IQmol and connect to Q-Chem"
+subtitle: "Guide 1 · about 15 minutes, once per semester"
+---
+
+All calculations in this lab run in **Q-Chem** [@epifanovsky2021], a professional quantum-chemistry program. You won't install Q-Chem on your laptop. Instead you'll use **IQmol** [@iqmol], a free graphical program that builds the molecule, writes the Q-Chem input and **sends the job to a remote server** where Q-Chem actually runs. When the job finishes, IQmol brings the results back.
+
+This is how research computing works: you prepare jobs on your own computer, submit them to a shared machine, and analyze the output when it comes back.
+
+```{=html}
+<div class="lab-card" style="margin:1rem 0">
+<pre style="margin:0;background:none;font-size:.85rem">
+ your laptop                         the Q-Chem server
+ ┌─────────────────┐   submit job    ┌──────────────────────┐
+ │ IQmol           │ ──────────────▶ │ queue → Q-Chem runs  │
+ │ (build, set up, │                 │ (≤ 10 min per job)   │
+ │  analyze)       │ ◀────────────── │ output file          │
+ └─────────────────┘  results back   └──────────────────────┘
+</pre></div>
+```
+
+## 1. Install IQmol
+
+1. Go to **[iqmol.org](http://iqmol.org)** and open the **Downloads** page.
+2. Download the installer for your operating system (Windows, macOS or Linux).
+3. Install it like any other application.
+   - **macOS:** if the system says the app "cannot be opened because the developer cannot be verified", right-click (or Control-click) IQmol in *Applications*, choose **Open**, then confirm. You only need to do this the first time.
+   - **Windows:** if SmartScreen warns you, click **More info → Run anyway**.
+4. Launch IQmol. You should see an empty 3D viewer with a toolbar on top.
+
+::: {.callout-note}
+The Florida Tech computer labs may already have IQmol installed. Ask your instructor which rooms.
+:::
+
+## 2. Connect to the free Q-Chem server
+
+IQmol ships with access to a **free Q-Chem server** for teaching and small calculations.
+
+1. Open any molecule (for example, download one `.xyz` file from [Experiment 1](../experiments/ex01-basis-sets.qmd) and use **File → Open**).
+2. Open the Q-Chem setup window (**Calculation → Q-Chem Setup**, or the Q-Chem button on the toolbar).
+3. In the **Server** menu at the bottom of the window, select the default free Q-Chem server.
+4. The first time, IQmol may ask you to register or accept the server's terms. Follow the prompts and use your Florida Tech e-mail.
+
+::: {.callout-important}
+## The 10-minute rule
+Jobs on the free server are stopped after **10 minutes** of run time. Everything in Experiments 1–9 is designed to fit, and every experiment page flags the jobs that might be close to the limit. If a job is killed, it is almost always because of a typo in the basis set or method (for example, a much larger basis than intended). See [Working on a shared machine](shared-machines.qmd).
+:::
+
+## 3. Check that everything works
+
+Run the test job in the [first-job guide](first-job.qmd): one HCl molecule with HF/def2-SVP. It should finish in a few seconds. If it does, you are ready for the experiments.
+
+## Troubleshooting
+
+| Problem | What to try |
+|---|---|
+| IQmol won't start on macOS | Right-click → **Open** (see above). On Apple-silicon Macs, make sure you downloaded the current version. |
+| The server list is empty | Check your internet connection and any firewall or VPN. On campus Wi-Fi it should work out of the box. |
+| A job stays "queued" for a long time | The server is shared; at busy times (the night before a deadline!) jobs wait. Submit early. |
+| The job fails immediately | Open the output file and read the last lines; there is usually a clear error message. Common culprits: wrong charge or multiplicity, or a misspelled basis set. |
+
+<!-- Instructor: replace the steps above with screenshots from the current IQmol version (setup window, server menu, job monitor) after running a test job. -->

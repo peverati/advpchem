@@ -1,0 +1,41 @@
+---
+title: "Experiment 2: Jacob's Ladder"
+subtitle: "Where can I learn more about DFT and functionals?"
+description: "Learn the vocabulary of density functional approximations and classify 20 functionals."
+---
+
+<div data-lab-exp="ex02" hidden></div>
+
+::: {.callout-tip appearance="simple" icon=false}
+**At a glance.** No calculations this time. **You will learn** how to find the right method in the literature and how to speak the language of Jacob's ladder: LSDA, GGA, meta-GGA, hybrids.
+:::
+
+## Background
+
+The design of a computational experiment starts with the chemical problem you want to study. Next you read the published literature [@goerigk2017; @mardirossian2017; @yu2015; @yu2016; @yu2016a; @mehta2018; @najibi2018; @rappoport2009; @cramer2009] to identify the best-performing method for that problem. Only after this bibliographical research do you start submitting calculations and analyzing results. The next decision in setting up a good computational experiment is the choice of an exchange–correlation (xc) functional and a basis set. We use the term **method** for a specific combination of xc functional and basis set.
+
+Choosing a good method is not easy, which is why you should rely on suggestions from experts in the field [@mardirossian2016; @goerigk2017; @mardirossian2017; @yu2015; @yu2016; @yu2016a; @mehta2018; @najibi2018; @rappoport2009; @cramer2009; @goerigk2019; @peverati2014; @yu2016b]. The functionals used in this lab were chosen for teaching purposes, and we are not implicitly encouraging their use in a general research context. For good reviews of DFT, read @mardirossian2017, @goerigk2019, @peverati2014 or @yu2016b.
+
+Before starting the experiments, you should know the most common acronyms in the DFT literature. In particular, you should be familiar with the jargon of the "Jacob's ladder of density functional approximations", introduced by Perdew and Schmidt in 2001 [@perdew2001]. The local spin-density approximation (LSDA), the generalized gradient approximation (GGA), meta-GGA (mGGA), and hybrid and double-hybrid functionals should not be new to you. If they are, review them in @koch2001 or in the reviews above before moving on.
+
+## Climb the ladder
+
+Classify each functional as **LSDA**, **GGA**, **mGGA**, **hybrid GGA (H-GGA)** or **hybrid mGGA (H-mGGA)**. Use the literature [@goerigk2017; @mardirossian2017; @peverati2014; @yu2016b; @koch2001] if you need help with a functional. There are no double hybrids here. The references for each functional appear in the following experiments.
+
+::: {data-lab="ladder"}
+*Loading the classification exercise…*
+:::
+
+::: {.callout-note appearance="simple"}
+**Why it matters.** In Experiments 3–5 every chart colors the methods by their rung, so you can see whether climbing the ladder really pays off.
+:::
+
+## Submit
+
+::: {data-lab="submit"}
+*Loading…*
+:::
+
+```{=html}
+<script type="module" src="../components/lab.js"></script>
+```

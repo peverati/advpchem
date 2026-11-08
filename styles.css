@@ -1,0 +1,220 @@
+/* Lab site styles. Colours come from Bootstrap's CSS variables so both the
+   light (cosmo) and dark (darkly) themes work without extra rules. */
+
+:root {
+  --lab-ok: #1a7f37;
+  --lab-bad: #c62828;
+  --lab-warn: #b26a00;
+  --lab-ok-bg: rgba(26, 127, 55, 0.12);
+  --lab-bad-bg: rgba(198, 40, 40, 0.12);
+  --lab-warn-bg: rgba(255, 170, 0, 0.18);
+  --lab-radius: 10px;
+}
+body.quarto-dark {
+  --lab-ok: #56d364;
+  --lab-bad: #ff7b72;
+  --lab-warn: #f2cc60;
+}
+
+/* ---------- lab logo (top right of the navbar) ---------- */
+.lab-logo { display: flex; align-items: center; margin-left: 14px; order: 1000; flex: none; }
+.lab-logo img { height: 40px; width: auto; }
+/* Quarto puts .quarto-light or .quarto-dark on <body> when the theme toggles. */
+.lab-logo .logo-for-dark { display: none; }
+body.quarto-dark .lab-logo .logo-for-light { display: none; }
+body.quarto-dark .lab-logo .logo-for-dark { display: block; }
+@media (max-width: 991px) { .lab-logo img { height: 30px; } }
+@media (max-width: 767px) { .lab-logo { display: none; } }
+
+/* ---------- landing page ---------- */
+.course-map {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 14px;
+  margin: 1.2rem 0 2rem;
+}
+.course-map a.exp-tile {
+  display: block;
+  padding: 14px 16px;
+  border: 1px solid var(--bs-border-color);
+  border-radius: var(--lab-radius);
+  text-decoration: none;
+  color: inherit;
+  background: var(--bs-body-bg);
+  transition: border-color 0.15s, transform 0.15s;
+}
+.course-map a.exp-tile:hover { border-color: var(--bs-primary); transform: translateY(-2px); }
+.exp-tile .n { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--bs-secondary-color); }
+.exp-tile .t { font-weight: 600; margin: 2px 0 6px; line-height: 1.25; }
+.exp-tile .d { font-size: 0.88rem; color: var(--bs-secondary-color); }
+.exp-tile .tag { display: inline-block; font-size: 0.72rem; padding: 1px 7px; border-radius: 99px; background: var(--bs-tertiary-bg); margin-top: 8px; }
+
+.steps { counter-reset: step; list-style: none; padding-left: 0; }
+.steps > li { counter-increment: step; position: relative; padding-left: 2.6rem; margin-bottom: 1rem; }
+.steps > li::before {
+  content: counter(step);
+  position: absolute; left: 0; top: 0;
+  width: 1.8rem; height: 1.8rem; border-radius: 50%;
+  background: var(--bs-primary); color: #fff;
+  display: grid; place-items: center; font-weight: 600; font-size: 0.9rem;
+}
+
+/* ---------- generic card used by every widget ---------- */
+.lab-widget { margin: 1.2rem 0 1.6rem; }
+.lab-card {
+  border: 1px solid var(--bs-border-color);
+  border-radius: var(--lab-radius);
+  padding: 14px 16px;
+  background: var(--bs-body-bg);
+}
+.lab-card-head { display: flex; align-items: center; flex-wrap: wrap; gap: 6px 10px; margin-bottom: 10px; }
+.lab-kicker { font-weight: 700; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.07em; color: var(--bs-primary); }
+.lab-spacer { flex: 1; }
+.lab-muted { color: var(--bs-secondary-color); }
+.lab-small { font-size: 0.86rem; }
+.strong { font-weight: 600; }
+.lab-error { color: var(--lab-bad); }
+.txt-ok { color: var(--lab-ok); font-weight: 600; }
+.txt-bad { color: var(--lab-bad); font-weight: 600; }
+.lab-card .form-select-sm, .lab-card .form-control-sm { width: auto; max-width: 100%; }
+
+/* ---------- quiz ---------- */
+.quiz-list { padding-left: 1.2rem; margin: 0; }
+.quiz-list > li { margin-bottom: 1rem; }
+.quiz-q { margin-bottom: 0.4rem; font-weight: 500; }
+.quiz-options { display: grid; gap: 6px; }
+.quiz-option {
+  text-align: left; border: 1px solid var(--bs-border-color); background: transparent; color: inherit;
+  border-radius: 8px; padding: 6px 10px; cursor: pointer;
+}
+.quiz-option:hover { border-color: var(--bs-primary); }
+.quiz-option.is-correct { border-color: var(--lab-ok); background: var(--lab-ok-bg); }
+.quiz-option.is-wrong { border-color: var(--lab-bad); background: var(--lab-bad-bg); }
+.quiz-feedback { font-size: 0.9rem; margin-top: 6px; }
+.quiz-feedback.right { color: var(--lab-ok); }
+.quiz-feedback.wrong { color: var(--lab-bad); }
+.quiz-feedback strong { margin-right: 4px; }
+
+/* ---------- molecules ---------- */
+.mol-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 12px; }
+.mol-card { margin: 0; border: 1px solid var(--bs-border-color); border-radius: 8px; overflow: hidden; }
+.mol-view { position: relative; width: 100%; height: 170px; background: var(--bs-tertiary-bg); }
+.mol-meta { padding: 7px 10px; font-size: 0.85rem; }
+.mol-name { font-weight: 600; }
+.mol-dl { font-size: 0.78rem; word-break: break-all; }
+.mol-picker { margin-bottom: 10px; }
+.mol-picker + div .mol-view { height: 280px; }
+
+/* ---------- predictions ---------- */
+.pred-list { display: grid; gap: 12px; }
+.pred-item { display: grid; grid-template-columns: 1fr minmax(160px, 220px); gap: 6px 14px; align-items: center; padding-bottom: 10px; border-bottom: 1px dashed var(--bs-border-color); }
+.pred-item:last-child { border-bottom: 0; }
+.pred-verdict, .pred-pending { grid-column: 1 / -1; font-size: 0.88rem; }
+.pred-verdict.match { color: var(--lab-ok); }
+.pred-verdict.miss { color: var(--lab-warn); }
+.pred-pending { color: var(--bs-secondary-color); font-style: italic; }
+.pred-card.is-locked { border-color: var(--lab-warn); }
+@media (max-width: 600px) { .pred-item { grid-template-columns: 1fr; } }
+
+/* ---------- jobs / Q-Chem inputs ---------- */
+.job-progress { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.job-progress .progress { flex: 0 0 180px; height: 8px; }
+.job-layout { display: grid; grid-template-columns: minmax(220px, 300px) minmax(0, 1fr); gap: 14px; }
+.job-layout > * { min-width: 0; }
+.job-list { max-height: 430px; overflow-y: auto; border: 1px solid var(--bs-border-color); border-radius: 8px; padding: 4px 0; }
+.job-group { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--bs-secondary-color); padding: 8px 10px 2px; position: sticky; top: -4px; background: var(--bs-body-bg); }
+.job-row { display: flex; align-items: center; gap: 8px; padding: 3px 10px; }
+.job-row.is-current { background: var(--bs-tertiary-bg); }
+.job-row .form-check-input { margin: 0; flex: none; }
+.job-link { background: none; border: 0; color: inherit; padding: 0; text-align: left; flex: 1; font-size: 0.9rem; cursor: pointer; }
+.job-link:hover { text-decoration: underline; }
+.risk { font-size: 0.7rem; padding: 1px 6px; border-radius: 99px; white-space: nowrap; }
+.risk-low { background: var(--lab-ok-bg); color: var(--lab-ok); }
+.risk-med { background: var(--lab-warn-bg); color: var(--lab-warn); }
+.risk-high { background: var(--lab-bad-bg); color: var(--lab-bad); }
+.job-preview-head { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; flex-wrap: wrap; }
+.job-preview-title { font-family: var(--bs-font-monospace); font-size: 0.82rem; word-break: break-all; }
+.job-preview { max-height: 380px; overflow: auto; font-size: 0.8rem; background: var(--bs-tertiary-bg); padding: 10px; border-radius: 8px; margin: 0; }
+@media (max-width: 760px) { .job-layout { grid-template-columns: 1fr; } .job-list { max-height: 260px; } }
+
+/* ---------- results table ---------- */
+.res-tabs { display: flex; flex-wrap: wrap; gap: 4px; border-bottom: 1px solid var(--bs-border-color); margin-bottom: 8px; }
+.res-tab { border: 1px solid transparent; border-bottom: 0; background: none; color: inherit; padding: 6px 12px; border-radius: 8px 8px 0 0; font-size: 0.9rem; cursor: pointer; }
+.res-tab.active { border-color: var(--bs-border-color); background: var(--bs-body-bg); font-weight: 600; margin-bottom: -1px; }
+.res-scroll { max-height: 560px; overflow: auto; }
+.res-table { border-collapse: separate; border-spacing: 0; font-size: 0.86rem; font-variant-numeric: tabular-nums; width: auto; }
+.res-table th, .res-table td { border-bottom: 1px solid var(--bs-border-color); padding: 3px 6px; vertical-align: middle; }
+.res-table thead th { position: sticky; top: 0; background: var(--bs-body-bg); z-index: 1; font-weight: 600; min-width: 92px; vertical-align: bottom; }
+.res-table tbody th { position: sticky; left: 0; background: var(--bs-body-bg); white-space: nowrap; font-weight: 500; }
+.res-table .th-sub { font-weight: 400; font-size: 0.75rem; color: var(--bs-secondary-color); }
+.res-table tr.res-group th { background: var(--bs-tertiary-bg); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.05em; }
+.res-table td { position: relative; }
+.res-input { width: 130px; border: 1px solid var(--bs-border-color); border-radius: 5px; padding: 2px 5px; background: var(--bs-body-bg); color: inherit; font-variant-numeric: tabular-nums; }
+.res-input:focus { outline: 2px solid var(--bs-primary); outline-offset: -1px; }
+td.is-bad .res-input, td.is-mismatch .res-input { border-color: var(--lab-bad); background: var(--lab-bad-bg); }
+td.is-ok .res-input { border-color: var(--lab-ok); background: var(--lab-ok-bg); }
+td.is-incomplete .res-input { border-style: dashed; }
+td.is-outlier .res-input { border-color: var(--lab-warn); background: var(--lab-warn-bg); }
+.res-table td { white-space: nowrap; }
+.cell-badge { display: inline-block; min-width: 3.4em; margin-left: 4px; font-size: 0.72rem; color: var(--bs-secondary-color); text-align: right; }
+.cell-badge:empty { visibility: hidden; }
+.res-help { margin: 4px 0 8px; }
+.res-summary { font-size: 0.86rem; }
+.res-table.compact td.num, .res-table.compact th { text-align: right; }
+.res-table.compact tbody th { text-align: left; }
+.err-big { color: var(--lab-bad); }
+.err-small { color: var(--lab-ok); }
+
+/* ---------- explore ---------- */
+.explore-h { font-size: 1rem; margin: 0.4rem 0; }
+.explore-chart { margin-top: 1.2rem; overflow-x: auto; }
+.explore-chart figure, .explore-chart svg { max-width: 100%; height: auto; }
+.explore-chart h2 { font-size: 1rem; }
+
+/* ---------- questions ---------- */
+.q-list { padding-left: 1.2rem; }
+.q-list > li { margin-bottom: 1rem; }
+.q-text { margin-bottom: 0.35rem; }
+.q-answer { font-size: 0.95rem; min-height: 80px; resize: vertical; }
+.q-classify { display: grid; gap: 6px; }
+.q-classify-row { display: grid; grid-template-columns: 120px minmax(0, 280px); gap: 10px; align-items: center; }
+.q-muddy { border-top: 1px dashed var(--bs-border-color); padding-top: 10px; }
+
+/* ---------- submit ---------- */
+.submit-grid { display: grid; grid-template-columns: 1fr 260px; gap: 16px; }
+.submit-id { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
+.submit-id input { flex: 1 1 200px; width: auto; }
+.submit-actions { display: flex; gap: 8px; flex-wrap: wrap; margin: 12px 0 6px; }
+.submit-check { list-style: none; padding: 0; margin: 4px 0 0; font-size: 0.9rem; }
+.submit-check .ok { color: var(--lab-ok); }
+.submit-check .todo { color: var(--bs-secondary-color); }
+.submit-foot { border-top: 1px dashed var(--bs-border-color); margin-top: 10px; padding-top: 4px; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+@media (max-width: 760px) { .submit-grid { grid-template-columns: 1fr; } }
+
+/* ---------- Jacob's ladder (Ex2) ---------- */
+.ladder-legend { display: grid; grid-template-columns: max-content 1fr; gap: 2px 12px; font-size: 0.86rem; margin: 0 0 12px; }
+.ladder-legend dt { font-weight: 600; }
+.ladder-legend dd { margin: 0; color: var(--bs-secondary-color); }
+.ladder-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 10px; }
+.ladder-item { border: 1px solid var(--bs-border-color); border-radius: 8px; padding: 8px 10px; }
+.ladder-item.is-right { border-color: var(--lab-ok); background: var(--lab-ok-bg); }
+.ladder-item.is-wrong { border-color: var(--lab-bad); background: var(--lab-bad-bg); }
+.ladder-name { font-weight: 600; margin-bottom: 4px; }
+.ladder-item .form-select { width: 100%; }
+.ladder-why { font-size: 0.8rem; margin-top: 6px; }
+
+/* ---------- static content helpers ---------- */
+.ref-table { font-variant-numeric: tabular-nums; }
+.output-annot pre { font-size: 0.8rem; }
+mark.hl { background: var(--lab-warn-bg); color: inherit; padding: 0 2px; border-radius: 3px; }
+.figure img { max-width: 100%; }
+.reaction-fig img { max-width: 560px; }
+
+/* Markdown tables scroll sideways on phones instead of widening the page. */
+@media (max-width: 600px) {
+  main table.table { display: block; overflow-x: auto; }
+}
+
+@media print {
+  .lab-widget { display: none !important; }
+}

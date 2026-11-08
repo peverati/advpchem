@@ -1,0 +1,98 @@
+project:
+  type: website
+  output-dir: _site
+  resources:
+    - data/**
+    - components/**
+    - notebooks/**
+    - images/logo-light.png
+    - images/logo-dark.png
+  render:
+    - "*.qmd"
+    - "guides/*.qmd"
+    - "experiments/*.qmd"
+    - "!README.md"
+
+website:
+  title: "Computational Chemistry Lab"
+  description: "Ten hands-on DFT experiments for Advanced Physical Chemistry at Florida Tech."
+  site-url: ""
+  page-navigation: true
+  back-to-top-navigation: true
+  search: true
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - text: "Guides"
+        menu:
+          - guides/iqmol-setup.qmd
+          - guides/first-job.qmd
+          - guides/reading-output.qmd
+          - guides/shared-machines.qmd
+          - guides/units-and-errors.qmd
+      - text: "Experiments"
+        menu:
+          - experiments/ex01-basis-sets.qmd
+          - experiments/ex02-jacobs-ladder.qmd
+          - experiments/ex03-organic-a.qmd
+          - experiments/ex04-organic-b.qmd
+          - experiments/ex05-difficult-cases.qmd
+          - experiments/ex06-b3lyp-631gs.qmd
+          - experiments/ex07-grids.qmd
+          - experiments/ex08-stability.qmd
+          - experiments/ex09-experiment-vs-theory.qmd
+          - experiments/ex10-final-review.qmd
+      - href: class-results.qmd
+        text: Class results
+  sidebar:
+    - title: "Guides"
+      contents:
+        - guides/iqmol-setup.qmd
+        - guides/first-job.qmd
+        - guides/reading-output.qmd
+        - guides/shared-machines.qmd
+        - guides/units-and-errors.qmd
+    - title: "Experiments"
+      contents:
+        - experiments/ex01-basis-sets.qmd
+        - experiments/ex02-jacobs-ladder.qmd
+        - experiments/ex03-organic-a.qmd
+        - experiments/ex04-organic-b.qmd
+        - experiments/ex05-difficult-cases.qmd
+        - experiments/ex06-b3lyp-631gs.qmd
+        - experiments/ex07-grids.qmd
+        - experiments/ex08-stability.qmd
+        - experiments/ex09-experiment-vs-theory.qmd
+        - experiments/ex10-final-review.qmd
+  page-footer:
+    left: "Advanced Physical Chemistry · Florida Tech"
+    right: "Experiments adapted from Morgante & Peverati, *Int. J. Quantum Chem.* **2020**"
+
+bibliography: references.bib
+link-citations: true
+
+# Where the Colab notebooks live once this folder is pushed to GitHub.
+# Replace OWNER/REPO with the real repository (used by the "Open in Colab" badges).
+colab-base: "https://colab.research.google.com/github/OWNER/REPO/blob/main/notebooks"
+
+# Semester settings (Microsoft Form links, due dates, results release) live in
+# data/course.json so the interactive components can read them in the browser.
+
+format:
+  html:
+    theme:
+      light: cosmo
+      dark: darkly
+    css: styles.css
+    toc: true
+    toc-depth: 3
+    smooth-scroll: true
+    code-copy: true
+    lang: en
+    include-after-body:
+      - includes/lab-logo.html
+    include-in-header:
+      - text: |
+          <script src="https://cdn.jsdelivr.net/npm/3dmol@2.4.2/build/3Dmol-min.js"></script>
+          <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>

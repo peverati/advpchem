@@ -1,0 +1,282 @@
+{
+ "id": "ex05",
+ "number": 5,
+ "title": "Difficult Cases for DFT",
+ "geometry_dir": "ex05",
+ "rem_common": {
+  "JOBTYPE": "SP",
+  "SCF_CONVERGENCE": "8"
+ },
+ "species": [
+  {
+   "id": "o3",
+   "label": "ozone",
+   "file": "DC13_o3.xyz",
+   "charge": 0,
+   "mult": 1
+  },
+  {
+   "id": "c2h4",
+   "label": "ethene",
+   "file": "DC13_c2h4.xyz",
+   "charge": 0,
+   "mult": 1
+  },
+  {
+   "id": "ozonide",
+   "label": "primary ozonide",
+   "file": "DC13_o3_c2h4_add.xyz",
+   "charge": 0,
+   "mult": 1
+  },
+  {
+   "id": "cao",
+   "label": "CaO",
+   "file": "02_CaO_MR-MGM-BE4.xyz",
+   "charge": 0,
+   "mult": 1
+  },
+  {
+   "id": "ca",
+   "label": "Ca atom",
+   "file": "01_Ca_MR-MGM-BE4.xyz",
+   "charge": 0,
+   "mult": 1
+  },
+  {
+   "id": "o_mgm",
+   "label": "O atom (triplet)",
+   "file": "10_O_MR-MGM-BE4.xyz",
+   "charge": 0,
+   "mult": 3
+  },
+  {
+   "id": "h2so4",
+   "label": "sulfuric acid",
+   "file": "SMAE3_H2SO4.xyz",
+   "charge": 0,
+   "mult": 1
+  },
+  {
+   "id": "s",
+   "label": "S atom (triplet)",
+   "file": "SMAE3_S.xyz",
+   "charge": 0,
+   "mult": 3
+  },
+  {
+   "id": "o",
+   "label": "O atom (triplet)",
+   "file": "SMAE3_O.xyz",
+   "charge": 0,
+   "mult": 3
+  },
+  {
+   "id": "h",
+   "label": "H atom (doublet)",
+   "file": "SMAE3_H.xyz",
+   "charge": 0,
+   "mult": 2
+  },
+  {
+   "id": "o3_w4",
+   "label": "ozone (W4-17)",
+   "file": "W4-17_o3.xyz",
+   "charge": 0,
+   "mult": 1
+  },
+  {
+   "id": "o2",
+   "label": "O₂ (triplet)",
+   "file": "W4-17_o2.xyz",
+   "charge": 0,
+   "mult": 3
+  }
+ ],
+ "reactions": [
+  {
+   "id": "5a",
+   "label": "5a  O₃ + C₂H₄ → primary ozonide",
+   "nu": {
+    "o3": -1,
+    "c2h4": -1,
+    "ozonide": 1
+   },
+   "ref": -58.7
+  },
+  {
+   "id": "5b",
+   "label": "5b  CaO → Ca + O",
+   "nu": {
+    "cao": -1,
+    "ca": 1,
+    "o_mgm": 1
+   },
+   "ref": 96.15
+  },
+  {
+   "id": "5c",
+   "label": "5c  H₂SO₄ → S + 4 O + 2 H",
+   "nu": {
+    "h2so4": -1,
+    "s": 1,
+    "o": 4,
+    "h": 2
+   },
+   "ref": 602.18
+  },
+  {
+   "id": "5d",
+   "label": "5d  2 O₃ → 3 O₂",
+   "nu": {
+    "o3_w4": -2,
+    "o2": 3
+   },
+   "ref": -67.6
+  }
+ ],
+ "methods": [
+  {
+   "id": "SPW92",
+   "label": "SPW92",
+   "rung": "LSDA",
+   "rem": {
+    "METHOD": "SPW92"
+   }
+  },
+  {
+   "id": "BP86",
+   "label": "BP86",
+   "rung": "GGA",
+   "rem": {
+    "METHOD": "BP86"
+   }
+  },
+  {
+   "id": "BLYP",
+   "label": "BLYP",
+   "rung": "GGA",
+   "rem": {
+    "METHOD": "BLYP"
+   }
+  },
+  {
+   "id": "PBE",
+   "label": "PBE",
+   "rung": "GGA",
+   "rem": {
+    "METHOD": "PBE"
+   }
+  },
+  {
+   "id": "PBE-D4",
+   "label": "PBE-D4",
+   "rung": "GGA",
+   "rem": {
+    "METHOD": "PBE",
+    "DFT_D": "D4"
+   }
+  },
+  {
+   "id": "SCAN",
+   "label": "SCAN",
+   "rung": "meta-GGA",
+   "rem": {
+    "METHOD": "SCAN"
+   }
+  },
+  {
+   "id": "B97M-rV",
+   "label": "B97M-rV",
+   "rung": "meta-GGA",
+   "rem": {
+    "METHOD": "B97M-rV"
+   }
+  },
+  {
+   "id": "B3LYP",
+   "label": "B3LYP",
+   "rung": "hybrid GGA",
+   "rem": {
+    "METHOD": "B3LYP"
+   }
+  },
+  {
+   "id": "B3LYP-D4",
+   "label": "B3LYP-D4",
+   "rung": "hybrid GGA",
+   "rem": {
+    "METHOD": "B3LYP",
+    "DFT_D": "D4"
+   }
+  },
+  {
+   "id": "B3PW91",
+   "label": "B3PW91",
+   "rung": "hybrid GGA",
+   "rem": {
+    "METHOD": "B3PW91"
+   }
+  },
+  {
+   "id": "PBE0",
+   "label": "PBE0",
+   "rung": "hybrid GGA",
+   "rem": {
+    "METHOD": "PBE0"
+   }
+  },
+  {
+   "id": "M06-2X",
+   "label": "M06-2X",
+   "rung": "hybrid meta-GGA",
+   "rem": {
+    "METHOD": "M06-2X"
+   }
+  },
+  {
+   "id": "M11",
+   "label": "M11",
+   "rung": "hybrid meta-GGA",
+   "rem": {
+    "METHOD": "M11"
+   }
+  },
+  {
+   "id": "MN15",
+   "label": "MN15",
+   "rung": "hybrid meta-GGA",
+   "rem": {
+    "METHOD": "MN15"
+   }
+  },
+  {
+   "id": "wB97M-V",
+   "label": "ωB97M-V",
+   "rung": "hybrid meta-GGA",
+   "rem": {
+    "METHOD": "wB97M-V"
+   }
+  },
+  {
+   "id": "HF",
+   "label": "HF",
+   "rung": "Hartree–Fock",
+   "rem": {
+    "METHOD": "HF"
+   }
+  }
+ ],
+ "bases": [
+  {
+   "id": "def2-TZVP",
+   "family": "Ahlrichs def2",
+   "zeta": 3
+  }
+ ],
+ "fields": [
+  "energy",
+  "scf",
+  "time"
+ ]
+}

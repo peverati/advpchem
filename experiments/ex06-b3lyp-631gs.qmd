@@ -1,0 +1,59 @@
+---
+title: "Experiment 6: Why is the B3LYP/6-31G* Level of Theory so Successful?"
+subtitle: "A famous method and its lucky error cancellation"
+description: "B3LYP and B3LYP-D4 with four double-ζ basis sets, compared with def2-TZVP."
+---
+
+<div data-lab-exp="ex06" hidden></div>
+
+::: {.callout-tip appearance="simple" icon=false}
+**At a glance.** B3LYP and B3LYP-D4 on the 30 molecules of Experiments 3–5, with four double-ζ basis sets, compared with the def2-TZVP results from those experiments. **You will learn** why a small basis can *look* better than a large one, and why that should worry you.
+:::
+
+## Background
+
+The B3LYP functional [@vosko1980; @becke1988; @lee1988; @becke1993; @stephens1994] with the 6-31G\* basis set of Pople and co-workers [@ditchfield1971; @hehre1972; @hariharan1973; @dill1975; @binkley1977; @francl1982; @gordon1982; @rassolov1998; @rassolov2001] is the de facto standard method in the organic chemistry community. The functional is based on the three-parameter hybrid scheme Becke introduced in 1993 [@becke1993]. The original three-parameter functional combined his 1988 exchange functional [@becke1988] with the Perdew–Wang (PW91) correlation functional [@perdew1992; @perdew2018; @perdew1992a]. One year later, Frisch and co-workers introduced B3LYP by replacing PW91 with LYP [@lee1988], which gave better results in a computational study of circular dichroism spectra [@stephens1994]. B3LYP became more popular than B3PW91, even though their performance and theoretical foundations are almost identical.
+
+6-31G\* is a double-ζ split-valence polarized basis set, so it contains a moderate number of basis functions. Its use with B3LYP became popular in the 1990s and early 2000s because it allowed calculations on relatively large molecules relevant to organic chemistry, with performance far better than the methods available before, such as semi-empirical methods and Hartree–Fock. Given how much computers have improved in the last two decades, however, a double-ζ basis set in a research setting is sometimes dangerous, as you saw in Experiment 1.
+
+In this experiment you will test B3LYP with several double-ζ polarized basis sets to understand why B3LYP/6-31G\* is so "special":
+
+- **6-31G\*** (Pople)
+- **cc-pVDZ** (Dunning) [@dunning1989; @woon1993; @woon1994; @wilson1999; @koput2002; @balabanov2005; @prascher2011]
+- **def2-SVP** (Ahlrichs) [@weigend2005]
+- **pc-1** (Jensen) [@jensen2001; @jensen2002; @jensen2007; @jensen2004; @jensen2012]. If it is not available, use def2-SV(P), the smallest of the Ahlrichs basis sets.
+
+Run them on the molecules of Experiments 3, 4 and 5, and compare with the **def2-TZVP** results you obtained there with the same functionals. As before, report each computed reaction energy with its error with respect to the reference value.
+
+## The molecules
+
+::: {data-lab="molecules"}
+*Loading the molecules…*
+:::
+
+## Run the calculations
+
+::: {data-lab="run"}
+*Loading the job list…*
+:::
+
+::: {.callout-warning appearance="simple"}
+**Pilot version.** The interactive results table for this experiment opens after the pilot. For now, collect your numbers in a spreadsheet.
+:::
+
+## Questions
+
+1. Choose one molecule. How many basis functions does it have with each basis set (6-31G\*, def2-SVP, cc-pVDZ, pc-1 or def2-SV(P), def2-TZVP)?
+2. Which basis set gives the smallest absolute errors for the reactions of Experiment 3? Of Experiment 4? Of Experiment 5? Overall?
+3. Repeat the double-ζ calculations with **B3LYP-D4** [@caldeweyher2017; @caldeweyher2019]. What happens? Do the results improve?
+4. Try another functional with 6-31G\*. Do you see the same trends?
+5. Compare B3LYP/def2-TZVP with B3LYP/6-31G\*, and B3LYP-D4/def2-TZVP with B3LYP-D4/6-31G\*. Do you see anything strange?
+
+::: {.callout-tip}
+## Tip
+This experiment shows that B3LYP/6-31G\* works so well because it benefits from a fortuitous **error cancellation** [@kruse2012]. Theory says a functional's error with a small basis set should always be larger than with a big one. That B3LYP/6-31G\* doesn't follow this expectation when compared with B3LYP/def2-TZVP is worrisome: it points to a lucky cancellation of errors. Lucky cancellations are unpredictable. Sometimes they work in your favor, as for the reactions of Experiment 4, and sometimes against you, as for those of Experiment 5. The 6-31G\* basis set does not make B3LYP better or more physically sound. Instead of trying to work out which chemical problems B3LYP/6-31G\* can solve, we suggest moving away from it toward a more modern functional with predictable behavior with respect to the basis set. If that's not possible because of limited computing resources, put more appropriate corrections in place, such as those suggested by Kruse, Goerigk and Grimme, with the help of an expert. In 2012, Cohen, Mori-Sánchez and Yang wrote that uniformly outperforming B3LYP was still a challenge for xc functionals [@cohen2012]. Recent reviews have shown that this is no longer true [@mardirossian2017; @goerigk2019; @peverati2014; @yu2016b]. We feel the real challenge now is to get rid of B3LYP/6-31G\* altogether, though, as Kruse, Goerigk and Grimme noted, we don't expect this to happen anytime soon.
+:::
+
+```{=html}
+<script type="module" src="../components/lab.js"></script>
+```

@@ -1,0 +1,15 @@
+# Rendered site and Quarto cache
+_site/
+.quarto/
+/.quarto/
+*_files/
+
+# Private: gradebooks contain student names and answers. Never commit.
+gradebook/
+submissions/
+
+.DS_Store
+__pycache__/
+*.pyc
+
+**/*.quarto_ipynb

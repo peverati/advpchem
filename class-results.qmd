@@ -1,0 +1,65 @@
+---
+title: "Class results"
+subtitle: "How did everyone's calculations compare?"
+toc: false
+---
+
+After each deadline your instructor releases the anonymized class results here: the median signed error of every method for every reaction, across all submissions. Use them to check your own numbers and to see patterns no single student could see alone.
+
+::: {#class-results}
+*Loading class results…*
+:::
+
+```{=html}
+<script type="module">
+import { h, loadJSON } from "./components/core.js";
+
+const root = document.getElementById("class-results");
+const course = await loadJSON("data/course.json").catch(() => ({ experiments: {} }));
+const released = Object.entries(course.experiments || {}).filter(([, v]) => v.release_class_results);
+if (!released.length) {
+  root.replaceChildren(h("p", { class: "lab-muted" }, "No class results have been released yet. Check back after the first deadline."));
+} else {
+  const Plot = await import("https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6.16/+esm");
+  root.replaceChildren();
+  for (const [id] of released) {
+    let data, exp;
+    try {
+      [data, exp] = await Promise.all([loadJSON(`data/class/${id}.json`), loadJSON(`data/experiments/${id}.json`)]);
+    } catch (e) { continue; }
+    const cells = [];
+    for (const [cond, byRxn] of Object.entries(data.stats)) {
+      const [mid, bid] = cond.split("|");
+      const m = exp.methods.find((x) => x.id === mid);
+      for (const [rxn, s] of Object.entries(byRxn)) {
+        cells.push({ method: exp.bases.length > 1 ? `${m?.label ?? mid} / ${bid}` : (m?.label ?? mid), reaction: rxn, median: s.median, n: s.n, q1: s.q1, q3: s.q3 });
+      }
+    }
+    const max = Math.max(1, ...cells.map((c) => Math.abs(c.median)));
+    const order = [...new Set(cells.map((c) => c.method))];
+    const heat = Plot.plot({
+      title: `Experiment ${exp.number}: median signed error (kcal/mol), ${data.n} submissions`,
+      width: 760, height: 60 + 24 * order.length, marginLeft: 140, padding: 0.04,
+      x: { label: null, axis: "top" }, y: { label: null, domain: order },
+      color: { type: "diverging", scheme: "RdBu", domain: [-max, max], reverse: true, legend: true, label: "median ε (kcal/mol)" },
+      marks: [
+        Plot.cell(cells, { x: "reaction", y: "method", fill: "median", tip: true, channels: { n: "n", "25%": "q1", "75%": "q3" } }),
+        Plot.text(cells, { x: "reaction", y: "method", text: (d) => d.median.toFixed(1), fontSize: 10 }),
+      ],
+    });
+    const sec = h("section", { class: "lab-card", style: "margin-bottom:1.5rem" }, h("h2", {}, exp.title), heat);
+    if (data.draft && Object.keys(data.draft).length) {
+      const rows = Object.entries(data.draft).map(([k, v]) => ({ method: k, picks: v.picks, mae: v.mae })).sort((a, b) => (a.mae ?? 99) - (b.mae ?? 99));
+      sec.append(h("h3", {}, "🏆 Functional draft league"),
+        h("table", { class: "res-table compact" },
+          h("thead", {}, h("tr", {}, h("th", {}, "Method"), h("th", {}, "students who picked it"), h("th", {}, "class-median MAE so far"))),
+          h("tbody", {}, rows.map((r) => h("tr", {}, h("th", {}, r.method), h("td", { class: "num" }, String(r.picks)), h("td", { class: "num" }, r.mae == null ? "—" : r.mae.toFixed(2)))))));
+    }
+    if (data.muddiest?.length) {
+      sec.append(h("h3", {}, "Muddiest points (anonymous)"), h("ul", {}, data.muddiest.slice(0, 12).map((t) => h("li", {}, t))));
+    }
+    root.append(sec);
+  }
+}
+</script>
+```

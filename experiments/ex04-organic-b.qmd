@@ -1,0 +1,58 @@
+---
+title: "Experiment 4: Applying DFT to Organic Chemistry – Part B"
+subtitle: "Diels–Alder, alkane isomers and dispersion-bound dimers"
+description: "Four more textbook reactions, where dispersion and changes in bonding start to matter."
+---
+
+<div data-lab-exp="ex04" hidden></div>
+
+::: {.callout-tip appearance="simple" icon=false}
+**At a glance.** 10 molecules × 16 methods = **160 jobs** with def2-TZVP. **You will learn** when error cancellation stops helping, and what dispersion corrections (-D4) and nonlocal correlation (VV10) actually fix.
+:::
+
+## Background
+
+![Reactions studied in Experiment 4: Diels–Alder reaction of ethene and butadiene (4a), isomerization of *n*-hexane to neohexane (4b), and formation of the ethane (4c) and methanol (4d) dimers. Carbon is black, oxygen red, hydrogen white; the dotted line is a hydrogen bond.](../images/ex04-reactions.jpeg){fig-alt="Ball-and-stick and line drawings of reactions 4a to 4d" width="500"}
+
+In this experiment you will deal with four more organic reactions commonly found in textbooks:
+
+- **4a**: the Diels–Alder reaction between ethene and butadiene to give cyclohexene, ΔE~ref~ = **–45.40 kcal/mol**.
+- **4b**: the isomerization of *n*-hexane to neohexane (2,2-dimethylbutane), ΔE~ref~ = **–2.49 kcal/mol**.
+- **4c**: the formation of the ethane dimer, held together only by van der Waals (dispersion) interactions, ΔE~ref~ = **–1.34 kcal/mol**.
+- **4d**: the formation of the methanol dimer, held together by a hydrogen bond, ΔE~ref~ = **–5.81 kcal/mol**.
+
+These structures come from the DARC [@goerigk2017; @goerigk2010; @johnson2008] and ADIM6 [@goerigk2017; @grimme2010] subsets of the GMTKN55 database [@goerigk2017], and from the AlkIsomer11 [@curtiss1997; @karton2009] and S66 [@rezac2011; @rezac2011a] subsets of the MGCDB84 database [@mardirossian2017].
+
+As in Experiment 3, use SPW92, BP86, BLYP, PBE, PBE-D4, SCAN, B97M-rV, B3LYP, B3LYP-D4, B3PW91, PBE0, M06-2X, M11, MN15, ωB97M-V and Hartree–Fock (references in [Experiment 3](ex03-organic-a.qmd)), all with the **def2-TZVP** basis set [@weigend2005]. For each functional, compute the reaction energies and the errors with respect to the reference.
+
+::: {.callout-note}
+For the dimers (4c, 4d) the reaction is *monomers → dimer*, so a negative ΔE means the dimer is bound. In 4d the two methanol monomers have slightly different geometries (they are cut from the dimer), so compute both.
+:::
+
+## The molecules
+
+::: {data-lab="molecules"}
+*Loading the molecules…*
+:::
+
+## Run the calculations
+
+::: {data-lab="run"}
+*Loading the job list…*
+:::
+
+::: {.callout-warning appearance="simple"}
+**Pilot version.** The interactive results table for this experiment opens after the pilot. For now, collect your total energies, SCF cycles and wall times in a spreadsheet.
+:::
+
+## Questions
+
+1. Which functional has the most negative error? Which has the most positive?
+2. Which functional is the best performer for each reaction? Which is the best overall?
+3. Are there functionals that perform badly for these reactions?
+4. Compute the wall time divided by the number of SCF cycles for each functional. How do they compare? Compare B3LYP with the other hybrid functionals and with HF.
+5. Do the functionals with the **-D4** correction perform better than the corresponding uncorrected ones? For which reactions does it matter most, and why?
+
+```{=html}
+<script type="module" src="../components/lab.js"></script>
+```

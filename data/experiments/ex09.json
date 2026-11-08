@@ -1,0 +1,117 @@
+{
+ "id": "ex09",
+ "number": 9,
+ "title": "Comparison with Experimental Results",
+ "geometry_dir": "ex09",
+ "rem_common": {
+  "JOBTYPE": "SP",
+  "SCF_CONVERGENCE": "8"
+ },
+ "species": [
+  {
+   "id": "tbuoh",
+   "label": "tert-butyl alcohol",
+   "file": "107_tBu-OH_SR-MGN-BE107.xyz",
+   "charge": 0,
+   "mult": 1
+  },
+  {
+   "id": "tbu",
+   "label": "tert-butyl radical",
+   "file": "056_CH3_3_C_SR-MGN-BE107.xyz",
+   "charge": 0,
+   "mult": 2
+  },
+  {
+   "id": "oh",
+   "label": "OH radical",
+   "file": "086_OH_SR-MGN-BE107.xyz",
+   "charge": 0,
+   "mult": 2
+  },
+  {
+   "id": "fecl",
+   "label": "FeCl (sextet)",
+   "file": "22_FeCl_SR-TM-BE17.xyz",
+   "charge": 0,
+   "mult": 6
+  },
+  {
+   "id": "fe",
+   "label": "Fe atom (quintet)",
+   "file": "25_Fe_def2_SR-TM-BE17.xyz",
+   "charge": 0,
+   "mult": 5
+  },
+  {
+   "id": "cl",
+   "label": "Cl atom",
+   "file": "08_Cl_SR-TM-BE17.xyz",
+   "charge": 0,
+   "mult": 2
+  },
+  {
+   "id": "h2",
+   "label": "H₂",
+   "file": "W4-11_h2.xyz",
+   "charge": 0,
+   "mult": 1
+  },
+  {
+   "id": "ch4",
+   "label": "CH₄",
+   "file": "W4-11_ch4.xyz",
+   "charge": 0,
+   "mult": 1
+  },
+  {
+   "id": "nh3",
+   "label": "NH₃",
+   "file": "W4-11_nh3.xyz",
+   "charge": 0,
+   "mult": 1
+  },
+  {
+   "id": "h2o",
+   "label": "H₂O",
+   "file": "W4-11_h2o.xyz",
+   "charge": 0,
+   "mult": 1
+  },
+  {
+   "id": "o3",
+   "label": "O₃",
+   "file": "W4-11_o3.xyz",
+   "charge": 0,
+   "mult": 1
+  },
+  {
+   "id": "h",
+   "label": "H atom",
+   "file": "W4-11_h.xyz",
+   "charge": 0,
+   "mult": 2
+  },
+  {
+   "id": "c",
+   "label": "C atom (triplet)",
+   "file": "W4-11_c.xyz",
+   "charge": 0,
+   "mult": 3
+  },
+  {
+   "id": "n",
+   "label": "N atom (quartet)",
+   "file": "W4-11_n.xyz",
+   "charge": 0,
+   "mult": 4
+  },
+  {
+   "id": "o",
+   "label": "O atom (triplet)",
+   "file": "W4-11_o.xyz",
+   "charge": 0,
+   "mult": 3
+  }
+ ]
+}

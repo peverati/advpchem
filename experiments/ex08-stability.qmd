@@ -1,0 +1,53 @@
+---
+title: "Experiment 8: Stability Analysis and Transition Metals"
+subtitle: "Is your SCF solution really the ground state?"
+description: "Excitation energies of Fe and Ru+ with and without SCF stability analysis."
+---
+
+<div data-lab-exp="ex08" hidden></div>
+
+::: {.callout-tip appearance="simple" icon=false}
+**At a glance.** Four atomic states, ten methods, each run twice (without and with stability analysis), def2-TZVP. **You will learn** what an unstable SCF solution is, how to detect and fix it, and why transition metals need extra care.
+:::
+
+## Background
+
+As you know, the coefficients of the basis functions in the Kohn–Sham orbitals come from an iterative procedure, the **self-consistent field (SCF)** procedure. Starting from an initial set of coefficients (the initial density matrix, or "guess"), it produces the final, optimized coefficients, which computational chemists call the converged SCF solution.
+
+A converged SCF solution is a *stationary point*, but we can't know in advance whether it is a minimum, a maximum or a saddle point. To be sure we have the lowest energy, we must characterize the stationary point and correct it if needed. This **stability analysis** requires the second derivatives of the energy with respect to orbital rotations (the electronic Hessian), and it can be repeated more than once. When an instability is detected, two constraints can be lifted to lower the energy [@seeger1977]: we can change the theoretical framework (from restricted to unrestricted), or we can allow complex instead of real orbitals. The wave function obtained after a stability analysis is *stable* and has a lower energy than the unstable one.
+
+How can an SCF end on an unstable solution? For example, it can land on an excited state while you are computing the ground state. With a reasonable guess this is unlikely for molecules made mostly of main-group elements, but it is much more likely for systems with nearly degenerate low-lying states, such as transition-metal atoms. Without a stability analysis you would never notice. Good descriptions of the procedure are in @seeger1977, @bauernschmitt1996 and @fukutome1981.
+
+In this experiment you will use SPW92 [@slater1951; @perdew1992; @perdew2018], BP86 [@becke1988; @perdew1986; @perdew1986a], B3LYP [@vosko1980; @becke1988; @lee1988; @becke1993; @stephens1994], PBE [@perdew1996], PBE0 [@adamo1999; @ernzerhof1999], M06-2X [@zhao2008], SCAN [@sun2015], B97M-V [@mardirossian2015; @vydrov2010], ωB97M-V [@vydrov2010; @mardirossian2016a] and Hartree–Fock [@hartree1928; @hartree1928a; @fock1930; @slater1930], with the **def2-TZVP** basis set [@weigend2005]. Ru needs an effective core potential (`ECP = def2-ECP`).
+
+You will compute the excitation energies of two atoms, **Fe** (reference 34.32 kcal/mol) and **Ru⁺** (reference 21.96 kcal/mol). The data come from the 3dAEE8 [@hoyer2014; @luo2014; @yu2014] and 4dAEE5 [@luo2012] subsets of the Minnesota 2015B database [@yu2016a]. Run two sets of calculations:
+
+1. **Without** stability analysis: compute the excitation energy E(excited) − E(ground).
+2. **With** stability analysis: add `INTERNAL_STABILITY TRUE` to the `$rem` section, and check in the output whether an instability was found and the wave function re-optimized.
+
+As usual, compute the errors with respect to the reference values.
+
+## The atoms
+
+::: {data-lab="molecules"}
+*Loading…*
+:::
+
+::: {.callout-warning appearance="simple"}
+**Pilot version.** The input generator with the stability option, the results table and the stability "energy landscape" widget for this experiment come after the pilot.
+:::
+
+## Questions
+
+1. Compare the errors with and without stability analysis. Do you need the stability analysis here?
+2. How does HF perform? Why do you think it performs this way?
+3. Which functional would you recommend for this case?
+
+::: {.callout-tip}
+## Tip
+This simple example shows that calculations involving transition metals are not easy. Even for "reactions" between atomic states the errors can be very large, and in extreme cases [@cao2019] it isn't clear which functionals give the right answer. As general advice, always run a stability analysis on the final solution. It is mandatory for systems with low-lying states, such as transition metals, especially with a small basis set. In these problematic cases, it is always a good idea to seek help from a theoretician.
+:::
+
+```{=html}
+<script type="module" src="../components/lab.js"></script>
+```

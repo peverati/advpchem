@@ -1,0 +1,78 @@
+---
+title: "Experiment 9: Comparison with Experimental Results"
+subtitle: "Bond dissociation, atomization energies and the NIST WebBook"
+description: "Bond dissociation of tert-butanol and FeCl, total atomization energies, and what it takes to compare with experiment."
+---
+
+<div data-lab-exp="ex09" hidden></div>
+
+::: {.callout-tip appearance="simple" icon=false}
+**At a glance.** Two bond dissociations and five atomization energies, with five methods, def2-QZVP, a (99,590) grid and stability analysis. **You will learn** why radicals and atoms are hard, and why a computed electronic energy can't be compared directly with an experimental enthalpy.
+:::
+
+## Background
+
+This experiment analyzes two bond dissociation reactions from the Minnesota 2015B database [@yu2016a], one from the SR-MGN-BE107 subset [@peverati2014; @zhao2006; @peverati2011a] and one from the SR-TM-BE17 subset [@peverati2014; @peverati2012a; @zhang2013; @averkiev2010; @xu2015]. You will also look at total atomization energies from the W4-11 subset [@karton2011] of GMTKN55 [@goerigk2017].
+
+**Bond dissociations.**
+
+- **9a**: *tert*-butyl alcohol → *tert*-butyl radical + OH radical (C–O bond). ΔE~ref~ = **115.02 kcal/mol**.
+- **9b**: FeCl → Fe + Cl [@xu2015]. The reference electronic dissociation energy is ΔE~ref~ = **78.5 kcal/mol**.
+
+Use **stability analysis** in both cases, an integration grid of at least **(99,590)** (`XC_GRID 000099000590`) and the **def2-QZVP** basis set [@weigend2005]. Use the functionals MN15-L [@yu2016], MN15 [@yu2016a], B3LYP [@vosko1980; @becke1988; @lee1988; @becke1993; @stephens1994] and PBE [@perdew1996], plus the HF method [@hartree1928; @hartree1928a; @fock1930; @slater1930]. Collect the computed reaction energies and their errors in a table before you answer the questions.
+
+**Atomization energies.** An atomization reaction breaks a molecule into its constituent atoms (see reaction 5c in [Experiment 5](ex05-difficult-cases.qmd)). Study H~2~, methane, ammonia, water and ozone with the same methods; for H~2~, atomization and bond dissociation are the same reaction.
+
+: Reference total atomization energies from the W4-11 subset. {.ref-table}
+
+| Molecule | Reference energy (kcal/mol) |
+|---|---:|
+| H~2~ | 109.5 |
+| CH~4~ | 420.4 |
+| NH~3~ | 298.0 |
+| H~2~O | 233.0 |
+| O~3~ | 147.4 |
+
+Total atomization energies are not very important chemically, but they are interesting computationally: they are a challenge for functional development and a good test of a functional's robustness and reliability.
+
+## The molecules and atoms
+
+::: {data-lab="molecules"}
+*Loading…*
+:::
+
+::: {.callout-warning appearance="simple"}
+**Pilot version.** The input generator and results table for this experiment come after the pilot.
+:::
+
+## Questions
+
+**tert-Butyl alcohol**
+
+1. Which functional is the best? Which is the worst?
+2. How does HF perform? Are you surprised?
+3. Try B3LYP with the 6-31G\* basis set [@ditchfield1971; @hehre1972; @hariharan1973; @dill1975; @binkley1977; @francl1982; @gordon1982; @rassolov1998; @rassolov2001]. Do you see any improvement? Where do you think it comes from? (Think back to Experiment 6.)
+
+**FeCl**
+
+4. Which functional performs best?
+5. How does HF perform? Are you surprised?
+6. Look up the gas-phase enthalpy of formation of FeCl in the [NIST Chemistry WebBook](https://webbook.nist.gov/chemistry/). What is it in kcal/mol? Does it differ from the reference data you are using?
+7. Given the NIST value and the electronic energy, can you compare the theoretical result directly with experiment? Why or why not?
+
+**Atomization energies (W4-11)**
+
+8. Which functional is the best? Which is the worst?
+9. How does HF perform? Are you surprised? What do you think causes the HF failure?
+10. Do you see the same trends for bond dissociation and atomization reactions?
+11. Can you compare an atomization energy directly with a substance's enthalpy of formation? Why or why not?
+
+## Practice comment
+
+Bond dissociation energies are everywhere in benchmark databases [@goerigk2017; @mardirossian2017; @yu2015; @yu2016; @yu2016a] because xc functionals must describe them correctly. Even simple reactions can be tricky. Breaking the C–O bond is easy in principle, but it produces two radicals, which are hard for theoretical methods (remember that KS-DFT, like HF, is in principle a single-determinant theory) [@hait2019]. For FeCl, the heavier element complicates things further. There is also no simple way to compare a computed result with an experimental one, as Truhlar and co-workers explain [@zhang2013; @xu2015]: going from the experimental value to a purely electronic one requires several corrections (zero-point energy, thermal contributions, spin–orbit coupling, …). That is why comparing computed and experimental values directly is discouraged unless you get help from a theoretician.
+
+The atomization energies are one more example of why you should rely on modern functionals. A functional must describe not only the molecule but also the atoms, which are a completely different chemical species. HF lacks electron correlation, so it describes atoms very poorly and gives large errors. All density functional approximations include electron correlation in some approximate way [@he2000; @cremer2001; @polo2002; @mok1996; @handy2001], so they do better for atoms. Even so, we again advise non-experts to seek help from a theoretician in such cases.
+
+```{=html}
+<script type="module" src="../components/lab.js"></script>
+```

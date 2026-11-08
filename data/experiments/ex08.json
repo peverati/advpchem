@@ -1,0 +1,40 @@
+{
+ "id": "ex08",
+ "number": 8,
+ "title": "Stability Analysis and Transition Metals",
+ "geometry_dir": "ex08",
+ "rem_common": {
+  "JOBTYPE": "SP",
+  "SCF_CONVERGENCE": "8"
+ },
+ "species": [
+  {
+   "id": "fe_gs",
+   "label": "Fe ground state (quintet)",
+   "file": "05_Fe_gs_3dAEE8.xyz",
+   "charge": 0,
+   "mult": 5
+  },
+  {
+   "id": "fe_es",
+   "label": "Fe excited state (triplet)",
+   "file": "04_Fe_es_3dAEE8.xyz",
+   "charge": 0,
+   "mult": 3
+  },
+  {
+   "id": "ru_gs",
+   "label": "Ru⁺ ground state (quartet)",
+   "file": "07_Ru+_gs_4dAEE5.xyz",
+   "charge": 1,
+   "mult": 4
+  },
+  {
+   "id": "ru_es",
+   "label": "Ru⁺ excited state (sextet)",
+   "file": "06_Ru+_es_4dAEE5.xyz",
+   "charge": 1,
+   "mult": 6
+  }
+ ]
+}

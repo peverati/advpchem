@@ -1,0 +1,236 @@
+{
+ "id": "ex07",
+ "number": 7,
+ "title": "Integration Grids: The Argon Dimer",
+ "geometry_dir": "ex07",
+ "rem_common": {
+  "JOBTYPE": "SP",
+  "SCF_CONVERGENCE": "8"
+ },
+ "species": [
+  {
+   "id": "ar",
+   "label": "Ar atom",
+   "file": "Ar_atom.xyz",
+   "charge": 0,
+   "mult": 1
+  },
+  {
+   "id": "ar2_3.0",
+   "label": "Ar₂ at 3.0 Å",
+   "file": "Ar2_3.0.xyz",
+   "charge": 0,
+   "mult": 1
+  },
+  {
+   "id": "ar2_3.1",
+   "label": "Ar₂ at 3.1 Å",
+   "file": "Ar2_3.1.xyz",
+   "charge": 0,
+   "mult": 1
+  },
+  {
+   "id": "ar2_3.2",
+   "label": "Ar₂ at 3.2 Å",
+   "file": "Ar2_3.2.xyz",
+   "charge": 0,
+   "mult": 1
+  },
+  {
+   "id": "ar2_3.3",
+   "label": "Ar₂ at 3.3 Å",
+   "file": "Ar2_3.3.xyz",
+   "charge": 0,
+   "mult": 1
+  },
+  {
+   "id": "ar2_3.4",
+   "label": "Ar₂ at 3.4 Å",
+   "file": "Ar2_3.4.xyz",
+   "charge": 0,
+   "mult": 1
+  },
+  {
+   "id": "ar2_3.5",
+   "label": "Ar₂ at 3.5 Å",
+   "file": "Ar2_3.5.xyz",
+   "charge": 0,
+   "mult": 1
+  },
+  {
+   "id": "ar2_3.6",
+   "label": "Ar₂ at 3.6 Å",
+   "file": "Ar2_3.6.xyz",
+   "charge": 0,
+   "mult": 1
+  },
+  {
+   "id": "ar2_3.7",
+   "label": "Ar₂ at 3.7 Å",
+   "file": "Ar2_3.7.xyz",
+   "charge": 0,
+   "mult": 1
+  },
+  {
+   "id": "ar2_3.8",
+   "label": "Ar₂ at 3.8 Å",
+   "file": "Ar2_3.8.xyz",
+   "charge": 0,
+   "mult": 1
+  },
+  {
+   "id": "ar2_3.9",
+   "label": "Ar₂ at 3.9 Å",
+   "file": "Ar2_3.9.xyz",
+   "charge": 0,
+   "mult": 1
+  },
+  {
+   "id": "ar2_4.0",
+   "label": "Ar₂ at 4.0 Å",
+   "file": "Ar2_4.0.xyz",
+   "charge": 0,
+   "mult": 1
+  },
+  {
+   "id": "ar2_4.1",
+   "label": "Ar₂ at 4.1 Å",
+   "file": "Ar2_4.1.xyz",
+   "charge": 0,
+   "mult": 1
+  },
+  {
+   "id": "ar2_4.2",
+   "label": "Ar₂ at 4.2 Å",
+   "file": "Ar2_4.2.xyz",
+   "charge": 0,
+   "mult": 1
+  },
+  {
+   "id": "ar2_4.3",
+   "label": "Ar₂ at 4.3 Å",
+   "file": "Ar2_4.3.xyz",
+   "charge": 0,
+   "mult": 1
+  },
+  {
+   "id": "ar2_4.4",
+   "label": "Ar₂ at 4.4 Å",
+   "file": "Ar2_4.4.xyz",
+   "charge": 0,
+   "mult": 1
+  },
+  {
+   "id": "ar2_4.5",
+   "label": "Ar₂ at 4.5 Å",
+   "file": "Ar2_4.5.xyz",
+   "charge": 0,
+   "mult": 1
+  },
+  {
+   "id": "ar2_4.6",
+   "label": "Ar₂ at 4.6 Å",
+   "file": "Ar2_4.6.xyz",
+   "charge": 0,
+   "mult": 1
+  },
+  {
+   "id": "ar2_4.7",
+   "label": "Ar₂ at 4.7 Å",
+   "file": "Ar2_4.7.xyz",
+   "charge": 0,
+   "mult": 1
+  },
+  {
+   "id": "ar2_4.8",
+   "label": "Ar₂ at 4.8 Å",
+   "file": "Ar2_4.8.xyz",
+   "charge": 0,
+   "mult": 1
+  },
+  {
+   "id": "ar2_4.9",
+   "label": "Ar₂ at 4.9 Å",
+   "file": "Ar2_4.9.xyz",
+   "charge": 0,
+   "mult": 1
+  },
+  {
+   "id": "ar2_5.0",
+   "label": "Ar₂ at 5.0 Å",
+   "file": "Ar2_5.0.xyz",
+   "charge": 0,
+   "mult": 1
+  },
+  {
+   "id": "ar2_5.1",
+   "label": "Ar₂ at 5.1 Å",
+   "file": "Ar2_5.1.xyz",
+   "charge": 0,
+   "mult": 1
+  },
+  {
+   "id": "ar2_5.2",
+   "label": "Ar₂ at 5.2 Å",
+   "file": "Ar2_5.2.xyz",
+   "charge": 0,
+   "mult": 1
+  },
+  {
+   "id": "ar2_5.3",
+   "label": "Ar₂ at 5.3 Å",
+   "file": "Ar2_5.3.xyz",
+   "charge": 0,
+   "mult": 1
+  },
+  {
+   "id": "ar2_5.4",
+   "label": "Ar₂ at 5.4 Å",
+   "file": "Ar2_5.4.xyz",
+   "charge": 0,
+   "mult": 1
+  },
+  {
+   "id": "ar2_5.5",
+   "label": "Ar₂ at 5.5 Å",
+   "file": "Ar2_5.5.xyz",
+   "charge": 0,
+   "mult": 1
+  },
+  {
+   "id": "ar2_5.6",
+   "label": "Ar₂ at 5.6 Å",
+   "file": "Ar2_5.6.xyz",
+   "charge": 0,
+   "mult": 1
+  },
+  {
+   "id": "ar2_5.7",
+   "label": "Ar₂ at 5.7 Å",
+   "file": "Ar2_5.7.xyz",
+   "charge": 0,
+   "mult": 1
+  },
+  {
+   "id": "ar2_5.8",
+   "label": "Ar₂ at 5.8 Å",
+   "file": "Ar2_5.8.xyz",
+   "charge": 0,
+   "mult": 1
+  },
+  {
+   "id": "ar2_5.9",
+   "label": "Ar₂ at 5.9 Å",
+   "file": "Ar2_5.9.xyz",
+   "charge": 0,
+   "mult": 1
+  },
+  {
+   "id": "ar2_6.0",
+   "label": "Ar₂ at 6.0 Å",
+   "file": "Ar2_6.0.xyz",
+   "charge": 0,
+   "mult": 1
+  }
+ ]
+}

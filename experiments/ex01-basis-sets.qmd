@@ -1,0 +1,99 @@
+---
+title: "Experiment 1: Basis Set Incompleteness Error"
+subtitle: "How large does a basis set need to be?"
+description: "The HCl dimer with four methods and six basis sets from two families."
+---
+
+<div data-lab-exp="ex01" hidden></div>
+
+::: {.callout-tip appearance="simple" icon=false}
+**At a glance.** 2 molecules × 4 methods × 6 basis sets = **48 jobs**, all short. **You will learn** what ζ means, how the error of a method changes as the basis grows, how two basis-set families compare, and how the cost grows with the number of basis functions.
+:::
+
+## Warm-up
+
+::: {data-lab="quiz"}
+*Loading the concept check…*
+:::
+
+## Background
+
+![The reaction studied in this experiment: dissociation of the HCl dimer.](../images/ex01-reaction.jpeg){.reaction-fig fig-alt="(HCl)2 dissociates into two HCl molecules" width="420"}
+
+There are many different "families" of basis sets [@jensen2013; @nagy2017], developed over the past sixty years by different computational chemists. Head-Gordon and co-workers [@witte2016] found that the most cost-effective basis sets for DFT belong to the Ahlrichs family [@weigend2005]. In this experiment you will analyze how they perform for the dissociation of the HCl dimer, taken from the NCCE30 subset [@peverati2014; @marshall2011; @vydrov2012; @lange2011; @mcmahon2011] of the Minnesota 2015B database [@yu2016a]. The reference energy for this dissociation is **2.01 kcal/mol**.
+
+You will calculate the dissociation energy with three functionals, B3LYP [@vosko1980; @becke1988; @lee1988; @becke1993; @stephens1994], PBE [@perdew1996] and ωB97M-V [@vydrov2010; @mardirossian2016a], and with the Hartree–Fock (HF) method [@hartree1928; @hartree1928a; @fock1930; @slater1930]. You will use two families of basis sets:
+
+- the **Ahlrichs** def2-SVP, def2-TZVP and def2-QZVP basis sets [@weigend2005];
+- the **Dunning** correlation-consistent basis sets [@dunning1989; @woon1993; @woon1994; @wilson1999; @koput2002; @balabanov2005; @prascher2011], written cc-pV*n*Z, where "cc" means *correlation consistent* and *n* is D for double-ζ, T for triple-ζ or Q for quadruple-ζ.
+
+For each method/basis combination, compute the reaction energy and its error with respect to the reference.
+
+$$
+\Delta E = 2\,E(\mathrm{HCl}) - E\big((\mathrm{HCl})_2\big)
+$$
+
+$$
+\varepsilon = \Delta E_\text{comp} - \Delta E_\text{ref}
+$$
+
+## The molecules
+
+::: {data-lab="molecules"}
+*Loading the molecules…*
+:::
+
+## Predict first
+
+::: {data-lab="predict"}
+*Loading…*
+:::
+
+## Run the calculations
+
+New to IQmol? Start with the [first-job guide](../guides/first-job.qmd). Pick any job below to see its Q-Chem input. Every job here is small and well within the free server's 10-minute limit.
+
+::: {data-lab="run"}
+*Loading the job list…*
+:::
+
+## Enter your results
+
+From each output file, record the **total energy**, the **number of SCF cycles**, the **wall time** and the **number of basis functions** ([where to find them](../guides/reading-output.qmd)). Then compute the reaction energy yourself and enter it in the last tab. The page checks your number against your own total energies.
+
+::: {data-lab="results"}
+*Loading the results table…*
+:::
+
+## Explore your data
+
+::: {data-lab="explore"}
+*Loading…*
+:::
+
+## Questions
+
+::: {data-lab="questions"}
+*Loading the questions…*
+:::
+
+::: {.callout-tip}
+## Tip
+When performing calculations, errors arise from different sources. Each basis set carries an error because it is a *truncated* expansion. This is the **basis set incompleteness error** (BSIE; computational chemists love acronyms). To minimize its impact, run calculations with the largest basis set you can afford. Put differently, you want the error from the basis set to be small, so that the error from the exchange–correlation functional is always the dominant one.
+:::
+
+## Go further (optional)
+
+::: {.callout-note appearance="simple" icon=false}
+**Extrapolate to the complete-basis-set limit.** In this Colab notebook you run the same reaction with PySCF in your browser, then fit the DZ/TZ/QZ series to estimate what an *infinite* basis would give. You can also paste in your own Q-Chem numbers. [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)]({{< meta colab-base >}}/ex01_cbs_extrapolation.ipynb)
+:::
+
+## Submit
+
+::: {data-lab="submit"}
+*Loading…*
+:::
+
+```{=html}
+<script type="module" src="../components/lab.js"></script>
+```

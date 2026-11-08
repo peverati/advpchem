@@ -1,0 +1,81 @@
+---
+title: "Your first Q-Chem job"
+subtitle: "Guide 2 · from an .xyz file to a total energy in five minutes"
+---
+
+We'll compute the energy of one HCl molecule with Hartree–Fock and the def2-SVP basis set. Every job in this lab follows the same pattern.
+
+## Step 1 · Get the geometry
+
+Download `37_HCl_NCCE30.xyz` from the molecule gallery of [Experiment 1](../experiments/ex01-basis-sets.qmd). Open it in a text editor and you'll see the format:
+
+```text
+2                      ← number of atoms
+0 1                    ← charge and spin multiplicity
+Cl    1.86  -0.06  0.00   ← element and x, y, z in Ångström
+H     1.75   1.21  0.00
+```
+
+::: {.callout-note}
+Standard `.xyz` files use the second line as a free comment. In this lab we always put the **charge** and the **spin multiplicity** (2S+1) there, so you never have to guess them: 1 = singlet (all electrons paired), 2 = doublet (one unpaired electron, e.g. a radical or an H atom), 3 = triplet (e.g. O₂ or the O atom), and so on.
+:::
+
+## Step 2 · Open it in IQmol
+
+**File → Open** and choose the `.xyz` file. The molecule appears in the 3D viewer; drag to rotate it, scroll to zoom.
+
+## Step 3 · Set up the calculation
+
+Open **Calculation → Q-Chem Setup**. You have two equivalent options.
+
+**Option A: fill in the setup window.** Set:
+
+| Field | Value for this test |
+|---|---|
+| Calculation (job type) | Energy (single point) |
+| Method | HF |
+| Basis | def2-SVP |
+| Charge / Multiplicity | 0 / 1 |
+
+**Option B: paste a ready-made input.** Every experiment page has a **Run the calculations** section with the complete Q-Chem input for each job. Click **Copy input** and paste it into IQmol's input editor (the text preview of the input in the setup window), replacing what is there. For this test it is:
+
+```text
+$molecule
+0 1
+Cl     1.86082400    -0.06541100    -0.00006800
+H      1.75394100     1.21098100     0.00034100
+$end
+
+$rem
+   JOBTYPE              SP
+   METHOD               HF
+   BASIS                def2-SVP
+   SCF_CONVERGENCE      8
+$end
+```
+
+The `$molecule` block holds charge, multiplicity and coordinates. The `$rem` block holds the instructions: `JOBTYPE SP` is a single-point energy, `METHOD` the functional (or HF), `BASIS` the basis set, and `SCF_CONVERGENCE 8` asks for tight convergence (energy changes below 10⁻⁸).
+
+::: {.callout-tip}
+## Name your jobs systematically
+Give every job a name that says what it is, e.g. `ex01_hf_def2-svp_hcl`. You'll run hundreds of jobs this semester; good names save hours. The input generator on each experiment page already uses this convention.
+:::
+
+## Step 4 · Submit
+
+Choose the free Q-Chem server in the **Server** menu, give the job a name, and click **Submit**. IQmol opens the **Job Monitor**, where you can follow the job: *queued → running → finished*.
+
+## Step 5 · Get the result
+
+When the job finishes, IQmol copies the results back. Open the **output file** (the job's `.out` file; in the Job Monitor you can open or save the job's output). Everything you need is in that text file; [Guide 3](reading-output.qmd) shows exactly where. For this test job, look for the line
+
+```text
+ Total energy in the final basis set =     -4xx.xxxxxxxxxx
+```
+
+A number close to −460 hartree means everything works. 🎉
+
+::: {.callout-important}
+## Keep your output files
+Save every output file in an organized folder (one folder per experiment). If a number looks strange later, the output is the only way to find out why.
+:::

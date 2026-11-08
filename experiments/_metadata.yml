@@ -1,0 +1,20 @@
+# Every experiment page also renders a printable handout (Word and PDF),
+# linked under "Other Formats" on the web page.
+format:
+  html: default
+  docx:
+    toc: false
+  typst:
+    papersize: us-letter
+    margin:
+      x: 2cm
+      y: 2cm
+    toc: false
+
+format-links:
+  - docx
+  - format: typst
+    text: PDF handout
+
+filters:
+  - ../filters/print-handout.lua

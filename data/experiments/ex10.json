@@ -1,0 +1,45 @@
+{
+ "id": "ex10",
+ "number": 10,
+ "title": "Final Review",
+ "geometry_dir": "ex10",
+ "rem_common": {
+  "JOBTYPE": "SP",
+  "SCF_CONVERGENCE": "8"
+ },
+ "species": [
+  {
+   "id": "complex",
+   "label": "Pd(PH₃)₂(C₆H₈)",
+   "file": "Pd_PH3_2-C6H8_PdBE2.xyz",
+   "charge": 0,
+   "mult": 1
+  },
+  {
+   "id": "pdl2",
+   "label": "Pd(PH₃)₂",
+   "file": "Pd_PH3_2_PdBE2.xyz",
+   "charge": 0,
+   "mult": 1
+  },
+  {
+   "id": "c6h8",
+   "label": "hexatriene C₆H₈",
+   "file": "C6H8_PdBE2.xyz",
+   "charge": 0,
+   "mult": 1
+  }
+ ],
+ "reactions": [
+  {
+   "id": "10",
+   "label": "Pd(PH₃)₂(C₆H₈) → Pd(PH₃)₂ + C₆H₈",
+   "nu": {
+    "complex": -1,
+    "pdl2": 1,
+    "c6h8": 1
+   },
+   "ref": 16.2
+  }
+ ]
+}

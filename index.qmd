@@ -1,0 +1,54 @@
+---
+title: "Computational Chemistry Lab"
+subtitle: "Ten experiments on density functional theory, from basis sets to transition metals"
+toc: false
+page-layout: full
+---
+
+Welcome to the computational lab of **Advanced Physical Chemistry**. Over ten experiments you will use density functional theory (DFT) the way researchers do: choose a method, run real quantum-chemistry jobs on a shared server, compare your numbers with high-level reference data, and decide which results you can trust. Every experiment comes from real benchmark databases, and every one hides a lesson about where DFT works well and where it doesn't.
+
+## How every experiment works
+
+::: {.steps}
+1. **Warm up.** A short concept check (not graded) brings back what you need.
+2. **Meet the molecules.** Rotate them in 3D, check charge and spin, and download the geometries.
+3. **Predict first.** Commit to what you *think* will happen before you compute anything.
+4. **Run the jobs** in [Q-Chem through IQmol](guides/iqmol-setup.qmd). Each page gives you a checklist and a ready-made input for every job.
+5. **Enter your results.** The page checks your arithmetic, without giving away the answer, and draws the plots.
+6. **Explain.** Answer the questions using your own tables and plots, and see how your predictions held up.
+7. **Submit** your file through the Microsoft Form (sign in with your Florida Tech email).
+:::
+
+Your work is saved automatically **in this browser** as you go. To switch computers, download your submission file and load it on the other machine.
+
+## Before your first experiment
+
+- [Install IQmol and connect to the Q-Chem server](guides/iqmol-setup.qmd)
+- [Run your first job, step by step](guides/first-job.qmd)
+- [Find the numbers you need in a Q-Chem output](guides/reading-output.qmd)
+- [Working on a shared machine: limits and etiquette](guides/shared-machines.qmd)
+- [Units, reaction energies and error statistics](guides/units-and-errors.qmd)
+
+## The experiments
+
+```{=html}
+<div class="course-map">
+  <a class="exp-tile" href="experiments/ex01-basis-sets.html"><div class="n">Experiment 1</div><div class="t">Basis set incompleteness error</div><div class="d">How big must a basis be? The HCl dimer with 6 basis sets.</div><span class="tag">48 jobs · quick</span></a>
+  <a class="exp-tile" href="experiments/ex02-jacobs-ladder.html"><div class="n">Experiment 2</div><div class="t">Jacob's ladder</div><div class="d">Classify 20 functionals by rung. No calculations.</div><span class="tag">self-check</span></a>
+  <a class="exp-tile" href="experiments/ex03-organic-a.html"><div class="n">Experiment 3</div><div class="t">Organic chemistry, part A</div><div class="d">Rotational barriers, conformers and isomers with 16 methods.</div><span class="tag">128 jobs</span></a>
+  <a class="exp-tile" href="experiments/ex04-organic-b.html"><div class="n">Experiment 4</div><div class="t">Organic chemistry, part B</div><div class="d">Diels–Alder, alkane isomers and dispersion-bound dimers.</div><span class="tag">dispersion · D4</span></a>
+  <a class="exp-tile" href="experiments/ex05-difficult-cases.html"><div class="n">Experiment 5</div><div class="t">Difficult cases for DFT</div><div class="d">Ozone, CaO and atomization energies: when errors stop cancelling.</div><span class="tag">hard</span></a>
+  <a class="exp-tile" href="experiments/ex06-b3lyp-631gs.html"><div class="n">Experiment 6</div><div class="t">Why is B3LYP/6-31G* so successful?</div><div class="d">A famous combination and its lucky error cancellation.</div><span class="tag">basis sets</span></a>
+  <a class="exp-tile" href="experiments/ex07-grids.html"><div class="n">Experiment 7</div><div class="t">Integration grids</div><div class="d">The argon dimer and unphysical wiggles.</div><span class="tag">curves</span></a>
+  <a class="exp-tile" href="experiments/ex08-stability.html"><div class="n">Experiment 8</div><div class="t">Stability analysis and transition metals</div><div class="d">Excitation energies of Fe and Ru⁺.</div><span class="tag">open shell</span></a>
+  <a class="exp-tile" href="experiments/ex09-experiment-vs-theory.html"><div class="n">Experiment 9</div><div class="t">Comparison with experiment</div><div class="d">Bond dissociation and atomization energies vs NIST data.</div><span class="tag">thermochemistry</span></a>
+  <a class="exp-tile" href="experiments/ex10-final-review.html"><div class="n">Experiment 10</div><div class="t">Final review</div><div class="d">You are the consultant: design the calculation for a Pd complex.</div><span class="tag">report</span></a>
+</div>
+```
+
+The class comparison for each experiment appears on [Class results](class-results.qmd) after the deadline.
+
+::: {.callout-note appearance="simple"}
+## Where these experiments come from
+The experiments are adapted from a tutorial review on the often-overlooked details of DFT calculations [@morgante2020]. The calculations use Q-Chem [@epifanovsky2021] through the free IQmol interface [@iqmol].
+:::
