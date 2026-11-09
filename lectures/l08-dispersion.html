@@ -893,7 +893,7 @@ E_\text{disp} = -\sum_{A&lt;B}\sum_{n=6,8} s_n\,\frac{C_n^{AB}}{R_{AB}^n}\,f_{\t
 f_\text{damp,n}^\text{BJ}(R) = \frac{R^n}{R^n + (a_1 R_0^{AB} + a_2)^n}, \qquad R_0^{AB} = \sqrt{C_8^{AB}/C_6^{AB}} .
 \tag{9}\]</span></span></p>
 <p>The parameters a₁, a₂ and s₈ are fitted for each functional, because each functional has its own amount of spurious short-range binding or repulsion. That is why the same -D4 correction gives different numbers on PBE and on B3LYP.</p>
-<p><strong>A short history.</strong> Grimme’s first corrections (D, 2004, and D2, 2006 <span class="citation" data-cites="grimme2006b">(<a href="#ref-grimme2006b" role="doc-biblioref">S. J. Grimme 2006</a>)</span>) used fixed C₆ for each element. But the C₆ of carbon depends on its environment: an sp³ carbon in an alkane is less polarizable than an sp² carbon in benzene. D3 (2010) made C₆ depend on the <strong>coordination number</strong> of each atom, computed from the geometry <span class="citation" data-cites="grimme2010">(<a href="#ref-grimme2010" role="doc-biblioref">Grimme et al. 2010</a>)</span>. D3(BJ) added rational damping <span class="citation" data-cites="grimme2011">(<a href="#ref-grimme2011" role="doc-biblioref">Grimme et al. 2011</a>)</span>.</p>
+<p><strong>A short history.</strong> Grimme’s first corrections (D, 2004, and D2, 2006 <span class="citation" data-cites="grimme2006b">(<a href="#ref-grimme2006b" role="doc-biblioref">Grimme 2006a</a>)</span>) used fixed C₆ for each element. But the C₆ of carbon depends on its environment: an sp³ carbon in an alkane is less polarizable than an sp² carbon in benzene. D3 (2010) made C₆ depend on the <strong>coordination number</strong> of each atom, computed from the geometry <span class="citation" data-cites="grimme2010">(<a href="#ref-grimme2010" role="doc-biblioref">Grimme et al. 2010</a>)</span>. D3(BJ) added rational damping <span class="citation" data-cites="grimme2011">(<a href="#ref-grimme2011" role="doc-biblioref">Grimme et al. 2011</a>)</span>.</p>
 <p><strong>-D4, the version used in this course</strong> <span class="citation" data-cites="caldeweyher2017 caldeweyher2019">(<a href="#ref-caldeweyher2017" role="doc-biblioref">Caldeweyher et al. 2017</a>, <a href="#ref-caldeweyher2019" role="doc-biblioref">2019</a>)</span>, goes one step further. Its main ingredients are:</p>
 <ul>
 <li><strong>reference polarizabilities.</strong> For each element, D4 stores frequency-dependent polarizabilities α(iω) of reference systems with different coordination numbers.</li>
@@ -991,7 +991,7 @@ E_\text{c}^\text{nl} = \frac{1}{2}\iint \rho(\mathbf r)\,\Phi(\mathbf r, \mathbf
 <section id="intramolecular-dispersion-branched-alkanes" class="level2" data-number="2.5">
 <h2 data-number="2.5" class="anchored" data-anchor-id="intramolecular-dispersion-branched-alkanes"><span class="header-section-number">2.5</span> Intramolecular dispersion: branched alkanes</h2>
 <p>Dispersion does not act only <em>between</em> molecules. Any two atoms that are a few ångström apart in the same molecule also attract each other. In a long, extended chain most atom pairs are far apart. In a compact, <strong>branched</strong> molecule, more atoms are at medium distance (1,3- and 1,4-contacts between C and H atoms), so the total intramolecular dispersion is larger.</p>
-<p>This is part of the reason why branched alkanes are more stable than their linear isomers: for example, neohexane (2,2-dimethylbutane) lies below <em>n</em>-hexane. Schleyer and co-workers called the stabilizing 1,3-interactions in alkanes <strong>protobranching</strong>. The effect is small, a few kcal/mol, but it is a classic difficulty for DFT. In 2006 Grimme <span class="citation" data-cites="grimme2006alkanes">(<a href="#ref-grimme2006alkanes" role="doc-biblioref">S. Grimme 2006</a>)</span> and Wodrich, Corminboeuf and Schleyer <span class="citation" data-cites="wodrich2006">(<a href="#ref-wodrich2006" role="doc-biblioref">Wodrich et al. 2006</a>)</span> showed that popular functionals such as B3LYP make systematic errors for the relative stability of alkane isomers, and that the errors grow with the size of the molecule. Missing medium-range correlation (dispersion) is one of the causes. Karton, Gruzman and Martin computed benchmark values for all the alkane isomers up to octane <span class="citation" data-cites="karton2009">(<a href="#ref-karton2009" role="doc-biblioref">Karton et al. 2009</a>)</span>; reaction 4b comes from that work, via the AlkIsomer11 subset of MGCDB84.</p>
+<p>This is part of the reason why branched alkanes are more stable than their linear isomers: for example, neohexane (2,2-dimethylbutane) lies below <em>n</em>-hexane. Schleyer and co-workers called the stabilizing 1,3-interactions in alkanes <strong>protobranching</strong>. The effect is small, a few kcal/mol, but it is a classic difficulty for DFT. In 2006 Grimme <span class="citation" data-cites="grimme2006alkanes">(<a href="#ref-grimme2006alkanes" role="doc-biblioref">Grimme 2006b</a>)</span> and Wodrich, Corminboeuf and Schleyer <span class="citation" data-cites="wodrich2006">(<a href="#ref-wodrich2006" role="doc-biblioref">Wodrich et al. 2006</a>)</span> showed that popular functionals such as B3LYP make systematic errors for the relative stability of alkane isomers, and that the errors grow with the size of the molecule. Missing medium-range correlation (dispersion) is one of the causes. Karton, Gruzman and Martin computed benchmark values for all the alkane isomers up to octane <span class="citation" data-cites="karton2009">(<a href="#ref-karton2009" role="doc-biblioref">Karton et al. 2009</a>)</span>; reaction 4b comes from that work, via the AlkIsomer11 subset of MGCDB84.</p>
 <p>Notice how different this is from Experiment 3. There, the molecule changed shape but kept the same set of close contacts, so dispersion nearly cancelled. Here, the <em>number</em> of medium-range contacts changes.</p>
 </section>
 <section id="a-reminder-about-bsse" class="level2" data-number="2.6">
@@ -1100,7 +1100,7 @@ E_\text{c}^\text{nl} = \frac{1}{2}\iint \rho(\mathbf r)\,\Phi(\mathbf r, \mathbf
 <li>E. Caldeweyher et al., the two -D4 papers <span class="citation" data-cites="caldeweyher2017 caldeweyher2019">(<a href="#ref-caldeweyher2017" role="doc-biblioref">Caldeweyher et al. 2017</a>, <a href="#ref-caldeweyher2019" role="doc-biblioref">2019</a>)</span>.</li>
 <li>O. A. Vydrov and T. Van Voorhis, the VV10 paper <span class="citation" data-cites="vydrov2010">(<a href="#ref-vydrov2010" role="doc-biblioref">Vydrov and Van Voorhis 2010</a>)</span>.</li>
 <li>J. Řezáč and P. Hobza, “Benchmark calculations of interaction energies in noncovalent complexes and their applications” <span class="citation" data-cites="rezac2016">(<a href="#ref-rezac2016" role="doc-biblioref">Řezáč and Hobza 2016</a>)</span>.</li>
-<li>S. Grimme, “Seemingly simple stereoelectronic effects in alkane isomers and the implications for Kohn–Sham density functional theory” <span class="citation" data-cites="grimme2006alkanes">(<a href="#ref-grimme2006alkanes" role="doc-biblioref">S. Grimme 2006</a>)</span>.</li>
+<li>S. Grimme, “Seemingly simple stereoelectronic effects in alkane isomers and the implications for Kohn–Sham density functional theory” <span class="citation" data-cites="grimme2006alkanes">(<a href="#ref-grimme2006alkanes" role="doc-biblioref">Grimme 2006b</a>)</span>.</li>
 </ul>
 
 
@@ -1113,7 +1113,7 @@ E_\text{c}^\text{nl} = \frac{1}{2}\iint \rho(\mathbf r)\,\Phi(\mathbf r, \mathbf
 Caldeweyher, E., C. Bannwarth, and S. Grimme. 2017. <em>J. Chem. Phys.</em> 147: 034112.
 </div>
 <div id="ref-caldeweyher2019" class="csl-entry" role="listitem">
-Caldeweyher, E., S. Ehlert, A. Hansen, et al. 2019. <em>Chem. Phys.</em> 150: 154122.
+Caldeweyher, E., S. Ehlert, A. Hansen, et al. 2019. <em>J. Chem. Phys.</em> 150: 154122.
 </div>
 <div id="ref-casimir1948" class="csl-entry" role="listitem">
 Casimir, H. B. G., and D. Polder. 1948. <span>“The Influence of Retardation on the <span>London</span>–van Der <span>Waals</span> Forces.”</span> <em>Phys. Rev.</em> 73: 360–72. <a href="https://doi.org/10.1103/PhysRev.73.360">https://doi.org/10.1103/PhysRev.73.360</a>.
@@ -1122,7 +1122,7 @@ Casimir, H. B. G., and D. Polder. 1948. <span>“The Influence of Retardation on
 Dion, M., H. Rydberg, E. Schröder, D. C. Langreth, and B. I. Lundqvist. 2004. <em>Phys. Rev. Lett.</em> 92: 246401.
 </div>
 <div id="ref-goerigk2015" class="csl-entry" role="listitem">
-Goerigk, L. J. 2015. <em>Phys. Chem. Lett.</em> 6: 3891–96.
+Goerigk, L. 2015. <em>J. Phys. Chem. Lett.</em> 6: 3891–96.
 </div>
 <div id="ref-goerigk2011" class="csl-entry" role="listitem">
 Goerigk, L., and S. Grimme. 2011. <em>Phys. Chem. Chem. Phys.</em> 13: 6670–88.
@@ -1130,23 +1130,23 @@ Goerigk, L., and S. Grimme. 2011. <em>Phys. Chem. Chem. Phys.</em> 13: 6670–88
 <div id="ref-goerigk2017" class="csl-entry" role="listitem">
 Goerigk, L., A. Hansen, C. Bauer, S. Ehrlich, A. Najibi, and S. Grimme. 2017. <em>Phys. Chem. Chem. Phys.</em> 19: 32184–215.
 </div>
-<div id="ref-grimme2006alkanes" class="csl-entry" role="listitem">
-Grimme, S. 2006. <span>“Seemingly Simple Stereoelectronic Effects in Alkane Isomers and the Implications for <span>Kohn</span>–<span>Sham</span> Density Functional Theory.”</span> <em>Angew. Chem. Int. Ed.</em> 45: 4460–64. <a href="https://doi.org/10.1002/anie.200600448">https://doi.org/10.1002/anie.200600448</a>.
-</div>
 <div id="ref-grimme2006b" class="csl-entry" role="listitem">
-Grimme, S. J. 2006. <em>Comput. Chem.</em> 27: 1787–99.
+Grimme, S. 2006a. <em>J. Comput. Chem.</em> 27: 1787–99.
+</div>
+<div id="ref-grimme2006alkanes" class="csl-entry" role="listitem">
+Grimme, S. 2006b. <span>“Seemingly Simple Stereoelectronic Effects in Alkane Isomers and the Implications for <span>Kohn</span>–<span>Sham</span> Density Functional Theory.”</span> <em>Angew. Chem. Int. Ed.</em> 45: 4460–64. <a href="https://doi.org/10.1002/anie.200600448">https://doi.org/10.1002/anie.200600448</a>.
 </div>
 <div id="ref-grimme2010" class="csl-entry" role="listitem">
-Grimme, S., J. Antony, S. Ehrlich, and H. J. Krieg. 2010. <em>Chem. Phys.</em> 132: 154104.
+Grimme, S., J. Antony, S. Ehrlich, and H. Krieg. 2010. <em>J. Chem. Phys.</em> 132: 154104.
 </div>
 <div id="ref-grimme2011" class="csl-entry" role="listitem">
-Grimme, S., S. Ehrlich, and L. J. Goerigk. 2011. <em>Comput. Chem.</em> 32: 1456–65.
+Grimme, S., S. Ehrlich, and L. Goerigk. 2011. <em>J. Comput. Chem.</em> 32: 1456–65.
 </div>
 <div id="ref-grimme2016" class="csl-entry" role="listitem">
 Grimme, S., A. Hansen, J. G. Brandenburg, and C. Bannwarth. 2016. <span>“Dispersion-Corrected Mean-Field Electronic Structure Methods.”</span> <em>Chem. Rev.</em> 116: 5105–54. <a href="https://doi.org/10.1021/acs.chemrev.5b00533">https://doi.org/10.1021/acs.chemrev.5b00533</a>.
 </div>
 <div id="ref-karton2009" class="csl-entry" role="listitem">
-Karton, A., D. Gruzman, and J. M. L. J. Martin. 2009. <em>Phys. Chem. A</em> 113: 8434–47.
+Karton, A., D. Gruzman, and J. M. L. Martin. 2009. <em>J. Phys. Chem. A</em> 113: 8434–47.
 </div>
 <div id="ref-lee2010" class="csl-entry" role="listitem">
 Lee, K., É. D. Murray, L. Kong, B. I. Lundqvist, and D. C. Langreth. 2010. <em>Phys. Rev. B</em> 82: 081101.
@@ -1161,19 +1161,19 @@ Mardirossian, N., and M. Head-Gordon. 2017. <em>Mol. Phys.</em> 115: 2315–72.
 Mardirossian, N., L. Ruiz Pestana, J. C. Womack, C.-K. Skylaris, T. Head-Gordon, and M. Head-Gordon. 2017. <em>J. Phys. Chem. Lett.</em> 8: 35–40.
 </div>
 <div id="ref-peverati2011" class="csl-entry" role="listitem">
-Peverati, R., and D. G. J. Truhlar. 2011. <em>Phys. Chem. Lett.</em> 2: 2810–17.
+Peverati, R., and D. G. Truhlar. 2011. <em>J. Phys. Chem. Lett.</em> 2: 2810–17.
 </div>
 <div id="ref-rezac2016" class="csl-entry" role="listitem">
 Řezáč, J., and P. Hobza. 2016. <span>“Benchmark Calculations of Interaction Energies in Noncovalent Complexes and Their Applications.”</span> <em>Chem. Rev.</em> 116: 5038–71. <a href="https://doi.org/10.1021/acs.chemrev.5b00526">https://doi.org/10.1021/acs.chemrev.5b00526</a>.
 </div>
 <div id="ref-rezac2011" class="csl-entry" role="listitem">
-Řezáč, J., K. E. Riley, and P. J. Hobza. 2011. <em>Chem. Theory Comput.</em> 7: 2427–38.
+Řezáč, J., K. E. Riley, and P. Hobza. 2011. <em>J. Chem. Theory Comput.</em> 7: 2427–38.
 </div>
 <div id="ref-sabatini2013" class="csl-entry" role="listitem">
 Sabatini, R., T. Gorni, and S. de Gironcoli. 2013. <span>“Nonlocal van Der <span>Waals</span> Density Functional Made Simple and Efficient.”</span> <em>Phys. Rev. B</em> 87: 041108. <a href="https://doi.org/10.1103/PhysRevB.87.041108">https://doi.org/10.1103/PhysRevB.87.041108</a>.
 </div>
 <div id="ref-vydrov2010" class="csl-entry" role="listitem">
-Vydrov, O. A., and T. J. Van Voorhis. 2010. <em>Chem. Phys.</em> 133: 244103.
+Vydrov, O. A., and T. Van Voorhis. 2010. <em>J. Chem. Phys.</em> 133: 244103.
 </div>
 <div id="ref-wodrich2006" class="csl-entry" role="listitem">
 Wodrich, M. D., C. Corminboeuf, and P. v. R. Schleyer. 2006. <span>“Systematic Errors in Computed Alkane Energies Using <span>B3LYP</span> and Other Popular <span>DFT</span> Functionals.”</span> <em>Org. Lett.</em> 8: 3631–34. <a href="https://doi.org/10.1021/ol061016i">https://doi.org/10.1021/ol061016i</a>.

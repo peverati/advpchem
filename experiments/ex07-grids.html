@@ -634,7 +634,7 @@ window.Quarto = {
 </section>
 <section id="background" class="level2">
 <h2 class="anchored" data-anchor-id="background">Background</h2>
-<p>This experiment looks at a subtle issue that can affect the results of any exchange–correlation functional. Kohn–Sham (KS) DFT <span class="citation" data-cites="hohenberg1964 kohn1965">(<a href="#ref-hohenberg1964" role="doc-biblioref">Hohenberg and Kohn 1964</a>; <a href="#ref-kohn1965" role="doc-biblioref">Kohn and Sham 1965</a>)</span> needs a real-space grid to evaluate the exchange–correlation integrals. Most programs build it with an algorithm Becke introduced in 1988 <span class="citation" data-cites="becke1988a">(<a href="#ref-becke1988a" role="doc-biblioref">A. D. J. Becke 1988</a>)</span>: the integrals become weighted sums over a finite number of points arranged on spheres around each atom. A grid’s “density” is described by its number of <strong>radial</strong> shells and <strong>angular</strong> points per shell; (75,302), for example, means 75 radial shells with 302 points each. The choice of grid can change the results significantly, as Wheeler and Houk showed for the M06 family <span class="citation" data-cites="wheeler2010 zhao2008">(<a href="#ref-wheeler2010" role="doc-biblioref">Wheeler and Houk 2010</a>; <a href="#ref-zhao2008" role="doc-biblioref">Zhao and Truhlar 2008</a>)</span> and Mardirossian and Head-Gordon for two generations of Minnesota functionals <span class="citation" data-cites="mardirossian2016 mardirossian2013">(<a href="#ref-mardirossian2016" role="doc-biblioref">Mardirossian and Head-Gordon 2016b</a>, <a href="#ref-mardirossian2013" role="doc-biblioref">2013</a>)</span>. They also point out that meta-GGA functionals usually need finer grids than GGAs.</p>
+<p>This experiment looks at a subtle issue that can affect the results of any exchange–correlation functional. Kohn–Sham (KS) DFT <span class="citation" data-cites="hohenberg1964 kohn1965">(<a href="#ref-hohenberg1964" role="doc-biblioref">Hohenberg and Kohn 1964</a>; <a href="#ref-kohn1965" role="doc-biblioref">Kohn and Sham 1965</a>)</span> needs a real-space grid to evaluate the exchange–correlation integrals. Most programs build it with an algorithm Becke introduced in 1988 <span class="citation" data-cites="becke1988a">(<a href="#ref-becke1988a" role="doc-biblioref">Becke 1988a</a>)</span>: the integrals become weighted sums over a finite number of points arranged on spheres around each atom. A grid’s “density” is described by its number of <strong>radial</strong> shells and <strong>angular</strong> points per shell; (75,302), for example, means 75 radial shells with 302 points each. The choice of grid can change the results significantly, as Wheeler and Houk showed for the M06 family <span class="citation" data-cites="wheeler2010 zhao2008">(<a href="#ref-wheeler2010" role="doc-biblioref">Wheeler and Houk 2010</a>; <a href="#ref-zhao2008" role="doc-biblioref">Zhao and Truhlar 2008</a>)</span> and Mardirossian and Head-Gordon for two generations of Minnesota functionals <span class="citation" data-cites="mardirossian2016 mardirossian2013">(<a href="#ref-mardirossian2016" role="doc-biblioref">Mardirossian and Head-Gordon 2016b</a>, <a href="#ref-mardirossian2013" role="doc-biblioref">2013</a>)</span>. They also point out that meta-GGA functionals usually need finer grids than GGAs.</p>
 <p>Choosing the grid is often overlooked, and many practitioners are unaware of the issue. Relying on a program’s defaults is not a good idea, even though some programs pick the grid according to the functional <span class="citation" data-cites="qchemmanual">(<a href="#ref-qchemmanual" role="doc-biblioref">Q-Chem, Inc., n.d.</a>)</span>. In this experiment you will study the dissociation curve of the argon dimer. The geometries come from the RG10 subset <span class="citation" data-cites="tang2003">(<a href="#ref-tang2003" role="doc-biblioref">Tang and Toennies 2003</a>)</span> of the MGCDB84 database <span class="citation" data-cites="mardirossian2017">(<a href="#ref-mardirossian2017" role="doc-biblioref">Mardirossian and Head-Gordon 2017</a>)</span>, with the Ar–Ar distance between 3.0 and 6.0 Å. The interaction energy at each distance is</p>
 <p><span class="math display">\[
 \Delta E(r) = E\big(\mathrm{Ar}_2(r)\big) - 2\,E(\mathrm{Ar}).
@@ -750,7 +750,7 @@ Table&nbsp;1: Reference interaction energies (kcal/mol) of the argon dimer as a 
 </div>
 </figure>
 </div>
-<p>Use the functionals B3LYP <span class="citation" data-cites="vosko1980 becke1988 lee1988 becke1993 stephens1994">(<a href="#ref-vosko1980" role="doc-biblioref">Vosko et al. 1980</a>; <a href="#ref-becke1988" role="doc-biblioref">A. D. Becke 1988</a>; <a href="#ref-lee1988" role="doc-biblioref">Lee et al. 1988</a>; <a href="#ref-becke1993" role="doc-biblioref">Becke 1993</a>; <a href="#ref-stephens1994" role="doc-biblioref">Stephens et al. 1994</a>)</span>, M06-L <span class="citation" data-cites="zhao2006a">(<a href="#ref-zhao2006a" role="doc-biblioref">Zhao and Truhlar 2006</a>)</span>, M11 <span class="citation" data-cites="peverati2011">(<a href="#ref-peverati2011" role="doc-biblioref">Peverati and Truhlar 2011</a>)</span>, M11-L <span class="citation" data-cites="peverati2012a">(<a href="#ref-peverati2012a" role="doc-biblioref">Peverati and Truhlar 2012</a>)</span> and ωB97M-V <span class="citation" data-cites="vydrov2010 mardirossian2016a">(<a href="#ref-vydrov2010" role="doc-biblioref">Vydrov and Van Voorhis 2010</a>; <a href="#ref-mardirossian2016a" role="doc-biblioref">Mardirossian and Head-Gordon 2016a</a>)</span>, and feel free to add others. Use the <strong>def2-TZVP</strong> basis set <span class="citation" data-cites="weigend2005">(<a href="#ref-weigend2005" role="doc-biblioref">Weigend and Ahlrichs 2005</a>)</span> for all calculations, and try the grids <strong>SG-1</strong>, <strong>SG-2</strong> and <strong>SG-3</strong> (Q-Chem keyword <code>XC_GRID</code> = 1, 2 or 3).</p>
+<p>Use the functionals B3LYP <span class="citation" data-cites="vosko1980 becke1988 lee1988 becke1993 stephens1994">(<a href="#ref-vosko1980" role="doc-biblioref">Vosko et al. 1980</a>; <a href="#ref-becke1988" role="doc-biblioref">Becke 1988b</a>, <a href="#ref-becke1993" role="doc-biblioref">1993</a>; <a href="#ref-lee1988" role="doc-biblioref">Lee et al. 1988</a>; <a href="#ref-stephens1994" role="doc-biblioref">Stephens et al. 1994</a>)</span>, M06-L <span class="citation" data-cites="zhao2006a">(<a href="#ref-zhao2006a" role="doc-biblioref">Zhao and Truhlar 2006</a>)</span>, M11 <span class="citation" data-cites="peverati2011">(<a href="#ref-peverati2011" role="doc-biblioref">Peverati and Truhlar 2011</a>)</span>, M11-L <span class="citation" data-cites="peverati2012a">(<a href="#ref-peverati2012a" role="doc-biblioref">Peverati and Truhlar 2012</a>)</span> and ωB97M-V <span class="citation" data-cites="vydrov2010 mardirossian2016a">(<a href="#ref-vydrov2010" role="doc-biblioref">Vydrov and Van Voorhis 2010</a>; <a href="#ref-mardirossian2016a" role="doc-biblioref">Mardirossian and Head-Gordon 2016a</a>)</span>, and feel free to add others. Use the <strong>def2-TZVP</strong> basis set <span class="citation" data-cites="weigend2005">(<a href="#ref-weigend2005" role="doc-biblioref">Weigend and Ahlrichs 2005</a>)</span> for all calculations, and try the grids <strong>SG-1</strong>, <strong>SG-2</strong> and <strong>SG-3</strong> (Q-Chem keyword <code>XC_GRID</code> = 1, 2 or 3).</p>
 <p>Present your results as a dissociation curve like the one in <a href="#fig-vsxc" class="quarto-xref">Figure&nbsp;1</a>, which shows the VSXC functional <span class="citation" data-cites="voorhis1998 voorhis2008">(<a href="#ref-voorhis1998" role="doc-biblioref">Van Voorhis and Scuseria 1998</a>, <a href="#ref-voorhis2008" role="doc-biblioref">2008</a>)</span>. Before plotting, collect the data in a table like <a href="#tbl-vsxc" class="quarto-xref">Table&nbsp;2</a>.</p>
 <div id="fig-vsxc" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Dissociation curves of Ar2 with VSXC: coarse grids give oscillating, unphysical curves">
 <figure class="quarto-float quarto-float-fig figure">
@@ -1005,14 +1005,14 @@ Table&nbsp;2: Data for the SG-1 curve in <a href="#fig-vsxc" class="quarto-xref"
 </section>
 
 <a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
-<div id="ref-becke1988" class="csl-entry" role="listitem">
-Becke, A. D. 1988. <em>Phys. Rev. A</em> 38: 3098–100.
-</div>
 <div id="ref-becke1988a" class="csl-entry" role="listitem">
-Becke, A. D. J. 1988. <em>Chem. Phys.</em> 88: 2547–53.
+Becke, A. D. 1988a. <em>J. Chem. Phys.</em> 88: 2547–53.
+</div>
+<div id="ref-becke1988" class="csl-entry" role="listitem">
+Becke, A. D. 1988b. <em>Phys. Rev. A</em> 38: 3098–100.
 </div>
 <div id="ref-becke1993" class="csl-entry" role="listitem">
-Becke, A. D. J. 1993. <em>Chem. Phys.</em> 98: 5648–52.
+Becke, A. D. 1993. <em>J. Chem. Phys.</em> 98: 5648–52.
 </div>
 <div id="ref-hohenberg1964" class="csl-entry" role="listitem">
 Hohenberg, P., and W. Kohn. 1964. <em>Phys. Rev.</em> 136: B864–71.
@@ -1023,56 +1023,56 @@ Kohn, W., and L. Sham. 1965. <em>Phys. Rev.</em> 140: A1133–38.
 <div id="ref-lee1988" class="csl-entry" role="listitem">
 Lee, C., W. Yang, and R. G. Parr. 1988. <em>Phys. Rev. B</em> 37: 785–89.
 </div>
+<div id="ref-mardirossian2013" class="csl-entry" role="listitem">
+Mardirossian, N., and M. Head-Gordon. 2013. <em>J. Chem. Theory Comput.</em> 9: 4453–61.
+</div>
+<div id="ref-mardirossian2016a" class="csl-entry" role="listitem">
+Mardirossian, N., and M. Head-Gordon. 2016a. <em>J. Chem. Phys.</em> 144: 214110.
+</div>
+<div id="ref-mardirossian2016" class="csl-entry" role="listitem">
+Mardirossian, N., and M. Head-Gordon. 2016b. <em>J. Chem. Theory Comput.</em> 12: 4303–25.
+</div>
 <div id="ref-mardirossian2017" class="csl-entry" role="listitem">
 Mardirossian, N., and M. Head-Gordon. 2017. <em>Mol. Phys.</em> 115: 2315–72.
 </div>
-<div id="ref-mardirossian2013" class="csl-entry" role="listitem">
-Mardirossian, N., and M. J. Head-Gordon. 2013. <em>Chem. Theory Comput.</em> 9: 4453–61.
-</div>
-<div id="ref-mardirossian2016a" class="csl-entry" role="listitem">
-Mardirossian, N., and M. J. Head-Gordon. 2016a. <em>Chem. Phys.</em> 144: 214110.
-</div>
-<div id="ref-mardirossian2016" class="csl-entry" role="listitem">
-Mardirossian, N., and M. J. Head-Gordon. 2016b. <em>Chem. Theory Comput.</em> 12: 4303–25.
-</div>
 <div id="ref-peverati2011" class="csl-entry" role="listitem">
-Peverati, R., and D. G. J. Truhlar. 2011. <em>Phys. Chem. Lett.</em> 2: 2810–17.
+Peverati, R., and D. G. Truhlar. 2011. <em>J. Phys. Chem. Lett.</em> 2: 2810–17.
 </div>
 <div id="ref-peverati2012a" class="csl-entry" role="listitem">
-Peverati, R., and D. G. J. Truhlar. 2012. <em>Phys. Chem. Lett.</em> 3: 117–24.
+Peverati, R., and D. G. Truhlar. 2012. <em>J. Phys. Chem. Lett.</em> 3: 117–24.
 </div>
 <div id="ref-qchemmanual" class="csl-entry" role="listitem">
 Q-Chem, Inc. n.d. <em><span>Q-Chem</span> User’s Manual: Numerical Integration Grids (<span>XC_GRID</span>)</em>. <a href="https://manual.q-chem.com/latest/" class="uri">Https://manual.q-chem.com/latest/</a>.
 </div>
 <div id="ref-stephens1994" class="csl-entry" role="listitem">
-Stephens, P. J., F. J. Devlin, C. F. Chabalowski, and M. J. J. Frisch. 1994. <em>Phys. Chem.</em> 98: 11623–27.
+Stephens, P. J., F. J. Devlin, C. F. Chabalowski, and M. J. Frisch. 1994. <em>J. Phys. Chem.</em> 98: 11623–27.
 </div>
 <div id="ref-tang2003" class="csl-entry" role="listitem">
-Tang, K. T., and J. P. J. Toennies. 2003. <em>Chem. Phys.</em> 118: 4976–83.
+Tang, K. T., and J. P. Toennies. 2003. <em>J. Chem. Phys.</em> 118: 4976–83.
 </div>
 <div id="ref-voorhis1998" class="csl-entry" role="listitem">
-Van Voorhis, T., and G. E. J. Scuseria. 1998. <em>Chem. Phys.</em> 109: 400–410.
+Van Voorhis, T., and G. E. Scuseria. 1998. <em>J. Chem. Phys.</em> 109: 400–410.
 </div>
 <div id="ref-voorhis2008" class="csl-entry" role="listitem">
-Van Voorhis, T., and G. E. J. Scuseria. 2008. <em>Chem. Phys.</em> 129: 219901.
+Van Voorhis, T., and G. E. Scuseria. 2008. <em>J. Chem. Phys.</em> 129: 219901.
 </div>
 <div id="ref-vosko1980" class="csl-entry" role="listitem">
 Vosko, S. H., L. Wilk, and M. Nusair. 1980. <em>Can. J. Phys.</em> 58: 1200–1211.
 </div>
 <div id="ref-vydrov2010" class="csl-entry" role="listitem">
-Vydrov, O. A., and T. J. Van Voorhis. 2010. <em>Chem. Phys.</em> 133: 244103.
+Vydrov, O. A., and T. Van Voorhis. 2010. <em>J. Chem. Phys.</em> 133: 244103.
 </div>
 <div id="ref-weigend2005" class="csl-entry" role="listitem">
 Weigend, F., and R. Ahlrichs. 2005. <em>Phys. Chem. Chem. Phys.</em> 7: 3297–305.
 </div>
 <div id="ref-wheeler2010" class="csl-entry" role="listitem">
-Wheeler, S. E., and K. N. J. Houk. 2010. <em>Chem. Theory Comput.</em> 6: 395–404.
+Wheeler, S. E., and K. N. Houk. 2010. <em>J. Chem. Theory Comput.</em> 6: 395–404.
+</div>
+<div id="ref-zhao2006a" class="csl-entry" role="listitem">
+Zhao, Y., and D. G. Truhlar. 2006. <em>J. Chem. Phys.</em> 125: 194101.
 </div>
 <div id="ref-zhao2008" class="csl-entry" role="listitem">
 Zhao, Y., and D. G. Truhlar. 2008. <em>Theor. Chem. Acc.</em> 120: 215–41.
-</div>
-<div id="ref-zhao2006a" class="csl-entry" role="listitem">
-Zhao, Y., and D. G. J. Truhlar. 2006. <em>Chem. Phys.</em> 125: 194101.
 </div>
 </div></section></div></main> <!-- /main -->
 <!-- Peverati lab logo at the top right of the navbar (light and dark versions). -->

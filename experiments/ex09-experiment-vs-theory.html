@@ -602,13 +602,13 @@ div.csl-indent {
 </section>
 <section id="background" class="level2">
 <h2 class="anchored" data-anchor-id="background">Background</h2>
-<p>This experiment analyzes two bond dissociation reactions from the Minnesota 2015B database <span class="citation" data-cites="yu2016a">(<a href="#ref-yu2016a" role="doc-biblioref">Yu, He, Li, et al. 2016</a>)</span>, one from the SR-MGN-BE107 subset <span class="citation" data-cites="peverati2014 zhao2006 peverati2011a">(<a href="#ref-peverati2014" role="doc-biblioref">Peverati and Truhlar 2014</a>; <a href="#ref-zhao2006" role="doc-biblioref">Zhao et al. 2006</a>; <a href="#ref-peverati2011a" role="doc-biblioref">Peverati and Truhlar 2011</a>)</span> and one from the SR-TM-BE17 subset <span class="citation" data-cites="peverati2014 peverati2012a zhang2013 averkiev2010 xu2015">(<a href="#ref-peverati2014" role="doc-biblioref">Peverati and Truhlar 2014</a>; <a href="#ref-peverati2012a" role="doc-biblioref">Peverati and Truhlar 2012</a>; <a href="#ref-zhang2013" role="doc-biblioref">Zhang et al. 2013</a>; <a href="#ref-averkiev2010" role="doc-biblioref">Averkiev et al. 2010</a>; <a href="#ref-xu2015" role="doc-biblioref">Xu et al. 2015</a>)</span>. You will also look at total atomization energies from the W4-11 subset <span class="citation" data-cites="karton2011">(<a href="#ref-karton2011" role="doc-biblioref">Karton et al. 2011</a>)</span> of GMTKN55 <span class="citation" data-cites="goerigk2017">(<a href="#ref-goerigk2017" role="doc-biblioref">Goerigk et al. 2017</a>)</span>.</p>
+<p>This experiment analyzes two bond dissociation reactions from the Minnesota 2015B database <span class="citation" data-cites="yu2016a">(<a href="#ref-yu2016a" role="doc-biblioref">Yu, He, Li, et al. 2016</a>)</span>, one from the SR-MGN-BE107 subset <span class="citation" data-cites="peverati2014 zhao2006 peverati2011a">(<a href="#ref-peverati2014" role="doc-biblioref">Peverati and Truhlar 2014</a>, <a href="#ref-peverati2011a" role="doc-biblioref">2011</a>; <a href="#ref-zhao2006" role="doc-biblioref">Zhao et al. 2006</a>)</span> and one from the SR-TM-BE17 subset <span class="citation" data-cites="peverati2014 peverati2012a zhang2013 averkiev2010 xu2015">(<a href="#ref-peverati2014" role="doc-biblioref">Peverati and Truhlar 2014</a>, <a href="#ref-peverati2012a" role="doc-biblioref">2012</a>; <a href="#ref-zhang2013" role="doc-biblioref">Zhang et al. 2013</a>; <a href="#ref-averkiev2010" role="doc-biblioref">Averkiev et al. 2010</a>; <a href="#ref-xu2015" role="doc-biblioref">Xu et al. 2015</a>)</span>. You will also look at total atomization energies from the W4-11 subset <span class="citation" data-cites="karton2011">(<a href="#ref-karton2011" role="doc-biblioref">Karton et al. 2011</a>)</span> of GMTKN55 <span class="citation" data-cites="goerigk2017">(<a href="#ref-goerigk2017" role="doc-biblioref">Goerigk et al. 2017</a>)</span>.</p>
 <p><strong>Bond dissociations.</strong></p>
 <ul>
 <li><strong>9a</strong>: <em>tert</em>-butyl alcohol → <em>tert</em>-butyl radical + OH radical (C–O bond). ΔE<sub>ref</sub> = <strong>115.02 kcal/mol</strong>.</li>
 <li><strong>9b</strong>: FeCl → Fe + Cl <span class="citation" data-cites="xu2015">(<a href="#ref-xu2015" role="doc-biblioref">Xu et al. 2015</a>)</span>. The reference electronic dissociation energy is ΔE<sub>ref</sub> = <strong>78.5 kcal/mol</strong>.</li>
 </ul>
-<p>Use <strong>stability analysis</strong> in both cases, an integration grid of at least <strong>(99,590)</strong> (<code>XC_GRID 000099000590</code>) and the <strong>def2-TZVP</strong> basis set <span class="citation" data-cites="weigend2005">(<a href="#ref-weigend2005" role="doc-biblioref">Weigend and Ahlrichs 2005</a>)</span> (def2-QZVP would not fit within the free server’s 10-minute limit for <em>tert</em>-butanol). Use the functionals MN15-L <span class="citation" data-cites="yu2016">(<a href="#ref-yu2016" role="doc-biblioref">Yu, He, and Truhlar 2016</a>)</span>, MN15 <span class="citation" data-cites="yu2016a">(<a href="#ref-yu2016a" role="doc-biblioref">Yu, He, Li, et al. 2016</a>)</span>, B3LYP <span class="citation" data-cites="vosko1980 becke1988 lee1988 becke1993 stephens1994">(<a href="#ref-vosko1980" role="doc-biblioref">Vosko et al. 1980</a>; <a href="#ref-becke1988" role="doc-biblioref">Becke 1988</a>; <a href="#ref-lee1988" role="doc-biblioref">Lee et al. 1988</a>; <a href="#ref-becke1993" role="doc-biblioref">Becke 1993</a>; <a href="#ref-stephens1994" role="doc-biblioref">Stephens et al. 1994</a>)</span> and PBE <span class="citation" data-cites="perdew1996">(<a href="#ref-perdew1996" role="doc-biblioref">Perdew et al. 1996</a>)</span>, plus the HF method <span class="citation" data-cites="hartree1928 hartree1928a fock1930 slater1930">(<a href="#ref-hartree1928" role="doc-biblioref">Hartree 1928b</a>, <a href="#ref-hartree1928a" role="doc-biblioref">1928a</a>; <a href="#ref-fock1930" role="doc-biblioref">Fock 1930</a>; <a href="#ref-slater1930" role="doc-biblioref">Slater 1930</a>)</span>. Collect the computed reaction energies and their errors in a table before you answer the questions.</p>
+<p>Use <strong>stability analysis</strong> in both cases, an integration grid of at least <strong>(99,590)</strong> (<code>XC_GRID 000099000590</code>) and the <strong>def2-TZVP</strong> basis set <span class="citation" data-cites="weigend2005">(<a href="#ref-weigend2005" role="doc-biblioref">Weigend and Ahlrichs 2005</a>)</span> (def2-QZVP would not fit within the free server’s 10-minute limit for <em>tert</em>-butanol). Use the functionals MN15-L <span class="citation" data-cites="yu2016">(<a href="#ref-yu2016" role="doc-biblioref">Yu, He, and Truhlar 2016</a>)</span>, MN15 <span class="citation" data-cites="yu2016a">(<a href="#ref-yu2016a" role="doc-biblioref">Yu, He, Li, et al. 2016</a>)</span>, B3LYP <span class="citation" data-cites="vosko1980 becke1988 lee1988 becke1993 stephens1994">(<a href="#ref-vosko1980" role="doc-biblioref">Vosko et al. 1980</a>; <a href="#ref-becke1988" role="doc-biblioref">Becke 1988</a>, <a href="#ref-becke1993" role="doc-biblioref">1993</a>; <a href="#ref-lee1988" role="doc-biblioref">Lee et al. 1988</a>; <a href="#ref-stephens1994" role="doc-biblioref">Stephens et al. 1994</a>)</span> and PBE <span class="citation" data-cites="perdew1996">(<a href="#ref-perdew1996" role="doc-biblioref">Perdew et al. 1996</a>)</span>, plus the HF method <span class="citation" data-cites="hartree1928 hartree1928a fock1930 slater1930">(<a href="#ref-hartree1928" role="doc-biblioref">Hartree 1928b</a>, <a href="#ref-hartree1928a" role="doc-biblioref">1928a</a>; <a href="#ref-fock1930" role="doc-biblioref">Fock 1930</a>; <a href="#ref-slater1930" role="doc-biblioref">Slater 1930</a>)</span>. Collect the computed reaction energies and their errors in a table before you answer the questions.</p>
 <p><strong>Atomization energies.</strong> An atomization reaction breaks a molecule into its constituent atoms (see reaction 5c in <a href="../experiments/ex05-difficult-cases.html">Experiment 5</a>). Study H<sub>2</sub>, methane, ammonia, water and ozone with the same methods; for H<sub>2</sub>, atomization and bond dissociation are the same reaction.</p>
 <table class="ref-table caption-top table">
 <caption>Reference total atomization energies from the W4-11 subset.</caption>
@@ -705,25 +705,25 @@ div.csl-indent {
 
 <a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
 <div id="ref-averkiev2010" class="csl-entry" role="listitem">
-Averkiev, B. B., Y. Zhao, and D. G. J. Truhlar. 2010. <em>Mol. Catal. A: Chem.</em> 324: 80–88.
+Averkiev, B. B., Y. Zhao, and D. G. Truhlar. 2010. <em>J. Mol. Catal. A: Chem.</em> 324: 80–88.
 </div>
 <div id="ref-becke1988" class="csl-entry" role="listitem">
 Becke, A. D. 1988. <em>Phys. Rev. A</em> 38: 3098–100.
 </div>
 <div id="ref-becke1993" class="csl-entry" role="listitem">
-Becke, A. D. J. 1993. <em>Chem. Phys.</em> 98: 5648–52.
+Becke, A. D. 1993. <em>J. Chem. Phys.</em> 98: 5648–52.
 </div>
 <div id="ref-cremer2001" class="csl-entry" role="listitem">
 Cremer, D. 2001. <em>Mol. Phys.</em> 99: 1899–940.
 </div>
 <div id="ref-fock1930" class="csl-entry" role="listitem">
-Fock, V. Z. 1930. <em>Phys.</em> 61: 126–48.
+Fock, V. 1930. <em>Z. Phys.</em> 61: 126–48.
 </div>
 <div id="ref-goerigk2017" class="csl-entry" role="listitem">
 Goerigk, L., A. Hansen, C. Bauer, S. Ehrlich, A. Najibi, and S. Grimme. 2017. <em>Phys. Chem. Chem. Phys.</em> 19: 32184–215.
 </div>
 <div id="ref-hait2019" class="csl-entry" role="listitem">
-Hait, D., A. Rettig, and M. J. Head-Gordon. 2019. <em>Chem. Phys.</em> 150: 094115.
+Hait, D., A. Rettig, and M. Head-Gordon. 2019. <em>J. Chem. Phys.</em> 150: 094115.
 </div>
 <div id="ref-handy2001" class="csl-entry" role="listitem">
 Handy, N. C., and A. J. Cohen. 2001. <em>Mol. Phys.</em> 99: 403–12.
@@ -747,19 +747,19 @@ Lee, C., W. Yang, and R. G. Parr. 1988. <em>Phys. Rev. B</em> 37: 785–89.
 Mardirossian, N., and M. Head-Gordon. 2017. <em>Mol. Phys.</em> 115: 2315–72.
 </div>
 <div id="ref-mok1996" class="csl-entry" role="listitem">
-Mok, D. K. W., R. Neumann, and N. C. J. Handy. 1996. <em>Phys. Chem.</em> 100: 6225–30.
+Mok, D. K. W., R. Neumann, and N. C. Handy. 1996. <em>J. Phys. Chem.</em> 100: 6225–30.
 </div>
 <div id="ref-perdew1996" class="csl-entry" role="listitem">
 Perdew, J. P., K. Burke, and M. Ernzerhof. 1996. <em>Phys. Rev. Lett.</em> 77: 3865–68.
 </div>
-<div id="ref-peverati2014" class="csl-entry" role="listitem">
-Peverati, R., and D. G. Truhlar. 2014. <em>Philos. Trans. R. Soc. A</em> 372: 20120476.
-</div>
 <div id="ref-peverati2011a" class="csl-entry" role="listitem">
-Peverati, R., and D. G. J. Truhlar. 2011. <em>Chem. Phys.</em> 135: 191102.
+Peverati, R., and D. G. Truhlar. 2011. <em>J. Chem. Phys.</em> 135: 191102.
 </div>
 <div id="ref-peverati2012a" class="csl-entry" role="listitem">
-Peverati, R., and D. G. J. Truhlar. 2012. <em>Phys. Chem. Lett.</em> 3: 117–24.
+Peverati, R., and D. G. Truhlar. 2012. <em>J. Phys. Chem. Lett.</em> 3: 117–24.
+</div>
+<div id="ref-peverati2014" class="csl-entry" role="listitem">
+Peverati, R., and D. G. Truhlar. 2014. <em>Philos. Trans. R. Soc. A</em> 372: 20120476.
 </div>
 <div id="ref-polo2002" class="csl-entry" role="listitem">
 Polo, V., E. Kraka, and D. Cremer. 2002. <em>Theor. Chem. Acc.</em> 107: 291–303.
@@ -768,7 +768,7 @@ Polo, V., E. Kraka, and D. Cremer. 2002. <em>Theor. Chem. Acc.</em> 107: 291–3
 Slater, J. C. 1930. <em>Phys. Rev.</em> 35: 210–11.
 </div>
 <div id="ref-stephens1994" class="csl-entry" role="listitem">
-Stephens, P. J., F. J. Devlin, C. F. Chabalowski, and M. J. J. Frisch. 1994. <em>Phys. Chem.</em> 98: 11623–27.
+Stephens, P. J., F. J. Devlin, C. F. Chabalowski, and M. J. Frisch. 1994. <em>J. Phys. Chem.</em> 98: 11623–27.
 </div>
 <div id="ref-vosko1980" class="csl-entry" role="listitem">
 Vosko, S. H., L. Wilk, and M. Nusair. 1980. <em>Can. J. Phys.</em> 58: 1200–1211.
@@ -777,22 +777,22 @@ Vosko, S. H., L. Wilk, and M. Nusair. 1980. <em>Can. J. Phys.</em> 58: 1200–12
 Weigend, F., and R. Ahlrichs. 2005. <em>Phys. Chem. Chem. Phys.</em> 7: 3297–305.
 </div>
 <div id="ref-xu2015" class="csl-entry" role="listitem">
-Xu, X., W. Zhang, M. Tang, and D. G. J. Truhlar. 2015. <em>Chem. Theory Comput.</em> 11: 2036–52.
+Xu, X., W. Zhang, M. Tang, and D. G. Truhlar. 2015. <em>J. Chem. Theory Comput.</em> 11: 2036–52.
 </div>
 <div id="ref-yu2016a" class="csl-entry" role="listitem">
 Yu, H. S., X. He, S. L. Li, and D. G. Truhlar. 2016. <em>Chem. Sci.</em> 7: 5032–51.
 </div>
 <div id="ref-yu2016" class="csl-entry" role="listitem">
-Yu, H. S., X. He, and D. G. J. Truhlar. 2016. <em>Chem. Theory Comput.</em> 12: 1280–93.
+Yu, H. S., X. He, and D. G. Truhlar. 2016. <em>J. Chem. Theory Comput.</em> 12: 1280–93.
 </div>
 <div id="ref-yu2015" class="csl-entry" role="listitem">
 Yu, H. S., W. Zhang, P. Verma, X. He, and D. G. Truhlar. 2015. <em>Phys. Chem. Chem. Phys.</em> 17: 12146–60.
 </div>
 <div id="ref-zhang2013" class="csl-entry" role="listitem">
-Zhang, W., D. G. Truhlar, and M. J. Tang. 2013. <em>Chem. Theory Comput.</em> 9: 3965–77.
+Zhang, W., D. G. Truhlar, and M. Tang. 2013. <em>J. Chem. Theory Comput.</em> 9: 3965–77.
 </div>
 <div id="ref-zhao2006" class="csl-entry" role="listitem">
-Zhao, Y., N. E. Schultz, and D. G. J. Truhlar. 2006. <em>Chem. Theory Comput.</em> 2: 364–82.
+Zhao, Y., N. E. Schultz, and D. G. Truhlar. 2006. <em>J. Chem. Theory Comput.</em> 2: 364–82.
 </div>
 </div></section></div></main> <!-- /main -->
 <!-- Peverati lab logo at the top right of the navbar (light and dark versions). -->

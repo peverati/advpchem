@@ -935,7 +935,7 @@ E_x^{\mathrm{HF}} = -\frac{1}{2}\sum_{i,j}^{\mathrm{occ}}K_{ij}.
 <p><span id="eq-adiabatic"><span class="math display">\[
 E_{xc} = \int_0^1 W_\lambda\,d\lambda,
 \tag{7}\]</span></span></p>
-<p>where <span class="math inline">\(W_\lambda\)</span> is the potential-energy part of exchange–correlation at coupling strength <span class="math inline">\(\lambda\)</span>. We know the <span class="math inline">\(\lambda = 0\)</span> end exactly (<span class="math inline">\(W_0 = E_x^{\mathrm{HF}}\)</span>). Semilocal functionals are best near the <span class="math inline">\(\lambda = 1\)</span> end. A simple approximation to the integral therefore mixes the two. Becke tried exactly this in 1993, with a “half-and-half” mixture of HF exchange and LSDA <span class="citation" data-cites="becke1993a">(<a href="#ref-becke1993a" role="doc-biblioref">A. D. Becke 1993</a>)</span>. A few months later he proposed a more flexible, fitted version <span class="citation" data-cites="becke1993">(<a href="#ref-becke1993" role="doc-biblioref">A. D. J. Becke 1993</a>)</span>, the ancestor of B3LYP.</p>
+<p>where <span class="math inline">\(W_\lambda\)</span> is the potential-energy part of exchange–correlation at coupling strength <span class="math inline">\(\lambda\)</span>. We know the <span class="math inline">\(\lambda = 0\)</span> end exactly (<span class="math inline">\(W_0 = E_x^{\mathrm{HF}}\)</span>). Semilocal functionals are best near the <span class="math inline">\(\lambda = 1\)</span> end. A simple approximation to the integral therefore mixes the two. Becke tried exactly this in 1993, with a “half-and-half” mixture of HF exchange and LSDA <span class="citation" data-cites="becke1993a">(<a href="#ref-becke1993a" role="doc-biblioref">Becke 1993b</a>)</span>. A few months later he proposed a more flexible, fitted version <span class="citation" data-cites="becke1993">(<a href="#ref-becke1993" role="doc-biblioref">Becke 1993a</a>)</span>, the ancestor of B3LYP.</p>
 <p>The chemical argument is simpler. Hartree–Fock is free of self-interaction (<a href="../lectures/l04-hartree-fock.html">Lecture 4</a>), while semilocal functionals are not (<a href="../lectures/l05-density-functional-theory.html">Lecture 5</a>). Their errors often have opposite signs: HF underbinds and gives barriers that are too high, semilocal DFT overbinds and gives barriers that are too low. Mixing the two cancels part of both errors.</p>
 </section>
 <section id="global-hybrids-b3lyp-and-pbe0" class="level3" data-number="4.2">
@@ -945,7 +945,7 @@ E_{xc} = \int_0^1 W_\lambda\,d\lambda,
 E_{xc}^{\mathrm{hybrid}} = a_0\,E_x^{\mathrm{HF}} + (1 - a_0)\,E_x^{\mathrm{DFA}} + E_c^{\mathrm{DFA}},
 \tag{8}\]</span></span></p>
 <p>where DFA stands for the underlying semilocal density functional approximation (a GGA or a meta-GGA).</p>
-<p><strong>B3LYP</strong> is the most cited functional in the history of chemistry. Becke’s 1993 three-parameter form <span class="citation" data-cites="becke1993">(<a href="#ref-becke1993" role="doc-biblioref">A. D. J. Becke 1993</a>)</span>, with LYP correlation substituted by Stephens and co-workers in 1994 <span class="citation" data-cites="stephens1994">(<a href="#ref-stephens1994" role="doc-biblioref">Stephens et al. 1994</a>)</span>, is</p>
+<p><strong>B3LYP</strong> is the most cited functional in the history of chemistry. Becke’s 1993 three-parameter form <span class="citation" data-cites="becke1993">(<a href="#ref-becke1993" role="doc-biblioref">Becke 1993a</a>)</span>, with LYP correlation substituted by Stephens and co-workers in 1994 <span class="citation" data-cites="stephens1994">(<a href="#ref-stephens1994" role="doc-biblioref">Stephens et al. 1994</a>)</span>, is</p>
 <p><span id="eq-b3lyp"><span class="math display">\[
 E_{xc}^{\mathrm{B3LYP}} = (1 - a_0)\,E_x^{\mathrm{LSDA}} + a_0\,E_x^{\mathrm{HF}} + a_x\,\Delta E_x^{\mathrm{B88}} + (1 - a_c)\,E_c^{\mathrm{VWN}} + a_c\,E_c^{\mathrm{LYP}},
 \tag{9}\]</span></span></p>
@@ -1259,34 +1259,34 @@ Table&nbsp;3: How to read functional names. Always confirm with the original pap
 
 <a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
 <div id="ref-adamo1999" class="csl-entry" role="listitem">
-Adamo, C., and V. J. Barone. 1999. <em>Chem. Phys.</em> 110: 6158–70.
+Adamo, C., and V. Barone. 1999. <em>J. Chem. Phys.</em> 110: 6158–70.
 </div>
 <div id="ref-becke1988" class="csl-entry" role="listitem">
 Becke, A. D. 1988. <em>Phys. Rev. A</em> 38: 3098–100.
 </div>
+<div id="ref-becke1993" class="csl-entry" role="listitem">
+Becke, A. D. 1993a. <em>J. Chem. Phys.</em> 98: 5648–52.
+</div>
 <div id="ref-becke1993a" class="csl-entry" role="listitem">
-Becke, A. D. 1993. <span>“A New Mixing of <span>Hartree–Fock</span> and Local Density-Functional Theories.”</span> <em>J. Chem. Phys.</em> 98: 1372–77. <a href="https://doi.org/10.1063/1.464304">https://doi.org/10.1063/1.464304</a>.
+Becke, A. D. 1993b. <span>“A New Mixing of <span>Hartree–Fock</span> and Local Density-Functional Theories.”</span> <em>J. Chem. Phys.</em> 98: 1372–77. <a href="https://doi.org/10.1063/1.464304">https://doi.org/10.1063/1.464304</a>.
 </div>
 <div id="ref-becke1997" class="csl-entry" role="listitem">
 Becke, A. D. 1997. <span>“Density-Functional Thermochemistry. <span>V</span>. <span>S</span>ystematic Optimization of Exchange-Correlation Functionals.”</span> <em>J. Chem. Phys.</em> 107: 8554–60. <a href="https://doi.org/10.1063/1.475007">https://doi.org/10.1063/1.475007</a>.
 </div>
-<div id="ref-becke1993" class="csl-entry" role="listitem">
-Becke, A. D. J. 1993. <em>Chem. Phys.</em> 98: 5648–52.
-</div>
 <div id="ref-becke2014" class="csl-entry" role="listitem">
-Becke, A. D. J. 2014. <em>Chem. Phys.</em> 140: 18A301.
+Becke, A. D. 2014. <em>J. Chem. Phys.</em> 140: 18A301.
 </div>
 <div id="ref-caldeweyher2017" class="csl-entry" role="listitem">
 Caldeweyher, E., C. Bannwarth, and S. Grimme. 2017. <em>J. Chem. Phys.</em> 147: 034112.
 </div>
 <div id="ref-caldeweyher2019" class="csl-entry" role="listitem">
-Caldeweyher, E., S. Ehlert, A. Hansen, et al. 2019. <em>Chem. Phys.</em> 150: 154122.
+Caldeweyher, E., S. Ehlert, A. Hansen, et al. 2019. <em>J. Chem. Phys.</em> 150: 154122.
 </div>
 <div id="ref-epifanovsky2021" class="csl-entry" role="listitem">
 <span class="nocase">Epifanovsky, E. et al.</span> 2021. <span>“Software for the Frontiers of Quantum Chemistry: An Overview of Developments in the <span>Q-Chem</span> 5 Package.”</span> <em>J. Chem. Phys.</em> 155: 084801.
 </div>
 <div id="ref-ernzerhof1999" class="csl-entry" role="listitem">
-Ernzerhof, M., and G. E. J. Scuseria. 1999. <em>Chem. Phys.</em> 110: 5029–36.
+Ernzerhof, M., and G. E. Scuseria. 1999. <em>J. Chem. Phys.</em> 110: 5029–36.
 </div>
 <div id="ref-furness2020" class="csl-entry" role="listitem">
 Furness, J. W., A. D. Kaplan, J. Ning, J. P. Perdew, and J. Sun. 2020. <span>“Accurate and Numerically Efficient r<span class="math inline">\(^2\)</span><span>SCAN</span> Meta-Generalized Gradient Approximation.”</span> <em>J. Phys. Chem. Lett.</em> 11: 8208–15. <a href="https://doi.org/10.1021/acs.jpclett.0c02405">https://doi.org/10.1021/acs.jpclett.0c02405</a>.
@@ -1295,13 +1295,13 @@ Furness, J. W., A. D. Kaplan, J. Ning, J. P. Perdew, and J. Sun. 2020. <span>“
 Goerigk, L., A. Hansen, C. Bauer, S. Ehrlich, A. Najibi, and S. Grimme. 2017. <em>Phys. Chem. Chem. Phys.</em> 19: 32184–215.
 </div>
 <div id="ref-grimme2006" class="csl-entry" role="listitem">
-Grimme, S. J. 2006a. <em>Chem. Phys.</em> 124: 034108.
+Grimme, S. 2006a. <em>J. Chem. Phys.</em> 124: 034108.
 </div>
 <div id="ref-grimme2006b" class="csl-entry" role="listitem">
-Grimme, S. J. 2006b. <em>Comput. Chem.</em> 27: 1787–99.
+Grimme, S. 2006b. <em>J. Comput. Chem.</em> 27: 1787–99.
 </div>
 <div id="ref-grimme2010" class="csl-entry" role="listitem">
-Grimme, S., J. Antony, S. Ehrlich, and H. J. Krieg. 2010. <em>Chem. Phys.</em> 132: 154104.
+Grimme, S., J. Antony, S. Ehrlich, and H. Krieg. 2010. <em>J. Chem. Phys.</em> 132: 154104.
 </div>
 <div id="ref-heyd2003" class="csl-entry" role="listitem">
 Heyd, J., G. E. Scuseria, and M. Ernzerhof. 2003. <span>“Hybrid Functionals Based on a Screened <span>Coulomb</span> Potential.”</span> <em>J. Chem. Phys.</em> 118: 8207–15. <a href="https://doi.org/10.1063/1.1564060">https://doi.org/10.1063/1.1564060</a>.
@@ -1318,14 +1318,14 @@ Lee, C., W. Yang, and R. G. Parr. 1988. <em>Phys. Rev. B</em> 37: 785–89.
 <div id="ref-mardirossian2014" class="csl-entry" role="listitem">
 Mardirossian, N., and M. Head-Gordon. 2014. <span>“<span class="math inline">\(\omega\)</span><span>B97X-V</span>: A 10-Parameter, Range-Separated Hybrid, Generalized Gradient Approximation Density Functional with Nonlocal Correlation, Designed by a Survival-of-the-Fittest Strategy.”</span> <em>Phys. Chem. Chem. Phys.</em> 16: 9904–24. <a href="https://doi.org/10.1039/C3CP54374A">https://doi.org/10.1039/C3CP54374A</a>.
 </div>
-<div id="ref-mardirossian2017" class="csl-entry" role="listitem">
-Mardirossian, N., and M. Head-Gordon. 2017. <em>Mol. Phys.</em> 115: 2315–72.
-</div>
 <div id="ref-mardirossian2015" class="csl-entry" role="listitem">
-Mardirossian, N., and M. J. Head-Gordon. 2015. <em>Chem. Phys.</em> 142: 074111.
+Mardirossian, N., and M. Head-Gordon. 2015. <em>J. Chem. Phys.</em> 142: 074111.
 </div>
 <div id="ref-mardirossian2016a" class="csl-entry" role="listitem">
-Mardirossian, N., and M. J. Head-Gordon. 2016. <em>Chem. Phys.</em> 144: 214110.
+Mardirossian, N., and M. Head-Gordon. 2016. <em>J. Chem. Phys.</em> 144: 214110.
+</div>
+<div id="ref-mardirossian2017" class="csl-entry" role="listitem">
+Mardirossian, N., and M. Head-Gordon. 2017. <em>Mol. Phys.</em> 115: 2315–72.
 </div>
 <div id="ref-mardirossian2017rv" class="csl-entry" role="listitem">
 Mardirossian, N., L. Ruiz Pestana, J. C. Womack, C.-K. Skylaris, T. Head-Gordon, and M. Head-Gordon. 2017. <em>J. Phys. Chem. Lett.</em> 8: 35–40.
@@ -1351,11 +1351,11 @@ Perdew, J. P., A. Ruzsinszky, J. Tao, V. N. Staroverov, G. E. Scuseria, and G. I
 <div id="ref-perdew2001" class="csl-entry" role="listitem">
 Perdew, J. P., and K. Schmidt. 2001. <em>AIP Conf. Proc.</em> 577: 1–20.
 </div>
+<div id="ref-peverati2011" class="csl-entry" role="listitem">
+Peverati, R., and D. G. Truhlar. 2011. <em>J. Phys. Chem. Lett.</em> 2: 2810–17.
+</div>
 <div id="ref-peverati2014" class="csl-entry" role="listitem">
 Peverati, R., and D. G. Truhlar. 2014. <em>Philos. Trans. R. Soc. A</em> 372: 20120476.
-</div>
-<div id="ref-peverati2011" class="csl-entry" role="listitem">
-Peverati, R., and D. G. J. Truhlar. 2011. <em>Phys. Chem. Lett.</em> 2: 2810–17.
 </div>
 <div id="ref-sabatini2013" class="csl-entry" role="listitem">
 Sabatini, R., T. Gorni, and S. de Gironcoli. 2013. <span>“Nonlocal van Der <span>Waals</span> Density Functional Made Simple and Efficient.”</span> <em>Phys. Rev. B</em> 87: 041108. <a href="https://doi.org/10.1103/PhysRevB.87.041108">https://doi.org/10.1103/PhysRevB.87.041108</a>.
@@ -1364,7 +1364,7 @@ Sabatini, R., T. Gorni, and S. de Gironcoli. 2013. <span>“Nonlocal van Der <sp
 Staroverov, V. N., G. E. Scuseria, J. Tao, and J. P. Perdew. 2003. <span>“Comparative Assessment of a New Nonempirical Density Functional: Molecules and Hydrogen-Bonded Complexes.”</span> <em>J. Chem. Phys.</em> 119: 12129–37. <a href="https://doi.org/10.1063/1.1626543">https://doi.org/10.1063/1.1626543</a>.
 </div>
 <div id="ref-stephens1994" class="csl-entry" role="listitem">
-Stephens, P. J., F. J. Devlin, C. F. Chabalowski, and M. J. J. Frisch. 1994. <em>Phys. Chem.</em> 98: 11623–27.
+Stephens, P. J., F. J. Devlin, C. F. Chabalowski, and M. J. Frisch. 1994. <em>J. Phys. Chem.</em> 98: 11623–27.
 </div>
 <div id="ref-sun2015" class="csl-entry" role="listitem">
 Sun, J., A. Ruzsinszky, and J. P. Perdew. 2015. <em>Phys. Rev. Lett.</em> 115: 036402.
@@ -1373,7 +1373,7 @@ Sun, J., A. Ruzsinszky, and J. P. Perdew. 2015. <em>Phys. Rev. Lett.</em> 115: 0
 Tao, J., J. P. Perdew, V. N. Staroverov, and G. E. Scuseria. 2003. <em>Phys. Rev. Lett.</em> 91: 146401.
 </div>
 <div id="ref-vydrov2010" class="csl-entry" role="listitem">
-Vydrov, O. A., and T. J. Van Voorhis. 2010. <em>Chem. Phys.</em> 133: 244103.
+Vydrov, O. A., and T. Van Voorhis. 2010. <em>J. Chem. Phys.</em> 133: 244103.
 </div>
 <div id="ref-yanai2004" class="csl-entry" role="listitem">
 Yanai, T., D. P. Tew, and N. C. Handy. 2004. <span>“A New Hybrid Exchange–Correlation Functional Using the <span>Coulomb</span>-Attenuating Method (<span>CAM-B3LYP</span>).”</span> <em>Chem. Phys. Lett.</em> 393: 51–57. <a href="https://doi.org/10.1016/j.cplett.2004.06.011">https://doi.org/10.1016/j.cplett.2004.06.011</a>.
@@ -1382,7 +1382,7 @@ Yanai, T., D. P. Tew, and N. C. Handy. 2004. <span>“A New Hybrid Exchange–Co
 Yu, H. S., X. He, S. L. Li, and D. G. Truhlar. 2016. <em>Chem. Sci.</em> 7: 5032–51.
 </div>
 <div id="ref-yu2016b" class="csl-entry" role="listitem">
-Yu, H. S., S. L. Li, and D. G. J. Truhlar. 2016. <em>Chem. Phys.</em> 145: 130901.
+Yu, H. S., S. L. Li, and D. G. Truhlar. 2016. <em>J. Chem. Phys.</em> 145: 130901.
 </div>
 <div id="ref-zhao2008" class="csl-entry" role="listitem">
 Zhao, Y., and D. G. Truhlar. 2008. <em>Theor. Chem. Acc.</em> 120: 215–41.

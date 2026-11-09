@@ -636,7 +636,7 @@ window.Quarto = {
 </figure>
 </div>
 <p>There are many different “families” of basis sets <span class="citation" data-cites="jensen2013 nagy2017">(<a href="#ref-jensen2013" role="doc-biblioref">Jensen 2013</a>; <a href="#ref-nagy2017" role="doc-biblioref">Nagy and Jensen 2017</a>)</span>, developed over the past sixty years by different computational chemists. Head-Gordon and co-workers <span class="citation" data-cites="witte2016">(<a href="#ref-witte2016" role="doc-biblioref">Witte et al. 2016</a>)</span> found that the most cost-effective basis sets for DFT belong to the Ahlrichs family <span class="citation" data-cites="weigend2005">(<a href="#ref-weigend2005" role="doc-biblioref">Weigend and Ahlrichs 2005</a>)</span>. In this experiment you will analyze how they perform for the dissociation of the HCl dimer, taken from the NCCE30 subset <span class="citation" data-cites="peverati2014 marshall2011 vydrov2012 lange2011 mcmahon2011">(<a href="#ref-peverati2014" role="doc-biblioref">Peverati and Truhlar 2014</a>; <a href="#ref-marshall2011" role="doc-biblioref">Marshall et al. 2011</a>; <a href="#ref-vydrov2012" role="doc-biblioref">Vydrov and Van Voorhis 2012</a>; <a href="#ref-lange2011" role="doc-biblioref">Lange and Lane 2011</a>; <a href="#ref-mcmahon2011" role="doc-biblioref">McMahon and Lane 2011</a>)</span> of the Minnesota 2015B database <span class="citation" data-cites="yu2016a">(<a href="#ref-yu2016a" role="doc-biblioref">Yu et al. 2016</a>)</span>. The reference energy for this dissociation is <strong>2.01 kcal/mol</strong>.</p>
-<p>You will calculate the dissociation energy with three functionals, B3LYP <span class="citation" data-cites="vosko1980 becke1988 lee1988 becke1993 stephens1994">(<a href="#ref-vosko1980" role="doc-biblioref">Vosko et al. 1980</a>; <a href="#ref-becke1988" role="doc-biblioref">Becke 1988</a>; <a href="#ref-lee1988" role="doc-biblioref">Lee et al. 1988</a>; <a href="#ref-becke1993" role="doc-biblioref">Becke 1993</a>; <a href="#ref-stephens1994" role="doc-biblioref">Stephens et al. 1994</a>)</span>, PBE <span class="citation" data-cites="perdew1996">(<a href="#ref-perdew1996" role="doc-biblioref">Perdew et al. 1996</a>)</span> and ωB97M-V <span class="citation" data-cites="vydrov2010 mardirossian2016a">(<a href="#ref-vydrov2010" role="doc-biblioref">Vydrov and Van Voorhis 2010</a>; <a href="#ref-mardirossian2016a" role="doc-biblioref">Mardirossian and Head-Gordon 2016</a>)</span>, and with the Hartree–Fock (HF) method <span class="citation" data-cites="hartree1928 hartree1928a fock1930 slater1930">(<a href="#ref-hartree1928" role="doc-biblioref">Hartree 1928b</a>, <a href="#ref-hartree1928a" role="doc-biblioref">1928a</a>; <a href="#ref-fock1930" role="doc-biblioref">Fock 1930</a>; <a href="#ref-slater1930" role="doc-biblioref">Slater 1930</a>)</span>. You will use two families of basis sets:</p>
+<p>You will calculate the dissociation energy with three functionals, B3LYP <span class="citation" data-cites="vosko1980 becke1988 lee1988 becke1993 stephens1994">(<a href="#ref-vosko1980" role="doc-biblioref">Vosko et al. 1980</a>; <a href="#ref-becke1988" role="doc-biblioref">Becke 1988</a>, <a href="#ref-becke1993" role="doc-biblioref">1993</a>; <a href="#ref-lee1988" role="doc-biblioref">Lee et al. 1988</a>; <a href="#ref-stephens1994" role="doc-biblioref">Stephens et al. 1994</a>)</span>, PBE <span class="citation" data-cites="perdew1996">(<a href="#ref-perdew1996" role="doc-biblioref">Perdew et al. 1996</a>)</span> and ωB97M-V <span class="citation" data-cites="vydrov2010 mardirossian2016a">(<a href="#ref-vydrov2010" role="doc-biblioref">Vydrov and Van Voorhis 2010</a>; <a href="#ref-mardirossian2016a" role="doc-biblioref">Mardirossian and Head-Gordon 2016</a>)</span>, and with the Hartree–Fock (HF) method <span class="citation" data-cites="hartree1928 hartree1928a fock1930 slater1930">(<a href="#ref-hartree1928" role="doc-biblioref">Hartree 1928b</a>, <a href="#ref-hartree1928a" role="doc-biblioref">1928a</a>; <a href="#ref-fock1930" role="doc-biblioref">Fock 1930</a>; <a href="#ref-slater1930" role="doc-biblioref">Slater 1930</a>)</span>. You will use two families of basis sets:</p>
 <ul>
 <li>the <strong>Ahlrichs</strong> def2-SVP, def2-TZVP and def2-QZVP basis sets <span class="citation" data-cites="weigend2005">(<a href="#ref-weigend2005" role="doc-biblioref">Weigend and Ahlrichs 2005</a>)</span>;</li>
 <li>the <strong>Dunning</strong> correlation-consistent basis sets <span class="citation" data-cites="dunning1989 woon1993 woon1994 wilson1999 koput2002 balabanov2005 prascher2011">(<a href="#ref-dunning1989" role="doc-biblioref">Dunning 1989</a>; <a href="#ref-woon1993" role="doc-biblioref">Woon and Dunning 1993</a>, <a href="#ref-woon1994" role="doc-biblioref">1994</a>; <a href="#ref-wilson1999" role="doc-biblioref">Wilson et al. 1999</a>; <a href="#ref-koput2002" role="doc-biblioref">Koput and Peterson 2002</a>; <a href="#ref-balabanov2005" role="doc-biblioref">Balabanov and Peterson 2005</a>; <a href="#ref-prascher2011" role="doc-biblioref">Prascher et al. 2011</a>)</span>, written cc-pV<em>n</em>Z, where “cc” means <em>correlation consistent</em> and <em>n</em> is D for double-ζ, T for triple-ζ or Q for quadruple-ζ.</li>
@@ -726,19 +726,19 @@ window.Quarto = {
 
 <a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
 <div id="ref-balabanov2005" class="csl-entry" role="listitem">
-Balabanov, N. B., and K. A. J. Peterson. 2005. <em>Chem. Phys.</em> 123: 064107.
+Balabanov, N. B., and K. A. Peterson. 2005. <em>J. Chem. Phys.</em> 123: 064107.
 </div>
 <div id="ref-becke1988" class="csl-entry" role="listitem">
 Becke, A. D. 1988. <em>Phys. Rev. A</em> 38: 3098–100.
 </div>
 <div id="ref-becke1993" class="csl-entry" role="listitem">
-Becke, A. D. J. 1993. <em>Chem. Phys.</em> 98: 5648–52.
+Becke, A. D. 1993. <em>J. Chem. Phys.</em> 98: 5648–52.
 </div>
 <div id="ref-dunning1989" class="csl-entry" role="listitem">
-Dunning, T. H. J. 1989. <em>Chem. Phys.</em> 90: 1007–23.
+Dunning, T. H., Jr. 1989. <em>J. Chem. Phys.</em> 90: 1007–23.
 </div>
 <div id="ref-fock1930" class="csl-entry" role="listitem">
-Fock, V. Z. 1930. <em>Phys.</em> 61: 126–48.
+Fock, V. 1930. <em>Z. Phys.</em> 61: 126–48.
 </div>
 <div id="ref-hartree1928a" class="csl-entry" role="listitem">
 Hartree, D. R. 1928a. <em>Math. Proc. Camb. Philos. Soc.</em> 24: 111–32.
@@ -750,22 +750,22 @@ Hartree, D. R. 1928b. <em>Math. Proc. Camb. Philos. Soc.</em> 24: 89–110.
 Jensen, F. 2013. <em>WIREs Comp. Mol. Sci.</em> 3: 273–95.
 </div>
 <div id="ref-koput2002" class="csl-entry" role="listitem">
-Koput, J., and K. A. J. Peterson. 2002. <em>Phys. Chem. A</em> 106: 9595–99.
+Koput, J., and K. A. Peterson. 2002. <em>J. Phys. Chem. A</em> 106: 9595–99.
 </div>
 <div id="ref-lange2011" class="csl-entry" role="listitem">
-Lange, K. M. de, and J. R. J. Lane. 2011. <em>Chem. Phys.</em> 134: 034301–10.
+Lange, K. M. de, and J. R. Lane. 2011. <em>J. Chem. Phys.</em> 134: 034301–10.
 </div>
 <div id="ref-lee1988" class="csl-entry" role="listitem">
 Lee, C., W. Yang, and R. G. Parr. 1988. <em>Phys. Rev. B</em> 37: 785–89.
 </div>
 <div id="ref-mardirossian2016a" class="csl-entry" role="listitem">
-Mardirossian, N., and M. J. Head-Gordon. 2016. <em>Chem. Phys.</em> 144: 214110.
+Mardirossian, N., and M. Head-Gordon. 2016. <em>J. Chem. Phys.</em> 144: 214110.
 </div>
 <div id="ref-marshall2011" class="csl-entry" role="listitem">
-Marshall, M. S., L. A. Burns, and C. D. J. Sherrill. 2011. <em>Chem. Phys.</em> 135: 194102.
+Marshall, M. S., L. A. Burns, and C. D. Sherrill. 2011. <em>J. Chem. Phys.</em> 135: 194102.
 </div>
 <div id="ref-mcmahon2011" class="csl-entry" role="listitem">
-McMahon, J. D., and J. R. J. Lane. 2011. <em>Chem. Phys.</em> 135: 154309–10.
+McMahon, J. D., and J. R. Lane. 2011. <em>J. Chem. Phys.</em> 135: 154309–10.
 </div>
 <div id="ref-nagy2017" class="csl-entry" role="listitem">
 Nagy, B., and F. Jensen. 2017. <span>“Basis Sets in Quantum Chemistry.”</span> In <em>Reviews in Computational Chemistry</em>, edited by A. L. Parrill and K. B. Lipkowitz. John Wiley &amp; Sons.
@@ -777,37 +777,37 @@ Perdew, J. P., K. Burke, and M. Ernzerhof. 1996. <em>Phys. Rev. Lett.</em> 77: 3
 Peverati, R., and D. G. Truhlar. 2014. <em>Philos. Trans. R. Soc. A</em> 372: 20120476.
 </div>
 <div id="ref-prascher2011" class="csl-entry" role="listitem">
-Prascher, B. P., D. E. Woon, K. A. Peterson, T. H. Dunning, and A. K. Wilson. 2011. <em>Theor. Chem. Acc.</em> 128: 69–82.
+Prascher, B. P., D. E. Woon, K. A. Peterson, T. H. Dunning Jr., and A. K. Wilson. 2011. <em>Theor. Chem. Acc.</em> 128: 69–82.
 </div>
 <div id="ref-slater1930" class="csl-entry" role="listitem">
 Slater, J. C. 1930. <em>Phys. Rev.</em> 35: 210–11.
 </div>
 <div id="ref-stephens1994" class="csl-entry" role="listitem">
-Stephens, P. J., F. J. Devlin, C. F. Chabalowski, and M. J. J. Frisch. 1994. <em>Phys. Chem.</em> 98: 11623–27.
+Stephens, P. J., F. J. Devlin, C. F. Chabalowski, and M. J. Frisch. 1994. <em>J. Phys. Chem.</em> 98: 11623–27.
 </div>
 <div id="ref-vosko1980" class="csl-entry" role="listitem">
 Vosko, S. H., L. Wilk, and M. Nusair. 1980. <em>Can. J. Phys.</em> 58: 1200–1211.
 </div>
 <div id="ref-vydrov2010" class="csl-entry" role="listitem">
-Vydrov, O. A., and T. J. Van Voorhis. 2010. <em>Chem. Phys.</em> 133: 244103.
+Vydrov, O. A., and T. Van Voorhis. 2010. <em>J. Chem. Phys.</em> 133: 244103.
 </div>
 <div id="ref-vydrov2012" class="csl-entry" role="listitem">
-Vydrov, O. A., and T. J. Van Voorhis. 2012. <em>Chem. Theory Comput.</em> 8: 1929–34.
+Vydrov, O. A., and T. Van Voorhis. 2012. <em>J. Chem. Theory Comput.</em> 8: 1929–34.
 </div>
 <div id="ref-weigend2005" class="csl-entry" role="listitem">
 Weigend, F., and R. Ahlrichs. 2005. <em>Phys. Chem. Chem. Phys.</em> 7: 3297–305.
 </div>
 <div id="ref-wilson1999" class="csl-entry" role="listitem">
-Wilson, A. K., D. E. Woon, K. A. Peterson, and T. H. J. Dunning. 1999. <em>Chem. Phys.</em> 110: 7667–76.
+Wilson, A. K., D. E. Woon, K. A. Peterson, and T. H. Dunning Jr. 1999. <em>J. Chem. Phys.</em> 110: 7667–76.
 </div>
 <div id="ref-witte2016" class="csl-entry" role="listitem">
-Witte, J., J. B. Neaton, and M. J. Head-Gordon. 2016. <em>Chem. Phys.</em> 144: 194306.
+Witte, J., J. B. Neaton, and M. Head-Gordon. 2016. <em>J. Chem. Phys.</em> 144: 194306.
 </div>
 <div id="ref-woon1993" class="csl-entry" role="listitem">
-Woon, D. E., and T. H. J. Dunning. 1993. <em>Chem. Phys.</em> 98: 1358–71.
+Woon, D. E., and T. H. Dunning Jr. 1993. <em>J. Chem. Phys.</em> 98: 1358–71.
 </div>
 <div id="ref-woon1994" class="csl-entry" role="listitem">
-Woon, D. E., and T. H. J. Dunning. 1994. <em>Chem. Phys.</em> 100: 2975–88.
+Woon, D. E., and T. H. Dunning Jr. 1994. <em>J. Chem. Phys.</em> 100: 2975–88.
 </div>
 <div id="ref-yu2016a" class="csl-entry" role="listitem">
 Yu, H. S., X. He, S. L. Li, and D. G. Truhlar. 2016. <em>Chem. Sci.</em> 7: 5032–51.
