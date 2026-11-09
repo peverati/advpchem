@@ -20,7 +20,8 @@ project:
 website:
   title: "Computational Chemistry Lab"
   description: "Ten hands-on DFT experiments for Advanced Physical Chemistry at the Florida Institute of Technology."
-  site-url: ""
+  site-url: "https://peverati.github.io/advpchem/"
+  repo-url: "https://github.com/peverati/advpchem"
   page-navigation: true
   back-to-top-navigation: true
   search: true
@@ -129,8 +130,8 @@ bibliography: references.bib
 link-citations: true
 
 # Where the Colab notebooks live once this folder is pushed to GitHub.
-# Replace OWNER/REPO with the real repository (used by the "Open in Colab" badges).
-colab-base: "https://colab.research.google.com/github/OWNER/REPO/blob/main/notebooks"
+# Used by the "Open in Colab" badges.
+colab-base: "https://colab.research.google.com/github/peverati/advpchem/blob/main/notebooks"
 
 # Semester settings (Microsoft Form links, due dates, results release) live in
 # data/course.json so the interactive components can read them in the browser.

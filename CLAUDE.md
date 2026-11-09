@@ -4,7 +4,7 @@ Course website for the ten DFT experiments of **Advanced Physical Chemistry (CHM
 
 ## Layout
 
-- `_quarto.yml`: Quarto website config (cosmo/darkly themes, navbar, bibliography, `colab-base` placeholder `OWNER/REPO`).
+- `_quarto.yml`: Quarto website config (cosmo/darkly themes, navbar, bibliography, `colab-base` → peverati/advpchem).
 - `index.qmd`, `class-results.qmd`, `guides/*.qmd` (IQmol/Q-Chem how-tos), `experiments/exNN-*.qmd` (one page per experiment).
 - `data/experiments/exNN.json`: **single source of truth** per experiment: species, reactions (stoichiometry `nu`, `ref` in kcal/mol, optional `group`), methods (Q-Chem `rem`), `bases` (also used for grids in Ex7 and stability runs in Ex8), optional `conditions` (explicit method/basis/species lists), `quiz`, `predictions` (with `check` rules), `questions`, `explore` (chart names), `auto_delta`, `import`.
 - `data/course.json`: semester settings: Microsoft Form links, due dates, `release_class_results`.
@@ -42,7 +42,7 @@ Course website for the ten DFT experiments of **Advanced Physical Chemistry (CHM
 - Real job times against the 10-minute limit. Known from Fall 2026 student data (`../students_results/`): Ex3–5 at def2-TZVP take seconds to ~5 min (hexanes with hybrids); Ex7 Ar₂ at def2-QZVP took 10–40 s with SG-1, 5–7 min with SG-2, and SG-3 often timed out (hence def2-TZVP now). Still unknown: Ex7 at def2-TZVP with SG-3, Ex9 tert-butanol with the unpruned (99,590) grid + stability analysis (high risk), Ex10 Pd complex.
 - IQmol menu names in `guides/` (no screenshots yet).
 - `extract_ex07.py` against **real** outputs from the IQmol server (tested only on fake outputs): the `Total energy in the final basis set` / `Convergence criterion met` / `Total job time` lines, the echoed `$rem` (IQmol may write lowercase `key = value`, which is handled), and where IQmol saves the output files.
-- Not published yet: GitHub Pages, the `colab-base` URL, and the Microsoft Form links in `data/course.json` are all still to do.
+- Published at https://peverati.github.io/advpchem/ (repo peverati/advpchem; `quarto publish gh-pages` from `main`). The Microsoft Form links and due dates in `data/course.json` are still to do.
 
 ## Conventions
 

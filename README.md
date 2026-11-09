@@ -24,13 +24,12 @@ content.
 
 ## One-time setup each semester
 
-1. **Publish the site** (GitHub Pages):
+1. **The site** lives at https://peverati.github.io/advpchem/ (repository `peverati/advpchem`,
+   source on `main`, built pages on `gh-pages`). After any change:
    ```bash
-   gh repo create advpchem-lab --public --source . --push
+   git add -A && git commit -m "Describe the change" && git push
    quarto publish gh-pages
    ```
-   Then replace `OWNER/REPO` in `_quarto.yml` (`colab-base`) so the "Open in Colab"
-   badges point at the notebooks in the repository.
 2. **Create one Microsoft Form per experiment** (forms.office.com, signed in with your Florida Tech email):
    - Settings → *Only people in my organization can respond* and *Record name*.
    - Add a **File upload** question ("Upload your submission file (.json)"), max 1–2 files.
