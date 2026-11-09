@@ -1,12 +1,12 @@
 ---
-title: "Class 15 · What we learned"
+title: "Lecture 15 · What we learned"
 subtitle: "Debrief of Experiment 10 and a synthesis of the course"
 description: "What the class chose for the palladium complex and what tended to work, the two approximations and the hierarchy of errors seen in ten experiments, why a quantum chemistry program is not a black box, and where the field is going."
 ---
 
 ::: {.callout-note}
 ## Learning goals
-After this class you should be able to:
+After this lecture you should be able to:
 
 - look at the spread of methods and results in Experiment 10 and explain what made the good choices good;
 - place every source of error you met in this course in a hierarchy, with typical sizes;
@@ -31,7 +31,7 @@ A few patterns are typical.
 
 **Dispersion made the biggest difference.** The hexatriene ligand is large and polarizable, and it sits close to the two phosphines. Part of the binding is dispersion between the ligand and the rest of the complex, the same physics as the alkane and dimer reactions of Experiment 4. Functionals with no dispersion at all, B3LYP being the usual example, typically *underbind* the complex by many kcal/mol, far outside chemical accuracy. Adding -D4, or choosing a functional with VV10 or with dispersion built into its parametrization, usually closed most of that gap.
 
-**Modern functionals with good transition-metal benchmarks did well.** Students who looked up metal–ligand bond energies in the benchmark literature ([Class 14](l14-choosing-a-method.qmd)) and chose a dispersion-inclusive hybrid or meta-GGA that performs well there usually landed within a few kcal/mol of the reference, often closer.
+**Modern functionals with good transition-metal benchmarks did well.** Students who looked up metal–ligand bond energies in the benchmark literature ([Lecture 14](l14-choosing-a-method.qmd)) and chose a dispersion-inclusive hybrid or meta-GGA that performs well there usually landed within a few kcal/mol of the reference, often closer.
 
 **Triple-ζ basis sets with the def2 ECP were the sensible choice.** def2-TZVP fits the 10-minute limit for this complex with most functionals. def2-SVP is faster, but its basis-set superposition error makes the complex look more stable than it is. Combined with -D4, it can overbind: the double counting of Experiment 6 again. A def2-SVP result that lands close to 16.2 should make you suspicious, not happy.
 
@@ -50,7 +50,7 @@ It is tempting to try several functionals and keep the one closest to 16.2. In r
 
 ## Two approximations, revisited
 
-In Class 1 you met the idea that every calculation makes two approximations (see [Class 1](l01-molecular-schrodinger.qmd)). Ten experiments later, you have seen each of them from several angles.
+In Lecture 1 you met the idea that every calculation makes two approximations (see [Lecture 1](l01-molecular-schrodinger.qmd)). Ten experiments later, you have seen each of them from several angles.
 
 **Approximating the wave function: the basis set.** A finite basis can't represent the exact orbitals. The variational principle guarantees that a larger basis lowers the energy, and Experiment 1 showed reaction energies converging toward the complete-basis-set limit as ζ increases, at a cost that grows steeply. Experiment 6 showed the dark side: when the basis is small, its error can cancel the functional's error by luck, for one reaction and not for the next. For heavy elements, the basis comes with an effective core potential, which also brings in scalar relativistic effects (Experiments 8 and 10).
 
@@ -100,7 +100,7 @@ When a problem is outside what you can check, for example strong multireference 
 
 DFT has been the workhorse of computational chemistry for thirty years, and the approximations you used will remain in use for many more. Three directions are changing what is possible.
 
-**Machine-learned functionals.** Instead of fitting a dozen parameters to a few hundred data points, as the Minnesota functionals did, one can train a neural network to represent the exchange–correlation energy density from the local ingredients of the density. The DM21 functional, for example, was trained on molecular data together with exact conditions for systems with fractional charge and spin, which target the delocalization and static-correlation errors of [Class 9](l09-difficult-cases.qmd) [@kirkpatrick2021]. Such functionals can be very accurate on their training domain. They also bring back, in a stronger form, the questions this course raised: how well they transfer to chemistry outside the training data, and how smooth, and therefore how grid-friendly, they are ([Class 11](l11-integration-grids.qmd)).
+**Machine-learned functionals.** Instead of fitting a dozen parameters to a few hundred data points, as the Minnesota functionals did, one can train a neural network to represent the exchange–correlation energy density from the local ingredients of the density. The DM21 functional, for example, was trained on molecular data together with exact conditions for systems with fractional charge and spin, which target the delocalization and static-correlation errors of [Lecture 9](l09-difficult-cases.qmd) [@kirkpatrick2021]. Such functionals can be very accurate on their training domain. They also bring back, in a stronger form, the questions this course raised: how well they transfer to chemistry outside the training data, and how smooth, and therefore how grid-friendly, they are ([Lecture 11](l11-integration-grids.qmd)).
 
 **Double hybrids.** The fifth rung of Jacob's ladder adds a second-order perturbation correlation term computed from the virtual orbitals, as in B2PLYP [@grimme2006]. In large benchmarks such as GMTKN55, the best double hybrids are the most accurate functionals overall [@goerigk2017; @mehta2018]. They cost about as much as MP2, more than a hybrid but far less than coupled cluster, and they need larger basis sets because the correlation part converges slowly with ζ, like the cc-pVnZ behavior you saw in Experiment 1.
 
@@ -110,7 +110,7 @@ None of these removes the need for judgment. A machine-learned functional still 
 
 ## Course feedback
 
-The last part of this class is for you. Before you leave, write down:
+The last part of this lecture is for you. Before you leave, write down:
 
 - **The muddiest point:** the idea from this course that is still the least clear to you.
 - **The most useful experiment,** and why.

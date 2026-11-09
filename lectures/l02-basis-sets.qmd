@@ -1,5 +1,5 @@
 ---
-title: "Class 2 · Approximating the wave function: basis sets"
+title: "Lecture 2 · Approximating the wave function: basis sets"
 subtitle: "From LCAO to def2-QZVP: what basis functions are, how to read their names, and what they cost"
 description: "Slater and Gaussian functions, contraction, split valence, polarization and diffuse functions, the Pople, Karlsruhe and Dunning families, and convergence to the complete-basis-set limit."
 ---
@@ -30,7 +30,7 @@ After studying this chapter you should be able to:
 
 ### The LCAO expansion
 
-[Class 1](l01-molecular-schrodinger.qmd) ended with the first of the two approximations of every calculation: the orbitals are unknown functions of three coordinates, and a computer cannot store an arbitrary function. The solution is to write each molecular orbital $\phi_i$ as a **linear combination** of a finite number $K$ of known functions $\chi_\mu$, the **basis functions**:
+[Lecture 1](l01-molecular-schrodinger.qmd) ended with the first of the two approximations of every calculation: the orbitals are unknown functions of three coordinates, and a computer cannot store an arbitrary function. The solution is to write each molecular orbital $\phi_i$ as a **linear combination** of a finite number $K$ of known functions $\chi_\mu$, the **basis functions**:
 
 $$
 \phi_i(\mathbf{r}) = \sum_{\mu=1}^{K} c_{\mu i}\, \chi_\mu(\mathbf{r}) .
@@ -38,7 +38,7 @@ $$ {#eq-lcao}
 
 The basis functions are fixed in advance; only the **coefficients** $c_{\mu i}$ are optimized. In P-Chem 2 you met this as LCAO, the *linear combination of atomic orbitals*: for H₂⁺, one 1s function on each proton; for water, a 1s, 2s and three 2p functions on oxygen plus one 1s on each hydrogen, seven functions in total. Modern basis functions are not atomic orbitals in the strict sense (they are not eigenfunctions of any atom), but they are still **centered on the atoms** and look like atomic orbitals, so the name has stuck.
 
-With @eq-lcao, the hard problem of finding unknown *functions* becomes the much easier problem of finding unknown *numbers*: a $K \times K$ matrix of coefficients. In Hartree–Fock and Kohn–Sham DFT this leads to a matrix eigenvalue equation, the Roothaan–Hall equation $\mathbf{FC} = \mathbf{SC}\boldsymbol{\varepsilon}$, which you will meet in Class 4. Here $\mathbf{S}$ is the **overlap matrix**, $S_{\mu\nu} = \int \chi_\mu^* \chi_\nu \, d\mathbf{r}$. Basis functions on different atoms overlap, so $\mathbf{S}$ is not the identity matrix; [§13.2 of the P-Chem 2 textbook](https://peverati.github.io/pchem2/Poly.html#hartree-fock-calculation-for-water) shows it for water.
+With @eq-lcao, the hard problem of finding unknown *functions* becomes the much easier problem of finding unknown *numbers*: a $K \times K$ matrix of coefficients. In Hartree–Fock and Kohn–Sham DFT this leads to a matrix eigenvalue equation, the Roothaan–Hall equation $\mathbf{FC} = \mathbf{SC}\boldsymbol{\varepsilon}$, which you will meet in Lecture 4. Here $\mathbf{S}$ is the **overlap matrix**, $S_{\mu\nu} = \int \chi_\mu^* \chi_\nu \, d\mathbf{r}$. Basis functions on different atoms overlap, so $\mathbf{S}$ is not the identity matrix; [§13.2 of the P-Chem 2 textbook](https://peverati.github.io/pchem2/Poly.html#hartree-fock-calculation-for-water) shows it for water.
 
 $K$ basis functions give exactly $K$ molecular orbitals. Of these, $N/2$ are occupied in a closed-shell molecule with $N$ electrons; the rest are **virtual** (unoccupied) orbitals. The number of basis functions $K$ is printed in every Q-Chem output and is one of the four numbers you record in [Experiment 1](../experiments/ex01-basis-sets.qmd).
 
@@ -46,7 +46,7 @@ $K$ basis functions give exactly $K$ molecular orbitals. Of these, $N/2$ are occ
 
 If the set $\{\chi_\mu\}$ were **complete**, any function could be expanded exactly in it, and @eq-lcao would be no approximation at all. A complete set is infinite, so any real basis is a **truncation**. The orbitals can only take the shapes that the chosen functions allow.
 
-The variational principle of Class 1 tells us what happens as we enlarge the basis. For Hartree–Fock and for Kohn–Sham DFT with a given functional, the energy is minimized with respect to the coefficients. Adding basis functions enlarges the space of allowed orbitals, so the minimum can only go down or stay the same:
+The variational principle of Lecture 1 tells us what happens as we enlarge the basis. For Hartree–Fock and for Kohn–Sham DFT with a given functional, the energy is minimized with respect to the coefficients. Adding basis functions enlarges the space of allowed orbitals, so the minimum can only go down or stay the same:
 
 $$
 E(\text{basis}_1) \;\geq\; E(\text{basis}_2) \quad \text{if basis}_2 \supseteq \text{basis}_1 .
@@ -71,7 +71,7 @@ $$
 \chi^\text{STO}(r,\theta,\varphi) = N\, r^{n-1} e^{-\zeta r}\, Y_\ell^{m}(\theta,\varphi) .
 $$ {#eq-sto}
 
-The **exponent** $\zeta$ (zeta) sets the size: a large $\zeta$ gives a tight function close to the nucleus; a small $\zeta$ gives a diffuse one. STOs have the right physics. They have a **cusp** at the nucleus (a finite slope at $r = 0$, as every exact wave function must [@kato1957]) and an **exponential tail** at large $r$, like real bound states (Class 1).
+The **exponent** $\zeta$ (zeta) sets the size: a large $\zeta$ gives a tight function close to the nucleus; a small $\zeta$ gives a diffuse one. STOs have the right physics. They have a **cusp** at the nucleus (a finite slope at $r = 0$, as every exact wave function must [@kato1957]) and an **exponential tail** at large $r$, like real bound states (Lecture 1).
 
 Their weakness is computational. A molecular calculation needs huge numbers of integrals over basis functions, the worst being the **two-electron integrals**
 
@@ -336,7 +336,7 @@ On the free IQmol server every job must finish in 10 minutes. For the molecules 
 ### Two basis-set errors: BSIE and BSSE
 
 - **Basis-set incompleteness error (BSIE).** The difference between a result in a finite basis and the CBS limit, with the same method. It affects every calculation. It shrinks as the basis grows, and it is what Experiment 1 measures for a reaction energy.
-- **Basis-set superposition error (BSSE).** A specific artifact of incomplete basis sets in systems made of fragments, such as a dimer. In the dimer, each monomer can "borrow" the basis functions centered on its partner to improve its own description, lowering its energy. The isolated monomers have no partner functions to borrow. The dimer is therefore artificially stabilized, and the interaction energy is too large in magnitude. BSSE also vanishes in the CBS limit. The standard correction, the counterpoise method of Boys and Bernardi [@boys1970], recomputes each monomer in the full dimer basis. We return to BSSE in Classes 8 and 10.
+- **Basis-set superposition error (BSSE).** A specific artifact of incomplete basis sets in systems made of fragments, such as a dimer. In the dimer, each monomer can "borrow" the basis functions centered on its partner to improve its own description, lowering its energy. The isolated monomers have no partner functions to borrow. The dimer is therefore artificially stabilized, and the interaction energy is too large in magnitude. BSSE also vanishes in the CBS limit. The standard correction, the counterpoise method of Boys and Bernardi [@boys1970], recomputes each monomer in the full dimer basis. We return to BSSE in Lectures 8 and 10.
 
 ::: {.callout-tip}
 ## Practical rules of thumb

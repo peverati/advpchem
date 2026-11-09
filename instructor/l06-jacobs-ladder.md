@@ -1,4 +1,4 @@
-# Class 6 · Approximating the Hamiltonian III: Jacob's ladder  (Before Exp. 2)
+# Lecture 6 · Approximating the Hamiltonian III: Jacob's ladder  (Before Exp. 2)
 
 **Goal.** Students can place a functional on Jacob's ladder from its ingredients, decode names, and are ready for Experiment 2 (a classification exercise, no calculations).
 
@@ -62,4 +62,4 @@
 
 **If running late:** skip rung 5 and the non-empirical vs empirical discussion (move to class 9); keep hybrids and the briefing.
 **If this becomes two classes:** not marked.
-**Next class:** Class 7, debrief Exp. 1–2, how to test a functional, Exp. 3 briefing. Make sure Exp. 1 and Exp. 2 submissions are in and aggregated.
+**Next class:** Lecture 7, debrief Exp. 1–2, how to test a functional, Exp. 3 briefing. Make sure Exp. 1 and Exp. 2 submissions are in and aggregated.

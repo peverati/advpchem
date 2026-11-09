@@ -1,4 +1,4 @@
-# Class 3 · From theory to a calculation: IQmol, Q-Chem and Experiment 1  (Before Exp. 1)
+# Lecture 3 · From theory to a calculation: IQmol, Q-Chem and Experiment 1  (Before Exp. 1)
 
 **Goal.** Every student can set up, submit and read a Q-Chem job in IQmol and knows exactly what to do in Experiment 1.
 
@@ -65,4 +65,4 @@
 
 **If running late:** shorten the tools talk; cut Option B copy-paste demo; do the units block as a one-slide recap and make the briefing the priority (never cut predictions-first).
 **If this becomes two classes:** not marked; if the demo fails (server down), use the saved backup output and move the live part to the next class start.
-**Next class:** Class 4, Hartree–Fock and the SCF.
+**Next class:** Lecture 4, Hartree–Fock and the SCF.

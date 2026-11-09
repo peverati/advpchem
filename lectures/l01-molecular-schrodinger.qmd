@@ -1,5 +1,5 @@
 ---
-title: "Class 1 · The molecular Schrödinger equation"
+title: "Lecture 1 · The molecular Schrödinger equation"
 subtitle: "What we compute, what we cannot compute exactly, and the two approximations behind every calculation"
 description: "The molecular Hamiltonian, atomic units, the Born–Oppenheimer approximation, many-electron wave functions and the variational principle."
 ---
@@ -59,7 +59,7 @@ This lab has ten experiments. Each one isolates one source of error or one pract
 | [9](../experiments/ex09-experiment-vs-theory.qmd) | Theory vs experiment | from electronic energies to measured quantities |
 | [10](../experiments/ex10-final-review.qmd) | Final review | choosing and defending a method yourself |
 
-Behind all ten sits a single idea, which this chapter develops: **every practical calculation makes two approximations.** We approximate the *wave function* Ψ by expanding it in a finite set of functions (the basis set, [Class 2](l02-basis-sets.qmd) and Experiment 1). And we approximate the *Hamiltonian* Ĥ, or more precisely the way electrons interact, by choosing a method such as Hartree–Fock or a density functional (Classes 4–6 and Experiments 2–5). Most of the semester is about understanding the errors these two approximations introduce, and how they can add up or cancel.
+Behind all ten sits a single idea, which this chapter develops: **every practical calculation makes two approximations.** We approximate the *wave function* Ψ by expanding it in a finite set of functions (the basis set, [Lecture 2](l02-basis-sets.qmd) and Experiment 1). And we approximate the *Hamiltonian* Ĥ, or more precisely the way electrons interact, by choosing a method such as Hartree–Fock or a density functional (Lectures 4–6 and Experiments 2–5). Most of the semester is about understanding the errors these two approximations introduce, and how they can add up or cancel.
 
 ## Review: the Schrödinger equation and the hydrogen atom
 
@@ -81,7 +81,7 @@ Three facts from P-Chem 2 matter for everything that follows:
 
 ::: {.callout-note}
 ## Notation in this course
-The P-Chem 2 textbook writes kinetic-energy operators as $\hat{K}$ and uses $\chi$ for spin orbitals. In these handouts we follow the convention of most quantum-chemistry programs and papers: $\hat{T}$ for kinetic energy, $\Psi$ for the many-electron wave function, $\phi_i$ (or $\psi_i$) for orbitals, and $\chi_\mu$ for **basis functions** (from [Class 2](l02-basis-sets.qmd) on). Bold symbols such as $\mathbf{r}$ are vectors.
+The P-Chem 2 textbook writes kinetic-energy operators as $\hat{K}$ and uses $\chi$ for spin orbitals. In these handouts we follow the convention of most quantum-chemistry programs and papers: $\hat{T}$ for kinetic energy, $\Psi$ for the many-electron wave function, $\phi_i$ (or $\psi_i$) for orbitals, and $\chi_\mu$ for **basis functions** (from [Lecture 2](l02-basis-sets.qmd) on). Bold symbols such as $\mathbf{r}$ are vectors.
 :::
 
 ### The hydrogen atom: the one exactly solvable atom
@@ -100,9 +100,9 @@ $$
 
 labeled by three quantum numbers: the principal quantum number $n = 1, 2, \dots$; the angular-momentum quantum number $\ell = 0, \dots, n-1$ (s, p, d, f, …); and the magnetic quantum number $m_\ell = -\ell, \dots, +\ell$. The radial function $R_{n\ell}$ has $n - \ell - 1$ **radial nodes**, and the angular part has $\ell$ angular nodes. @fig-hydrogen shows the first six radial functions and the corresponding radial probability densities.
 
-![Hydrogen-atom radial functions $R_{n\ell}(r)$ (a) and radial probability densities $r^2R_{n\ell}^2(r)$ (b), in atomic units. The 2s function has one radial node, 3s has two, 3p has one; 2p and 3d have none ($n-\ell-1=0$). Note two features that will matter in Class 2: s functions have a sharp, finite **cusp** at the nucleus, and every function decays **exponentially**, as $e^{-r/n}$, at large $r$.](images/l01-hydrogen-radial.png){#fig-hydrogen fig-alt="Two panels. Left: hydrogen radial functions 1s, 2s, 2p, 3s, 3p and 3d versus r in bohr; s functions are nonzero at r = 0 and 2s and 3s cross zero at their radial nodes. Right: radial probability densities r squared R squared, with the 1s peak at 1 bohr and the n = 2 and n = 3 functions peaking farther out."}
+![Hydrogen-atom radial functions $R_{n\ell}(r)$ (a) and radial probability densities $r^2R_{n\ell}^2(r)$ (b), in atomic units. The 2s function has one radial node, 3s has two, 3p has one; 2p and 3d have none ($n-\ell-1=0$). Note two features that will matter in Lecture 2: s functions have a sharp, finite **cusp** at the nucleus, and every function decays **exponentially**, as $e^{-r/n}$, at large $r$.](images/l01-hydrogen-radial.png){#fig-hydrogen fig-alt="Two panels. Left: hydrogen radial functions 1s, 2s, 2p, 3s, 3p and 3d versus r in bohr; s functions are nonzero at r = 0 and 2s and 3s cross zero at their radial nodes. Right: radial probability densities r squared R squared, with the 1s peak at 1 bohr and the n = 2 and n = 3 functions peaking farther out."}
 
-The hydrogen orbitals are **one-electron wave functions**. That idea is the seed of everything we do: for many-electron systems we will build approximate wave functions out of one-electron functions (orbitals), and we will build the orbitals themselves out of simpler functions that look like the hydrogen solutions near each nucleus. Two properties of $\psi_{1s} \propto e^{-r}$ are worth noticing now, because Gaussian basis functions will get both of them wrong ([Class 2](l02-basis-sets.qmd)):
+The hydrogen orbitals are **one-electron wave functions**. That idea is the seed of everything we do: for many-electron systems we will build approximate wave functions out of one-electron functions (orbitals), and we will build the orbitals themselves out of simpler functions that look like the hydrogen solutions near each nucleus. Two properties of $\psi_{1s} \propto e^{-r}$ are worth noticing now, because Gaussian basis functions will get both of them wrong ([Lecture 2](l02-basis-sets.qmd)):
 
 - **The cusp.** At $r = 0$ the 1s function has a finite value and a sharp corner: its slope is $d\psi/dr = -Z\psi(0)$, not zero. This is not an accident of hydrogen; it is required of any exact wave function wherever an electron meets a nucleus [@kato1957].
 - **The exponential tail.** Far from the nucleus, bound wave functions decay as $e^{-\sqrt{2I}\,r}$, where $I$ is the ionization energy in hartree. For hydrogen, $I = 0.5\ E_\text{h}$ and the decay is $e^{-r}$.
@@ -131,7 +131,7 @@ $$ {#eq-terms}
 
 The two attraction/repulsion sums over pairs use $j > i$ and $B > A$ so that each pair is counted once. The P-Chem 2 textbook writes the same five terms in [§11.1](https://peverati.github.io/pchem2/Molecules.html#the-molecular-hamiltonian), with $\hat{K}$ for kinetic energy.
 
-This Hamiltonian is called "exact", but it already leaves out some physics: relativistic effects (important for core electrons of heavy atoms) and spin–orbit coupling. For the light molecules in most of this lab they are small. For heavy elements (Experiment 8 has ruthenium; Experiment 10 has palladium) the def2 basis sets include relativistic effects through *effective core potentials*, which you will meet in [Class 2](l02-basis-sets.qmd).
+This Hamiltonian is called "exact", but it already leaves out some physics: relativistic effects (important for core electrons of heavy atoms) and spin–orbit coupling. For the light molecules in most of this lab they are small. For heavy elements (Experiment 8 has ruthenium; Experiment 10 has palladium) the def2 basis sets include relativistic effects through *effective core potentials*, which you will meet in [Lecture 2](l02-basis-sets.qmd).
 
 ### Atomic units {#sec-units}
 
@@ -219,7 +219,7 @@ that number is $U(\mathbf{R})$ of @eq-pes, computed *at the one geometry you gav
 - **thermal energy** at room temperature (translation, rotation, populated vibrational levels);
 - **entropy**, so it is not a free energy.
 
-The reaction energies you compute in Experiments 1–8 are therefore *electronic* reaction energies, $\Delta E_\text{el}$, and they are compared with reference values of the same kind. Comparing with experiment requires the corrections listed above; that is the subject of Class 13 and Experiment 9.
+The reaction energies you compute in Experiments 1–8 are therefore *electronic* reaction energies, $\Delta E_\text{el}$, and they are compared with reference values of the same kind. Comparing with experiment requires the corrections listed above; that is the subject of Lecture 13 and Experiment 9.
 
 ::: {.callout-tip}
 ## Worked example: nuclear repulsion of HCl
@@ -251,7 +251,7 @@ The helium atom shows how big the effect of $\hat{V}_{ee}$ is:
 | Best possible single determinant (Hartree–Fock limit) | $-2.8617$ |
 | Exact nonrelativistic energy | $-2.9037$ |
 
-: The helium atom. Ignoring electron repulsion is a disaster; a single determinant of the best orbitals gets most of the energy; the remaining 0.042 $E_\text{h}$ (26 kcal/mol) is the *correlation energy* of Class 4. {#tbl-helium}
+: The helium atom. Ignoring electron repulsion is a disaster; a single determinant of the best orbitals gets most of the energy; the remaining 0.042 $E_\text{h}$ (26 kcal/mol) is the *correlation energy* of Lecture 4. {#tbl-helium}
 
 Notice the size of the last difference. The error of the best single-determinant wave function is "only" 1.4% of the total energy, yet 26 kcal/mol is far larger than the reaction energies we care about. This is why approximations to the electron–electron interaction are the heart of quantum chemistry.
 
@@ -299,7 +299,7 @@ Rows are electrons, columns are spin orbitals. Two properties of determinants do
 - **Swapping two rows changes the sign** of a determinant. Swapping two rows means exchanging two electrons, so @eq-slater obeys @eq-antisym automatically.
 - **A determinant with two identical columns is zero.** Two electrons in the same spin orbital give $\Psi = 0$: this is the Pauli exclusion principle.
 
-The Slater determinant is the *simplest* antisymmetric wave function we can build from orbitals. It is the wave function of Hartree–Fock theory (Class 4), and the Kohn–Sham determinant of density functional theory (Class 5) has the same form. It is not the exact wave function: a single determinant describes each electron as moving in the *average* field of the others, and misses the way electrons instantaneously avoid each other. That missing piece is **electron correlation**.
+The Slater determinant is the *simplest* antisymmetric wave function we can build from orbitals. It is the wave function of Hartree–Fock theory (Lecture 4), and the Kohn–Sham determinant of density functional theory (Lecture 5) has the same form. It is not the exact wave function: a single determinant describes each electron as moving in the *average* field of the others, and misses the way electrons instantaneously avoid each other. That missing piece is **electron correlation**.
 
 ::: {.callout-note}
 ## Orbitals are building blocks, not observables
@@ -324,7 +324,7 @@ The consequences are practical:
 2. **Optimize parameters.** Give the trial function adjustable parameters and minimize the energy with respect to them. The result is the best approximation of that form.
 3. **More flexibility can only help.** If one family of trial functions contains another (for example, a bigger set of basis functions that includes all the functions of a smaller one), the minimum energy of the bigger family is lower or equal.
 
-Point 3 is the reason basis sets work, as you will see in [Class 2](l02-basis-sets.qmd).
+Point 3 is the reason basis sets work, as you will see in [Lecture 2](l02-basis-sets.qmd).
 
 ::: {.callout-tip}
 ## Worked example: the variational principle for helium
@@ -339,16 +339,16 @@ Setting $dE/d\zeta = 0$ gives $\zeta = Z - \tfrac{5}{16} = 1.6875$ and $E = -\ze
 
 ::: {.callout-important}
 ## When "lower is better" does not apply
-The variational principle compares energies computed **with the same Hamiltonian**. Hartree–Fock and the basis-set expansion are variational, so a bigger basis always gives a lower or equal HF energy. But approximate density functionals (Classes 5–6) use *approximate* Hamiltonians: a functional that gives a lower total energy is not, for that reason, a better functional. Comparing total energies across methods is meaningless; comparing **reaction energies** with a reliable reference is how methods are judged (Class 7).
+The variational principle compares energies computed **with the same Hamiltonian**. Hartree–Fock and the basis-set expansion are variational, so a bigger basis always gives a lower or equal HF energy. But approximate density functionals (Lectures 5–6) use *approximate* Hamiltonians: a functional that gives a lower total energy is not, for that reason, a better functional. Comparing total energies across methods is meaningless; comparing **reaction energies** with a reliable reference is how methods are judged (Lecture 7).
 :::
 
 ## The two approximations of every calculation
 
 We can now state precisely what any practical electronic-structure calculation does. It makes two approximations, and they are independent of each other.
 
-**Approximation 1: the wave function (the basis set).** The orbitals are unknown functions in three dimensions. A computer cannot store an arbitrary function, so we expand each orbital in a finite set of known functions, the **basis set**. The finite expansion restricts the shapes the orbitals can take, and by the variational principle the energy is too high. As the basis grows, this **basis-set incompleteness error** (BSIE) shrinks toward the *complete-basis-set* (CBS) limit. This is [Class 2](l02-basis-sets.qmd) and [Experiment 1](../experiments/ex01-basis-sets.qmd).
+**Approximation 1: the wave function (the basis set).** The orbitals are unknown functions in three dimensions. A computer cannot store an arbitrary function, so we expand each orbital in a finite set of known functions, the **basis set**. The finite expansion restricts the shapes the orbitals can take, and by the variational principle the energy is too high. As the basis grows, this **basis-set incompleteness error** (BSIE) shrinks toward the *complete-basis-set* (CBS) limit. This is [Lecture 2](l02-basis-sets.qmd) and [Experiment 1](../experiments/ex01-basis-sets.qmd).
 
-**Approximation 2: the Hamiltonian (the method).** Even with a complete basis, we cannot handle $\hat{V}_{ee}$ exactly. A **method** decides how to treat it. Hartree–Fock replaces it by an average field (Class 4). Density functional theory replaces the hard part by an approximate *exchange–correlation functional* (Classes 5–6). Wave-function methods such as MP2 or CCSD(T) add correlation on top of Hartree–Fock, at a much higher cost.
+**Approximation 2: the Hamiltonian (the method).** Even with a complete basis, we cannot handle $\hat{V}_{ee}$ exactly. A **method** decides how to treat it. Hartree–Fock replaces it by an average field (Lecture 4). Density functional theory replaces the hard part by an approximate *exchange–correlation functional* (Lectures 5–6). Wave-function methods such as MP2 or CCSD(T) add correlation on top of Hartree–Fock, at a much higher cost.
 
 The pair of choices is called a **model chemistry** or **level of theory**, and it is written *method/basis*:
 
@@ -364,7 +364,7 @@ The total error of a computed reaction energy is, roughly, method error + basis-
 
 ::: {.callout-note}
 ## What comes next
-[Class 2](l02-basis-sets.qmd) opens the first approximation: what basis functions look like, why everyone uses Gaussians, and how to read names such as 6-31G\*, def2-TZVP and cc-pVQZ. [Class 3](l03-from-theory-to-a-calculation.qmd) turns all of this into a real calculation in IQmol and Q-Chem.
+[Lecture 2](l02-basis-sets.qmd) opens the first approximation: what basis functions look like, why everyone uses Gaussians, and how to read names such as 6-31G\*, def2-TZVP and cc-pVQZ. [Lecture 3](l03-from-theory-to-a-calculation.qmd) turns all of this into a real calculation in IQmol and Q-Chem.
 :::
 
 ## Key points
@@ -396,5 +396,5 @@ The total error of a computed reaction energy is, roughly, method error + basis-
 
 - [The Live Textbook of Physical Chemistry 2](https://peverati.github.io/pchem2/), chapters 3, 5–8, 10 and 11, for the review material of this chapter.
 - A. Szabo and N. S. Ostlund, *Modern Quantum Chemistry* [@szabo1996], chapters 1–2: the classic, careful introduction to the electronic Hamiltonian, Slater determinants and their algebra.
-- T. Helgaker, P. Jørgensen and J. Olsen, *Molecular Electronic-Structure Theory* [@helgaker2000]: the advanced reference for everything in Classes 1–4.
+- T. Helgaker, P. Jørgensen and J. Olsen, *Molecular Electronic-Structure Theory* [@helgaker2000]: the advanced reference for everything in Lectures 1–4.
 - W. Koch and M. C. Holthausen, *A Chemist's Guide to Density Functional Theory* [@koch2001], chapter 1: a compact review of the many-electron problem from the point of view of DFT users.

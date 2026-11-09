@@ -1,5 +1,5 @@
 ---
-title: "Class 5 · Approximating the Hamiltonian II: density functional theory"
+title: "Lecture 5 · Approximating the Hamiltonian II: density functional theory"
 subtitle: "Why the electron density is enough, the Kohn–Sham trick, and the first approximation"
 description: "The Hohenberg–Kohn theorems, the Kohn–Sham equations, the exchange–correlation energy, and the local spin-density approximation."
 ---
@@ -19,19 +19,19 @@ After studying this chapter you should be able to:
 :::
 
 ::: {.callout-note icon=false}
-## Review from P-Chem 2 and from Class 4
+## Review from P-Chem 2 and from Lecture 4
 
 - The probability density $|\Psi|^2$ and the Born interpretation: [Postulate 1](https://peverati.github.io/pchem2/Postulates.html#postulate-1-the-wave-function-postulate).
 - Radial distribution functions of the hydrogen atom: [The hydrogen atom, §5.1](https://peverati.github.io/pchem2/Hydrogen.html#the-radial-wave-functions). The density of the 1s orbital, $\rho(r) = e^{-2r}/\pi$, is used in a worked example below.
 - The variational method: [Many-electron atoms, §10.2.1](https://peverati.github.io/pchem2/Atoms.html#variational-method).
-- From [Class 4](l04-hartree-fock.qmd): the Fock operator, Coulomb and exchange, self-interaction, the SCF loop, and the definition of the correlation energy.
+- From [Lecture 4](l04-hartree-fock.qmd): the Fock operator, Coulomb and exchange, self-interaction, the SCF loop, and the definition of the correlation energy.
 :::
 
 ## Why look beyond the wave function?
 
 The many-electron wave function $\Psi(\mathbf{x}_1, \ldots, \mathbf{x}_N)$ depends on $3N$ spatial coordinates (plus $N$ spin coordinates). For benzene, with 42 electrons, that is a function of 126 variables. Suppose you wanted to store it on a coarse grid of only 10 points per coordinate: you would need $10^{126}$ numbers, far more than the number of atoms in the observable universe. Walter Kohn called this growth the "exponential wall" of wave-function methods [@kohn1999].
 
-Correlated wave-function methods avoid storing $\Psi$ on a grid, but they pay in a different currency: computer time. As you saw in [Class 4](l04-hartree-fock.qmd), MP2 scales as $N^5$ and CCSD(T) as $N^7$ with system size. CCSD(T) on a molecule with 30 heavy atoms is a major undertaking, and on the 50–100 atoms of a typical catalyst or drug molecule it is out of reach for routine work.
+Correlated wave-function methods avoid storing $\Psi$ on a grid, but they pay in a different currency: computer time. As you saw in [Lecture 4](l04-hartree-fock.qmd), MP2 scales as $N^5$ and CCSD(T) as $N^7$ with system size. CCSD(T) on a molecule with 30 heavy atoms is a major undertaking, and on the 50–100 atoms of a typical catalyst or drug molecule it is out of reach for routine work.
 
 Yet most questions in chemistry are about one simple function: where the electrons are. The **electron density** $\rho(\mathbf{r})$ depends on only **three** coordinates, whatever the number of electrons. Density functional theory (DFT) is the theory that says this function is enough, in principle, to get the exact ground-state energy. In practice it is the method behind most of the quantum chemistry done today, and the method of almost every experiment in this course.
 
@@ -57,7 +57,7 @@ For open-shell systems we also use the **spin densities** $\rho_\alpha(\mathbf{r
 
 ### The cusp argument: a hint that the density is enough
 
-Here is an informal argument, due to E. Bright Wilson, that the density should contain everything. From $\rho$ you can read off $N$ (integrate it), the positions of the nuclei (the cusps), and their charges (the slope at each cusp). But $N$, the nuclear positions and the nuclear charges are all you need to write the electronic Hamiltonian (Class 1). With the Hamiltonian you can, in principle, solve for $\Psi$ and everything else. So the ground-state density determines the ground-state wave function. The argument works only for Coulomb potentials. The general proof came in 1964.
+Here is an informal argument, due to E. Bright Wilson, that the density should contain everything. From $\rho$ you can read off $N$ (integrate it), the positions of the nuclei (the cusps), and their charges (the slope at each cusp). But $N$, the nuclear positions and the nuclear charges are all you need to write the electronic Hamiltonian (Lecture 1). With the Hamiltonian you can, in principle, solve for $\Psi$ and everything else. So the ground-state density determines the ground-state wave function. The argument works only for Coulomb potentials. The general proof came in 1964.
 
 ## The Hohenberg–Kohn theorems
 
@@ -105,7 +105,7 @@ $$
 T_{\mathrm{TF}}[\rho] = C_F \int \rho(\mathbf{r})^{5/3}\,d\mathbf{r}, \qquad C_F = \frac{3}{10}\left(3\pi^2\right)^{2/3} \approx 2.871.
 $$
 
-$J[\rho]$ is the **Hartree energy**: the classical self-repulsion of the charge cloud $\rho$. It is the same as $\frac{1}{2}\sum_{ij}J_{ij}$ of Class 4, including the unphysical $i = j$ terms. Dirac soon added an exchange term of the same local form [@dirac1930], which we will meet again below.
+$J[\rho]$ is the **Hartree energy**: the classical self-repulsion of the charge cloud $\rho$. It is the same as $\frac{1}{2}\sum_{ij}J_{ij}$ of Lecture 4, including the unphysical $i = j$ terms. Dirac soon added an exchange term of the same local form [@dirac1930], which we will meet again below.
 
 Thomas–Fermi theory gives rough total energies of heavy atoms, but it fails for chemistry in a spectacular way: it has no shell structure (the density decreases smoothly from the nucleus, with no K, L, M shells), and Teller proved in 1962 that **no molecule is bound** in Thomas–Fermi theory [@teller1962]. Any molecule is always higher in energy than its separated atoms. The culprit is the kinetic energy. It is the largest energy term after the nuclear attraction, and the local formula above misses most of the subtle changes in kinetic energy that make chemical bonds. Orbital-free kinetic-energy functionals are still an active research topic, but they are not accurate enough for chemistry.
 
@@ -180,7 +180,7 @@ The operator in brackets is the **Kohn–Sham operator**. Its potential $v_s = v
 For an ordinary function $f(x)$, the derivative tells you how much $f$ changes when you change $x$ a little. For a functional $E[\rho]$, the **functional derivative** $\delta E/\delta\rho(\mathbf{r})$ tells you how much $E$ changes when you add a tiny bit of density at the point $\mathbf{r}$. It is therefore itself a function of $\mathbf{r}$: a potential. For a functional of the simple local form $E[\rho] = \int g(\rho(\mathbf{r}))\,d\mathbf{r}$, the functional derivative is just the ordinary derivative of the integrand, $\delta E/\delta\rho(\mathbf{r}) = g'(\rho(\mathbf{r}))$. For example, the LDA exchange energy introduced below, $E_x = -C_x\int\rho^{4/3}\,d\mathbf{r}$, gives the exchange potential $v_x(\mathbf{r}) = -\tfrac{4}{3}C_x\,\rho(\mathbf{r})^{1/3}$. The Hartree energy $J[\rho]$ gives the Hartree potential $v_J$ in the same way. This is how every term of the energy produces a term of the Kohn–Sham potential.
 :::
 
-Compare @eq-ks with the Hartree–Fock equations of [Class 4](l04-hartree-fock.qmd):
+Compare @eq-ks with the Hartree–Fock equations of [Lecture 4](l04-hartree-fock.qmd):
 
 | | Hartree–Fock | Kohn–Sham DFT |
 |---|---|---|
@@ -194,7 +194,7 @@ Compare @eq-ks with the Hartree–Fock equations of [Class 4](l04-hartree-fock.q
 
 : Hartree–Fock and Kohn–Sham side by side. {#tbl-hf-ks}
 
-The two methods share almost all of their machinery. Kohn–Sham DFT expands the orbitals in the same basis sets, builds a Fock-like matrix, and solves the same generalized eigenvalue problem by the same SCF loop, with the same DIIS acceleration. That is why the SCF table of a DFT job in Q-Chem looks exactly like that of an HF job: cycle number, energy, DIIS error, and "Convergence criterion met" at the end. Everything you learned about convergence in [Class 4](l04-hartree-fock.qmd) applies unchanged.
+The two methods share almost all of their machinery. Kohn–Sham DFT expands the orbitals in the same basis sets, builds a Fock-like matrix, and solves the same generalized eigenvalue problem by the same SCF loop, with the same DIIS acceleration. That is why the SCF table of a DFT job in Q-Chem looks exactly like that of an HF job: cycle number, energy, DIIS error, and "Convergence criterion met" at the end. Everything you learned about convergence in [Lecture 4](l04-hartree-fock.qmd) applies unchanged.
 
 ::: {.callout-warning}
 ## Common mistake: adding up orbital energies
@@ -226,7 +226,7 @@ $$
 E_{xc}^{\mathrm{LDA}}[\rho] = \int \rho(\mathbf{r})\,\varepsilon_{xc}^{\mathrm{unif}}\big(\rho(\mathbf{r})\big)\,d\mathbf{r}.
 $$ {#eq-lda}
 
-For molecules we always use the spin-resolved version, the **local spin-density approximation** (LSDA), in which $\varepsilon_{xc}^{\mathrm{unif}}$ depends on both spin densities $\rho_\alpha$ and $\rho_\beta$. LSDA is the first rung of Jacob's ladder ([Class 6](l06-jacobs-ladder.qmd)).
+For molecules we always use the spin-resolved version, the **local spin-density approximation** (LSDA), in which $\varepsilon_{xc}^{\mathrm{unif}}$ depends on both spin densities $\rho_\alpha$ and $\rho_\beta$. LSDA is the first rung of Jacob's ladder ([Lecture 6](l06-jacobs-ladder.qmd)).
 
 ### LSDA exchange
 
@@ -269,7 +269,7 @@ Evaluate the LSDA terms with the exact density (computed with the script in `ima
 | $J + E_{xc}$ (Eh) | $0$ | $+0.022$ |
 | Total energy (Eh) | $-0.500$ | $-0.478$ |
 
-LSDA exchange recovers only 86% of the exchange energy needed to cancel the self-repulsion, and LSDA correlation adds a spurious correlation energy to a system with one electron. The net result is an electron that repels itself by 0.022 Eh (14 kcal/mol). This is the **self-interaction error** in its simplest form. In Hartree–Fock this error is exactly zero ([Class 4](l04-hartree-fock.qmd)).
+LSDA exchange recovers only 86% of the exchange energy needed to cancel the self-repulsion, and LSDA correlation adds a spurious correlation energy to a system with one electron. The net result is an electron that repels itself by 0.022 Eh (14 kcal/mol). This is the **self-interaction error** in its simplest form. In Hartree–Fock this error is exactly zero ([Lecture 4](l04-hartree-fock.qmd)).
 :::
 
 ### What LSDA gets right, and what it gets wrong
@@ -287,7 +287,7 @@ It is surprising that a model built on a uniform gas works at all for molecules,
 - **Barrier heights** are too low, often far too low.
 - **Ionization energies from orbital energies** are much too small, and anions are often not bound.
 
-These errors are the reason LSDA was never popular in chemistry. Chemists started to use DFT only after the gradient corrections of the late 1980s and the hybrids of 1993 (the subject of [Class 6](l06-jacobs-ladder.qmd)). In [Experiment 3](../experiments/ex03-organic-a.qmd) you will compute SPW92 alongside fifteen other methods and see where it stands.
+These errors are the reason LSDA was never popular in chemistry. Chemists started to use DFT only after the gradient corrections of the late 1980s and the hybrids of 1993 (the subject of [Lecture 6](l06-jacobs-ladder.qmd)). In [Experiment 3](../experiments/ex03-organic-a.qmd) you will compute SPW92 alongside fifteen other methods and see where it stands.
 
 ## How a DFT program evaluates $E_{xc}$: the integration grid
 
@@ -297,19 +297,19 @@ $$
 E_{xc} \approx \sum_{k} w_k\, \rho(\mathbf{r}_k)\,\varepsilon_{xc}\big(\rho(\mathbf{r}_k), \ldots\big).
 $$
 
-The grid is an extra approximation that Hartree–Fock does not have. A grid that is too coarse gives energies with numerical noise, which can be larger than you expect. You will meet grids in detail in [Class 11](l11-integration-grids.qmd) and test them in [Experiment 7](../experiments/ex07-grids.qmd). For now, remember that the grid is the second reason, after the choice of $E_{xc}$, why two DFT calculations with "the same" functional and basis can disagree.
+The grid is an extra approximation that Hartree–Fock does not have. A grid that is too coarse gives energies with numerical noise, which can be larger than you expect. You will meet grids in detail in [Lecture 11](l11-integration-grids.qmd) and test them in [Experiment 7](../experiments/ex07-grids.qmd). For now, remember that the grid is the second reason, after the choice of $E_{xc}$, why two DFT calculations with "the same" functional and basis can disagree.
 
-One more preview. Nothing forces $E_{xc}$ to be a pure density functional. **Hybrid functionals** replace part of the approximate exchange by exact (Hartree–Fock) exchange, computed from the Kohn–Sham orbitals with the $\hat K$ operator of [Class 4](l04-hartree-fock.qmd). This partly cures the self-interaction error. Hybrids are the fourth rung of Jacob's ladder, in [Class 6](l06-jacobs-ladder.qmd).
+One more preview. Nothing forces $E_{xc}$ to be a pure density functional. **Hybrid functionals** replace part of the approximate exchange by exact (Hartree–Fock) exchange, computed from the Kohn–Sham orbitals with the $\hat K$ operator of [Lecture 4](l04-hartree-fock.qmd). This partly cures the self-interaction error. Hybrids are the fourth rung of Jacob's ladder, in [Lecture 6](l06-jacobs-ladder.qmd).
 
 ## Known errors of approximate functionals {#sec-errors}
 
 Every functional you will use in this course is an approximation, and approximations fail in characteristic ways. Three of them are worth knowing by name from the start. Each returns in later classes, with experiments designed to expose it.
 
-**1. Self-interaction and delocalization error.** In approximate functionals, the approximate $E_x$ does not exactly cancel the self-repulsion contained in $J[\rho]$ (as in the hydrogen atom above). Perdew and Zunger made this precise in 1981 and proposed a correction [@perdew1981]. Because an electron that repels itself prefers to be spread out, approximate functionals systematically over-stabilize **delocalized** charge. This is called **delocalization error** [@cohen2012]. Its symptoms are striking. In stretched H₂⁺, a one-electron system, LSDA and GGAs predict an energy far too low, with the electron shared between two distant protons. Reaction barriers come out too low, because transition states have stretched, delocalized bonds. Charge-transfer complexes are overbound, and orbital energies are too high. Mixing in Hartree–Fock exchange, which has no self-interaction, reduces this error ([Class 6](l06-jacobs-ladder.qmd)). It returns in [Class 9](l09-difficult-cases.qmd).
+**1. Self-interaction and delocalization error.** In approximate functionals, the approximate $E_x$ does not exactly cancel the self-repulsion contained in $J[\rho]$ (as in the hydrogen atom above). Perdew and Zunger made this precise in 1981 and proposed a correction [@perdew1981]. Because an electron that repels itself prefers to be spread out, approximate functionals systematically over-stabilize **delocalized** charge. This is called **delocalization error** [@cohen2012]. Its symptoms are striking. In stretched H₂⁺, a one-electron system, LSDA and GGAs predict an energy far too low, with the electron shared between two distant protons. Reaction barriers come out too low, because transition states have stretched, delocalized bonds. Charge-transfer complexes are overbound, and orbital energies are too high. Mixing in Hartree–Fock exchange, which has no self-interaction, reduces this error ([Lecture 6](l06-jacobs-ladder.qmd)). It returns in [Lecture 9](l09-difficult-cases.qmd).
 
-**2. Missing long-range dispersion.** LSDA depends only on the density at each point. GGAs and meta-GGAs ([Class 6](l06-jacobs-ladder.qmd)) also look at its derivatives at that point, but still only locally. Dispersion, however, is a correlation between density fluctuations at two points that can be far apart, on two molecules whose densities do not overlap. A local or semilocal functional cannot see it: as two argon atoms are pulled apart, the energy of any such functional approaches the separated-atom value too quickly. The functional may give some spurious binding where the densities overlap (LSDA often does), but for the wrong reason. Dispersion must be added, by an empirical correction like **-D4** [@caldeweyher2017; @caldeweyher2019] or by a nonlocal correlation functional (VV10) [@vydrov2010]. This is the subject of [Class 8](l08-dispersion.qmd) and [Experiment 4](../experiments/ex04-organic-b.qmd).
+**2. Missing long-range dispersion.** LSDA depends only on the density at each point. GGAs and meta-GGAs ([Lecture 6](l06-jacobs-ladder.qmd)) also look at its derivatives at that point, but still only locally. Dispersion, however, is a correlation between density fluctuations at two points that can be far apart, on two molecules whose densities do not overlap. A local or semilocal functional cannot see it: as two argon atoms are pulled apart, the energy of any such functional approaches the separated-atom value too quickly. The functional may give some spurious binding where the densities overlap (LSDA often does), but for the wrong reason. Dispersion must be added, by an empirical correction like **-D4** [@caldeweyher2017; @caldeweyher2019] or by a nonlocal correlation functional (VV10) [@vydrov2010]. This is the subject of [Lecture 8](l08-dispersion.qmd) and [Experiment 4](../experiments/ex04-organic-b.qmd).
 
-**3. Static correlation.** The Kohn–Sham reference is a single determinant. When the true wave function needs two or more determinants with similar weights (stretched bonds, diradicals, ozone, many transition-metal compounds), approximate functionals struggle. In principle the exact $E_{xc}$ would handle it. In practice, approximate functionals do it badly or not at all, and often the unrestricted calculation breaks spin symmetry, just as UHF does for stretched H₂ ([Class 4](l04-hartree-fock.qmd)). Static correlation and self-interaction are related, and they pull in opposite directions: adding Hartree–Fock exchange reduces self-interaction error but makes static-correlation problems worse. This tension is one reason why no single functional is best for everything. It returns in [Class 9](l09-difficult-cases.qmd) and [Class 12](l12-scf-stability.qmd).
+**3. Static correlation.** The Kohn–Sham reference is a single determinant. When the true wave function needs two or more determinants with similar weights (stretched bonds, diradicals, ozone, many transition-metal compounds), approximate functionals struggle. In principle the exact $E_{xc}$ would handle it. In practice, approximate functionals do it badly or not at all, and often the unrestricted calculation breaks spin symmetry, just as UHF does for stretched H₂ ([Lecture 4](l04-hartree-fock.qmd)). Static correlation and self-interaction are related, and they pull in opposite directions: adding Hartree–Fock exchange reduces self-interaction error but makes static-correlation problems worse. This tension is one reason why no single functional is best for everything. It returns in [Lecture 9](l09-difficult-cases.qmd) and [Lecture 12](l12-scf-stability.qmd).
 
 ::: {.callout-warning}
 ## Common mistake: "DFT includes correlation, so it is always better than HF"
@@ -327,14 +327,14 @@ Approximate DFT includes *approximate* exchange and correlation. For most chemis
 - The KS equations look like the HF equations, with the exchange operator replaced by a local potential $v_{xc}$. They are solved by the **same SCF machinery**, and the output looks the same.
 - **LSDA** takes $E_{xc}$ from the uniform electron gas: exchange $\propto\rho^{4/3}$ (Dirac/Slater), correlation from quantum Monte Carlo data fitted by VWN or PW92. SPW92 is the LSDA of this course.
 - LSDA gives good geometries but **overbinds**: atomization energies far too large, barriers too low.
-- $E_{xc}$ is evaluated numerically on a **grid** ([Class 11](l11-integration-grids.qmd)).
+- $E_{xc}$ is evaluated numerically on a **grid** ([Lecture 11](l11-integration-grids.qmd)).
 - Three error types to remember: **self-interaction/delocalization error**, **missing dispersion**, and **static correlation**.
 
 ## Study questions {.unnumbered}
 
 1. How many spatial coordinates does the wave function of a water molecule depend on? And its electron density? Why does this matter for the cost of a calculation?
 2. State the first Hohenberg–Kohn theorem in your own words. Then reproduce the proof by contradiction for a nondegenerate ground state.
-3. What is a functional? Give two examples from this chapter or from Class 4, and say what each takes as input and what it returns.
+3. What is a functional? Give two examples from this chapter or from Lecture 4, and say what each takes as input and what it returns.
 4. Thomas–Fermi theory and Kohn–Sham DFT both write the energy as a functional of the density. What is the key difference that makes Kohn–Sham useful for chemistry while Thomas–Fermi binds no molecules?
 5. Write the Kohn–Sham energy decomposition, name each term, and say which terms are computed exactly. List the three physical effects collected in $E_{xc}$.
 6. Compare the Hartree–Fock and Kohn–Sham one-electron operators term by term. Which term is nonlocal in HF and local in LSDA?
@@ -349,5 +349,5 @@ Approximate DFT includes *approximate* exchange and correlation. For most chemis
 - @kohn1999: Walter Kohn's Nobel lecture, an elegant and readable account of why the density is enough.
 - @burke2012: a short perspective on what DFT is, what it is not, and where approximations come from.
 - @parr1989: the classic, more mathematical textbook.
-- @cohen2012: a review of the main errors of approximate functionals (self-interaction, delocalization, static correlation), for after Class 9.
+- @cohen2012: a review of the main errors of approximate functionals (self-interaction, delocalization, static correlation), for after Lecture 9.
 - @peverati2014 and @mardirossian2017: reviews of modern functionals, useful for [Experiment 2](../experiments/ex02-jacobs-ladder.qmd).

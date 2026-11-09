@@ -1,12 +1,12 @@
 ---
-title: "Class 11 · Numerical integration grids"
+title: "Lecture 11 · Numerical integration grids"
 subtitle: "Debrief of Experiment 6 and introduction to Experiment 7"
 description: "What Experiment 6 says about B3LYP/6-31G*, how DFT programs integrate the exchange–correlation energy on a grid of points, and a briefing for Experiment 7."
 ---
 
 ::: {.callout-note}
 ## Learning goals
-After this class you should be able to:
+After this lecture you should be able to:
 
 - explain why B3LYP/6-31G\* can beat B3LYP/def2-TZVP for one reaction and fail badly for another, and why that should worry you;
 - explain why the exchange–correlation energy has to be computed numerically, while the Hartree–Fock energy does not;
@@ -31,7 +31,7 @@ The **MAE by basis set** chart shows one bar per basis set for each functional. 
 
 ## Three reactions, three behaviors
 
-**4a, the Diels–Alder reaction.** Most of you probably found that B3LYP/6-31G\* is *closer* to the reference than B3LYP/def2-TZVP, and by a wide margin. This is not because 6-31G\* is a better basis. At a nearly converged basis, B3LYP makes this reaction too little exothermic: it has no dispersion ([Class 8](l08-dispersion.qmd)), and it has a known tendency to underbind when π bonds turn into σ bonds. A small basis makes an error of its own, and here that error has the opposite sign. The product, cyclohexene, is one compact molecule with two new C–C σ bonds. With a small basis it can "borrow" functions from neighboring atoms more than the two separate reactants can (the intramolecular cousin of basis-set superposition error, [Class 10](l10-error-cancellation.qmd)). A small basis therefore favors the product and makes the reaction more exothermic. Two errors with opposite signs cancel, and the result looks good.
+**4a, the Diels–Alder reaction.** Most of you probably found that B3LYP/6-31G\* is *closer* to the reference than B3LYP/def2-TZVP, and by a wide margin. This is not because 6-31G\* is a better basis. At a nearly converged basis, B3LYP makes this reaction too little exothermic: it has no dispersion ([Lecture 8](l08-dispersion.qmd)), and it has a known tendency to underbind when π bonds turn into σ bonds. A small basis makes an error of its own, and here that error has the opposite sign. The product, cyclohexene, is one compact molecule with two new C–C σ bonds. With a small basis it can "borrow" functions from neighboring atoms more than the two separate reactants can (the intramolecular cousin of basis-set superposition error, [Lecture 10](l10-error-cancellation.qmd)). A small basis therefore favors the product and makes the reaction more exothermic. Two errors with opposite signs cancel, and the result looks good.
 
 **4b, n-hexane → neohexane.** Here the small bases probably gave nearly the same answer as def2-TZVP. Both sides of the reaction have the same number and kind of bonds, so the basis-set errors almost cancel between reactant and product. B3LYP's error for this reaction is mostly the missing intramolecular dispersion, which no basis set can supply. -D4 fixes most of it.
 
@@ -62,13 +62,13 @@ The same logic returns today. The integration grid is a third numerical approxim
 
 ## Why the exchange–correlation energy needs quadrature
 
-Recall the Kohn–Sham energy (see [Class 5](l05-density-functional-theory.qmd)):
+Recall the Kohn–Sham energy (see [Lecture 5](l05-density-functional-theory.qmd)):
 
 $$
 E[\rho] = T_s[\rho] + E_{\mathrm{ne}}[\rho] + J[\rho] + E_{\mathrm{xc}}[\rho].
 $$
 
-All terms except $E_\mathrm{xc}$ reduce to integrals over Gaussian basis functions. The kinetic energy, the nuclear attraction and the Coulomb energy $J$ need one- and two-electron integrals such as $(\mu\nu|\lambda\sigma)$. The Gaussian product theorem ([Class 2](l02-basis-sets.qmd)) turns every one of them into a closed formula. Hartree–Fock exchange is built from the same two-electron integrals. That is why a Hartree–Fock calculation is exact for a given basis set, up to the SCF convergence threshold.
+All terms except $E_\mathrm{xc}$ reduce to integrals over Gaussian basis functions. The kinetic energy, the nuclear attraction and the Coulomb energy $J$ need one- and two-electron integrals such as $(\mu\nu|\lambda\sigma)$. The Gaussian product theorem ([Lecture 2](l02-basis-sets.qmd)) turns every one of them into a closed formula. Hartree–Fock exchange is built from the same two-electron integrals. That is why a Hartree–Fock calculation is exact for a given basis set, up to the SCF convergence threshold.
 
 The exchange–correlation energy is different. In its simplest form, LSDA exchange,
 
@@ -206,7 +206,7 @@ Grid errors in total energies are tiny on the scale of hartrees. They matter bec
 
 1. **The grid moves with the atoms.** When a bond length changes, the points around each atom shift relative to the other atoms, and the cell weights change. The integration error changes erratically from one geometry to the next. A potential energy curve picks up small oscillations, or "wiggles", that have nothing to do with chemistry.
 2. **Rotational variance.** A Lebedev grid has a fixed orientation in space. If you rotate a molecule while keeping the grid fixed, the energy changes slightly. Programs reduce this by putting every molecule in a standard orientation first. Two conformers or two molecules in a reaction have no common orientation, though, so the effect never vanishes completely.
-3. **Derivatives are more sensitive than energies.** Forces and, especially, second derivatives amplify grid noise. Small vibrational frequencies (methyl rotations, soft torsions) can change by tens of cm⁻¹ or even become imaginary on a coarse grid. That matters when you compute thermal corrections ([Class 13](l13-theory-vs-experiment.qmd)).
+3. **Derivatives are more sensitive than energies.** Forces and, especially, second derivatives amplify grid noise. Small vibrational frequencies (methyl rotations, soft torsions) can change by tens of cm⁻¹ or even become imaginary on a coarse grid. That matters when you compute thermal corrections ([Lecture 13](l13-theory-vs-experiment.qmd)).
 
 ::: {.callout-tip}
 ## Worked example: noise vs signal in Ar₂
@@ -281,7 +281,7 @@ with signed stoichiometric coefficients ν = +1 for the dimer and ν = −2 for 
 | Structures | 31 dimers + 1 atom = 32 |
 | Jobs | 5 × 3 × 32 = **480**: seconds each with SG-1, a few minutes each with SG-2 and SG-3 |
 
-Before you run anything, place the five functionals on Jacob's ladder ([Class 6](l06-jacobs-ladder.qmd)) and think about which ingredients each one uses. That is the basis for your predictions.
+Before you run anything, place the five functionals on Jacob's ladder ([Lecture 6](l06-jacobs-ladder.qmd)) and think about which ingredients each one uses. That is the basis for your predictions.
 
 ## Running 480 jobs without losing your mind
 

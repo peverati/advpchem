@@ -1,5 +1,5 @@
 ---
-title: "Class 6 · Approximating the Hamiltonian III: Jacob's ladder"
+title: "Lecture 6 · Approximating the Hamiltonian III: Jacob's ladder"
 subtitle: "From the gradient of the density to hybrids, range separation and dispersion"
 description: "How density functional approximations are built, rung by rung, how to decode their names, and how to prepare for Experiment 2."
 ---
@@ -20,18 +20,18 @@ After studying this chapter you should be able to:
 :::
 
 ::: {.callout-note icon=false}
-## Review from Classes 4 and 5
+## Review from Lectures 4 and 5
 
 This chapter builds directly on the previous two. Before reading it, make sure you can:
 
-- write the Hartree–Fock exchange energy and explain why it is free of self-interaction ([Class 4](l04-hartree-fock.qmd));
-- write the Kohn–Sham energy $E = T_s + E_{ne} + J + E_{xc}$ ([Class 5](l05-density-functional-theory.qmd));
-- write the LSDA exchange energy, $E_x^{\mathrm{LDA}} = -C_x\int\rho^{4/3}\,d\mathbf{r}$, and list what LSDA gets right and wrong ([Class 5](l05-density-functional-theory.qmd)).
+- write the Hartree–Fock exchange energy and explain why it is free of self-interaction ([Lecture 4](l04-hartree-fock.qmd));
+- write the Kohn–Sham energy $E = T_s + E_{ne} + J + E_{xc}$ ([Lecture 5](l05-density-functional-theory.qmd));
+- write the LSDA exchange energy, $E_x^{\mathrm{LDA}} = -C_x\int\rho^{4/3}\,d\mathbf{r}$, and list what LSDA gets right and wrong ([Lecture 5](l05-density-functional-theory.qmd)).
 :::
 
 ## Jacob's ladder
 
-In [Class 5](l05-density-functional-theory.qmd) we saw that Kohn–Sham DFT is exact except for one term, the exchange–correlation energy $E_{xc}[\rho]$, and that the simplest approximation to it, LSDA, overbinds molecules badly. Since the late 1980s, hundreds of better approximations have been proposed. Their names can look like a random collection of letters and numbers: BLYP, PBE0, M06-2X, ωB97M-V, MN15-L. There is order behind them, and the most useful way to see it is a metaphor introduced by John Perdew and Karla Schmidt in 2001 [@perdew2001; @perdew2005].
+In [Lecture 5](l05-density-functional-theory.qmd) we saw that Kohn–Sham DFT is exact except for one term, the exchange–correlation energy $E_{xc}[\rho]$, and that the simplest approximation to it, LSDA, overbinds molecules badly. Since the late 1980s, hundreds of better approximations have been proposed. Their names can look like a random collection of letters and numbers: BLYP, PBE0, M06-2X, ωB97M-V, MN15-L. There is order behind them, and the most useful way to see it is a metaphor introduced by John Perdew and Karla Schmidt in 2001 [@perdew2001; @perdew2005].
 
 In the Book of Genesis, Jacob dreams of a ladder that connects earth to heaven. In Perdew's version, the ladder rises from the "Hartree world" (no exchange or correlation at all, as in Hartree's 1928 method) to the "heaven of chemical accuracy", meaning errors below about 1 kcal/mol for energy differences. Each rung adds a new **ingredient**: a new kind of local information that the functional can use (@fig-ladder).
 
@@ -53,7 +53,7 @@ Three facts about the ladder are worth stating clearly.
 - **Higher is usually better, but not always.** A well-designed GGA can beat a poorly designed hybrid for some properties. The ladder ranks *ingredients*, not individual functionals.
 - **Higher is always more expensive.** Rungs 1–3 are **semilocal**: the energy density at a point depends only on information at that point, and the cost is small. Rung 4 needs the exchange matrix of Hartree–Fock, which is more expensive, and rung 5 needs a correlated wave-function step like MP2.
 
-The rest of this chapter climbs the ladder one rung at a time. Rung 1 (LSDA) was the subject of [Class 5](l05-density-functional-theory.qmd).
+The rest of this chapter climbs the ladder one rung at a time. Rung 1 (LSDA) was the subject of [Lecture 5](l05-density-functional-theory.qmd).
 
 ## Rung 2: the generalized gradient approximation (GGA)
 
@@ -75,7 +75,7 @@ $$
 E_x^{\mathrm{GGA}}[\rho] = -C_x\int\rho(\mathbf{r})^{4/3}\,F_x\big(s(\mathbf{r})\big)\,d\mathbf{r}, \qquad C_x = \frac{3}{4}\left(\frac{3}{\pi}\right)^{1/3}.
 $$ {#eq-fx}
 
-(For spin-polarized systems the same formula is applied to each spin density separately.) $F_x = 1$ gives back LSDA. Different GGA exchange functionals are simply different choices of $F_x(s)$. Because $F_x > 1$, GGAs make the exchange energy more negative than LSDA, which, as we saw for the hydrogen atom in [Class 5](l05-density-functional-theory.qmd), is what is needed.
+(For spin-polarized systems the same formula is applied to each spin density separately.) $F_x = 1$ gives back LSDA. Different GGA exchange functionals are simply different choices of $F_x(s)$. Because $F_x > 1$, GGAs make the exchange energy more negative than LSDA, which, as we saw for the hydrogen atom in [Lecture 5](l05-density-functional-theory.qmd), is what is needed.
 
 ### B88 exchange
 
@@ -104,7 +104,7 @@ Each number has a physical origin. $\mu$ is chosen so that, for small gradients,
 ::: {.callout-note}
 ## Worked example: GGA exchange for the hydrogen atom
 
-In [Class 5](l05-density-functional-theory.qmd) we evaluated LSDA exchange for the exact density of the hydrogen atom and found $-0.268$ Eh, against the exact $-0.3125$ Eh. With the same density, the two GGAs give (computed with the course script):
+In [Lecture 5](l05-density-functional-theory.qmd) we evaluated LSDA exchange for the exact density of the hydrogen atom and found $-0.268$ Eh, against the exact $-0.3125$ Eh. With the same density, the two GGAs give (computed with the course script):
 
 | | LSDA | PBE | B88 | Exact |
 |---|---:|---:|---:|---:|
@@ -137,7 +137,7 @@ $$
 \tau_\sigma(\mathbf{r}) = \frac{1}{2}\sum_{i}^{\mathrm{occ}}\left|\nabla\varphi_{i\sigma}(\mathbf{r})\right|^2.
 $$ {#eq-tau}
 
-Integrated over space, $\tau$ gives the Kohn–Sham kinetic energy $T_s$ of [Class 5](l05-density-functional-theory.qmd). Some meta-GGAs use the **Laplacian** of the density, $\nabla^2\rho$, instead of or in addition to $\tau$. Both carry information about how the density is curved, which the gradient alone does not.
+Integrated over space, $\tau$ gives the Kohn–Sham kinetic energy $T_s$ of [Lecture 5](l05-density-functional-theory.qmd). Some meta-GGAs use the **Laplacian** of the density, $\nabla^2\rho$, instead of or in addition to $\tau$. Both carry information about how the density is curved, which the gradient alone does not.
 
 Why is $\tau$ useful? Compare it with the **von Weizsäcker** kinetic-energy density, $\tau_W = |\nabla\rho|^2/(8\rho)$, which is the exact kinetic-energy density whenever only one orbital is occupied. The ratio $\tau_W/\tau$ equals 1 in regions dominated by a single orbital (for example, any one-electron system, or a region dominated by a single electron pair, like a covalent single bond) and is smaller elsewhere. Modern meta-GGAs use a closely related variable, $\alpha = (\tau - \tau_W)/\tau^{\mathrm{unif}}$, which is
 
@@ -153,7 +153,7 @@ So a meta-GGA can **recognize** the kind of chemical region it is in, which a GG
 - **SCAN** ("strongly constrained and appropriately normed", 2015) [@sun2015], a non-empirical meta-GGA that satisfies all 17 exact constraints known to be appropriate for a meta-GGA, and is "normed" to reproduce exactly a few systems (such as the hydrogen atom and the uniform gas). SCAN is accurate but numerically delicate, and needs fine integration grids. Its revision **r²SCAN** (2020) [@furness2020] keeps most of its accuracy with much better numerical behavior.
 - **Empirical meta-GGAs**, fitted to large databases of reference energies. An example is **B97M-rV** [@mardirossian2015; @mardirossian2017rv].
 
-Meta-GGAs cost only a little more than GGAs, because $\tau$ is computed from the same orbitals that the program already has. They need finer integration grids, though, because $\tau$ and $\alpha$ vary rapidly in space and many fitted meta-GGAs have oscillating enhancement factors. You will see this directly in [Experiment 7](../experiments/ex07-grids.qmd) and in [Class 11](l11-integration-grids.qmd).
+Meta-GGAs cost only a little more than GGAs, because $\tau$ is computed from the same orbitals that the program already has. They need finer integration grids, though, because $\tau$ and $\alpha$ vary rapidly in space and many fitted meta-GGAs have oscillating enhancement factors. You will see this directly in [Experiment 7](../experiments/ex07-grids.qmd) and in [Lecture 11](l11-integration-grids.qmd).
 
 ::: {.callout-warning}
 ## "Local" means "no Hartree–Fock exchange", not "LSDA"
@@ -165,7 +165,7 @@ Rungs 1–3 together are called **semilocal** or simply **local** functionals: t
 
 ### Why mix in Hartree–Fock exchange? The adiabatic connection
 
-So far, every functional has been a function of local quantities. The fourth rung adds a completely different ingredient: the occupied orbitals themselves, used to compute **exact exchange**, the Hartree–Fock exchange energy of [Class 4](l04-hartree-fock.qmd) evaluated with the Kohn–Sham orbitals:
+So far, every functional has been a function of local quantities. The fourth rung adds a completely different ingredient: the occupied orbitals themselves, used to compute **exact exchange**, the Hartree–Fock exchange energy of [Lecture 4](l04-hartree-fock.qmd) evaluated with the Kohn–Sham orbitals:
 
 $$
 E_x^{\mathrm{HF}} = -\frac{1}{2}\sum_{i,j}^{\mathrm{occ}}K_{ij}.
@@ -179,7 +179,7 @@ $$ {#eq-adiabatic}
 
 where $W_\lambda$ is the potential-energy part of exchange–correlation at coupling strength $\lambda$. We know the $\lambda = 0$ end exactly ($W_0 = E_x^{\mathrm{HF}}$). Semilocal functionals are best near the $\lambda = 1$ end. A simple approximation to the integral therefore mixes the two. Becke tried exactly this in 1993, with a "half-and-half" mixture of HF exchange and LSDA [@becke1993a]. A few months later he proposed a more flexible, fitted version [@becke1993], the ancestor of B3LYP.
 
-The chemical argument is simpler. Hartree–Fock is free of self-interaction ([Class 4](l04-hartree-fock.qmd)), while semilocal functionals are not ([Class 5](l05-density-functional-theory.qmd)). Their errors often have opposite signs: HF underbinds and gives barriers that are too high, semilocal DFT overbinds and gives barriers that are too low. Mixing the two cancels part of both errors.
+The chemical argument is simpler. Hartree–Fock is free of self-interaction ([Lecture 4](l04-hartree-fock.qmd)), while semilocal functionals are not ([Lecture 5](l05-density-functional-theory.qmd)). Their errors often have opposite signs: HF underbinds and gives barriers that are too high, semilocal DFT overbinds and gives barriers that are too low. Mixing the two cancels part of both errors.
 
 ### Global hybrids: B3LYP and PBE0
 
@@ -197,7 +197,7 @@ $$
 E_{xc}^{\mathrm{B3LYP}} = (1 - a_0)\,E_x^{\mathrm{LSDA}} + a_0\,E_x^{\mathrm{HF}} + a_x\,\Delta E_x^{\mathrm{B88}} + (1 - a_c)\,E_c^{\mathrm{VWN}} + a_c\,E_c^{\mathrm{LYP}},
 $$ {#eq-b3lyp}
 
-with $a_0 = 0.20$, $a_x = 0.72$ and $a_c = 0.81$. Here $\Delta E_x^{\mathrm{B88}}$ is the gradient correction part of B88 (@eq-b88, minus its LSDA part). So B3LYP contains **20% HF exchange**. The three parameters were fitted by Becke to a small set of thermochemical data (with PW91 correlation in his original functional, today called **B3PW91**), and the same values were kept when LYP replaced PW91. B3LYP is an empirical hybrid GGA. Because different programs use different forms of VWN correlation ([Class 5](l05-density-functional-theory.qmd)), "B3LYP" energies can differ slightly from code to code.
+with $a_0 = 0.20$, $a_x = 0.72$ and $a_c = 0.81$. Here $\Delta E_x^{\mathrm{B88}}$ is the gradient correction part of B88 (@eq-b88, minus its LSDA part). So B3LYP contains **20% HF exchange**. The three parameters were fitted by Becke to a small set of thermochemical data (with PW91 correlation in his original functional, today called **B3PW91**), and the same values were kept when LYP replaced PW91. B3LYP is an empirical hybrid GGA. Because different programs use different forms of VWN correlation ([Lecture 5](l05-density-functional-theory.qmd)), "B3LYP" energies can differ slightly from code to code.
 
 **PBE0** [@adamo1999; @ernzerhof1999] is the non-empirical counterpart:
 
@@ -207,7 +207,7 @@ $$ {#eq-pbe0}
 
 The **25% HF exchange** is not fitted. Perdew, Ernzerhof and Burke argued from perturbation theory that 1/4 is a good general choice for molecules [@perdew1996a].
 
-Hybrids built on meta-GGAs are **hybrid meta-GGAs**. Examples are TPSSh (TPSS with 10% HF exchange) [@staroverov2003] and several Minnesota functionals: **M06-2X** [@zhao2008] has **54%** HF exchange (the "2X" stands for doubled HF exchange relative to its parent functional), and **MN15** [@yu2016a] has **44%**. Notice how much the HF fraction varies between functionals. Fitted functionals designed for main-group thermochemistry and barrier heights tend to use more HF exchange (40–60%), while functionals meant also for transition metals use less, because HF exchange makes the static-correlation problems of [Class 5](l05-density-functional-theory.qmd) worse.
+Hybrids built on meta-GGAs are **hybrid meta-GGAs**. Examples are TPSSh (TPSS with 10% HF exchange) [@staroverov2003] and several Minnesota functionals: **M06-2X** [@zhao2008] has **54%** HF exchange (the "2X" stands for doubled HF exchange relative to its parent functional), and **MN15** [@yu2016a] has **44%**. Notice how much the HF fraction varies between functionals. Fitted functionals designed for main-group thermochemistry and barrier heights tend to use more HF exchange (40–60%), while functionals meant also for transition metals use less, because HF exchange makes the static-correlation problems of [Lecture 5](l05-density-functional-theory.qmd) worse.
 
 ::: {.callout-note}
 ## The cost of exact exchange
@@ -253,7 +253,7 @@ The "ω" at the beginning of a name (ωB97X-V, ωB97M-V, ωPBE) means range sepa
 
 The fifth rung uses the **virtual** (unoccupied) Kohn–Sham orbitals as well. **Double hybrids** add a fraction of second-order perturbation (MP2-like) correlation, computed from the virtual orbitals, on top of a hybrid. The first widely used one, **B2PLYP** (Grimme, 2006) [@grimme2006], has 53% HF exchange and 27% MP2-like correlation, with B88 and LYP for the rest. The **random-phase approximation** (RPA) is a different fifth-rung method, which treats correlation through all virtual orbitals and naturally includes dispersion.
 
-Fifth-rung methods are among the most accurate DFT approaches for main-group thermochemistry [@goerigk2017]. The price is MP2-like cost ($N^5$) and slow basis-set convergence (like any correlated wave-function method, Class 4). We will not use them in the experiments, and there are no double hybrids in [Experiment 2](../experiments/ex02-jacobs-ladder.qmd).
+Fifth-rung methods are among the most accurate DFT approaches for main-group thermochemistry [@goerigk2017]. The price is MP2-like cost ($N^5$) and slow basis-set convergence (like any correlated wave-function method, Lecture 4). We will not use them in the experiments, and there are no double hybrids in [Experiment 2](../experiments/ex02-jacobs-ladder.qmd).
 
 ## Two design questions that cut across the ladder
 
@@ -261,14 +261,14 @@ The rung tells you *which ingredients* a functional uses. Two other questions ar
 
 ### How is dispersion included?
 
-As we saw in [Class 5](l05-density-functional-theory.qmd), no semilocal functional describes long-range dispersion, and adding HF exchange does not help (HF has no dispersion at all, Class 4). There are four possibilities:
+As we saw in [Lecture 5](l05-density-functional-theory.qmd), no semilocal functional describes long-range dispersion, and adding HF exchange does not help (HF has no dispersion at all, Lecture 4). There are four possibilities:
 
 1. **Not at all.** Many classic functionals, including plain B3LYP, PBE and PBE0, have no long-range dispersion. They underbind dispersion-dominated complexes and get conformational energies of large flexible molecules wrong.
 2. **An empirical pairwise correction, -D.** Grimme's corrections add an atom–atom term $-\sum_{AB} C_6^{AB}/R_{AB}^6$ (plus higher terms), switched off at short range by a damping function, on top of the DFT energy. The history: D2 (2006) [@grimme2006b], D3 (2010) [@grimme2010], and the current **D4** (2017–2019) [@caldeweyher2017; @caldeweyher2019], whose $C_6$ coefficients depend on the atomic partial charges and so on the chemical environment. In this course we always use **-D4**: B3LYP-D4 is B3LYP plus the D4 correction. The correction costs almost nothing.
 3. **A nonlocal correlation functional, -V.** Vydrov and Van Voorhis's **VV10** [@vydrov2010] adds a correlation term that depends on the density at *two* points at once, $\iint \rho(\mathbf{r})\,\Phi(\mathbf{r},\mathbf{r}')\,\rho(\mathbf{r}')\,d\mathbf{r}\,d\mathbf{r}'$, so it can see two separate molecules. A "-V" at the end of a name (ωB97X-V, ωB97M-V, B97M-V) means VV10; "-rV" means the revised, faster rVV10 [@sabatini2013], as in B97M-rV. Note that VV10 is a correlation ingredient; it does not change the rung of the functional.
 4. **Built into a fitted functional.** Highly parametrized functionals such as the Minnesota family were fitted to data that include noncovalent complexes, so they capture **medium-range** dispersion (at van der Waals contact distances) through their parameters, without any explicit term. At long range they behave like any semilocal functional. In the course data files this is labeled "fitted".
 
-Dispersion is the topic of [Class 8](l08-dispersion.qmd), and [Experiment 4](../experiments/ex04-organic-b.qmd) compares these options directly.
+Dispersion is the topic of [Lecture 8](l08-dispersion.qmd), and [Experiment 4](../experiments/ex04-organic-b.qmd) compares these options directly.
 
 ### Non-empirical or empirical?
 
@@ -277,7 +277,7 @@ The second question is how the parameters were chosen.
 - **Non-empirical** (constraint-satisfying) functionals, like PBE, PBE0, TPSS and SCAN, are built to obey exact constraints of the true functional, with no fitting to molecular data [@perdew2005]. Their strength is that they are expected to be reasonable for *any* system, including systems unlike anything their designers tested.
 - **Empirical** (fitted) functionals, like B3LYP (3 parameters), the B97 family, the Minnesota functionals and ωB97M-V, have parameters fitted to databases of reference energies. ωB97M-V was designed by a "combinatorial" search: its authors fitted thousands of candidate forms and kept the one with the best balance between training and test sets [@mardirossian2016a]. Highly parametrized functionals can be very accurate for the kinds of systems they were trained on.
 
-The danger of fitting is **overfitting**: a functional with many parameters can reproduce its **training set** very well and still fail for systems unlike those in the training set. A fair test of a functional uses data it was not fitted to. This is not a reason to avoid empirical functionals (several of the best functionals available are empirical), but it is a reason to check what a functional was trained on before trusting a good result. You will meet a concrete case in [Experiment 5](../experiments/ex05-difficult-cases.qmd) and in [Class 9](l09-difficult-cases.qmd). In reality the line between the two groups is blurred: many "non-empirical" functionals use exact data for a few simple systems (norms), and most empirical functionals also impose some exact constraints.
+The danger of fitting is **overfitting**: a functional with many parameters can reproduce its **training set** very well and still fail for systems unlike those in the training set. A fair test of a functional uses data it was not fitted to. This is not a reason to avoid empirical functionals (several of the best functionals available are empirical), but it is a reason to check what a functional was trained on before trusting a good result. You will meet a concrete case in [Experiment 5](../experiments/ex05-difficult-cases.qmd) and in [Lecture 9](l09-difficult-cases.qmd). In reality the line between the two groups is blurred: many "non-empirical" functionals use exact data for a few simple systems (norms), and most empirical functionals also impose some exact constraints.
 
 ### Decoding functional names
 
@@ -332,12 +332,12 @@ Note separately, for yourself, whether the functional is range-separated and how
 ::: {.callout-important}
 ## Before next week: lock your Experiment 3 predictions
 
-[Experiment 3](../experiments/ex03-organic-a.qmd) asks you to predict, before running anything, how methods on different rungs will perform on four "easy" organic reactions. Make those predictions with what you learned in Classes 4–6, and lock them in before you start the calculations. Predictions are graded for being made, not for being right.
+[Experiment 3](../experiments/ex03-organic-a.qmd) asks you to predict, before running anything, how methods on different rungs will perform on four "easy" organic reactions. Make those predictions with what you learned in Lectures 4–6, and lock them in before you start the calculations. Predictions are graded for being made, not for being right.
 :::
 
 ## The 16 methods of Experiments 3–5 on the ladder
 
-In Experiments 3, 4 and 5 you will run the same 16 methods: fifteen density functionals and Hartree–Fock, all with the def2-TZVP basis. Every chart in those experiments colors the methods by rung. Several of them are also in the Experiment 2 exercise, so place them on the ladder yourself first, using the procedure above. The complete table is in [Class 7](l07-benchmarking.qmd), which you should read after you submit Experiment 2.
+In Experiments 3, 4 and 5 you will run the same 16 methods: fifteen density functionals and Hartree–Fock, all with the def2-TZVP basis. Every chart in those experiments colors the methods by rung. Several of them are also in the Experiment 2 exercise, so place them on the ladder yourself first, using the procedure above. The complete table is in [Lecture 7](l07-benchmarking.qmd), which you should read after you submit Experiment 2.
 
 ## Key points {.unnumbered}
 

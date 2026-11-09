@@ -1,30 +1,30 @@
 ---
 title: "Lectures"
-subtitle: "The textbook for the lab: one chapter per class"
-description: "Study notes for the fifteen classes of the computational lab, from the Schrödinger equation to choosing a method."
+subtitle: "The textbook for the lab: one chapter per lecture"
+description: "Study notes for the fifteen lectures of the computational lab, from the Schrödinger equation to choosing a method."
 format: html
 number-sections: false
 format-links: false
 ---
 
-Each chapter covers one class in more detail than the lecture can. Read the
-chapter before (or right after) the class. Each one ends with key points and
+Each chapter covers one lecture in more detail than there is time for in
+class. Read it before (or right after) the lecture. Each one ends with key points and
 study questions, and has a printable PDF version under *Other Formats*.
 
-The first six classes build the theory. Classes 1–3 approximate the **wave
-function** (basis sets) and come before Experiment 1. Classes 4–6 approximate the
+The first six lectures build the theory. Lectures 1–3 approximate the **wave
+function** (basis sets) and come before Experiment 1. Lectures 4–6 approximate the
 **Hamiltonian** (Hartree–Fock and density functional theory) and come before
-Experiment 2. From Class 7 on, each class looks back at the experiment you just
+Experiment 2. From Lecture 7 on, each lecture looks back at the experiment you just
 finished and prepares the next one.
 
 ::: {.callout-note}
 ## Debrief sections
-From Class 7 on, the first part of each chapter discusses the results of the previous
+From Lecture 7 on, the first part of each chapter discusses the results of the previous
 experiment. Read it **after** you submit that experiment. Your predictions are
 more useful if they're your own.
 :::
 
-| Class | Chapter | Comes before |
+| Lecture | Chapter | Comes before |
 |---:|---|---|
 | 1 | [The molecular Schrödinger equation](l01-molecular-schrodinger.qmd) | [Experiment 1](../experiments/ex01-basis-sets.qmd) |
 | 2 | [Approximating the wave function: basis sets](l02-basis-sets.qmd) | Experiment 1 |
@@ -42,5 +42,5 @@ more useful if they're your own.
 | 14 | [Choosing, running and reporting a method](l14-choosing-a-method.qmd) | [Experiment 10](../experiments/ex10-final-review.qmd) |
 | 15 | [What we learned](l15-wrap-up.qmd) | — |
 
-For the quantum mechanics behind Classes 1–5, see also the
+For the quantum mechanics behind Lectures 1–5, see also the
 [Live Textbook of Physical Chemistry 2](https://peverati.github.io/pchem2/).

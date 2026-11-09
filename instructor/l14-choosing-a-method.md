@@ -1,4 +1,4 @@
-# Class 14 · Debrief Exp. 9 · Choosing, running and reporting a method  (Before Exp. 10)
+# Lecture 14 · Debrief Exp. 9 · Choosing, running and reporting a method  (Before Exp. 10)
 
 **Goal.** Debrief experiment vs theory; teach how to choose and report a method; brief Exp. 10 (students act as consultants).
 
@@ -39,4 +39,4 @@
 
 **If running late:** shorten the NIST discussion; show the checklist but skip the tree detail; never skip briefing.
 **If this becomes two classes:** not marked.
-**Next class:** Class 15, debrief Exp. 10, synthesis, course feedback.
+**Next class:** Lecture 15, debrief Exp. 10, synthesis, course feedback.

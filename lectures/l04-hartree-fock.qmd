@@ -1,5 +1,5 @@
 ---
-title: "Class 4 · Approximating the Hamiltonian I: Hartree–Fock and the SCF"
+title: "Lecture 4 · Approximating the Hamiltonian I: Hartree–Fock and the SCF"
 subtitle: "The mean-field idea, the self-consistent field, and what it leaves out"
 description: "How Hartree–Fock turns the many-electron problem into one-electron equations, how the SCF loop solves them, and why the missing correlation energy matters for chemistry."
 ---
@@ -33,7 +33,7 @@ In P-Chem 2 you saw the *recipe*. Here we open the box and look at the equations
 
 ## Where we are
 
-Every calculation in this course makes two approximations. In [Class 1](l01-molecular-schrodinger.qmd) you wrote the electronic Hamiltonian (atomic units, nuclei clamped):
+Every calculation in this course makes two approximations. In [Lecture 1](l01-molecular-schrodinger.qmd) you wrote the electronic Hamiltonian (atomic units, nuclei clamped):
 
 $$
 \hat H_{\mathrm{el}} = -\frac{1}{2}\sum_{i=1}^{N}\nabla_i^2 \;-\; \sum_{i=1}^{N}\sum_{A}\frac{Z_A}{|\mathbf{r}_i-\mathbf{R}_A|} \;+\; \sum_{i=1}^{N}\sum_{j>i}^{N}\frac{1}{|\mathbf{r}_i-\mathbf{r}_j|}.
@@ -41,14 +41,14 @@ $$ {#eq-hel}
 
 The three terms are the kinetic energy of the electrons, their attraction to the nuclei, and the electron–electron repulsion. The last term couples every electron to every other, and that is why no analytic solution exists for $N \geq 2$.
 
-In [Class 2](l02-basis-sets.qmd) you approximated the **wave function's flexibility** with a basis set: orbitals are written as a finite sum of basis functions $\chi_\mu$. That is the first approximation. This class and the next two are about the second one: how we approximate the **Hamiltonian**, or more precisely, how we treat the electron–electron repulsion. Together, the two choices make a *model chemistry*, written method/basis, such as HF/def2-TZVP or B3LYP/def2-SVP.
+In [Lecture 2](l02-basis-sets.qmd) you approximated the **wave function's flexibility** with a basis set: orbitals are written as a finite sum of basis functions $\chi_\mu$. That is the first approximation. This lecture and the next two are about the second one: how we approximate the **Hamiltonian**, or more precisely, how we treat the electron–electron repulsion. Together, the two choices make a *model chemistry*, written method/basis, such as HF/def2-TZVP or B3LYP/def2-SVP.
 
-Hartree–Fock (HF) is the starting point for everything else. It is a method in its own right (you are running it in [Experiment 1](../experiments/ex01-basis-sets.qmd)), it is the reference for the correlated wave-function methods that produce the benchmark numbers of this lab, and its machinery (orbitals, the Fock matrix, the SCF loop) is reused almost unchanged by density functional theory in [Class 5](l05-density-functional-theory.qmd).
+Hartree–Fock (HF) is the starting point for everything else. It is a method in its own right (you are running it in [Experiment 1](../experiments/ex01-basis-sets.qmd)), it is the reference for the correlated wave-function methods that produce the benchmark numbers of this lab, and its machinery (orbitals, the Fock matrix, the SCF loop) is reused almost unchanged by density functional theory in [Lecture 5](l05-density-functional-theory.qmd).
 
 ::: {.callout-note}
 ## Experiment 1 check-in
 
-By now you should have submitted your first jobs for [Experiment 1](../experiments/ex01-basis-sets.qmd). If anything did not work (the server, IQmol, a job that never finished), check the guides on [setting up IQmol](../guides/iqmol-setup.qmd), [your first job](../guides/first-job.qmd) and [reading the output](../guides/reading-output.qmd), and ask in class. We will discuss the results of Experiment 1 in [Class 7](l07-benchmarking.qmd), after everyone has submitted.
+By now you should have submitted your first jobs for [Experiment 1](../experiments/ex01-basis-sets.qmd). If anything did not work (the server, IQmol, a job that never finished), check the guides on [setting up IQmol](../guides/iqmol-setup.qmd), [your first job](../guides/first-job.qmd) and [reading the output](../guides/reading-output.qmd), and ask in class. We will discuss the results of Experiment 1 in [Lecture 7](l07-benchmarking.qmd), after everyone has submitted.
 :::
 
 ## The mean-field idea
@@ -75,9 +75,9 @@ $$
 \end{matrix}\right|.
 $$ {#eq-slater}
 
-Swapping two electrons swaps two rows, which changes the sign of the determinant: the wave function is antisymmetric, as the Pauli principle requires. Putting two electrons in the same spin orbital makes two columns equal, and the determinant vanishes: no two electrons can share all their quantum numbers. You met this determinant in Class 1 and in [P-Chem 2](https://peverati.github.io/pchem2/Atoms.html). We will write it compactly as $\Psi = |\phi_1\phi_2\cdots\phi_N|$.
+Swapping two electrons swaps two rows, which changes the sign of the determinant: the wave function is antisymmetric, as the Pauli principle requires. Putting two electrons in the same spin orbital makes two columns equal, and the determinant vanishes: no two electrons can share all their quantum numbers. You met this determinant in Lecture 1 and in [P-Chem 2](https://peverati.github.io/pchem2/Atoms.html). We will write it compactly as $\Psi = |\phi_1\phi_2\cdots\phi_N|$.
 
-**The Hartree–Fock approximation** is a single statement: *the wave function is one Slater determinant, and the best determinant is the one with the lowest energy.* "Best" comes from the variational principle, $E[\Psi_{\mathrm{trial}}] \ge E_0$, which you used for basis sets in Class 2. Everything else in this chapter follows from that statement.
+**The Hartree–Fock approximation** is a single statement: *the wave function is one Slater determinant, and the best determinant is the one with the lowest energy.* "Best" comes from the variational principle, $E[\Psi_{\mathrm{trial}}] \ge E_0$, which you used for basis sets in Lecture 2. Everything else in this chapter follows from that statement.
 
 ### The energy of a Slater determinant
 
@@ -113,7 +113,7 @@ Exchange is not a new force. It is a correction to the Coulomb repulsion that ap
 ::: {.callout-important}
 ## Remember this: no self-interaction in Hartree–Fock
 
-Look at the double sum in @eq-ehf. It includes the terms with $i = j$. The term $J_{ii}$ is the repulsion of electron $i$ with *its own* charge cloud, which is unphysical: an electron does not repel itself. But from the definitions, $K_{ii} = J_{ii}$, so the two cancel exactly: $J_{ii} - K_{ii} = 0$. Hartree–Fock is **free of self-interaction**. Hartree's original product method was not, and, as you will see in [Class 5](l05-density-functional-theory.qmd), approximate density functionals are not either. This single fact explains why mixing some Hartree–Fock exchange into a functional helps ([Class 6](l06-jacobs-ladder.qmd)).
+Look at the double sum in @eq-ehf. It includes the terms with $i = j$. The term $J_{ii}$ is the repulsion of electron $i$ with *its own* charge cloud, which is unphysical: an electron does not repel itself. But from the definitions, $K_{ii} = J_{ii}$, so the two cancel exactly: $J_{ii} - K_{ii} = 0$. Hartree–Fock is **free of self-interaction**. Hartree's original product method was not, and, as you will see in [Lecture 5](l05-density-functional-theory.qmd), approximate density functionals are not either. This single fact explains why mixing some Hartree–Fock exchange into a functional helps ([Lecture 6](l06-jacobs-ladder.qmd)).
 :::
 
 ### The Hartree–Fock equations and the Fock operator
@@ -165,7 +165,7 @@ where the factor 2 counts the two electrons in each orbital, and the exchange te
 
 ### From integro-differential equations to matrices
 
-Equations (@eq-hf) are coupled integro-differential equations. For atoms they can be solved numerically on a radial grid, as Hartree did. For molecules this is impractical. In 1951 Roothaan [@roothaan1951] and, independently, Hall [@hall1951] used the LCAO idea from [Class 2](l02-basis-sets.qmd): expand each spatial orbital in a finite basis of $K$ functions,
+Equations (@eq-hf) are coupled integro-differential equations. For atoms they can be solved numerically on a radial grid, as Hartree did. For molecules this is impractical. In 1951 Roothaan [@roothaan1951] and, independently, Hall [@hall1951] used the LCAO idea from [Lecture 2](l02-basis-sets.qmd): expand each spatial orbital in a finite basis of $K$ functions,
 
 $$
 \varphi_i(\mathbf{r}) = \sum_{\mu=1}^{K} c_{\mu i}\,\chi_\mu(\mathbf{r}).
@@ -211,7 +211,7 @@ $$ {#eq-erhf}
 ::: {.callout-note}
 ## Where the cost comes from
 
-There are about $K^4/8$ unique two-electron integrals $(\mu\nu|\lambda\sigma)$. With 7 basis functions (water in a minimal basis, as in [P-Chem 2 §13.2](https://peverati.github.io/pchem2/Poly.html#hartree-fock-calculation-for-water)) this is a few hundred. With the 200 or so functions of a medium-sized molecule in def2-TZVP it is about $2\times 10^8$. Computing and contracting these integrals with $\mathbf{P}$ is the formal $K^4$ (often written $N^4$) cost of Hartree–Fock that you met in [Class 2](l02-basis-sets.qmd) and are measuring in [Experiment 1](../experiments/ex01-basis-sets.qmd). In practice programs skip integrals that are negligibly small (screening) or approximate them (density fitting), so the observed scaling is lower.
+There are about $K^4/8$ unique two-electron integrals $(\mu\nu|\lambda\sigma)$. With 7 basis functions (water in a minimal basis, as in [P-Chem 2 §13.2](https://peverati.github.io/pchem2/Poly.html#hartree-fock-calculation-for-water)) this is a few hundred. With the 200 or so functions of a medium-sized molecule in def2-TZVP it is about $2\times 10^8$. Computing and contracting these integrals with $\mathbf{P}$ is the formal $K^4$ (often written $N^4$) cost of Hartree–Fock that you met in [Lecture 2](l02-basis-sets.qmd) and are measuring in [Experiment 1](../experiments/ex01-basis-sets.qmd). In practice programs skip integrals that are negligibly small (screening) or approximate them (density fitting), so the observed scaling is lower.
 :::
 
 ### Why it must be solved iteratively
@@ -263,7 +263,7 @@ The SCF is a numerical procedure, and it can fail in three ways. Learn to recogn
 
 - **Oscillation.** The energy jumps up and down from cycle to cycle and never settles. This happens when two or more orbitals are close in energy near the HOMO–LUMO gap and swap occupation back and forth. Typical for transition-metal compounds and stretched bonds.
 - **Slow convergence.** The DIIS error decreases, but very slowly, and the job hits the maximum number of cycles (Q-Chem prints a warning that the SCF failed to converge). The energy of a job that did not converge is meaningless. Never use it.
-- **Convergence to the wrong solution.** The SCF converges perfectly, but to a stationary point that is not the lowest-energy solution: an excited configuration, or a saddle point that is a minimum only within the constraints you imposed (for example, RHF for a molecule that wants unpaired electrons). The output looks normal. Only a **stability analysis** can tell. This is the subject of [Class 12](l12-scf-stability.qmd) and [Experiment 8](../experiments/ex08-stability.qmd).
+- **Convergence to the wrong solution.** The SCF converges perfectly, but to a stationary point that is not the lowest-energy solution: an excited configuration, or a saddle point that is a minimum only within the constraints you imposed (for example, RHF for a molecule that wants unpaired electrons). The output looks normal. Only a **stability analysis** can tell. This is the subject of [Lecture 12](l12-scf-stability.qmd) and [Experiment 8](../experiments/ex08-stability.qmd).
 
 Programs have many tools against the first two: better initial guesses, damping, level shifting, and second-order algorithms such as geometric direct minimization. You will not need them for the organic molecules of Experiments 1–7.
 :::
@@ -330,7 +330,7 @@ One percent sounds small. It is not. **Chemistry happens in energy differences.*
 ::: {.callout-note}
 ## Hartree–Fock has no dispersion at all
 
-London dispersion, the attraction between two neutral, nonpolar molecules (two argon atoms, two methane molecules, the stacked layers of graphite), comes from correlated, instantaneous fluctuations of the electron clouds. A mean-field method cannot describe it: in HF each molecule sees only the *static* average charge of the other. At long range, HF gives no dispersion attraction at all. Weakly bound complexes held together mainly by dispersion are unbound, or far too weakly bound, at the HF level, no matter how large the basis set. Keep this in mind when you look at your Experiment 1 results. Dispersion returns in [Class 8](l08-dispersion.qmd).
+London dispersion, the attraction between two neutral, nonpolar molecules (two argon atoms, two methane molecules, the stacked layers of graphite), comes from correlated, instantaneous fluctuations of the electron clouds. A mean-field method cannot describe it: in HF each molecule sees only the *static* average charge of the other. At long range, HF gives no dispersion attraction at all. Weakly bound complexes held together mainly by dispersion are unbound, or far too weakly bound, at the HF level, no matter how large the basis set. Keep this in mind when you look at your Experiment 1 results. Dispersion returns in [Lecture 8](l08-dispersion.qmd).
 :::
 
 ### Dynamic and static correlation
@@ -345,7 +345,7 @@ The textbook example is the dissociation of H₂ (@fig-h2). Near the equilibrium
 
 ![Dissociation of H₂ computed with a minimal basis set (STO-3G), where the full configuration interaction (full CI) curve is the exact answer within this basis. RHF is good near equilibrium but goes to an energy far above two H atoms. UHF breaks the spin symmetry beyond about 1.2 Å and dissociates correctly, at the cost of a spin-contaminated wave function. The gap between RHF and full CI at the minimum is the dynamic correlation energy; the growing gap at long distance is static correlation. Computed with `images/src/l04_l06_figures.py`.](images/l04-h2-dissociation.png){#fig-h2 fig-alt="Three potential energy curves for H2 versus H–H distance from 0.4 to 4.2 angstrom, energies relative to two H atoms in kcal/mol. Full CI has a minimum of about −128 kcal/mol near 0.74 angstrom and goes to zero at long distance. RHF has a minimum about 12 kcal/mol higher and rises to about +200 kcal/mol at 4 angstrom. UHF follows RHF up to about 1.2 angstrom and then bends away and goes to zero." width="85%"}
 
-UHF also "fixes" the dissociation: past a certain distance (the Coulson–Fischer point) the $\alpha$ electron localizes on one atom and the $\beta$ electron on the other, and the energy goes correctly to two H atoms. But the UHF wave function is then a 50/50 mixture of a singlet and a triplet, and the curve has a kink. UHF solutions that are lower than RHF are an example of an **instability** of the RHF solution: the topic of [Class 12](l12-scf-stability.qmd).
+UHF also "fixes" the dissociation: past a certain distance (the Coulson–Fischer point) the $\alpha$ electron localizes on one atom and the $\beta$ electron on the other, and the energy goes correctly to two H atoms. But the UHF wave function is then a 50/50 mixture of a singlet and a triplet, and the curve has a kink. UHF solutions that are lower than RHF are an example of an **instability** of the RHF solution: the topic of [Lecture 12](l12-scf-stability.qmd).
 
 ::: {.callout-warning}
 ## Common mistake: "a converged SCF means the method is right"
@@ -360,10 +360,10 @@ There are two broad families of methods that go beyond Hartree–Fock.
 **Correlated wave-function methods** keep the HF determinant as a starting point (the *reference*) and add excited determinants to it.
 
 - **Møller–Plesset perturbation theory** treats the difference between the real Hamiltonian and the sum of Fock operators as a perturbation [@moller1934]. Its second-order version, **MP2**, recovers a large part of the dynamic correlation and describes dispersion, at a cost that scales as $N^5$.
-- **Coupled-cluster theory** includes excitations to all orders in an exponential form. **CCSD(T)** (singles, doubles and a perturbative estimate of triples) [@raghavachari1989] is called the "gold standard" of quantum chemistry: for molecules without strong static correlation, CCSD(T) near the CBS limit is typically within about 1 kcal/mol of experiment for reaction energies. Its cost scales as $N^7$: doubling the size of the molecule makes the calculation about 128 times slower. The reference values of most reactions in this lab come from CCSD(T)/CBS or similar high-level calculations collected in benchmark databases [@goerigk2017], as you will see in [Class 7](l07-benchmarking.qmd).
+- **Coupled-cluster theory** includes excitations to all orders in an exponential form. **CCSD(T)** (singles, doubles and a perturbative estimate of triples) [@raghavachari1989] is called the "gold standard" of quantum chemistry: for molecules without strong static correlation, CCSD(T) near the CBS limit is typically within about 1 kcal/mol of experiment for reaction energies. Its cost scales as $N^7$: doubling the size of the molecule makes the calculation about 128 times slower. The reference values of most reactions in this lab come from CCSD(T)/CBS or similar high-level calculations collected in benchmark databases [@goerigk2017], as you will see in [Lecture 7](l07-benchmarking.qmd).
 - **Multireference methods** (CASSCF, MRCI, CASPT2) start from several determinants and are needed when static correlation is strong. They are outside the scope of this course.
 
-**Density functional theory** takes a different path. It keeps a one-determinant, mean-field machinery, with the same SCF loop and the same $N^3$–$N^4$ cost as HF, but it changes the *Hamiltonian* of that machinery so that it includes, approximately, both exchange and correlation. How that is possible, and why the hard part is a single term called the exchange–correlation energy, is the subject of [Class 5](l05-density-functional-theory.qmd).
+**Density functional theory** takes a different path. It keeps a one-determinant, mean-field machinery, with the same SCF loop and the same $N^3$–$N^4$ cost as HF, but it changes the *Hamiltonian* of that machinery so that it includes, approximately, both exchange and correlation. How that is possible, and why the hard part is a single term called the exchange–correlation energy, is the subject of [Lecture 5](l05-density-functional-theory.qmd).
 
 | Method | Correlation | Formal cost | Dispersion | Typical use |
 |---|---|---|---|---|

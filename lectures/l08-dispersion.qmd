@@ -1,5 +1,5 @@
 ---
-title: "Class 8 · Dispersion and noncovalent interactions"
+title: "Lecture 8 · Dispersion and noncovalent interactions"
 subtitle: "Debrief of Experiment 3 and introduction to Experiment 4"
 description: "Why almost every method does well on conformers, where London dispersion comes from, why semilocal DFT and Hartree–Fock miss it, and how -D4 and VV10 put it back."
 ---
@@ -7,7 +7,7 @@ description: "Why almost every method does well on conformers, where London disp
 ::: {.callout-note}
 ## Learning goals
 
-After this class you should be able to:
+After this lecture you should be able to:
 
 - explain why most methods give small errors for the reactions of Experiment 3, and why LSDA and Hartree–Fock are the usual exceptions;
 - read the cost-vs-accuracy chart and explain why hybrids cost more per SCF cycle than (meta-)GGAs;
@@ -33,7 +33,7 @@ What you probably saw on the *signed error* chart is a sea of very short bars. F
 
 ### Why: error cancellation
 
-The explanation is the one we anticipated in [Class 7](l07-benchmarking.qmd). Each reaction compares two forms of the *same* molecule. The number of electrons, the bonds, the lone pairs and the core orbitals are identical on both sides. An approximate functional makes errors in describing each of these features, but it makes nearly the same errors in the reactant and in the product. When you compute ΔE = E(product) − E(reactant), those errors cancel. What remains is the error in describing the small *change* in the density, and that change is small and local.
+The explanation is the one we anticipated in [Lecture 7](l07-benchmarking.qmd). Each reaction compares two forms of the *same* molecule. The number of electrons, the bonds, the lone pairs and the core orbitals are identical on both sides. An approximate functional makes errors in describing each of these features, but it makes nearly the same errors in the reactant and in the product. When you compute ΔE = E(product) − E(reactant), those errors cancel. What remains is the error in describing the small *change* in the density, and that change is small and local.
 
 This is the most powerful idea in practical quantum chemistry. It is also fragile, because it depends on the reaction, not on the method. Nobody can tell in advance, from the reaction type alone, whether a conformational change will be easy. That is why we benchmark.
 
@@ -53,7 +53,7 @@ The modern hybrid and meta-GGA functionals usually describe the hydrogen bond we
 The *cost vs accuracy* chart plots the MAE against the time per SCF cycle on a log axis. You probably saw something like this:
 
 - **SPW92 and the GGAs** are the cheapest per cycle. They need only the density and its gradient on the integration grid.
-- **Meta-GGAs** cost slightly more: they need τ on the grid too, and are often run on finer grids (Class 11).
+- **Meta-GGAs** cost slightly more: they need τ on the grid too, and are often run on finer grids (Lecture 11).
 - **Hybrids** are clearly more expensive per cycle. They need the HF exchange matrix K, built from the four-index two-electron integrals, and that step dominates.
 - **Range-separated hybrids** (ωB97M-V, M11) need extra integrals for the long-range exchange, and **VV10** (B97M-V, ωB97M-V) adds a double integral over grid points. These are usually the most expensive per cycle.
 - **HF** needs K but no grid at all, so it costs about the same as a hybrid.
@@ -268,7 +268,7 @@ Notice how different this is from Experiment 3. There, the molecule changed shap
 
 ## A reminder about BSSE
 
-When you compute the binding energy of a dimer, E(dimer) − E(monomer A) − E(monomer B), BSSE makes the dimer artificially too stable (Class 7). With def2-TZVP the BSSE is much smaller than with double-ζ sets, but it is not zero, and for a dimer bound by 1–2 kcal/mol even a few tenths matter. We do not correct for it in Experiment 4. Class 10 defines the counterpoise correction that removes most of it.
+When you compute the binding energy of a dimer, E(dimer) − E(monomer A) − E(monomer B), BSSE makes the dimer artificially too stable (Lecture 7). With def2-TZVP the BSSE is much smaller than with double-ζ sets, but it is not zero, and for a dimer bound by 1–2 kcal/mol even a few tenths matter. We do not correct for it in Experiment 4. Lecture 10 defines the counterpoise correction that removes most of it.
 
 # Experiment 4 briefing
 

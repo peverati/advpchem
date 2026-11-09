@@ -1,4 +1,4 @@
-# Class 5 · Approximating the Hamiltonian II: density functional theory  (Before Exp. 2)
+# Lecture 5 · Approximating the Hamiltonian II: density functional theory  (Before Exp. 2)
 
 **Goal.** Students understand why the density is enough in principle, what the Kohn–Sham scheme is, and that everything hard is in E_xc.
 
@@ -49,4 +49,4 @@
 
 **If running late:** drop Thomas–Fermi to one sentence; show LSDA as a formula only. Keep KS (the core).
 **If this becomes two classes:** not marked.
-**Next class:** Class 6, Jacob's ladder and the Exp. 2 briefing.
+**Next class:** Lecture 6, Jacob's ladder and the Exp. 2 briefing.

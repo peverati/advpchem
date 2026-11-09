@@ -1,5 +1,5 @@
 ---
-title: "Class 3 · From theory to a calculation: IQmol, Q-Chem and Experiment 1"
+title: "Lecture 3 · From theory to a calculation: IQmol, Q-Chem and Experiment 1"
 subtitle: "Set up a job, read its output, turn total energies into a reaction energy, and get ready for Experiment 1"
 description: "A practical chapter: model chemistries, the Q-Chem input file, the IQmol workflow, reading an output, reaction energies with signed stoichiometric coefficients, and the Experiment 1 briefing."
 ---
@@ -18,7 +18,7 @@ After studying this chapter you should be able to:
 :::
 
 ::: {.callout-tip appearance="simple" icon=false}
-## Before this class
+## Before this lecture
 
 This chapter is a companion to the lab guides, not a replacement. Have them open:
 
@@ -31,15 +31,15 @@ This chapter is a companion to the lab guides, not a replacement. Have them open
 
 ## Recap: what a model chemistry is
 
-[Class 1](l01-molecular-schrodinger.qmd) showed that every calculation makes two approximations: the **method** approximates the Hamiltonian (how electrons interact), and the **basis set** approximates the wave function (which shapes the orbitals may take). [Class 2](l02-basis-sets.qmd) opened the second one. A pair of choices, written *method/basis*, is a **model chemistry**:
+[Lecture 1](l01-molecular-schrodinger.qmd) showed that every calculation makes two approximations: the **method** approximates the Hamiltonian (how electrons interact), and the **basis set** approximates the wave function (which shapes the orbitals may take). [Lecture 2](l02-basis-sets.qmd) opened the second one. A pair of choices, written *method/basis*, is a **model chemistry**:
 
-| Model chemistry | Method | Rung (Classes 4–6) | Basis set | ζ | Family |
+| Model chemistry | Method | Rung (Lectures 4–6) | Basis set | ζ | Family |
 |---|---|---|---|---|---|
 | HF/cc-pVTZ | Hartree–Fock | no correlation at all | cc-pVTZ | triple | Dunning, correlation-consistent |
 | B3LYP/def2-SVP | B3LYP | hybrid GGA | def2-SVP | double | Karlsruhe def2 |
 | ωB97M-V/def2-QZVP | ωB97M-V | range-separated hybrid meta-GGA with VV10 dispersion | def2-QZVP | quadruple | Karlsruhe def2 |
 
-: Three model chemistries you will run in Experiment 1. The method column will make full sense after Classes 4–6; for now, treat the names as labels. {#tbl-decoder}
+: Three model chemistries you will run in Experiment 1. The method column will make full sense after Lectures 4–6; for now, treat the names as labels. {#tbl-decoder}
 
 Two more choices complete the definition of a calculation, and you must also report them: the **geometry** (here always given to you, as an `.xyz` file) and the **electronic state**, set by the total **charge** and the **spin multiplicity**. Every number you compute in this lab is a total energy for one model chemistry, one geometry and one electronic state.
 
@@ -96,7 +96,7 @@ $end
 | `JOBTYPE` | `SP` | single-point energy at the given geometry (no optimization, no frequencies) |
 | `METHOD` | `HF` | the method: `HF`, or a functional name such as `B3LYP`, `PBE`, `wB97M-V` |
 | `BASIS` | `def2-SVP` | the basis set |
-| `SCF_CONVERGENCE` | `8` | a tight convergence threshold for the SCF iterations, $10^{-8}$ (Class 4 explains what is converged) |
+| `SCF_CONVERGENCE` | `8` | a tight convergence threshold for the SCF iterations, $10^{-8}$ (Lecture 4 explains what is converged) |
 
 : The four `$rem` keywords used in Experiment 1. {#tbl-rem}
 
@@ -104,7 +104,7 @@ A model chemistry maps directly onto two lines: *method/basis* becomes `METHOD` 
 
 ::: {.callout-note}
 ## Charge and multiplicity: line 2 of every .xyz file
-Standard `.xyz` files use their second line as a free comment. In this lab, line 2 always holds `charge multiplicity`, so you never have to guess. Copy it into the first line of `$molecule`. Recall from [Class 1](l01-molecular-schrodinger.qmd): 1 = singlet (all electrons paired, like HCl), 2 = doublet (one unpaired electron, like an H atom or a radical), 3 = triplet (two parallel unpaired electrons, like ground-state O₂). All the species of Experiment 1 are closed-shell singlets. A wrong multiplicity gives a perfectly converged energy for the wrong electronic state.
+Standard `.xyz` files use their second line as a free comment. In this lab, line 2 always holds `charge multiplicity`, so you never have to guess. Copy it into the first line of `$molecule`. Recall from [Lecture 1](l01-molecular-schrodinger.qmd): 1 = singlet (all electrons paired, like HCl), 2 = doublet (one unpaired electron, like an H atom or a radical), 3 = triplet (two parallel unpaired electrons, like ground-state O₂). All the species of Experiment 1 are closed-shell singlets. A wrong multiplicity gives a perfectly converged energy for the wrong electronic state.
 :::
 
 ### The experiment pages do the typing for you
@@ -153,9 +153,9 @@ An output file is long, but you need only a few lines. Search for the phrases be
 
 What each number means:
 
-- **Number of basis functions.** $K$ of [Class 2](l02-basis-sets.qmd). Check it against what you expect from the shell compositions; it confirms that the right basis was used. It is also the $N$ in the cost scaling you will measure.
-- **SCF cycles.** Hartree–Fock and Kohn–Sham DFT are solved iteratively (Class 4). The table of cycles shows the energy settling down; the line ending in *Convergence criterion met* is the last one. If instead you see a message that the SCF failed to converge, the energy is meaningless.
-- **Total energy.** Electronic energy plus nuclear repulsion at the fixed input geometry, in hartree ([Class 1](l01-molecular-schrodinger.qmd)): no zero-point energy, no thermal corrections. If the output also prints an "SCF energy", always use the **total** energy: with extra terms such as a dispersion correction (-D4), the two can differ.
+- **Number of basis functions.** $K$ of [Lecture 2](l02-basis-sets.qmd). Check it against what you expect from the shell compositions; it confirms that the right basis was used. It is also the $N$ in the cost scaling you will measure.
+- **SCF cycles.** Hartree–Fock and Kohn–Sham DFT are solved iteratively (Lecture 4). The table of cycles shows the energy settling down; the line ending in *Convergence criterion met* is the last one. If instead you see a message that the SCF failed to converge, the energy is meaningless.
+- **Total energy.** Electronic energy plus nuclear repulsion at the fixed input geometry, in hartree ([Lecture 1](l01-molecular-schrodinger.qmd)): no zero-point energy, no thermal corrections. If the output also prints an "SCF energy", always use the **total** energy: with extra terms such as a dispersion correction (-D4), the two can differ.
 - **Wall time vs CPU time.** *Wall* time is what a stopwatch on the wall would measure. *CPU* time adds up the time of every processor core, so on a multi-core server it is larger. We always compare **wall** times, and only between jobs run on the same server. Timings are noisy: a busy server or a slow disk adds seconds that have nothing to do with the chemistry.
 - **"Thank you very much for using Q-Chem. Have a nice day."** The last line of a finished job. If it is missing, the job crashed or was killed, and nothing in the file should be trusted.
 
@@ -200,7 +200,7 @@ $$
 
 ### Keep all the digits
 
-A reaction energy is a small difference between large numbers. In Experiment 1 the total energies are hundreds of hartree and the reference reaction energy is 2.01 kcal/mol, which is only 0.0032 $E_\text{h}$. Rounding each total energy to 4 decimals can introduce errors of almost 0.1 kcal/mol (Class 1). Copy **every digit** Q-Chem prints, and round only the final reaction energy, to two decimals in kcal/mol.
+A reaction energy is a small difference between large numbers. In Experiment 1 the total energies are hundreds of hartree and the reference reaction energy is 2.01 kcal/mol, which is only 0.0032 $E_\text{h}$. Rounding each total energy to 4 decimals can introduce errors of almost 0.1 kcal/mol (Lecture 1). Copy **every digit** Q-Chem prints, and round only the final reaction energy, to two decimals in kcal/mol.
 
 ### Signed and absolute errors
 
@@ -210,7 +210,7 @@ $$
 \varepsilon = \Delta E_\text{comp} - \Delta E_\text{ref} .
 $$ {#eq-error}
 
-The **signed error** $\varepsilon$ tells you the direction: positive means the method *overestimates* the reaction energy. The **absolute error** $|\varepsilon|$ tells you how far off it is, regardless of direction. Over several reactions, the mean signed error (MSE) reveals systematic bias and the mean absolute error (MAE) measures overall accuracy; Class 7 returns to these statistics. An error of about 1 kcal/mol is traditionally called **chemical accuracy**.
+The **signed error** $\varepsilon$ tells you the direction: positive means the method *overestimates* the reaction energy. The **absolute error** $|\varepsilon|$ tells you how far off it is, regardless of direction. Over several reactions, the mean signed error (MSE) reveals systematic bias and the mean absolute error (MAE) measures overall accuracy; Lecture 7 returns to these statistics. An error of about 1 kcal/mol is traditionally called **chemical accuracy**.
 
 ::: {.callout-tip}
 ## Worked example: a reaction energy and its error
@@ -240,7 +240,7 @@ Everything above comes together in [Experiment 1: Basis Set Incompleteness Error
 
 ### The question
 
-Class 2 claimed that larger basis sets give results that converge toward the CBS limit, at a steeply growing cost. Experiment 1 tests that claim on a real reaction energy, for four different methods, with two families of basis sets. The reaction is the dissociation of the HCl dimer, a weakly bound complex held together by noncovalent interactions, from the NCCE30 subset [@peverati2014] of the Minnesota 2015B database [@yu2016a]. Its reference energy is **2.01 kcal/mol**. Weakly bound complexes are a demanding test for basis sets: the interaction energy is small, so even small basis-set errors are large in relative terms.
+Lecture 2 claimed that larger basis sets give results that converge toward the CBS limit, at a steeply growing cost. Experiment 1 tests that claim on a real reaction energy, for four different methods, with two families of basis sets. The reaction is the dissociation of the HCl dimer, a weakly bound complex held together by noncovalent interactions, from the NCCE30 subset [@peverati2014] of the Minnesota 2015B database [@yu2016a]. Its reference energy is **2.01 kcal/mol**. Weakly bound complexes are a demanding test for basis sets: the interaction energy is small, so even small basis-set errors are large in relative terms.
 
 ### What you will run
 
@@ -253,7 +253,7 @@ Class 2 claimed that larger basis sets give results that converge toward the CBS
 
 : The Experiment 1 design. Each method/basis pair gives one reaction energy, so you obtain 24 reaction energies. {#tbl-ex01}
 
-All jobs are single points (`JOBTYPE SP`) with `SCF_CONVERGENCE 8`, and all are short. The two basis-set families are matched by ζ: double (SVP, DZ), triple (TZVP, TZ) and quadruple (QZVP, QZ). The methods span the range from no electron correlation at all (HF) to a modern, heavily parametrized functional (ωB97M-V); Classes 4–6 explain what each one is.
+All jobs are single points (`JOBTYPE SP`) with `SCF_CONVERGENCE 8`, and all are short. The two basis-set families are matched by ζ: double (SVP, DZ), triple (TZVP, TZ) and quadruple (QZVP, QZ). The methods span the range from no electron correlation at all (HF) to a modern, heavily parametrized functional (ωB97M-V); Lectures 4–6 explain what each one is.
 
 For each job, record from the output the **total energy**, the **number of SCF cycles**, the **wall time** and the **number of basis functions**. Then compute each reaction energy yourself with @eq-ex01, convert it to kcal/mol, and enter it. The results form recomputes $\Delta E$ from the total energies **you** entered and flags inconsistencies (a sign, a missing factor of 2, a unit slip). It never shows you the correct value.
 
@@ -262,13 +262,13 @@ For each job, record from the output the **total energy**, the **number of SCF c
 Once your table is complete, the page draws two charts from your own data:
 
 - **Error vs ζ.** The signed error of each method as the basis grows from double- to quadruple-ζ, for each family. This is BSIE made visible: does the error shrink steadily, for every method? Do the two families behave the same way at the same ζ?
-- **Cost scaling.** Wall time against the number of basis functions on log–log axes, with a straight-line fit for each method. The slope is the exponent $n$ in time $\propto K^n$. Class 2 said the formal scaling of HF and hybrid DFT is $K^4$, and that practice is usually kinder. You will measure your own $n$, and decide which points to trust (very short jobs are dominated by fixed overhead).
+- **Cost scaling.** Wall time against the number of basis functions on log–log axes, with a straight-line fit for each method. The slope is the exponent $n$ in time $\propto K^n$. Lecture 2 said the formal scaling of HF and hybrid DFT is $K^4$, and that practice is usually kinder. You will measure your own $n$, and decide which points to trust (very short jobs are dominated by fixed overhead).
 
 The questions at the end of the page ask you to describe the trend with ζ for each method, compare the two families, classify each method's behavior, report and interpret your measured exponent, and choose the best combination of method and basis for this reaction, considering both accuracy and cost.
 
 ::: {.callout-important}
 ## Lock your predictions first
-Before running anything, answer the warm-up quiz and **lock your predictions** in the *Predict first* section of the experiment page. You will predict, among other things, how the error of ωB97M-V and of Hartree–Fock changes from double- to quadruple-ζ, which family gives smaller errors at the same ζ, and which method comes closest to the reference with def2-QZVP. Predictions are not graded on being right: they are part of your submission so you (and we) can see how your intuition changes. Think about them using Classes 1 and 2, commit, and then let your data answer. Once locked, they cannot be changed.
+Before running anything, answer the warm-up quiz and **lock your predictions** in the *Predict first* section of the experiment page. You will predict, among other things, how the error of ωB97M-V and of Hartree–Fock changes from double- to quadruple-ζ, which family gives smaller errors at the same ζ, and which method comes closest to the reference with def2-QZVP. Predictions are not graded on being right: they are part of your submission so you (and we) can see how your intuition changes. Think about them using Lectures 1 and 2, commit, and then let your data answer. Once locked, they cannot be changed.
 :::
 
 ### How to submit
@@ -278,13 +278,13 @@ Before running anything, answer the warm-up quiz and **lock your predictions** i
 3. Download your submission file (a `.json` file).
 4. Open the Microsoft Form linked on the page, sign in with your Florida Tech email, and upload the file. You can resubmit until the deadline; the latest upload counts.
 
-The optional Colab notebook at the bottom of the page extrapolates the HCl dimer to the CBS limit with PySCF, using the ideas of [Class 2](l02-basis-sets.qmd).
+The optional Colab notebook at the bottom of the page extrapolates the HCl dimer to the CBS limit with PySCF, using the ideas of [Lecture 2](l02-basis-sets.qmd).
 
-## Before next class
+## Before next lecture
 
 - Install IQmol and run the test job ([Guides 1–2](../guides/first-job.qmd)) if you have not yet.
 - Lock your Experiment 1 predictions, then run the first batch of jobs: for example, all 12 jobs of one method, or all 8 jobs of one basis set. Check one output thoroughly with the five checks above before submitting the rest.
-- Class 4 opens the second approximation, the Hamiltonian: Hartree–Fock and the self-consistent field. You will find out what the SCF cycles you just counted are actually doing, and why the "HF" row of your Experiment 1 table matters so much.
+- Lecture 4 opens the second approximation, the Hamiltonian: Hartree–Fock and the self-consistent field. You will find out what the SCF cycles you just counted are actually doing, and why the "HF" row of your Experiment 1 table matters so much.
 
 ## Key points
 

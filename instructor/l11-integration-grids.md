@@ -1,4 +1,4 @@
-# Class 11 · Debrief Exp. 6 · Numerical integration grids  (Before Exp. 7)
+# Lecture 11 · Debrief Exp. 6 · Numerical integration grids  (Before Exp. 7)
 
 **Goal.** Debrief error cancellation with small bases; explain DFT integration grids; brief Exp. 7 including the extraction script and CSV import.
 
@@ -42,4 +42,4 @@
 
 **If running late:** shorten Exp. 6 to the three headline numbers; cut Lebedev details; keep grids → wiggles and the briefing (script instructions are on the page).
 **If this becomes two classes:** not marked.
-**Next class:** Class 12, debrief Exp. 7 (grid wiggles), SCF stability, transition metals, Exp. 8 briefing.
+**Next class:** Lecture 12, debrief Exp. 7 (grid wiggles), SCF stability, transition metals, Exp. 8 briefing.

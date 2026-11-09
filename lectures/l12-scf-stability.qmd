@@ -1,12 +1,12 @@
 ---
-title: "Class 12 · SCF stability, open shells and transition metals"
+title: "Lecture 12 · SCF stability, open shells and transition metals"
 subtitle: "Debrief of Experiment 7 and introduction to Experiment 8"
 description: "What the argon dimer taught us about grids, how to tell whether an SCF solution is a true minimum, why transition metals are hard, and a briefing for Experiment 8."
 ---
 
 ::: {.callout-note}
 ## Learning goals
-After this class you should be able to:
+After this lecture you should be able to:
 
 - tell grid noise from physics in a potential energy curve, and choose a grid for a given functional;
 - explain why a converged SCF solution is a stationary point that may not be a minimum;
@@ -18,7 +18,7 @@ After this class you should be able to:
 :::
 
 ::: {.callout-note appearance="simple"}
-**This class may take two meetings.** If it does, the natural split point is just before @sec-tm: the first meeting covers the Experiment 7 debrief, SCF stability and spin contamination, the second covers transition metals, effective core potentials and the Experiment 8 briefing.
+**This lecture may take two meetings.** If it does, the natural split point is just before @sec-tm: the first meeting covers the Experiment 7 debrief, SCF stability and spin contamination, the second covers transition metals, effective core potentials and the Experiment 8 briefing.
 :::
 
 # Part 1 · Looking back at Experiment 7
@@ -30,7 +30,7 @@ This part discusses the trends you most likely saw in [Experiment 7](../experime
 
 ## Wiggles are grid noise, not physics
 
-The reference Ar₂ curve has one minimum. Most of you probably found curves with two, three or more minima, especially on SG-1. Those extra minima are not chemistry. Argon atoms do not have several preferred distances. As [Class 11](l11-integration-grids.qmd) explained, the grid moves with the atoms, so the integration error changes erratically from one distance to the next. The binding energy is only 0.28 kcal/mol, or 4.5 × 10⁻⁴ $E_h$, so an integration error of a few 10⁻⁵ $E_h$ is enough to draw a new minimum.
+The reference Ar₂ curve has one minimum. Most of you probably found curves with two, three or more minima, especially on SG-1. Those extra minima are not chemistry. Argon atoms do not have several preferred distances. As [Lecture 11](l11-integration-grids.qmd) explained, the grid moves with the atoms, so the integration error changes erratically from one distance to the next. The binding energy is only 0.28 kcal/mol, or 4.5 × 10⁻⁴ $E_h$, so an integration error of a few 10⁻⁵ $E_h$ is enough to draw a new minimum.
 
 Two simple tests separate noise from physics:
 
@@ -58,7 +58,7 @@ Now look at the *shape* of the converged curves. B3LYP has no dispersion, and ar
 |---|---:|---:|---:|
 | Points for a carbon atom | ≈ 3,800 | ≈ 7,800 | ≈ 17,700 |
 
-: Grid sizes from Class 11 (Q-Chem manual values for carbon). {#tbl-sg-recap}
+: Grid sizes from Lecture 11 (Q-Chem manual values for carbon). {#tbl-sg-recap}
 
 The timing chart probably surprised some of you: going from SG-1 to SG-3 multiplies the number of grid points by more than four (@tbl-sg-recap), but the total wall time grows much less. Only the exchange–correlation part of each SCF cycle scales with the number of points. Compared with the effect of a larger basis set (Experiment 1), a finer grid is cheap insurance.
 
@@ -73,7 +73,7 @@ The timing chart probably surprised some of you: going from SG-1 to SG-3 multipl
 
 ## The SCF finds stationary points
 
-In Class 4 you saw the SCF loop: guess orbitals, build the Fock (or Kohn–Sham) matrix, diagonalize, repeat until nothing changes (see [Class 4](l04-hartree-fock.qmd)). When it stops, the energy no longer changes to first order when you mix occupied and virtual orbitals. That is a statement about the **gradient**. It says nothing about the curvature.
+In Lecture 4 you saw the SCF loop: guess orbitals, build the Fock (or Kohn–Sham) matrix, diagonalize, repeat until nothing changes (see [Lecture 4](l04-hartree-fock.qmd)). When it stops, the energy no longer changes to first order when you mix occupied and virtual orbitals. That is a statement about the **gradient**. It says nothing about the curvature.
 
 To make this precise, write any small change of the occupied orbitals as a rotation that mixes occupied orbital $i$ with virtual orbital $a$ by an amount $\kappa_{ai}$:
 
@@ -220,7 +220,7 @@ An **effective core potential** (ECP) solves both problems at once. It replaces 
 Ruthenium has $Z = 44$. Ru⁺ has 43 electrons. The def2 ECP replaces 28 core electrons, so the calculation treats $43 - 28 = 15$ electrons explicitly, moving in the field of an effective core of charge $44 - 28 = +16$. For the sextet, $N_\alpha - N_\beta = 5$ and $N_\alpha + N_\beta = 15$, so $N_\alpha = 10$ and $N_\beta = 5$. For the quartet, $N_\alpha = 9$ and $N_\beta = 6$.
 :::
 
-In Q-Chem, ECPs are requested with `ECP = def2-ECP`; the website's input generator adds it for Ru and Pd. Iron (a 3d metal) is treated with all its electrons in def2 basis sets. Its relativistic effects are smaller, and in this course we ignore them. Spin–orbit coupling, the other relativistic effect, is not included in standard ECPs or in standard DFT. It returns in [Class 13](l13-theory-vs-experiment.qmd).
+In Q-Chem, ECPs are requested with `ECP = def2-ECP`; the website's input generator adds it for Ru and Pd. Iron (a 3d metal) is treated with all its electrons in def2 basis sets. Its relativistic effects are smaller, and in this course we ignore them. Spin–orbit coupling, the other relativistic effect, is not included in standard ECPs or in standard DFT. It returns in [Lecture 13](l13-theory-vs-experiment.qmd).
 
 # Experiment 8 briefing
 

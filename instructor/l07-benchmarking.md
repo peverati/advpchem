@@ -1,4 +1,4 @@
-# Class 7 · Debrief Exp. 1–2 · How we test a functional  (Before Exp. 3)
+# Lecture 7 · Debrief Exp. 1–2 · How we test a functional  (Before Exp. 3)
 
 **Goal.** Debrief the basis-set and ladder experiments; teach how functionals are benchmarked; brief Exp. 3.
 
@@ -48,4 +48,4 @@
 
 **If running late:** cut the cost-exponent discussion (leave for class 8); skim Exp. 2; keep error statistics and the briefing.
 **If this becomes two classes:** not marked.
-**Next class:** Class 8, debrief Exp. 3, dispersion, Exp. 4 briefing.
+**Next class:** Lecture 8, debrief Exp. 3, dispersion, Exp. 4 briefing.

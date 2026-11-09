@@ -1,4 +1,4 @@
-# Class 9 · Debrief Exp. 4 · Why some reactions are hard for DFT  (Before Exp. 5)  *(may need two classes)*
+# Lecture 9 · Debrief Exp. 4 · Why some reactions are hard for DFT  (Before Exp. 5)  *(may need two classes)*
 
 **Goal.** Debrief the dispersion experiment; explain the failure modes (SIE, static correlation, atomization); brief Exp. 5.
 
@@ -42,4 +42,4 @@
 
 **If running late:** cut part A to the H₂⁺ picture only; reduce 5b to the training-set sentence.
 **If this becomes two classes:** **split after block 2 part A (≈ min 25):** Meeting A = Exp. 4 debrief + self-interaction. Meeting B = 5-min recap, static correlation + atomization energies, Exp. 5 briefing (predictions must lock before jobs). Post the Exp. 5 page link after meeting A so students can read.
-**Next class:** Class 10, debrief Exp. 5, basis-set vs functional error, Exp. 6 briefing.
+**Next class:** Lecture 10, debrief Exp. 5, basis-set vs functional error, Exp. 6 briefing.

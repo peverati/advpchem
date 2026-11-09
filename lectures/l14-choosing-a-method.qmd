@@ -1,12 +1,12 @@
 ---
-title: "Class 14 · Choosing, running and reporting a method"
+title: "Lecture 14 · Choosing, running and reporting a method"
 subtitle: "Debrief of Experiment 9 and introduction to Experiment 10"
 description: "What Experiment 9 showed about radicals, atoms and experimental data, a decision process for choosing a method built on the evidence of Experiments 1–9, how to write a reproducible methods section, and a briefing for Experiment 10."
 ---
 
 ::: {.callout-note}
 ## Learning goals
-After this class you should be able to:
+After this lecture you should be able to:
 
 - explain why reactions that produce atoms and radicals are harder than reactions between closed-shell molecules, and why Hartree–Fock fails for them;
 - explain the gap between an experimental bond enthalpy and an electronic reference value;
@@ -27,7 +27,7 @@ This part discusses the trends you most likely saw in [Experiment 9](../experime
 
 The first thing on the signed-error chart was probably Hartree–Fock. Its atomization energies are far too small: tens of kcal/mol too small for the hydrides, and for ozone the error can be so large that HF barely binds the molecule at all relative to three oxygen atoms. You saw the same failure for H₂SO₄ in Experiment 5.
 
-The reason is the one from [Class 9](l09-difficult-cases.qmd). Correlation energy is larger in the molecule than in the separated atoms, because bonding packs more electron pairs into the same region of space. Hartree–Fock has no correlation at all, so it misses this extra stabilization of the molecule, and every bond comes out too weak. In an atomization nothing on the product side looks like the reactant, so there is no cancellation to rescue it. Even H₂, a two-electron problem, is underbound by HF: the missing energy is exactly the correlation energy of the H₂ bond, since the hydrogen atom has only one electron and no correlation.
+The reason is the one from [Lecture 9](l09-difficult-cases.qmd). Correlation energy is larger in the molecule than in the separated atoms, because bonding packs more electron pairs into the same region of space. Hartree–Fock has no correlation at all, so it misses this extra stabilization of the molecule, and every bond comes out too weak. In an atomization nothing on the product side looks like the reactant, so there is no cancellation to rescue it. Even H₂, a two-electron problem, is underbound by HF: the missing energy is exactly the correlation energy of the H₂ bond, since the hydrogen atom has only one electron and no correlation.
 
 ## The density functionals
 
@@ -36,7 +36,7 @@ The density functionals all include correlation in some approximate way, and mos
 - **Absolute errors** grow with the size of the number. Methane's atomization energy is 420 kcal/mol. An error of 4 kcal/mol there is less than 1%.
 - **Relative errors** put H₂ and CH₄ on the same scale. The relative-errors chart probably showed that some functionals that look fine on the absolute scale are not as good per bond.
 
-Ozone was probably the hardest atomization for everyone. It has strong multireference character (Class 9), and a single determinant can't describe it well. GGAs such as PBE tend to overbind ozone by a lot, inheriting LSDA's overbinding. Hybrids and the Minnesota functionals usually do better, but not uniformly.
+Ozone was probably the hardest atomization for everyone. It has strong multireference character (Lecture 9), and a single determinant can't describe it well. GGAs such as PBE tend to overbind ozone by a lot, inheriting LSDA's overbinding. Hybrids and the Minnesota functionals usually do better, but not uniformly.
 
 ## Radicals and the C–O bond of *tert*-butanol
 
@@ -50,7 +50,7 @@ The FeCl dissociation combines everything difficult: a transition metal, a sexte
 
 ## What NIST told you
 
-The **Theory meets experiment** panel probably gave an experimental bond enthalpy a few kcal/mol away from the electronic reference of 78.5 kcal/mol. Several corrections stand between the two numbers ([Class 13](l13-theory-vs-experiment.qmd)):
+The **Theory meets experiment** panel probably gave an experimental bond enthalpy a few kcal/mol away from the electronic reference of 78.5 kcal/mol. Several corrections stand between the two numbers ([Lecture 13](l13-theory-vs-experiment.qmd)):
 
 - **ZPE.** FeCl is a heavy diatomic with a low vibrational frequency, a few hundred cm⁻¹, so its ZPE is well under 1 kcal/mol.
 - **Thermal enthalpy.** About $\tfrac{3}{2}RT \approx 0.9$ kcal/mol in favor of the atoms, a little less once FeCl's soft vibration is counted.
@@ -79,7 +79,7 @@ So far, every experiment told you which methods to run. In research, nobody does
 
 **3. Look for benchmark evidence for that kind of reaction.** Large benchmark databases rank functionals by reaction type: GMTKN55 for main-group thermochemistry, kinetics and noncovalent interactions [@goerigk2017], MGCDB84 [@mardirossian2017], and the Minnesota databases [@yu2016a], which include transition-metal bond energies. Specialized sets exist for transition-metal chemistry [@chan2019; @dohm2018]. Read the summary tables, but also the category closest to your problem: a functional that is excellent on average can be poor for your reaction type. Be wary of evidence from a functional's own training set (the CaO lesson of Experiment 5).
 
-**4. Choose the basis set.** For DFT, a triple-ζ basis such as def2-TZVP is the practical standard for energies (Experiment 1). Double-ζ sets are for screening and geometries, and their results can be right for the wrong reasons (Experiment 6). Use a quadruple-ζ set to check convergence if you can afford it. Elements beyond krypton need an effective core potential: with def2 sets, `ECP = def2-ECP` ([Class 12](l12-scf-stability.qmd)). Anions and very weak interactions need diffuse functions.
+**4. Choose the basis set.** For DFT, a triple-ζ basis such as def2-TZVP is the practical standard for energies (Experiment 1). Double-ζ sets are for screening and geometries, and their results can be right for the wrong reasons (Experiment 6). Use a quadruple-ζ set to check convergence if you can afford it. Elements beyond krypton need an effective core potential: with def2 sets, `ECP = def2-ECP` ([Lecture 12](l12-scf-stability.qmd)). Anions and very weak interactions need diffuse functions.
 
 **5. Decide on dispersion.** Unless the functional already includes it, add a dispersion correction such as -D4 [@caldeweyher2017; @caldeweyher2019]. Never add -D4 on top of a functional that has VV10 (the "-V" functionals) or that was parametrized to include dispersion. That double counts (Experiment 4). Check that -D4 parameters exist for your functional.
 
@@ -186,7 +186,7 @@ The structures come from the PdBE2 subset [@averkiev2010] of the Minnesota 2015B
 
 Every setting is yours: functional, dispersion, basis set, grid and stability analysis. The **method card** on the experiment page collects your choices and your reasons, warns you about common pitfalls (double-counting dispersion, grid-sensitive functionals without an explicit grid, no stability check), estimates whether each job fits in 10 minutes, and writes the three Q-Chem inputs. Only three jobs are required. You are welcome to run extra ones to check your choice, for example a second basis set or a second functional.
 
-Use the decision process of this class. Some questions to answer before you pick:
+Use the decision process of this lecture. Some questions to answer before you pick:
 
 - What kind of bond breaks here? Is it covalent, dative, noncovalent, or a mix? What does that say about dispersion (Experiment 4)?
 - Which benchmarks include metal–ligand bond energies, and which functionals do well there? Start from the references on the experiment page [@goerigk2017; @mardirossian2017; @yu2016a; @peverati2014; @chan2019; @dohm2018].

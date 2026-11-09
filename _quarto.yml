@@ -28,8 +28,6 @@ website:
   search: true
   navbar:
     left:
-      - href: index.qmd
-        text: Home
       - text: "Guides"
         menu:
           - guides/iqmol-setup.qmd
@@ -42,35 +40,35 @@ website:
           - href: lectures/index.qmd
             text: "All lectures"
           - href: lectures/l01-molecular-schrodinger.qmd
-            text: "1 · The molecular Schrödinger equation"
+            text: "Lecture 1 · The molecular Schrödinger equation"
           - href: lectures/l02-basis-sets.qmd
-            text: "2 · Basis sets"
+            text: "Lecture 2 · Basis sets"
           - href: lectures/l03-from-theory-to-a-calculation.qmd
-            text: "3 · From theory to a calculation"
+            text: "Lecture 3 · From theory to a calculation"
           - href: lectures/l04-hartree-fock.qmd
-            text: "4 · Hartree–Fock and the SCF"
+            text: "Lecture 4 · Hartree–Fock and the SCF"
           - href: lectures/l05-density-functional-theory.qmd
-            text: "5 · Density functional theory"
+            text: "Lecture 5 · Density functional theory"
           - href: lectures/l06-jacobs-ladder.qmd
-            text: "6 · Jacob's ladder"
+            text: "Lecture 6 · Jacob's ladder"
           - href: lectures/l07-benchmarking.qmd
-            text: "7 · How we test a functional"
+            text: "Lecture 7 · How we test a functional"
           - href: lectures/l08-dispersion.qmd
-            text: "8 · Dispersion"
+            text: "Lecture 8 · Dispersion"
           - href: lectures/l09-difficult-cases.qmd
-            text: "9 · Difficult cases for DFT"
+            text: "Lecture 9 · Difficult cases for DFT"
           - href: lectures/l10-error-cancellation.qmd
-            text: "10 · Basis-set vs functional error"
+            text: "Lecture 10 · Basis-set vs functional error"
           - href: lectures/l11-integration-grids.qmd
-            text: "11 · Integration grids"
+            text: "Lecture 11 · Integration grids"
           - href: lectures/l12-scf-stability.qmd
-            text: "12 · SCF stability and transition metals"
+            text: "Lecture 12 · SCF stability and transition metals"
           - href: lectures/l13-theory-vs-experiment.qmd
-            text: "13 · Theory vs experiment"
+            text: "Lecture 13 · Theory vs experiment"
           - href: lectures/l14-choosing-a-method.qmd
-            text: "14 · Choosing a method"
+            text: "Lecture 14 · Choosing a method"
           - href: lectures/l15-wrap-up.qmd
-            text: "15 · What we learned"
+            text: "Lecture 15 · What we learned"
       - text: "Experiments"
         menu:
           - experiments/ex01-basis-sets.qmd

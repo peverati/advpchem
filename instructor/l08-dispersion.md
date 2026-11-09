@@ -1,4 +1,4 @@
-# Class 8 · Debrief Exp. 3 · Dispersion and noncovalent interactions  (Before Exp. 4)
+# Lecture 8 · Debrief Exp. 3 · Dispersion and noncovalent interactions  (Before Exp. 4)
 
 **Goal.** Debrief the "easy" reactions; explain dispersion and how it's added; brief Exp. 4.
 
@@ -43,4 +43,4 @@
 
 **If running late:** cut the cost discussion and the alkane example; keep the dispersion physics and briefing.
 **If this becomes two classes:** not marked.
-**Next class:** Class 9, debrief Exp. 4, why DFT fails, Exp. 5 briefing.
+**Next class:** Lecture 9, debrief Exp. 4, why DFT fails, Exp. 5 briefing.

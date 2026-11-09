@@ -1,4 +1,4 @@
-# Class 4 · Approximating the Hamiltonian I: Hartree–Fock and the SCF  (Before Exp. 2)
+# Lecture 4 · Approximating the Hamiltonian I: Hartree–Fock and the SCF  (Before Exp. 2)
 
 **Goal.** Students understand the mean-field idea, what an SCF iteration does (and why it can fail), and what "correlation energy" means.
 
@@ -58,4 +58,4 @@
 
 **If running late:** cut Koopmans to one slide; give the Roothaan-Hall derivation as a statement only; keep SCF loop and correlation.
 **If this becomes two classes:** not marked.
-**Next class:** Class 5, density functional theory (HK theorems, Kohn–Sham, LSDA).
+**Next class:** Lecture 5, density functional theory (HK theorems, Kohn–Sham, LSDA).

@@ -1,5 +1,5 @@
 ---
-title: "Class 7 · How we test a functional"
+title: "Lecture 7 · How we test a functional"
 subtitle: "Debrief of Experiments 1–2 and introduction to Experiment 3"
 description: "What the basis-set and Jacob's-ladder experiments taught us, how density functionals are benchmarked against reference data, and how to read error statistics."
 ---
@@ -7,7 +7,7 @@ description: "What the basis-set and Jacob's-ladder experiments taught us, how d
 ::: {.callout-note}
 ## Learning goals
 
-After this class you should be able to:
+After this lecture you should be able to:
 
 - explain why the error of a DFT calculation on (HCl)₂ shrinks as the basis grows, and why the Hartree–Fock error does not;
 - explain why the measured cost exponent of a calculation is smaller than the formal N⁴;
@@ -18,7 +18,7 @@ After this class you should be able to:
 - start Experiment 3 knowing what to run, what to record and what to look for.
 :::
 
-This class has two parts. Part 1 looks back at the first two experiments. Part 2 introduces the tools we use from now on to judge a method: benchmark databases and error statistics. It ends with the briefing for [Experiment 3](../experiments/ex03-organic-a.qmd).
+This lecture has two parts. Part 1 looks back at the first two experiments. Part 2 introduces the tools we use from now on to judge a method: benchmark databases and error statistics. It ends with the briefing for [Experiment 3](../experiments/ex03-organic-a.qmd).
 
 # Part 1 · Looking back at Experiments 1 and 2
 
@@ -45,15 +45,15 @@ The chart *How the error changes as the basis grows* puts ζ (DZ, TZ, QZ) on the
 - the error drops sharply from double-ζ to triple-ζ;
 - the change from triple-ζ to quadruple-ζ is small. The curve flattens out.
 
-Two effects make the double-ζ number too large. The first is the **basis-set incompleteness error** (BSIE): a small basis cannot describe the orbitals well, and the error does not cancel between the dimer and the monomers. The second, and the dominant one for a weakly bound dimer, is the **basis-set superposition error** (BSSE). In the dimer, each HCl molecule can "borrow" the basis functions centered on its partner to improve its own description. The isolated monomers have no partner to borrow from. So the dimer is artificially stabilized, and the binding energy comes out too large. BSSE shrinks quickly as the basis grows, because a molecule that already has a nearly complete basis gains little from its neighbor's functions. We return to BSSE and the counterpoise correction in [Class 10](l10-error-cancellation.qmd).
+Two effects make the double-ζ number too large. The first is the **basis-set incompleteness error** (BSIE): a small basis cannot describe the orbitals well, and the error does not cancel between the dimer and the monomers. The second, and the dominant one for a weakly bound dimer, is the **basis-set superposition error** (BSSE). In the dimer, each HCl molecule can "borrow" the basis functions centered on its partner to improve its own description. The isolated monomers have no partner to borrow from. So the dimer is artificially stabilized, and the binding energy comes out too large. BSSE shrinks quickly as the basis grows, because a molecule that already has a nearly complete basis gains little from its neighbor's functions. We return to BSSE and the counterpoise correction in [Lecture 10](l10-error-cancellation.qmd).
 
 When the curve flattens, you are close to the **complete-basis-set (CBS) limit** for that functional. What is left is the error of the functional itself. This is the most important lesson of Experiment 1: **the basis-set error goes to zero as the basis grows, the functional error does not.** With a quadruple-ζ basis, the remaining error tells you how good the *method* is. For (HCl)₂ the functional with built-in nonlocal dispersion (ωB97M-V) usually ends up closest to the reference. Functionals with no dispersion term can converge to a value that is slightly too small (underbinding), so their |ε| can go down and then up again as BSSE disappears and their real underbinding is revealed. That is why "no specific pattern" is a legitimate answer for some methods.
 
 ### What you probably saw for Hartree–Fock
 
-Hartree–Fock behaves very differently, and this is the first big surprise of the course. The HF error often does *not* decrease with the basis. It may even grow. The reason is physical. (HCl)₂ is held together by a mixture of dipole–dipole electrostatics and **London dispersion**. Hartree–Fock has no electron correlation at all, and dispersion is a correlation effect (Class 8 explains why). So at the CBS limit, HF underbinds the dimer. With a small basis, BSSE adds a spurious attraction that partly hides this missing physics. As the basis grows, the spurious attraction disappears and the true HF answer (too little binding) emerges.
+Hartree–Fock behaves very differently, and this is the first big surprise of the course. The HF error often does *not* decrease with the basis. It may even grow. The reason is physical. (HCl)₂ is held together by a mixture of dipole–dipole electrostatics and **London dispersion**. Hartree–Fock has no electron correlation at all, and dispersion is a correlation effect (Lecture 8 explains why). So at the CBS limit, HF underbinds the dimer. With a small basis, BSSE adds a spurious attraction that partly hides this missing physics. As the basis grows, the spurious attraction disappears and the true HF answer (too little binding) emerges.
 
-In other words, HF/def2-SVP can look better than HF/def2-QZVP *for the wrong reason*. Keep this example in mind: a small basis can make a bad method look good. It is the theme of Experiment 6 and [Class 10](l10-error-cancellation.qmd).
+In other words, HF/def2-SVP can look better than HF/def2-QZVP *for the wrong reason*. Keep this example in mind: a small basis can make a bad method look good. It is the theme of Experiment 6 and [Lecture 10](l10-error-cancellation.qmd).
 
 ::: {.callout-warning}
 ## Common mistake: "the error got smaller, so the method got better"
@@ -74,7 +74,7 @@ $$
 \log t = \log a + n \log N,
 $$ {#eq-loglog}
 
-and the slope of the straight line is the exponent *n*. In [Class 2](l02-basis-sets.qmd) you learned that the formal cost of HF and hybrid DFT grows as N⁴, because the number of two-electron integrals (μν|λσ) grows as N⁴. Most of you measured a smaller exponent, often between 2 and 3. Why?
+and the slope of the straight line is the exponent *n*. In [Lecture 2](l02-basis-sets.qmd) you learned that the formal cost of HF and hybrid DFT grows as N⁴, because the number of two-electron integrals (μν|λσ) grows as N⁴. Most of you measured a smaller exponent, often between 2 and 3. Why?
 
 1. **Integral screening.** Most of the N⁴ integrals are tiny because the Gaussians are far apart. Programs estimate integrals cheaply (Schwarz inequality) and skip the negligible ones. For large enough molecules the number of significant integrals grows closer to N².
 2. **Fixed overhead.** Small jobs spend a large share of their time on start-up, reading the basis, building the grid and writing output. This cost does not depend much on N, and it flattens the curve at small N.
@@ -91,7 +91,7 @@ Putting accuracy and cost together, the usual conclusion is that **triple-ζ** i
 
 ## Experiment 2: climbing the ladder
 
-Experiment 2 asked you to classify 20 functionals into LSDA, GGA, meta-GGA, hybrid GGA and hybrid meta-GGA. The rung depends only on the **ingredients** of the functional (see [Class 6](l06-jacobs-ladder.qmd)):
+Experiment 2 asked you to classify 20 functionals into LSDA, GGA, meta-GGA, hybrid GGA and hybrid meta-GGA. The rung depends only on the **ingredients** of the functional (see [Lecture 6](l06-jacobs-ladder.qmd)):
 
 | Rung | Ingredients |
 |---|---|
@@ -141,7 +141,7 @@ A benchmark is only as good as its reference values. There are two sources.
 
 Experimental thermochemistry (enthalpies of formation, bond energies, ionization potentials) has the advantage of being "real". But experimental numbers cannot be compared directly with a single-point electronic energy:
 
-- experiments measure enthalpies or free energies at a finite temperature, which include zero-point vibrational energy and thermal corrections (see [Class 13](l13-theory-vs-experiment.qmd));
+- experiments measure enthalpies or free energies at a finite temperature, which include zero-point vibrational energy and thermal corrections (see [Lecture 13](l13-theory-vs-experiment.qmd));
 - some experimental values have uncertainties of 1 kcal/mol or more;
 - many interesting quantities (a barrier height, the energy of an unstable conformer, a dimer at a fixed geometry) cannot be measured cleanly at all.
 
@@ -212,7 +212,7 @@ Truhlar's group has built a long series of databases to develop and test the Min
 
 ### Training sets and test sets
 
-Many modern functionals contain parameters fitted to a database. The data used for fitting form the **training set**. Data never used for fitting form the **test set**. A functional's performance on its own training set is not an independent test: it is guaranteed to be good there, by construction. A fair benchmark looks at the test set, or at a database built by someone else. Keep this in mind for [Class 9](l09-difficult-cases.qmd): one reaction in Experiment 5 belongs to the training set of one of your functionals.
+Many modern functionals contain parameters fitted to a database. The data used for fitting form the **training set**. Data never used for fitting form the **test set**. A functional's performance on its own training set is not an independent test: it is guaranteed to be good there, by construction. A fair benchmark looks at the test set, or at a database built by someone else. Keep this in mind for [Lecture 9](l09-difficult-cases.qmd): one reaction in Experiment 5 belongs to the training set of one of your functionals.
 
 ## Error statistics
 
@@ -301,7 +301,7 @@ Benchmark rankings are useful, but they must be read with care:
 2. **Training sets.** A functional fitted to a database will look good on that database (see above).
 3. **Error cancellation.** A good number can come from a lucky cancellation between two errors (Experiment 1 already showed one). Lucky cancellations don't transfer.
 4. **Outliers.** A small MAE can coexist with a catastrophic failure on one system. Always look at the maximum error and at the distribution.
-5. **The reference itself.** CCSD(T)/CBS is excellent for single-reference molecules, but less reliable for systems with strong static correlation (Class 9).
+5. **The reference itself.** CCSD(T)/CBS is excellent for single-reference molecules, but less reliable for systems with strong static correlation (Lecture 9).
 
 The practical advice: before using a functional for a new problem, look up its performance on the *subsets* most similar to your problem, not just its overall rank.
 

@@ -1,5 +1,5 @@
 ---
-title: "Class 9 · Why some reactions are hard for DFT"
+title: "Lecture 9 · Why some reactions are hard for DFT"
 subtitle: "Debrief of Experiment 4 and introduction to Experiment 5"
 description: "What -D4 and VV10 fixed in Experiment 4 and what they could not, self-interaction and delocalization error, static correlation, atomization energies and open-shell atoms, and the briefing for Experiment 5."
 ---
@@ -7,7 +7,7 @@ description: "What -D4 and VV10 fixed in Experiment 4 and what they could not, s
 ::: {.callout-note}
 ## Learning goals
 
-After this class you should be able to:
+After this lecture you should be able to:
 
 - read the -D4 pair chart and the dimer chart of Experiment 4, and explain which reactions dispersion corrections help and why;
 - explain why error cancellation breaks down when bonds are formed or broken;
@@ -18,7 +18,7 @@ After this class you should be able to:
 - distinguish absolute and relative errors, and explain why a functional should not be judged on its own training set.
 :::
 
-This class may be taught over two meetings. The split point is marked in the text.
+This lecture may be taught over two meetings. The split point is marked in the text.
 
 # Part 1 · Looking back at Experiment 4
 
@@ -66,7 +66,7 @@ For the **methanol dimer (4d)**, held together by a hydrogen bond, the picture i
 
 ## The -D4 pair chart
 
-The *Does -D4 help?* chart pairs PBE with PBE-D4 and B3LYP with B3LYP-D4. What you probably saw: -D4 helps most where the *number of close contacts* changes, that is, 4c (two molecules come together) and 4b (a more compact isomer). It helps partially for 4a. It matters little for 4d. Overall, the MAE of each functional drops when -D4 is added. This matches the theory of Class 8: -D4 adds only dispersion, so it improves only what was wrong because of missing dispersion.
+The *Does -D4 help?* chart pairs PBE with PBE-D4 and B3LYP with B3LYP-D4. What you probably saw: -D4 helps most where the *number of close contacts* changes, that is, 4c (two molecules come together) and 4b (a more compact isomer). It helps partially for 4a. It matters little for 4d. Overall, the MAE of each functional drops when -D4 is added. This matches the theory of Lecture 8: -D4 adds only dispersion, so it improves only what was wrong because of missing dispersion.
 
 ## Lessons of Experiment 4
 
@@ -101,7 +101,7 @@ $$
 J[\rho_1] + E_\text{xc}[\rho_1] = 0 \quad \text{for any one-electron density } \rho_1 .
 $$ {#eq-sic}
 
-In Hartree–Fock, the condition holds automatically, because the Coulomb and exchange integrals of an orbital with itself are equal (J~ii~ = K~ii~, Class 4). Approximate functionals (LSDA, GGAs, meta-GGAs) do not satisfy @eq-sic. Perdew and Zunger called the leftover the **self-interaction error** (SIE) and proposed an orbital-by-orbital correction for it [@perdew1981]. Hybrids reduce the SIE in proportion to their fraction of HF exchange, and range-separated hybrids, with 100% HF exchange at long range, remove it at long range.
+In Hartree–Fock, the condition holds automatically, because the Coulomb and exchange integrals of an orbital with itself are equal (J~ii~ = K~ii~, Lecture 4). Approximate functionals (LSDA, GGAs, meta-GGAs) do not satisfy @eq-sic. Perdew and Zunger called the leftover the **self-interaction error** (SIE) and proposed an orbital-by-orbital correction for it [@perdew1981]. Hybrids reduce the SIE in proportion to their fraction of HF exchange, and range-separated hybrids, with 100% HF exchange at long range, remove it at long range.
 
 ### Many electrons: delocalization error
 
@@ -129,21 +129,21 @@ The delocalization error is a property of the *functional*. A larger basis does 
 
 ::: {.callout-note}
 ## Split point
-If this class is taught over two meetings, the first meeting ends here, after the Experiment 4 debrief and self-interaction error. The second meeting starts with a short recap, then covers static correlation, atomization energies and the Experiment 5 briefing.
+If this lecture is taught over two meetings, the first meeting ends here, after the Experiment 4 debrief and self-interaction error. The second meeting starts with a short recap, then covers static correlation, atomization energies and the Experiment 5 briefing.
 :::
 
 ## Static correlation and multireference character
 
 ### Dynamic and static correlation
 
-In Class 4 we split the correlation energy into two kinds:
+In Lecture 4 we split the correlation energy into two kinds:
 
 - **dynamic correlation**: electrons avoid each other at short range. Every system has it. A single determinant is a good starting point, and correlation adds small corrections from many excited determinants.
 - **static (nondynamic) correlation**: the system cannot be described by a single determinant at all, because two or more electron configurations have similar energies and mix strongly. Systems like this are said to have **multireference character**.
 
 ### The textbook example: stretching H₂
 
-At its equilibrium distance, H₂ is described well by one determinant with both electrons in the bonding orbital σ~g~. As the bond is stretched, the antibonding orbital σ~u~ comes down in energy, and the configurations σ~g~² and σ~u~² become degenerate. The exact wave function at long distance is an equal mixture of the two, which describes one electron on each atom. Restricted Hartree–Fock (RHF), stuck with σ~g~², puts both electrons on the same atom half of the time (H⁺ + H⁻) and gives a dissociation energy that is far too large. An unrestricted calculation (UHF or UKS) can break the symmetry and dissociate correctly, at the price of a wave function that is no longer a pure spin state (spin contamination, Class 12).
+At its equilibrium distance, H₂ is described well by one determinant with both electrons in the bonding orbital σ~g~. As the bond is stretched, the antibonding orbital σ~u~ comes down in energy, and the configurations σ~g~² and σ~u~² become degenerate. The exact wave function at long distance is an equal mixture of the two, which describes one electron on each atom. Restricted Hartree–Fock (RHF), stuck with σ~g~², puts both electrons on the same atom half of the time (H⁺ + H⁻) and gives a dissociation energy that is far too large. An unrestricted calculation (UHF or UKS) can break the symmetry and dissociate correctly, at the price of a wave function that is no longer a pure spin state (spin contamination, Lecture 12).
 
 Approximate functionals are built for single-determinant Kohn–Sham systems. They capture dynamic correlation reasonably, and they mimic some static correlation through their exchange part, but systems with strong static correlation remain hard. They also make the reference values harder to compute: CCSD(T) itself becomes less reliable when the single-determinant starting point is poor.
 
@@ -151,7 +151,7 @@ Approximate functionals are built for single-determinant Kohn–Sham systems. Th
 
 - **Ozone.** O₃ has partial **diradical character**: besides the main closed-shell configuration, a second configuration with two electrons promoted into a low-lying π* orbital has a large weight. This makes O₃ a classic multireference molecule. Reactions 5a (ozonolysis) and 5d (2 O₃ → 3 O₂) both involve it.
 - **CaO.** Calcium oxide is a molecule with low-lying excited states and strongly mixed bonding (ionic Ca²⁺O²⁻ and less ionic configurations close in energy). Reaction 5b comes from MR-MGM-BE4, a subset of *multireference* main-group bond energies [@yu2015a].
-- **Stretched bonds and bond breaking** in general, and **transition-metal compounds** (Class 12).
+- **Stretched bonds and bond breaking** in general, and **transition-metal compounds** (Lecture 12).
 
 How do you know whether a molecule has multireference character? Diagnostics exist, for example the T₁ diagnostic from coupled cluster [@lee1989], or the fraction of the atomization energy that comes from the (T) triples. Large values are a warning: the reference values themselves may carry larger uncertainties, and DFT results should be treated with caution.
 
@@ -207,14 +207,14 @@ In kcal/mol: 0.35000 × 627.5095 = 219.63 kcal/mol. Note the sign: atomization i
 
 Reaction 5c, the atomization of sulfuric acid, has a reference value of 602.18 kcal/mol, by far the largest number in the course. A method that is "only" 1% off is wrong by about 6 kcal/mol. Is that good or bad?
 
-- In **relative** terms (the relative error defined in [Class 7](l07-benchmarking.qmd)), 1% looks excellent, much better than a 0.3 kcal/mol error on a 1 kcal/mol rotational barrier (30%).
+- In **relative** terms (the relative error defined in [Lecture 7](l07-benchmarking.qmd)), 1% looks excellent, much better than a 0.3 kcal/mol error on a 1 kcal/mol rotational barrier (30%).
 - In **absolute** terms, 6 kcal/mol is six times chemical accuracy. It would change an equilibrium constant by a factor of about $e^{6/0.5925} \approx 2.5\times 10^4$ at room temperature.
 
 Chemistry is decided by absolute energies. Relative errors are useful to compare the difficulty of very different quantities, but they must never be used to excuse a large absolute error. Experiment 5 has a chart that shows the same errors in both ways.
 
 ## Training sets and fitted functionals
 
-Many functionals contain parameters fitted to data (Class 6). B3LYP has 3; the Minnesota functionals have several dozen. The data used for the fit are the **training set**. A fitted functional reproduces its training set well *by construction*, so a good result on a training-set molecule is expected, not impressive. What matters for a user is how the functional performs on systems it was **not** fitted to.
+Many functionals contain parameters fitted to data (Lecture 6). B3LYP has 3; the Minnesota functionals have several dozen. The data used for the fit are the **training set**. A fitted functional reproduces its training set well *by construction*, so a good result on a training-set molecule is expected, not impressive. What matters for a user is how the functional performs on systems it was **not** fitted to.
 
 Reaction 5b (CaO → Ca + O) belongs to the MR-MGM-BE4 subset of Minnesota Database 2015B [@yu2015a], and MN15 was parametrized on that database [@yu2016a]. Experiment 5 has a *spotlight* chart for this reaction. When you look at it, ask: is this result a test of MN15, or a check that the fit worked? The same caution applies to any benchmark: before you use a dataset to judge a functional, check whether it was part of the functional's training set.
 

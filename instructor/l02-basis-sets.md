@@ -1,4 +1,4 @@
-# Class 2 · Approximating the wave function: basis sets  (Before Exp. 1)
+# Lecture 2 · Approximating the wave function: basis sets  (Before Exp. 1)
 
 **Goal.** Students know what a basis set is, can decode a basis-set name, and know that more (well-chosen) functions give lower energy and approach the CBS limit at steeply growing cost.
 
@@ -37,7 +37,7 @@
 - Historical, still very common (6-31G*), but unbalanced and not designed for systematic convergence. Exp. 6 revisits 6-31G*.
 - **Board:** `6-31+G(d,p)` decoded: core 6 | valence 3+1 | + diffuse | d on heavy | p on H.
 - **Ask:** "What's the difference between 6-31G* and 6-31G**?" (** adds p on hydrogen)
-- **Watch out:** thinking 6-31G* is "double-ζ so same as def2-SVP"; sizes and quality differ (Class 10).
+- **Watch out:** thinking 6-31G* is "double-ζ so same as def2-SVP"; sizes and quality differ (Lecture 10).
 
 ## [31–43] The modern families
 - **def2 (Karlsruhe):** def2-SVP, def2-TZVP, def2-QZVP; almost the whole periodic table; effective core potentials from Rb on (Q-Chem keyword `ECP def2-ECP`; matters for Ru, Pd later) [@weigend2005].
@@ -58,4 +58,4 @@
 
 **If running late:** skip STO/GTO details beyond the product-theorem line; shorten Pople decoding to the `*`, `**`, `+` rules; give the H2O table as a handout.
 **If this becomes two classes:** not marked.
-**Next class:** Class 3, IQmol and Q-Chem hands-on, Exp. 1 briefing.
+**Next class:** Lecture 3, IQmol and Q-Chem hands-on, Exp. 1 briefing.

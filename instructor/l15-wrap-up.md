@@ -1,4 +1,4 @@
-# Class 15 · Debrief Exp. 10 · What we learned  (Debrief Exp. 10 / course end)
+# Lecture 15 · Debrief Exp. 10 · What we learned  (Debrief Exp. 10 / course end)
 
 **Goal.** Debrief the consultant exercise; revisit the two approximations and the error hierarchy; collect course feedback.
 

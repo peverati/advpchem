@@ -1,4 +1,4 @@
-# Class 10 · Debrief Exp. 5 · Basis-set error vs functional error  (Before Exp. 6)
+# Lecture 10 · Debrief Exp. 5 · Basis-set error vs functional error  (Before Exp. 6)
 
 **Goal.** Debrief the hard reactions; show total error = method + basis (+ others) and that cancellation can fool you; brief Exp. 6.
 
@@ -49,4 +49,4 @@
 
 **If running late:** cut the citation-history story; keep CP definition and the briefing.
 **If this becomes two classes:** not marked.
-**Next class:** Class 11, debrief Exp. 6, integration grids, Exp. 7 briefing (extraction script).
+**Next class:** Lecture 11, debrief Exp. 6, integration grids, Exp. 7 briefing (extraction script).

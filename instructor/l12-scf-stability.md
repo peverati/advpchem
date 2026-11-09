@@ -1,4 +1,4 @@
-# Class 12 · Debrief Exp. 7 · SCF stability, open shells and transition metals  (Before Exp. 8)  *(may need two classes)*
+# Lecture 12 · Debrief Exp. 7 · SCF stability, open shells and transition metals  (Before Exp. 8)  *(may need two classes)*
 
 **Goal.** Debrief the grid study; explain that a converged SCF can be a saddle point; introduce transition-metal difficulties; brief Exp. 8.
 
@@ -40,4 +40,4 @@
 
 **If running late:** one slide on spin contamination; shorten transition-metal text to ECP + multiplicity; keep stability concept and briefing.
 **If this becomes two classes:** **split at the end of block 2, before transition metals (≈ min 35):** Meeting A = Exp. 7 debrief + SCF stability (Hessian, internal/external, spin contamination). Meeting B = 5-min recap, transition metals + ECPs, Exp. 8 briefing (same split as the slides and the handout).
-**Next class:** Class 13, debrief Exp. 8, electronic energy vs experiment, Exp. 9 briefing.
+**Next class:** Lecture 13, debrief Exp. 8, electronic energy vs experiment, Exp. 9 briefing.

@@ -1,4 +1,4 @@
-# Class 1 · The molecular Schrödinger equation  (Before Exp. 1)
+# Lecture 1 · The molecular Schrödinger equation  (Before Exp. 1)
 
 **Goal.** Everyone can write the electronic Hamiltonian, say why it can't be solved exactly, and say what "approximating Ψ" vs "approximating Ĥ" means.
 
@@ -60,4 +60,4 @@
 
 **If running late:** cut the hydrogen-atom review to 5 min (give quantum numbers as recall); skip nodes; drop the Slater-determinant algebra and just state antisymmetry + variational principle.
 **If this becomes two classes:** not marked "may need two".
-**Next class:** Class 2, basis sets (LCAO, STO vs GTO, def2/cc-pVnZ families, cost vs accuracy).
+**Next class:** Lecture 2, basis sets (LCAO, STO vs GTO, def2/cc-pVnZ families, cost vs accuracy).

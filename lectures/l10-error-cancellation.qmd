@@ -1,5 +1,5 @@
 ---
-title: "Class 10 · Basis-set error vs functional error"
+title: "Lecture 10 · Basis-set error vs functional error"
 subtitle: "Debrief of Experiment 5 and introduction to Experiment 6"
 description: "What the hard reactions of Experiment 5 taught us, how the total error splits into a method error and a basis-set error, BSSE and the counterpoise correction, why B3LYP/6-31G* became so popular, and how to count basis functions."
 ---
@@ -7,7 +7,7 @@ description: "What the hard reactions of Experiment 5 taught us, how the total e
 ::: {.callout-note}
 ## Learning goals
 
-After this class you should be able to:
+After this lecture you should be able to:
 
 - summarize what Experiment 5 showed about hard reactions, -D4, relative errors and training sets;
 - read the easy → hard chart across Experiments 3–5 and say what makes a method good overall;
@@ -31,7 +31,7 @@ The first thing you probably noticed in Experiment 5 is the scale of the *signed
 
 What you probably saw, reaction by reaction, and why:
 
-- **Hartree–Fock** is catastrophic for the two dissociations, 5b (CaO) and especially 5c (H₂SO₄ atomization). It badly *underestimates* both, because the molecule has much more correlation energy than the separated atoms, and HF has none ([Class 9](l09-difficult-cases.qmd)). Its error on 5c is so large that it dominates the chart.
+- **Hartree–Fock** is catastrophic for the two dissociations, 5b (CaO) and especially 5c (H₂SO₄ atomization). It badly *underestimates* both, because the molecule has much more correlation energy than the separated atoms, and HF has none ([Lecture 9](l09-difficult-cases.qmd)). Its error on 5c is so large that it dominates the chart.
 - **LSDA (SPW92)** errs the other way: it **overbinds** molecules, so its atomization energies are far too large. This is the classic failure of LSDA that motivated GGAs in the first place.
 - **GGAs** (BP86, BLYP, PBE) still make large errors, typically overbinding CaO by many kcal/mol. Their delocalization error and the difficulty of open-shell atoms add up, with no cancellation.
 - **Hybrids and hybrid meta-GGAs** usually reduce the errors, but none of them is uniformly good. The sign of the error changes from reaction to reaction and from functional to functional.
@@ -43,7 +43,7 @@ Compare B3LYP with B3LYP-D4 and PBE with PBE-D4. What you probably saw is that -
 
 ## Absolute and relative errors
 
-The *relative-error* chart shows the same errors as a percentage of each reference value. Reaction 5c has the largest reference (602.18 kcal/mol), so its percentage errors look modest even when the absolute errors are the largest of the experiment. For example, a 12 kcal/mol error on 5c is only 2%, but it is twelve times chemical accuracy. A rotational barrier of 1 kcal/mol computed with a 0.3 kcal/mol error looks bad at 30%, but it is chemically harmless. The lesson of [Class 9](l09-difficult-cases.qmd) stands: chemistry is decided by absolute energies; relative errors only help compare quantities of very different size.
+The *relative-error* chart shows the same errors as a percentage of each reference value. Reaction 5c has the largest reference (602.18 kcal/mol), so its percentage errors look modest even when the absolute errors are the largest of the experiment. For example, a 12 kcal/mol error on 5c is only 2%, but it is twelve times chemical accuracy. A rotational barrier of 1 kcal/mol computed with a 0.3 kcal/mol error looks bad at 30%, but it is chemically harmless. The lesson of [Lecture 9](l09-difficult-cases.qmd) stands: chemistry is decided by absolute energies; relative errors only help compare quantities of very different size.
 
 ## The CaO spotlight
 
@@ -57,7 +57,7 @@ The *easy → hard* chart puts your Experiments 3, 4 and 5 side by side, with th
 2. **The ranking changes.** Methods that look equivalent in Experiment 3 separate in Experiment 4 (dispersion) and again in Experiment 5 (self-interaction and static correlation). LSDA and HF, which hid among the others in Experiment 3, become the worst.
 3. **Modern functionals win on average.** The best overall performers are usually among the modern meta-GGAs and hybrid meta-GGAs with good dispersion treatment, such as ωB97M-V, B97M-V or the Minnesota hybrids. But no method wins every reaction, and the margin between the best few is smaller than the spread of errors within each experiment.
 
-Look at the thick line on the chart: your Experiment 3 "draft pick". Was it still a good choice by Experiment 5? If not, what would you have needed to know in advance? This is the question every computational chemist faces when choosing a method, and it is why we read benchmarks on the *subsets* closest to our problem (Class 14).
+Look at the thick line on the chart: your Experiment 3 "draft pick". Was it still a good choice by Experiment 5? If not, what would you have needed to know in advance? This is the question every computational chemist faces when choosing a method, and it is why we read benchmarks on the *subsets* closest to our problem (Lecture 14).
 
 ::: {.callout-warning}
 ## Common mistake: "Functional X is the best"
@@ -68,7 +68,7 @@ There is no best functional, only functionals that are better on average or bett
 
 ## Two approximations, two errors
 
-Every calculation makes the two approximations of Class 1: a finite basis set (approximating Ψ, or the Kohn–Sham orbitals) and an approximate method (approximating Ĥ, here the exchange–correlation functional). Each introduces an error. To separate them, imagine computing the same reaction with the same functional in a **complete basis set** (CBS). Then
+Every calculation makes the two approximations of Lecture 1: a finite basis set (approximating Ψ, or the Kohn–Sham orbitals) and an approximate method (approximating Ĥ, here the exchange–correlation functional). Each introduces an error. To separate them, imagine computing the same reaction with the same functional in a **complete basis set** (CBS). Then
 
 $$
 \underbrace{\Delta E^{\text{method/basis}} - \Delta E^\text{ref}}_{\varepsilon_\text{total}}
@@ -81,7 +81,7 @@ This is an identity: we have only added and subtracted ΔE^method/CBS^. But it i
 - **ε~method~** is the error of the functional itself. It does not depend on the basis. It is what benchmark papers report, using large basis sets.
 - **ε~basis~** is the error caused by the finite basis. It goes to zero as the basis grows, as you saw in Experiment 1.
 
-In practice there are other terms too: the integration grid (Class 11), SCF convergence and stability (Class 12), the geometry, and the uncertainty of the reference itself. With the settings used in this lab they are usually smaller than the first two, but they are not always negligible.
+In practice there are other terms too: the integration grid (Lecture 11), SCF convergence and stability (Lecture 12), the geometry, and the uncertainty of the reference itself. With the settings used in this lab they are usually smaller than the first two, but they are not always negligible.
 
 The two main errors have **different origins**, and so they have **independent signs**. When they have the same sign, they add up. When they have opposite signs, they partly **cancel**, and the total error can be smaller than the method error alone (@fig-budget). A small basis can then make a method look better than it really is. This is luck, not accuracy: change the reaction, and the two errors may no longer have opposite signs.
 
@@ -100,7 +100,7 @@ The small-basis result is eight times closer to the reference than the large-bas
 
 ## Basis-set incompleteness error
 
-The **basis-set incompleteness error** (BSIE) is the error in a total energy caused by the finite basis. For HF and DFT, the variational principle guarantees that total energies decrease toward the CBS limit as the basis grows (Class 2). The BSIE of a total energy is therefore always positive. But a reaction energy is a *difference*, and its BSIE can have either sign. It depends on which side of the reaction is described worse by the basis.
+The **basis-set incompleteness error** (BSIE) is the error in a total energy caused by the finite basis. For HF and DFT, the variational principle guarantees that total energies decrease toward the CBS limit as the basis grows (Lecture 2). The BSIE of a total energy is therefore always positive. But a reaction energy is a *difference*, and its BSIE can have either sign. It depends on which side of the reaction is described worse by the basis.
 
 A basis is **balanced** for a reaction if it describes reactants and products about equally well, so that their BSIEs cancel. Basis sets are usually less balanced when:
 
@@ -145,7 +145,7 @@ B3LYP/6-31G\* was a huge improvement over what organic chemists used before (Har
 
 ### Right for the wrong reasons
 
-B3LYP has no dispersion (Class 8). With a complete basis, it underbinds dimers and gives too little stability to compact molecules. 6-31G\* is a small, unbalanced basis with a large BSSE, which artificially stabilizes compact structures and complexes. The two errors have **opposite signs**. In many organic systems, the BSSE of 6-31G\* partly compensates the missing dispersion of B3LYP, and the combination looks better than B3LYP with a large basis.
+B3LYP has no dispersion (Lecture 8). With a complete basis, it underbinds dimers and gives too little stability to compact molecules. 6-31G\* is a small, unbalanced basis with a large BSSE, which artificially stabilizes compact structures and complexes. The two errors have **opposite signs**. In many organic systems, the BSSE of 6-31G\* partly compensates the missing dispersion of B3LYP, and the combination looks better than B3LYP with a large basis.
 
 Kruse, Goerigk and Grimme analyzed this in detail in 2012 [@kruse2012]. They showed that much of the apparent success of B3LYP/6-31G\* comes from this fortuitous cancellation, that it fails badly when the cancellation does not happen, and that adding dispersion and BSSE corrections (or simply using a better basis and a modern functional) removes the problem. Their title says it plainly: the standard B3LYP/6-31G\* model chemistry should not be used for molecular thermochemistry. A broader analysis of small basis sets and their error sources was given by Sure, Brandenburg and Grimme [@sure2016].
 

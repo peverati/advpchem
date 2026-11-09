@@ -1,4 +1,4 @@
-# Class 13 · Debrief Exp. 8 · From electronic energies to experiment  (Before Exp. 9)  *(may need two classes)*
+# Lecture 13 · Debrief Exp. 8 · From electronic energies to experiment  (Before Exp. 9)  *(may need two classes)*
 
 **Goal.** Debrief stability analysis; connect ΔE_el to measurable quantities (ΔE₀, ΔH₂₉₈, ΔG); brief Exp. 9.
 
@@ -41,4 +41,4 @@
 
 **If running late:** cut ΔG and spin–orbit details; keep ZPE/thermal/NIST and briefing.
 **If this becomes two classes:** **split after block 2 part A (≈ min 27):** Meeting A = Exp. 8 debrief + ZPE/thermal corrections. Meeting B = 5-min recap, spin–orbit, atomization vs ΔfH°, experimental uncertainty, NIST demo, Exp. 9 briefing (same split as the slides and the handout).
-**Next class:** Class 14, debrief Exp. 9, choosing and reporting a method, Exp. 10 briefing.
+**Next class:** Lecture 14, debrief Exp. 9, choosing and reporting a method, Exp. 10 briefing.
