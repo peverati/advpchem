@@ -8,7 +8,7 @@
 
 <meta name="description" content="How density functional approximations are built, rung by rung, how to decode their names, and how to prepare for Experiment 2.">
 
-<title>Class 6 · Approximating the Hamiltonian III: Jacob’s ladder – Computational Chemistry Lab</title>
+<title>Lecture 6 · Approximating the Hamiltonian III: Jacob’s ladder – Computational Chemistry Lab</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -323,10 +323,6 @@ window.Quarto = {
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
-  <li class="nav-item">
-    <a class="nav-link" href="../index.html"> 
-<span class="menu-text">Home</span></a>
-  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-guides" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Guides</span>
@@ -365,63 +361,63 @@ window.Quarto = {
   </li>  
         <li>
     <a class="dropdown-item" href="../lectures/l01-molecular-schrodinger.html">
- <span class="dropdown-text">1 · The molecular Schrödinger equation</span></a>
+ <span class="dropdown-text">Lecture 1 · The molecular Schrödinger equation</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../lectures/l02-basis-sets.html">
- <span class="dropdown-text">2 · Basis sets</span></a>
+ <span class="dropdown-text">Lecture 2 · Basis sets</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../lectures/l03-from-theory-to-a-calculation.html">
- <span class="dropdown-text">3 · From theory to a calculation</span></a>
+ <span class="dropdown-text">Lecture 3 · From theory to a calculation</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../lectures/l04-hartree-fock.html">
- <span class="dropdown-text">4 · Hartree–Fock and the SCF</span></a>
+ <span class="dropdown-text">Lecture 4 · Hartree–Fock and the SCF</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../lectures/l05-density-functional-theory.html">
- <span class="dropdown-text">5 · Density functional theory</span></a>
+ <span class="dropdown-text">Lecture 5 · Density functional theory</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../lectures/l06-jacobs-ladder.html">
- <span class="dropdown-text">6 · Jacob’s ladder</span></a>
+ <span class="dropdown-text">Lecture 6 · Jacob’s ladder</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../lectures/l07-benchmarking.html">
- <span class="dropdown-text">7 · How we test a functional</span></a>
+ <span class="dropdown-text">Lecture 7 · How we test a functional</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../lectures/l08-dispersion.html">
- <span class="dropdown-text">8 · Dispersion</span></a>
+ <span class="dropdown-text">Lecture 8 · Dispersion</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../lectures/l09-difficult-cases.html">
- <span class="dropdown-text">9 · Difficult cases for DFT</span></a>
+ <span class="dropdown-text">Lecture 9 · Difficult cases for DFT</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../lectures/l10-error-cancellation.html">
- <span class="dropdown-text">10 · Basis-set vs functional error</span></a>
+ <span class="dropdown-text">Lecture 10 · Basis-set vs functional error</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../lectures/l11-integration-grids.html">
- <span class="dropdown-text">11 · Integration grids</span></a>
+ <span class="dropdown-text">Lecture 11 · Integration grids</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../lectures/l12-scf-stability.html">
- <span class="dropdown-text">12 · SCF stability and transition metals</span></a>
+ <span class="dropdown-text">Lecture 12 · SCF stability and transition metals</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../lectures/l13-theory-vs-experiment.html">
- <span class="dropdown-text">13 · Theory vs experiment</span></a>
+ <span class="dropdown-text">Lecture 13 · Theory vs experiment</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../lectures/l14-choosing-a-method.html">
- <span class="dropdown-text">14 · Choosing a method</span></a>
+ <span class="dropdown-text">Lecture 14 · Choosing a method</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../lectures/l15-wrap-up.html">
- <span class="dropdown-text">15 · What we learned</span></a>
+ <span class="dropdown-text">Lecture 15 · What we learned</span></a>
   </li>  
     </ul>
   </li>
@@ -489,7 +485,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../lectures/l06-jacobs-ladder.html">Class 6 · Approximating the Hamiltonian III: Jacob’s ladder</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../lectures/l06-jacobs-ladder.html">Lecture 6 · Approximating the Hamiltonian III: Jacob’s ladder</a></li></ol></nav>
         <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -510,91 +506,91 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../lectures/l01-molecular-schrodinger.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Class 1 · The molecular Schrödinger equation</span></a>
+ <span class="menu-text">Lecture 1 · The molecular Schrödinger equation</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../lectures/l02-basis-sets.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Class 2 · Approximating the wave function: basis sets</span></a>
+ <span class="menu-text">Lecture 2 · Approximating the wave function: basis sets</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../lectures/l03-from-theory-to-a-calculation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Class 3 · From theory to a calculation: IQmol, Q-Chem and Experiment 1</span></a>
+ <span class="menu-text">Lecture 3 · From theory to a calculation: IQmol, Q-Chem and Experiment 1</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../lectures/l04-hartree-fock.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Class 4 · Approximating the Hamiltonian I: Hartree–Fock and the SCF</span></a>
+ <span class="menu-text">Lecture 4 · Approximating the Hamiltonian I: Hartree–Fock and the SCF</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../lectures/l05-density-functional-theory.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Class 5 · Approximating the Hamiltonian II: density functional theory</span></a>
+ <span class="menu-text">Lecture 5 · Approximating the Hamiltonian II: density functional theory</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../lectures/l06-jacobs-ladder.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Class 6 · Approximating the Hamiltonian III: Jacob’s ladder</span></a>
+ <span class="menu-text">Lecture 6 · Approximating the Hamiltonian III: Jacob’s ladder</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../lectures/l07-benchmarking.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Class 7 · How we test a functional</span></a>
+ <span class="menu-text">Lecture 7 · How we test a functional</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../lectures/l08-dispersion.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Class 8 · Dispersion and noncovalent interactions</span></a>
+ <span class="menu-text">Lecture 8 · Dispersion and noncovalent interactions</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../lectures/l09-difficult-cases.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Class 9 · Why some reactions are hard for DFT</span></a>
+ <span class="menu-text">Lecture 9 · Why some reactions are hard for DFT</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../lectures/l10-error-cancellation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Class 10 · Basis-set error vs functional error</span></a>
+ <span class="menu-text">Lecture 10 · Basis-set error vs functional error</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../lectures/l11-integration-grids.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Class 11 · Numerical integration grids</span></a>
+ <span class="menu-text">Lecture 11 · Numerical integration grids</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../lectures/l12-scf-stability.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Class 12 · SCF stability, open shells and transition metals</span></a>
+ <span class="menu-text">Lecture 12 · SCF stability, open shells and transition metals</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../lectures/l13-theory-vs-experiment.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Class 13 · From electronic energies to experiment</span></a>
+ <span class="menu-text">Lecture 13 · From electronic energies to experiment</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../lectures/l14-choosing-a-method.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Class 14 · Choosing, running and reporting a method</span></a>
+ <span class="menu-text">Lecture 14 · Choosing, running and reporting a method</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../lectures/l15-wrap-up.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Class 15 · What we learned</span></a>
+ <span class="menu-text">Lecture 15 · What we learned</span></a>
   </div>
 </li>
     </ul>
@@ -647,7 +643,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Class 6 · Approximating the Hamiltonian III: Jacob’s ladder</h1>
+<h1 class="title">Lecture 6 · Approximating the Hamiltonian III: Jacob’s ladder</h1>
 <p class="subtitle lead">From the gradient of the density to hybrids, range separation and dispersion</p>
 </div>
 
@@ -699,21 +695,21 @@ window.Quarto = {
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Review from Classes 4 and 5
+<span class="screen-reader-only">Note</span>Review from Lectures 4 and 5
 </div>
 </div>
 <div class="callout-body-container callout-body">
 <p>This chapter builds directly on the previous two. Before reading it, make sure you can:</p>
 <ul>
-<li>write the Hartree–Fock exchange energy and explain why it is free of self-interaction (<a href="../lectures/l04-hartree-fock.html">Class 4</a>);</li>
-<li>write the Kohn–Sham energy <span class="math inline">\(E = T_s + E_{ne} + J + E_{xc}\)</span> (<a href="../lectures/l05-density-functional-theory.html">Class 5</a>);</li>
-<li>write the LSDA exchange energy, <span class="math inline">\(E_x^{\mathrm{LDA}} = -C_x\int\rho^{4/3}\,d\mathbf{r}\)</span>, and list what LSDA gets right and wrong (<a href="../lectures/l05-density-functional-theory.html">Class 5</a>).</li>
+<li>write the Hartree–Fock exchange energy and explain why it is free of self-interaction (<a href="../lectures/l04-hartree-fock.html">Lecture 4</a>);</li>
+<li>write the Kohn–Sham energy <span class="math inline">\(E = T_s + E_{ne} + J + E_{xc}\)</span> (<a href="../lectures/l05-density-functional-theory.html">Lecture 5</a>);</li>
+<li>write the LSDA exchange energy, <span class="math inline">\(E_x^{\mathrm{LDA}} = -C_x\int\rho^{4/3}\,d\mathbf{r}\)</span>, and list what LSDA gets right and wrong (<a href="../lectures/l05-density-functional-theory.html">Lecture 5</a>).</li>
 </ul>
 </div>
 </div>
 <section id="jacobs-ladder" class="level2" data-number="1">
 <h2 data-number="1" class="anchored" data-anchor-id="jacobs-ladder"><span class="header-section-number">1</span> Jacob’s ladder</h2>
-<p>In <a href="../lectures/l05-density-functional-theory.html">Class 5</a> we saw that Kohn–Sham DFT is exact except for one term, the exchange–correlation energy <span class="math inline">\(E_{xc}[\rho]\)</span>, and that the simplest approximation to it, LSDA, overbinds molecules badly. Since the late 1980s, hundreds of better approximations have been proposed. Their names can look like a random collection of letters and numbers: BLYP, PBE0, M06-2X, ωB97M-V, MN15-L. There is order behind them, and the most useful way to see it is a metaphor introduced by John Perdew and Karla Schmidt in 2001 <span class="citation" data-cites="perdew2001 perdew2005">(<a href="#ref-perdew2001" role="doc-biblioref">Perdew and Schmidt 2001</a>; <a href="#ref-perdew2005" role="doc-biblioref">Perdew et al. 2005</a>)</span>.</p>
+<p>In <a href="../lectures/l05-density-functional-theory.html">Lecture 5</a> we saw that Kohn–Sham DFT is exact except for one term, the exchange–correlation energy <span class="math inline">\(E_{xc}[\rho]\)</span>, and that the simplest approximation to it, LSDA, overbinds molecules badly. Since the late 1980s, hundreds of better approximations have been proposed. Their names can look like a random collection of letters and numbers: BLYP, PBE0, M06-2X, ωB97M-V, MN15-L. There is order behind them, and the most useful way to see it is a metaphor introduced by John Perdew and Karla Schmidt in 2001 <span class="citation" data-cites="perdew2001 perdew2005">(<a href="#ref-perdew2001" role="doc-biblioref">Perdew and Schmidt 2001</a>; <a href="#ref-perdew2005" role="doc-biblioref">Perdew et al. 2005</a>)</span>.</p>
 <p>In the Book of Genesis, Jacob dreams of a ladder that connects earth to heaven. In Perdew’s version, the ladder rises from the “Hartree world” (no exchange or correlation at all, as in Hartree’s 1928 method) to the “heaven of chemical accuracy”, meaning errors below about 1 kcal/mol for energy differences. Each rung adds a new <strong>ingredient</strong>: a new kind of local information that the functional can use (<a href="#fig-ladder" class="quarto-xref">Figure&nbsp;1</a>).</p>
 <div id="fig-ladder" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A ladder with five rungs. Rung 1, LSDA, uses the density rho (examples SVWN, SPW92). Rung 2, GGA, adds the gradient of the density (BLYP, PW91, PBE). Rung 3, meta-GGA, adds the kinetic-energy density tau or the Laplacian (TPSS, SCAN, r2SCAN). Rung 4, hybrid, adds the occupied orbitals through Hartree–Fock exchange (B3LYP, PBE0, TPSSh). Rung 5, double hybrid or RPA, adds the virtual orbitals (B2PLYP, RPA). The bottom is labeled Hartree world and the top heaven of chemical accuracy.">
 <figure class="quarto-float quarto-float-fig figure">
@@ -788,7 +784,7 @@ Table&nbsp;1: The five rungs of Jacob’s ladder.
 <li><strong>Higher is usually better, but not always.</strong> A well-designed GGA can beat a poorly designed hybrid for some properties. The ladder ranks <em>ingredients</em>, not individual functionals.</li>
 <li><strong>Higher is always more expensive.</strong> Rungs 1–3 are <strong>semilocal</strong>: the energy density at a point depends only on information at that point, and the cost is small. Rung 4 needs the exchange matrix of Hartree–Fock, which is more expensive, and rung 5 needs a correlated wave-function step like MP2.</li>
 </ul>
-<p>The rest of this chapter climbs the ladder one rung at a time. Rung 1 (LSDA) was the subject of <a href="../lectures/l05-density-functional-theory.html">Class 5</a>.</p>
+<p>The rest of this chapter climbs the ladder one rung at a time. Rung 1 (LSDA) was the subject of <a href="../lectures/l05-density-functional-theory.html">Lecture 5</a>.</p>
 </section>
 <section id="rung-2-the-generalized-gradient-approximation-gga" class="level2" data-number="2">
 <h2 data-number="2" class="anchored" data-anchor-id="rung-2-the-generalized-gradient-approximation-gga"><span class="header-section-number">2</span> Rung 2: the generalized gradient approximation (GGA)</h2>
@@ -804,7 +800,7 @@ s(\mathbf{r}) = \frac{|\nabla\rho(\mathbf{r})|}{2\left(3\pi^2\right)^{1/3}\rho(\
 <p><span id="eq-fx"><span class="math display">\[
 E_x^{\mathrm{GGA}}[\rho] = -C_x\int\rho(\mathbf{r})^{4/3}\,F_x\big(s(\mathbf{r})\big)\,d\mathbf{r}, \qquad C_x = \frac{3}{4}\left(\frac{3}{\pi}\right)^{1/3}.
 \tag{2}\]</span></span></p>
-<p>(For spin-polarized systems the same formula is applied to each spin density separately.) <span class="math inline">\(F_x = 1\)</span> gives back LSDA. Different GGA exchange functionals are simply different choices of <span class="math inline">\(F_x(s)\)</span>. Because <span class="math inline">\(F_x &gt; 1\)</span>, GGAs make the exchange energy more negative than LSDA, which, as we saw for the hydrogen atom in <a href="../lectures/l05-density-functional-theory.html">Class 5</a>, is what is needed.</p>
+<p>(For spin-polarized systems the same formula is applied to each spin density separately.) <span class="math inline">\(F_x = 1\)</span> gives back LSDA. Different GGA exchange functionals are simply different choices of <span class="math inline">\(F_x(s)\)</span>. Because <span class="math inline">\(F_x &gt; 1\)</span>, GGAs make the exchange energy more negative than LSDA, which, as we saw for the hydrogen atom in <a href="../lectures/l05-density-functional-theory.html">Lecture 5</a>, is what is needed.</p>
 </section>
 <section id="b88-exchange" class="level3" data-number="2.2">
 <h3 data-number="2.2" class="anchored" data-anchor-id="b88-exchange"><span class="header-section-number">2.2</span> B88 exchange</h3>
@@ -842,7 +838,7 @@ Figure&nbsp;2: Exchange enhancement factors of B88 and PBE as functions of the r
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>In <a href="../lectures/l05-density-functional-theory.html">Class 5</a> we evaluated LSDA exchange for the exact density of the hydrogen atom and found <span class="math inline">\(-0.268\)</span> Eh, against the exact <span class="math inline">\(-0.3125\)</span> Eh. With the same density, the two GGAs give (computed with the course script):</p>
+<p>In <a href="../lectures/l05-density-functional-theory.html">Lecture 5</a> we evaluated LSDA exchange for the exact density of the hydrogen atom and found <span class="math inline">\(-0.268\)</span> Eh, against the exact <span class="math inline">\(-0.3125\)</span> Eh. With the same density, the two GGAs give (computed with the course script):</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -895,7 +891,7 @@ Figure&nbsp;2: Exchange enhancement factors of B88 and PBE as functions of the r
 <p><span id="eq-tau"><span class="math display">\[
 \tau_\sigma(\mathbf{r}) = \frac{1}{2}\sum_{i}^{\mathrm{occ}}\left|\nabla\varphi_{i\sigma}(\mathbf{r})\right|^2.
 \tag{5}\]</span></span></p>
-<p>Integrated over space, <span class="math inline">\(\tau\)</span> gives the Kohn–Sham kinetic energy <span class="math inline">\(T_s\)</span> of <a href="../lectures/l05-density-functional-theory.html">Class 5</a>. Some meta-GGAs use the <strong>Laplacian</strong> of the density, <span class="math inline">\(\nabla^2\rho\)</span>, instead of or in addition to <span class="math inline">\(\tau\)</span>. Both carry information about how the density is curved, which the gradient alone does not.</p>
+<p>Integrated over space, <span class="math inline">\(\tau\)</span> gives the Kohn–Sham kinetic energy <span class="math inline">\(T_s\)</span> of <a href="../lectures/l05-density-functional-theory.html">Lecture 5</a>. Some meta-GGAs use the <strong>Laplacian</strong> of the density, <span class="math inline">\(\nabla^2\rho\)</span>, instead of or in addition to <span class="math inline">\(\tau\)</span>. Both carry information about how the density is curved, which the gradient alone does not.</p>
 <p>Why is <span class="math inline">\(\tau\)</span> useful? Compare it with the <strong>von Weizsäcker</strong> kinetic-energy density, <span class="math inline">\(\tau_W = |\nabla\rho|^2/(8\rho)\)</span>, which is the exact kinetic-energy density whenever only one orbital is occupied. The ratio <span class="math inline">\(\tau_W/\tau\)</span> equals 1 in regions dominated by a single orbital (for example, any one-electron system, or a region dominated by a single electron pair, like a covalent single bond) and is smaller elsewhere. Modern meta-GGAs use a closely related variable, <span class="math inline">\(\alpha = (\tau - \tau_W)/\tau^{\mathrm{unif}}\)</span>, which is</p>
 <ul>
 <li><span class="math inline">\(\alpha = 0\)</span> in one-orbital regions,</li>
@@ -911,7 +907,7 @@ Figure&nbsp;2: Exchange enhancement factors of B88 and PBE as functions of the r
 <li><strong>SCAN</strong> (“strongly constrained and appropriately normed”, 2015) <span class="citation" data-cites="sun2015">(<a href="#ref-sun2015" role="doc-biblioref">Sun et al. 2015</a>)</span>, a non-empirical meta-GGA that satisfies all 17 exact constraints known to be appropriate for a meta-GGA, and is “normed” to reproduce exactly a few systems (such as the hydrogen atom and the uniform gas). SCAN is accurate but numerically delicate, and needs fine integration grids. Its revision <strong>r²SCAN</strong> (2020) <span class="citation" data-cites="furness2020">(<a href="#ref-furness2020" role="doc-biblioref">Furness et al. 2020</a>)</span> keeps most of its accuracy with much better numerical behavior.</li>
 <li><strong>Empirical meta-GGAs</strong>, fitted to large databases of reference energies. An example is <strong>B97M-rV</strong> <span class="citation" data-cites="mardirossian2015 mardirossian2017rv">(<a href="#ref-mardirossian2015" role="doc-biblioref">Mardirossian and Head-Gordon 2015</a>; <a href="#ref-mardirossian2017rv" role="doc-biblioref">Mardirossian et al. 2017</a>)</span>.</li>
 </ul>
-<p>Meta-GGAs cost only a little more than GGAs, because <span class="math inline">\(\tau\)</span> is computed from the same orbitals that the program already has. They need finer integration grids, though, because <span class="math inline">\(\tau\)</span> and <span class="math inline">\(\alpha\)</span> vary rapidly in space and many fitted meta-GGAs have oscillating enhancement factors. You will see this directly in <a href="../experiments/ex07-grids.html">Experiment 7</a> and in <a href="../lectures/l11-integration-grids.html">Class 11</a>.</p>
+<p>Meta-GGAs cost only a little more than GGAs, because <span class="math inline">\(\tau\)</span> is computed from the same orbitals that the program already has. They need finer integration grids, though, because <span class="math inline">\(\tau\)</span> and <span class="math inline">\(\alpha\)</span> vary rapidly in space and many fitted meta-GGAs have oscillating enhancement factors. You will see this directly in <a href="../experiments/ex07-grids.html">Experiment 7</a> and in <a href="../lectures/l11-integration-grids.html">Lecture 11</a>.</p>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -931,7 +927,7 @@ Figure&nbsp;2: Exchange enhancement factors of B88 and PBE as functions of the r
 <h2 data-number="4" class="anchored" data-anchor-id="rung-4-hybrid-functionals"><span class="header-section-number">4</span> Rung 4: hybrid functionals</h2>
 <section id="why-mix-in-hartreefock-exchange-the-adiabatic-connection" class="level3" data-number="4.1">
 <h3 data-number="4.1" class="anchored" data-anchor-id="why-mix-in-hartreefock-exchange-the-adiabatic-connection"><span class="header-section-number">4.1</span> Why mix in Hartree–Fock exchange? The adiabatic connection</h3>
-<p>So far, every functional has been a function of local quantities. The fourth rung adds a completely different ingredient: the occupied orbitals themselves, used to compute <strong>exact exchange</strong>, the Hartree–Fock exchange energy of <a href="../lectures/l04-hartree-fock.html">Class 4</a> evaluated with the Kohn–Sham orbitals:</p>
+<p>So far, every functional has been a function of local quantities. The fourth rung adds a completely different ingredient: the occupied orbitals themselves, used to compute <strong>exact exchange</strong>, the Hartree–Fock exchange energy of <a href="../lectures/l04-hartree-fock.html">Lecture 4</a> evaluated with the Kohn–Sham orbitals:</p>
 <p><span id="eq-exx"><span class="math display">\[
 E_x^{\mathrm{HF}} = -\frac{1}{2}\sum_{i,j}^{\mathrm{occ}}K_{ij}.
 \tag{6}\]</span></span></p>
@@ -940,7 +936,7 @@ E_x^{\mathrm{HF}} = -\frac{1}{2}\sum_{i,j}^{\mathrm{occ}}K_{ij}.
 E_{xc} = \int_0^1 W_\lambda\,d\lambda,
 \tag{7}\]</span></span></p>
 <p>where <span class="math inline">\(W_\lambda\)</span> is the potential-energy part of exchange–correlation at coupling strength <span class="math inline">\(\lambda\)</span>. We know the <span class="math inline">\(\lambda = 0\)</span> end exactly (<span class="math inline">\(W_0 = E_x^{\mathrm{HF}}\)</span>). Semilocal functionals are best near the <span class="math inline">\(\lambda = 1\)</span> end. A simple approximation to the integral therefore mixes the two. Becke tried exactly this in 1993, with a “half-and-half” mixture of HF exchange and LSDA <span class="citation" data-cites="becke1993a">(<a href="#ref-becke1993a" role="doc-biblioref">A. D. Becke 1993</a>)</span>. A few months later he proposed a more flexible, fitted version <span class="citation" data-cites="becke1993">(<a href="#ref-becke1993" role="doc-biblioref">A. D. J. Becke 1993</a>)</span>, the ancestor of B3LYP.</p>
-<p>The chemical argument is simpler. Hartree–Fock is free of self-interaction (<a href="../lectures/l04-hartree-fock.html">Class 4</a>), while semilocal functionals are not (<a href="../lectures/l05-density-functional-theory.html">Class 5</a>). Their errors often have opposite signs: HF underbinds and gives barriers that are too high, semilocal DFT overbinds and gives barriers that are too low. Mixing the two cancels part of both errors.</p>
+<p>The chemical argument is simpler. Hartree–Fock is free of self-interaction (<a href="../lectures/l04-hartree-fock.html">Lecture 4</a>), while semilocal functionals are not (<a href="../lectures/l05-density-functional-theory.html">Lecture 5</a>). Their errors often have opposite signs: HF underbinds and gives barriers that are too high, semilocal DFT overbinds and gives barriers that are too low. Mixing the two cancels part of both errors.</p>
 </section>
 <section id="global-hybrids-b3lyp-and-pbe0" class="level3" data-number="4.2">
 <h3 data-number="4.2" class="anchored" data-anchor-id="global-hybrids-b3lyp-and-pbe0"><span class="header-section-number">4.2</span> Global hybrids: B3LYP and PBE0</h3>
@@ -953,13 +949,13 @@ E_{xc}^{\mathrm{hybrid}} = a_0\,E_x^{\mathrm{HF}} + (1 - a_0)\,E_x^{\mathrm{DFA}
 <p><span id="eq-b3lyp"><span class="math display">\[
 E_{xc}^{\mathrm{B3LYP}} = (1 - a_0)\,E_x^{\mathrm{LSDA}} + a_0\,E_x^{\mathrm{HF}} + a_x\,\Delta E_x^{\mathrm{B88}} + (1 - a_c)\,E_c^{\mathrm{VWN}} + a_c\,E_c^{\mathrm{LYP}},
 \tag{9}\]</span></span></p>
-<p>with <span class="math inline">\(a_0 = 0.20\)</span>, <span class="math inline">\(a_x = 0.72\)</span> and <span class="math inline">\(a_c = 0.81\)</span>. Here <span class="math inline">\(\Delta E_x^{\mathrm{B88}}\)</span> is the gradient correction part of B88 (<a href="#eq-b88" class="quarto-xref">Equation&nbsp;3</a>, minus its LSDA part). So B3LYP contains <strong>20% HF exchange</strong>. The three parameters were fitted by Becke to a small set of thermochemical data (with PW91 correlation in his original functional, today called <strong>B3PW91</strong>), and the same values were kept when LYP replaced PW91. B3LYP is an empirical hybrid GGA. Because different programs use different forms of VWN correlation (<a href="../lectures/l05-density-functional-theory.html">Class 5</a>), “B3LYP” energies can differ slightly from code to code.</p>
+<p>with <span class="math inline">\(a_0 = 0.20\)</span>, <span class="math inline">\(a_x = 0.72\)</span> and <span class="math inline">\(a_c = 0.81\)</span>. Here <span class="math inline">\(\Delta E_x^{\mathrm{B88}}\)</span> is the gradient correction part of B88 (<a href="#eq-b88" class="quarto-xref">Equation&nbsp;3</a>, minus its LSDA part). So B3LYP contains <strong>20% HF exchange</strong>. The three parameters were fitted by Becke to a small set of thermochemical data (with PW91 correlation in his original functional, today called <strong>B3PW91</strong>), and the same values were kept when LYP replaced PW91. B3LYP is an empirical hybrid GGA. Because different programs use different forms of VWN correlation (<a href="../lectures/l05-density-functional-theory.html">Lecture 5</a>), “B3LYP” energies can differ slightly from code to code.</p>
 <p><strong>PBE0</strong> <span class="citation" data-cites="adamo1999 ernzerhof1999">(<a href="#ref-adamo1999" role="doc-biblioref">Adamo and Barone 1999</a>; <a href="#ref-ernzerhof1999" role="doc-biblioref">Ernzerhof and Scuseria 1999</a>)</span> is the non-empirical counterpart:</p>
 <p><span id="eq-pbe0"><span class="math display">\[
 E_{xc}^{\mathrm{PBE0}} = \frac{1}{4}E_x^{\mathrm{HF}} + \frac{3}{4}E_x^{\mathrm{PBE}} + E_c^{\mathrm{PBE}}.
 \tag{10}\]</span></span></p>
 <p>The <strong>25% HF exchange</strong> is not fitted. Perdew, Ernzerhof and Burke argued from perturbation theory that 1/4 is a good general choice for molecules <span class="citation" data-cites="perdew1996a">(<a href="#ref-perdew1996a" role="doc-biblioref">Perdew, Ernzerhof, et al. 1996</a>)</span>.</p>
-<p>Hybrids built on meta-GGAs are <strong>hybrid meta-GGAs</strong>. Examples are TPSSh (TPSS with 10% HF exchange) <span class="citation" data-cites="staroverov2003">(<a href="#ref-staroverov2003" role="doc-biblioref">Staroverov et al. 2003</a>)</span> and several Minnesota functionals: <strong>M06-2X</strong> <span class="citation" data-cites="zhao2008">(<a href="#ref-zhao2008" role="doc-biblioref">Zhao and Truhlar 2008</a>)</span> has <strong>54%</strong> HF exchange (the “2X” stands for doubled HF exchange relative to its parent functional), and <strong>MN15</strong> <span class="citation" data-cites="yu2016a">(<a href="#ref-yu2016a" role="doc-biblioref">Yu, He, et al. 2016</a>)</span> has <strong>44%</strong>. Notice how much the HF fraction varies between functionals. Fitted functionals designed for main-group thermochemistry and barrier heights tend to use more HF exchange (40–60%), while functionals meant also for transition metals use less, because HF exchange makes the static-correlation problems of <a href="../lectures/l05-density-functional-theory.html">Class 5</a> worse.</p>
+<p>Hybrids built on meta-GGAs are <strong>hybrid meta-GGAs</strong>. Examples are TPSSh (TPSS with 10% HF exchange) <span class="citation" data-cites="staroverov2003">(<a href="#ref-staroverov2003" role="doc-biblioref">Staroverov et al. 2003</a>)</span> and several Minnesota functionals: <strong>M06-2X</strong> <span class="citation" data-cites="zhao2008">(<a href="#ref-zhao2008" role="doc-biblioref">Zhao and Truhlar 2008</a>)</span> has <strong>54%</strong> HF exchange (the “2X” stands for doubled HF exchange relative to its parent functional), and <strong>MN15</strong> <span class="citation" data-cites="yu2016a">(<a href="#ref-yu2016a" role="doc-biblioref">Yu, He, et al. 2016</a>)</span> has <strong>44%</strong>. Notice how much the HF fraction varies between functionals. Fitted functionals designed for main-group thermochemistry and barrier heights tend to use more HF exchange (40–60%), while functionals meant also for transition metals use less, because HF exchange makes the static-correlation problems of <a href="../lectures/l05-density-functional-theory.html">Lecture 5</a> worse.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1067,21 +1063,21 @@ Table&nbsp;2: Some range-separated hybrids. CAM-B3LYP uses a slightly more gener
 <section id="rung-5-double-hybrids-and-rpa" class="level2" data-number="5">
 <h2 data-number="5" class="anchored" data-anchor-id="rung-5-double-hybrids-and-rpa"><span class="header-section-number">5</span> Rung 5: double hybrids and RPA</h2>
 <p>The fifth rung uses the <strong>virtual</strong> (unoccupied) Kohn–Sham orbitals as well. <strong>Double hybrids</strong> add a fraction of second-order perturbation (MP2-like) correlation, computed from the virtual orbitals, on top of a hybrid. The first widely used one, <strong>B2PLYP</strong> (Grimme, 2006) <span class="citation" data-cites="grimme2006">(<a href="#ref-grimme2006" role="doc-biblioref">Grimme 2006a</a>)</span>, has 53% HF exchange and 27% MP2-like correlation, with B88 and LYP for the rest. The <strong>random-phase approximation</strong> (RPA) is a different fifth-rung method, which treats correlation through all virtual orbitals and naturally includes dispersion.</p>
-<p>Fifth-rung methods are among the most accurate DFT approaches for main-group thermochemistry <span class="citation" data-cites="goerigk2017">(<a href="#ref-goerigk2017" role="doc-biblioref">Goerigk et al. 2017</a>)</span>. The price is MP2-like cost (<span class="math inline">\(N^5\)</span>) and slow basis-set convergence (like any correlated wave-function method, Class 4). We will not use them in the experiments, and there are no double hybrids in <a href="../experiments/ex02-jacobs-ladder.html">Experiment 2</a>.</p>
+<p>Fifth-rung methods are among the most accurate DFT approaches for main-group thermochemistry <span class="citation" data-cites="goerigk2017">(<a href="#ref-goerigk2017" role="doc-biblioref">Goerigk et al. 2017</a>)</span>. The price is MP2-like cost (<span class="math inline">\(N^5\)</span>) and slow basis-set convergence (like any correlated wave-function method, Lecture 4). We will not use them in the experiments, and there are no double hybrids in <a href="../experiments/ex02-jacobs-ladder.html">Experiment 2</a>.</p>
 </section>
 <section id="two-design-questions-that-cut-across-the-ladder" class="level2" data-number="6">
 <h2 data-number="6" class="anchored" data-anchor-id="two-design-questions-that-cut-across-the-ladder"><span class="header-section-number">6</span> Two design questions that cut across the ladder</h2>
 <p>The rung tells you <em>which ingredients</em> a functional uses. Two other questions are independent of the rung, and you need both to understand a functional’s name and behavior.</p>
 <section id="how-is-dispersion-included" class="level3" data-number="6.1">
 <h3 data-number="6.1" class="anchored" data-anchor-id="how-is-dispersion-included"><span class="header-section-number">6.1</span> How is dispersion included?</h3>
-<p>As we saw in <a href="../lectures/l05-density-functional-theory.html">Class 5</a>, no semilocal functional describes long-range dispersion, and adding HF exchange does not help (HF has no dispersion at all, Class 4). There are four possibilities:</p>
+<p>As we saw in <a href="../lectures/l05-density-functional-theory.html">Lecture 5</a>, no semilocal functional describes long-range dispersion, and adding HF exchange does not help (HF has no dispersion at all, Lecture 4). There are four possibilities:</p>
 <ol type="1">
 <li><strong>Not at all.</strong> Many classic functionals, including plain B3LYP, PBE and PBE0, have no long-range dispersion. They underbind dispersion-dominated complexes and get conformational energies of large flexible molecules wrong.</li>
 <li><strong>An empirical pairwise correction, -D.</strong> Grimme’s corrections add an atom–atom term <span class="math inline">\(-\sum_{AB} C_6^{AB}/R_{AB}^6\)</span> (plus higher terms), switched off at short range by a damping function, on top of the DFT energy. The history: D2 (2006) <span class="citation" data-cites="grimme2006b">(<a href="#ref-grimme2006b" role="doc-biblioref">Grimme 2006b</a>)</span>, D3 (2010) <span class="citation" data-cites="grimme2010">(<a href="#ref-grimme2010" role="doc-biblioref">Grimme et al. 2010</a>)</span>, and the current <strong>D4</strong> (2017–2019) <span class="citation" data-cites="caldeweyher2017 caldeweyher2019">(<a href="#ref-caldeweyher2017" role="doc-biblioref">Caldeweyher et al. 2017</a>, <a href="#ref-caldeweyher2019" role="doc-biblioref">2019</a>)</span>, whose <span class="math inline">\(C_6\)</span> coefficients depend on the atomic partial charges and so on the chemical environment. In this course we always use <strong>-D4</strong>: B3LYP-D4 is B3LYP plus the D4 correction. The correction costs almost nothing.</li>
 <li><strong>A nonlocal correlation functional, -V.</strong> Vydrov and Van Voorhis’s <strong>VV10</strong> <span class="citation" data-cites="vydrov2010">(<a href="#ref-vydrov2010" role="doc-biblioref">Vydrov and Van Voorhis 2010</a>)</span> adds a correlation term that depends on the density at <em>two</em> points at once, <span class="math inline">\(\iint \rho(\mathbf{r})\,\Phi(\mathbf{r},\mathbf{r}')\,\rho(\mathbf{r}')\,d\mathbf{r}\,d\mathbf{r}'\)</span>, so it can see two separate molecules. A “-V” at the end of a name (ωB97X-V, ωB97M-V, B97M-V) means VV10; “-rV” means the revised, faster rVV10 <span class="citation" data-cites="sabatini2013">(<a href="#ref-sabatini2013" role="doc-biblioref">Sabatini et al. 2013</a>)</span>, as in B97M-rV. Note that VV10 is a correlation ingredient; it does not change the rung of the functional.</li>
 <li><strong>Built into a fitted functional.</strong> Highly parametrized functionals such as the Minnesota family were fitted to data that include noncovalent complexes, so they capture <strong>medium-range</strong> dispersion (at van der Waals contact distances) through their parameters, without any explicit term. At long range they behave like any semilocal functional. In the course data files this is labeled “fitted”.</li>
 </ol>
-<p>Dispersion is the topic of <a href="../lectures/l08-dispersion.html">Class 8</a>, and <a href="../experiments/ex04-organic-b.html">Experiment 4</a> compares these options directly.</p>
+<p>Dispersion is the topic of <a href="../lectures/l08-dispersion.html">Lecture 8</a>, and <a href="../experiments/ex04-organic-b.html">Experiment 4</a> compares these options directly.</p>
 </section>
 <section id="non-empirical-or-empirical" class="level3" data-number="6.2">
 <h3 data-number="6.2" class="anchored" data-anchor-id="non-empirical-or-empirical"><span class="header-section-number">6.2</span> Non-empirical or empirical?</h3>
@@ -1090,7 +1086,7 @@ Table&nbsp;2: Some range-separated hybrids. CAM-B3LYP uses a slightly more gener
 <li><strong>Non-empirical</strong> (constraint-satisfying) functionals, like PBE, PBE0, TPSS and SCAN, are built to obey exact constraints of the true functional, with no fitting to molecular data <span class="citation" data-cites="perdew2005">(<a href="#ref-perdew2005" role="doc-biblioref">Perdew et al. 2005</a>)</span>. Their strength is that they are expected to be reasonable for <em>any</em> system, including systems unlike anything their designers tested.</li>
 <li><strong>Empirical</strong> (fitted) functionals, like B3LYP (3 parameters), the B97 family, the Minnesota functionals and ωB97M-V, have parameters fitted to databases of reference energies. ωB97M-V was designed by a “combinatorial” search: its authors fitted thousands of candidate forms and kept the one with the best balance between training and test sets <span class="citation" data-cites="mardirossian2016a">(<a href="#ref-mardirossian2016a" role="doc-biblioref">Mardirossian and Head-Gordon 2016</a>)</span>. Highly parametrized functionals can be very accurate for the kinds of systems they were trained on.</li>
 </ul>
-<p>The danger of fitting is <strong>overfitting</strong>: a functional with many parameters can reproduce its <strong>training set</strong> very well and still fail for systems unlike those in the training set. A fair test of a functional uses data it was not fitted to. This is not a reason to avoid empirical functionals (several of the best functionals available are empirical), but it is a reason to check what a functional was trained on before trusting a good result. You will meet a concrete case in <a href="../experiments/ex05-difficult-cases.html">Experiment 5</a> and in <a href="../lectures/l09-difficult-cases.html">Class 9</a>. In reality the line between the two groups is blurred: many “non-empirical” functionals use exact data for a few simple systems (norms), and most empirical functionals also impose some exact constraints.</p>
+<p>The danger of fitting is <strong>overfitting</strong>: a functional with many parameters can reproduce its <strong>training set</strong> very well and still fail for systems unlike those in the training set. A fair test of a functional uses data it was not fitted to. This is not a reason to avoid empirical functionals (several of the best functionals available are empirical), but it is a reason to check what a functional was trained on before trusting a good result. You will meet a concrete case in <a href="../experiments/ex05-difficult-cases.html">Experiment 5</a> and in <a href="../lectures/l09-difficult-cases.html">Lecture 9</a>. In reality the line between the two groups is blurred: many “non-empirical” functionals use exact data for a few simple systems (norms), and most empirical functionals also impose some exact constraints.</p>
 </section>
 <section id="decoding-functional-names" class="level3" data-number="6.3">
 <h3 data-number="6.3" class="anchored" data-anchor-id="decoding-functional-names"><span class="header-section-number">6.3</span> Decoding functional names</h3>
@@ -1209,13 +1205,13 @@ Table&nbsp;3: How to read functional names. Always confirm with the original pap
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><a href="../experiments/ex03-organic-a.html">Experiment 3</a> asks you to predict, before running anything, how methods on different rungs will perform on four “easy” organic reactions. Make those predictions with what you learned in Classes 4–6, and lock them in before you start the calculations. Predictions are graded for being made, not for being right.</p>
+<p><a href="../experiments/ex03-organic-a.html">Experiment 3</a> asks you to predict, before running anything, how methods on different rungs will perform on four “easy” organic reactions. Make those predictions with what you learned in Lectures 4–6, and lock them in before you start the calculations. Predictions are graded for being made, not for being right.</p>
 </div>
 </div>
 </section>
 <section id="the-16-methods-of-experiments-35-on-the-ladder" class="level2" data-number="8">
 <h2 data-number="8" class="anchored" data-anchor-id="the-16-methods-of-experiments-35-on-the-ladder"><span class="header-section-number">8</span> The 16 methods of Experiments 3–5 on the ladder</h2>
-<p>In Experiments 3, 4 and 5 you will run the same 16 methods: fifteen density functionals and Hartree–Fock, all with the def2-TZVP basis. Every chart in those experiments colors the methods by rung. Several of them are also in the Experiment 2 exercise, so place them on the ladder yourself first, using the procedure above. The complete table is in <a href="../lectures/l07-benchmarking.html">Class 7</a>, which you should read after you submit Experiment 2.</p>
+<p>In Experiments 3, 4 and 5 you will run the same 16 methods: fifteen density functionals and Hartree–Fock, all with the def2-TZVP basis. Every chart in those experiments colors the methods by rung. Several of them are also in the Experiment 2 exercise, so place them on the ladder yourself first, using the procedure above. The complete table is in <a href="../lectures/l07-benchmarking.html">Lecture 7</a>, which you should read after you submit Experiment 2.</p>
 </section>
 <section id="key-points" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="key-points">Key points</h2>
@@ -1937,13 +1933,13 @@ Zhao, Y., and D. G. Truhlar. 2008. <em>Theor. Chem. Acc.</em> 120: 215–41.
   </script>
 <nav class="page-navigation" aria-label="Page">
   <div class="nav-page nav-page-previous">
-      <a href="../lectures/l05-density-functional-theory.html" class="pagination-link" aria-label="Class 5 · Approximating the Hamiltonian II: density functional theory">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Class 5 · Approximating the Hamiltonian II: density functional theory</span>
+      <a href="../lectures/l05-density-functional-theory.html" class="pagination-link" aria-label="Lecture 5 · Approximating the Hamiltonian II: density functional theory">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Lecture 5 · Approximating the Hamiltonian II: density functional theory</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../lectures/l07-benchmarking.html" class="pagination-link" aria-label="Class 7 · How we test a functional">
-        <span class="nav-page-text">Class 7 · How we test a functional</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../lectures/l07-benchmarking.html" class="pagination-link" aria-label="Lecture 7 · How we test a functional">
+        <span class="nav-page-text">Lecture 7 · How we test a functional</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

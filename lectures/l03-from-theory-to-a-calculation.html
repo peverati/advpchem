@@ -8,7 +8,7 @@
 
 <meta name="description" content="A practical chapter: model chemistries, the Q-Chem input file, the IQmol workflow, reading an output, reaction energies with signed stoichiometric coefficients, and the Experiment 1 briefing.">
 
-<title>Class 3 · From theory to a calculation: IQmol, Q-Chem and Experiment 1 – Computational Chemistry Lab</title>
+<title>Lecture 3 · From theory to a calculation: IQmol, Q-Chem and Experiment 1 – Computational Chemistry Lab</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -323,10 +323,6 @@ window.Quarto = {
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
-  <li class="nav-item">
-    <a class="nav-link" href="../index.html"> 
-<span class="menu-text">Home</span></a>
-  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-guides" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Guides</span>
@@ -365,63 +361,63 @@ window.Quarto = {
   </li>  
         <li>
     <a class="dropdown-item" href="../lectures/l01-molecular-schrodinger.html">
- <span class="dropdown-text">1 · The molecular Schrödinger equation</span></a>
+ <span class="dropdown-text">Lecture 1 · The molecular Schrödinger equation</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../lectures/l02-basis-sets.html">
- <span class="dropdown-text">2 · Basis sets</span></a>
+ <span class="dropdown-text">Lecture 2 · Basis sets</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../lectures/l03-from-theory-to-a-calculation.html">
- <span class="dropdown-text">3 · From theory to a calculation</span></a>
+ <span class="dropdown-text">Lecture 3 · From theory to a calculation</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../lectures/l04-hartree-fock.html">
- <span class="dropdown-text">4 · Hartree–Fock and the SCF</span></a>
+ <span class="dropdown-text">Lecture 4 · Hartree–Fock and the SCF</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../lectures/l05-density-functional-theory.html">
- <span class="dropdown-text">5 · Density functional theory</span></a>
+ <span class="dropdown-text">Lecture 5 · Density functional theory</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../lectures/l06-jacobs-ladder.html">
- <span class="dropdown-text">6 · Jacob’s ladder</span></a>
+ <span class="dropdown-text">Lecture 6 · Jacob’s ladder</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../lectures/l07-benchmarking.html">
- <span class="dropdown-text">7 · How we test a functional</span></a>
+ <span class="dropdown-text">Lecture 7 · How we test a functional</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../lectures/l08-dispersion.html">
- <span class="dropdown-text">8 · Dispersion</span></a>
+ <span class="dropdown-text">Lecture 8 · Dispersion</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../lectures/l09-difficult-cases.html">
- <span class="dropdown-text">9 · Difficult cases for DFT</span></a>
+ <span class="dropdown-text">Lecture 9 · Difficult cases for DFT</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../lectures/l10-error-cancellation.html">
- <span class="dropdown-text">10 · Basis-set vs functional error</span></a>
+ <span class="dropdown-text">Lecture 10 · Basis-set vs functional error</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../lectures/l11-integration-grids.html">
- <span class="dropdown-text">11 · Integration grids</span></a>
+ <span class="dropdown-text">Lecture 11 · Integration grids</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../lectures/l12-scf-stability.html">
- <span class="dropdown-text">12 · SCF stability and transition metals</span></a>
+ <span class="dropdown-text">Lecture 12 · SCF stability and transition metals</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../lectures/l13-theory-vs-experiment.html">
- <span class="dropdown-text">13 · Theory vs experiment</span></a>
+ <span class="dropdown-text">Lecture 13 · Theory vs experiment</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../lectures/l14-choosing-a-method.html">
- <span class="dropdown-text">14 · Choosing a method</span></a>
+ <span class="dropdown-text">Lecture 14 · Choosing a method</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../lectures/l15-wrap-up.html">
- <span class="dropdown-text">15 · What we learned</span></a>
+ <span class="dropdown-text">Lecture 15 · What we learned</span></a>
   </li>  
     </ul>
   </li>
@@ -489,7 +485,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../lectures/l03-from-theory-to-a-calculation.html">Class 3 · From theory to a calculation: IQmol, Q-Chem and Experiment 1</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../lectures/l03-from-theory-to-a-calculation.html">Lecture 3 · From theory to a calculation: IQmol, Q-Chem and Experiment 1</a></li></ol></nav>
         <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -510,91 +506,91 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../lectures/l01-molecular-schrodinger.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Class 1 · The molecular Schrödinger equation</span></a>
+ <span class="menu-text">Lecture 1 · The molecular Schrödinger equation</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../lectures/l02-basis-sets.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Class 2 · Approximating the wave function: basis sets</span></a>
+ <span class="menu-text">Lecture 2 · Approximating the wave function: basis sets</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../lectures/l03-from-theory-to-a-calculation.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Class 3 · From theory to a calculation: IQmol, Q-Chem and Experiment 1</span></a>
+ <span class="menu-text">Lecture 3 · From theory to a calculation: IQmol, Q-Chem and Experiment 1</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../lectures/l04-hartree-fock.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Class 4 · Approximating the Hamiltonian I: Hartree–Fock and the SCF</span></a>
+ <span class="menu-text">Lecture 4 · Approximating the Hamiltonian I: Hartree–Fock and the SCF</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../lectures/l05-density-functional-theory.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Class 5 · Approximating the Hamiltonian II: density functional theory</span></a>
+ <span class="menu-text">Lecture 5 · Approximating the Hamiltonian II: density functional theory</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../lectures/l06-jacobs-ladder.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Class 6 · Approximating the Hamiltonian III: Jacob’s ladder</span></a>
+ <span class="menu-text">Lecture 6 · Approximating the Hamiltonian III: Jacob’s ladder</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../lectures/l07-benchmarking.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Class 7 · How we test a functional</span></a>
+ <span class="menu-text">Lecture 7 · How we test a functional</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../lectures/l08-dispersion.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Class 8 · Dispersion and noncovalent interactions</span></a>
+ <span class="menu-text">Lecture 8 · Dispersion and noncovalent interactions</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../lectures/l09-difficult-cases.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Class 9 · Why some reactions are hard for DFT</span></a>
+ <span class="menu-text">Lecture 9 · Why some reactions are hard for DFT</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../lectures/l10-error-cancellation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Class 10 · Basis-set error vs functional error</span></a>
+ <span class="menu-text">Lecture 10 · Basis-set error vs functional error</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../lectures/l11-integration-grids.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Class 11 · Numerical integration grids</span></a>
+ <span class="menu-text">Lecture 11 · Numerical integration grids</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../lectures/l12-scf-stability.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Class 12 · SCF stability, open shells and transition metals</span></a>
+ <span class="menu-text">Lecture 12 · SCF stability, open shells and transition metals</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../lectures/l13-theory-vs-experiment.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Class 13 · From electronic energies to experiment</span></a>
+ <span class="menu-text">Lecture 13 · From electronic energies to experiment</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../lectures/l14-choosing-a-method.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Class 14 · Choosing, running and reporting a method</span></a>
+ <span class="menu-text">Lecture 14 · Choosing, running and reporting a method</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../lectures/l15-wrap-up.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Class 15 · What we learned</span></a>
+ <span class="menu-text">Lecture 15 · What we learned</span></a>
   </div>
 </li>
     </ul>
@@ -629,7 +625,7 @@ window.Quarto = {
   <li><a href="#what-you-will-look-at" id="toc-what-you-will-look-at" class="nav-link" data-scroll-target="#what-you-will-look-at"><span class="header-section-number">6.3</span> What you will look at</a></li>
   <li><a href="#how-to-submit" id="toc-how-to-submit" class="nav-link" data-scroll-target="#how-to-submit"><span class="header-section-number">6.4</span> How to submit</a></li>
   </ul></li>
-  <li><a href="#before-next-class" id="toc-before-next-class" class="nav-link" data-scroll-target="#before-next-class"><span class="header-section-number">7</span> Before next class</a></li>
+  <li><a href="#before-next-lecture" id="toc-before-next-lecture" class="nav-link" data-scroll-target="#before-next-lecture"><span class="header-section-number">7</span> Before next lecture</a></li>
   <li><a href="#key-points" id="toc-key-points" class="nav-link" data-scroll-target="#key-points"><span class="header-section-number">8</span> Key points</a></li>
   <li><a href="#study-questions" id="toc-study-questions" class="nav-link" data-scroll-target="#study-questions"><span class="header-section-number">9</span> Study questions</a></li>
   <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading"><span class="header-section-number">10</span> Further reading</a></li>
@@ -642,7 +638,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Class 3 · From theory to a calculation: IQmol, Q-Chem and Experiment 1</h1>
+<h1 class="title">Lecture 3 · From theory to a calculation: IQmol, Q-Chem and Experiment 1</h1>
 <p class="subtitle lead">Set up a job, read its output, turn total energies into a reaction energy, and get ready for Experiment 1</p>
 </div>
 
@@ -692,7 +688,7 @@ window.Quarto = {
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Before this class
+<span class="screen-reader-only">Tip</span>Before this lecture
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -708,11 +704,11 @@ window.Quarto = {
 </div>
 <section id="recap-what-a-model-chemistry-is" class="level2" data-number="1">
 <h2 data-number="1" class="anchored" data-anchor-id="recap-what-a-model-chemistry-is"><span class="header-section-number">1</span> Recap: what a model chemistry is</h2>
-<p><a href="../lectures/l01-molecular-schrodinger.html">Class 1</a> showed that every calculation makes two approximations: the <strong>method</strong> approximates the Hamiltonian (how electrons interact), and the <strong>basis set</strong> approximates the wave function (which shapes the orbitals may take). <a href="../lectures/l02-basis-sets.html">Class 2</a> opened the second one. A pair of choices, written <em>method/basis</em>, is a <strong>model chemistry</strong>:</p>
+<p><a href="../lectures/l01-molecular-schrodinger.html">Lecture 1</a> showed that every calculation makes two approximations: the <strong>method</strong> approximates the Hamiltonian (how electrons interact), and the <strong>basis set</strong> approximates the wave function (which shapes the orbitals may take). <a href="../lectures/l02-basis-sets.html">Lecture 2</a> opened the second one. A pair of choices, written <em>method/basis</em>, is a <strong>model chemistry</strong>:</p>
 <div id="tbl-decoder" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-decoder-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;1: Three model chemistries you will run in Experiment 1. The method column will make full sense after Classes 4–6; for now, treat the names as labels.
+Table&nbsp;1: Three model chemistries you will run in Experiment 1. The method column will make full sense after Lectures 4–6; for now, treat the names as labels.
 </figcaption>
 <div aria-describedby="tbl-decoder-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
@@ -728,7 +724,7 @@ Table&nbsp;1: Three model chemistries you will run in Experiment 1. The method c
 <tr class="header">
 <th>Model chemistry</th>
 <th>Method</th>
-<th>Rung (Classes 4–6)</th>
+<th>Rung (Lectures 4–6)</th>
 <th>Basis set</th>
 <th>ζ</th>
 <th>Family</th>
@@ -862,7 +858,7 @@ Table&nbsp;2: The four <code>$rem</code> keywords used in Experiment 1.
 <tr class="even">
 <td><code>SCF_CONVERGENCE</code></td>
 <td><code>8</code></td>
-<td>a tight convergence threshold for the SCF iterations, <span class="math inline">\(10^{-8}\)</span> (Class 4 explains what is converged)</td>
+<td>a tight convergence threshold for the SCF iterations, <span class="math inline">\(10^{-8}\)</span> (Lecture 4 explains what is converged)</td>
 </tr>
 </tbody>
 </table>
@@ -880,7 +876,7 @@ Table&nbsp;2: The four <code>$rem</code> keywords used in Experiment 1.
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Standard <code>.xyz</code> files use their second line as a free comment. In this lab, line 2 always holds <code>charge multiplicity</code>, so you never have to guess. Copy it into the first line of <code>$molecule</code>. Recall from <a href="../lectures/l01-molecular-schrodinger.html">Class 1</a>: 1 = singlet (all electrons paired, like HCl), 2 = doublet (one unpaired electron, like an H atom or a radical), 3 = triplet (two parallel unpaired electrons, like ground-state O₂). All the species of Experiment 1 are closed-shell singlets. A wrong multiplicity gives a perfectly converged energy for the wrong electronic state.</p>
+<p>Standard <code>.xyz</code> files use their second line as a free comment. In this lab, line 2 always holds <code>charge multiplicity</code>, so you never have to guess. Copy it into the first line of <code>$molecule</code>. Recall from <a href="../lectures/l01-molecular-schrodinger.html">Lecture 1</a>: 1 = singlet (all electrons paired, like HCl), 2 = doublet (one unpaired electron, like an H atom or a radical), 3 = triplet (two parallel unpaired electrons, like ground-state O₂). All the species of Experiment 1 are closed-shell singlets. A wrong multiplicity gives a perfectly converged energy for the wrong electronic state.</p>
 </div>
 </div>
 </section>
@@ -987,9 +983,9 @@ Table&nbsp;3: Where to find the numbers in a Q-Chem output (example values from 
 </div>
 <p>What each number means:</p>
 <ul>
-<li><strong>Number of basis functions.</strong> <span class="math inline">\(K\)</span> of <a href="../lectures/l02-basis-sets.html">Class 2</a>. Check it against what you expect from the shell compositions; it confirms that the right basis was used. It is also the <span class="math inline">\(N\)</span> in the cost scaling you will measure.</li>
-<li><strong>SCF cycles.</strong> Hartree–Fock and Kohn–Sham DFT are solved iteratively (Class 4). The table of cycles shows the energy settling down; the line ending in <em>Convergence criterion met</em> is the last one. If instead you see a message that the SCF failed to converge, the energy is meaningless.</li>
-<li><strong>Total energy.</strong> Electronic energy plus nuclear repulsion at the fixed input geometry, in hartree (<a href="../lectures/l01-molecular-schrodinger.html">Class 1</a>): no zero-point energy, no thermal corrections. If the output also prints an “SCF energy”, always use the <strong>total</strong> energy: with extra terms such as a dispersion correction (-D4), the two can differ.</li>
+<li><strong>Number of basis functions.</strong> <span class="math inline">\(K\)</span> of <a href="../lectures/l02-basis-sets.html">Lecture 2</a>. Check it against what you expect from the shell compositions; it confirms that the right basis was used. It is also the <span class="math inline">\(N\)</span> in the cost scaling you will measure.</li>
+<li><strong>SCF cycles.</strong> Hartree–Fock and Kohn–Sham DFT are solved iteratively (Lecture 4). The table of cycles shows the energy settling down; the line ending in <em>Convergence criterion met</em> is the last one. If instead you see a message that the SCF failed to converge, the energy is meaningless.</li>
+<li><strong>Total energy.</strong> Electronic energy plus nuclear repulsion at the fixed input geometry, in hartree (<a href="../lectures/l01-molecular-schrodinger.html">Lecture 1</a>): no zero-point energy, no thermal corrections. If the output also prints an “SCF energy”, always use the <strong>total</strong> energy: with extra terms such as a dispersion correction (-D4), the two can differ.</li>
 <li><strong>Wall time vs CPU time.</strong> <em>Wall</em> time is what a stopwatch on the wall would measure. <em>CPU</em> time adds up the time of every processor core, so on a multi-core server it is larger. We always compare <strong>wall</strong> times, and only between jobs run on the same server. Timings are noisy: a busy server or a slow disk adds seconds that have nothing to do with the chemistry.</li>
 <li><strong>“Thank you very much for using Q-Chem. Have a nice day.”</strong> The last line of a finished job. If it is missing, the job crashed or was killed, and nothing in the file should be trusted.</li>
 </ul>
@@ -1037,7 +1033,7 @@ Table&nbsp;3: Where to find the numbers in a Q-Chem output (example values from 
 </section>
 <section id="keep-all-the-digits" class="level3" data-number="5.2">
 <h3 data-number="5.2" class="anchored" data-anchor-id="keep-all-the-digits"><span class="header-section-number">5.2</span> Keep all the digits</h3>
-<p>A reaction energy is a small difference between large numbers. In Experiment 1 the total energies are hundreds of hartree and the reference reaction energy is 2.01 kcal/mol, which is only 0.0032 <span class="math inline">\(E_\text{h}\)</span>. Rounding each total energy to 4 decimals can introduce errors of almost 0.1 kcal/mol (Class 1). Copy <strong>every digit</strong> Q-Chem prints, and round only the final reaction energy, to two decimals in kcal/mol.</p>
+<p>A reaction energy is a small difference between large numbers. In Experiment 1 the total energies are hundreds of hartree and the reference reaction energy is 2.01 kcal/mol, which is only 0.0032 <span class="math inline">\(E_\text{h}\)</span>. Rounding each total energy to 4 decimals can introduce errors of almost 0.1 kcal/mol (Lecture 1). Copy <strong>every digit</strong> Q-Chem prints, and round only the final reaction energy, to two decimals in kcal/mol.</p>
 </section>
 <section id="signed-and-absolute-errors" class="level3" data-number="5.3">
 <h3 data-number="5.3" class="anchored" data-anchor-id="signed-and-absolute-errors"><span class="header-section-number">5.3</span> Signed and absolute errors</h3>
@@ -1045,7 +1041,7 @@ Table&nbsp;3: Where to find the numbers in a Q-Chem output (example values from 
 <p><span id="eq-error"><span class="math display">\[
 \varepsilon = \Delta E_\text{comp} - \Delta E_\text{ref} .
 \tag{3}\]</span></span></p>
-<p>The <strong>signed error</strong> <span class="math inline">\(\varepsilon\)</span> tells you the direction: positive means the method <em>overestimates</em> the reaction energy. The <strong>absolute error</strong> <span class="math inline">\(|\varepsilon|\)</span> tells you how far off it is, regardless of direction. Over several reactions, the mean signed error (MSE) reveals systematic bias and the mean absolute error (MAE) measures overall accuracy; Class 7 returns to these statistics. An error of about 1 kcal/mol is traditionally called <strong>chemical accuracy</strong>.</p>
+<p>The <strong>signed error</strong> <span class="math inline">\(\varepsilon\)</span> tells you the direction: positive means the method <em>overestimates</em> the reaction energy. The <strong>absolute error</strong> <span class="math inline">\(|\varepsilon|\)</span> tells you how far off it is, regardless of direction. Over several reactions, the mean signed error (MSE) reveals systematic bias and the mean absolute error (MAE) measures overall accuracy; Lecture 7 returns to these statistics. An error of about 1 kcal/mol is traditionally called <strong>chemical accuracy</strong>.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1101,7 +1097,7 @@ Figure&nbsp;2: The reaction of Experiment 1: dissociation of the HCl dimer into 
 </div>
 <section id="the-question" class="level3" data-number="6.1">
 <h3 data-number="6.1" class="anchored" data-anchor-id="the-question"><span class="header-section-number">6.1</span> The question</h3>
-<p>Class 2 claimed that larger basis sets give results that converge toward the CBS limit, at a steeply growing cost. Experiment 1 tests that claim on a real reaction energy, for four different methods, with two families of basis sets. The reaction is the dissociation of the HCl dimer, a weakly bound complex held together by noncovalent interactions, from the NCCE30 subset <span class="citation" data-cites="peverati2014">(<a href="#ref-peverati2014" role="doc-biblioref">Peverati and Truhlar 2014</a>)</span> of the Minnesota 2015B database <span class="citation" data-cites="yu2016a">(<a href="#ref-yu2016a" role="doc-biblioref">Yu et al. 2016</a>)</span>. Its reference energy is <strong>2.01 kcal/mol</strong>. Weakly bound complexes are a demanding test for basis sets: the interaction energy is small, so even small basis-set errors are large in relative terms.</p>
+<p>Lecture 2 claimed that larger basis sets give results that converge toward the CBS limit, at a steeply growing cost. Experiment 1 tests that claim on a real reaction energy, for four different methods, with two families of basis sets. The reaction is the dissociation of the HCl dimer, a weakly bound complex held together by noncovalent interactions, from the NCCE30 subset <span class="citation" data-cites="peverati2014">(<a href="#ref-peverati2014" role="doc-biblioref">Peverati and Truhlar 2014</a>)</span> of the Minnesota 2015B database <span class="citation" data-cites="yu2016a">(<a href="#ref-yu2016a" role="doc-biblioref">Yu et al. 2016</a>)</span>. Its reference energy is <strong>2.01 kcal/mol</strong>. Weakly bound complexes are a demanding test for basis sets: the interaction energy is small, so even small basis-set errors are large in relative terms.</p>
 </section>
 <section id="what-you-will-run" class="level3" data-number="6.2">
 <h3 data-number="6.2" class="anchored" data-anchor-id="what-you-will-run"><span class="header-section-number">6.2</span> What you will run</h3>
@@ -1150,7 +1146,7 @@ Table&nbsp;4: The Experiment 1 design. Each method/basis pair gives one reaction
 </div>
 </figure>
 </div>
-<p>All jobs are single points (<code>JOBTYPE SP</code>) with <code>SCF_CONVERGENCE 8</code>, and all are short. The two basis-set families are matched by ζ: double (SVP, DZ), triple (TZVP, TZ) and quadruple (QZVP, QZ). The methods span the range from no electron correlation at all (HF) to a modern, heavily parametrized functional (ωB97M-V); Classes 4–6 explain what each one is.</p>
+<p>All jobs are single points (<code>JOBTYPE SP</code>) with <code>SCF_CONVERGENCE 8</code>, and all are short. The two basis-set families are matched by ζ: double (SVP, DZ), triple (TZVP, TZ) and quadruple (QZVP, QZ). The methods span the range from no electron correlation at all (HF) to a modern, heavily parametrized functional (ωB97M-V); Lectures 4–6 explain what each one is.</p>
 <p>For each job, record from the output the <strong>total energy</strong>, the <strong>number of SCF cycles</strong>, the <strong>wall time</strong> and the <strong>number of basis functions</strong>. Then compute each reaction energy yourself with <a href="#eq-ex01" class="quarto-xref">Equation&nbsp;2</a>, convert it to kcal/mol, and enter it. The results form recomputes <span class="math inline">\(\Delta E\)</span> from the total energies <strong>you</strong> entered and flags inconsistencies (a sign, a missing factor of 2, a unit slip). It never shows you the correct value.</p>
 </section>
 <section id="what-you-will-look-at" class="level3" data-number="6.3">
@@ -1158,7 +1154,7 @@ Table&nbsp;4: The Experiment 1 design. Each method/basis pair gives one reaction
 <p>Once your table is complete, the page draws two charts from your own data:</p>
 <ul>
 <li><strong>Error vs ζ.</strong> The signed error of each method as the basis grows from double- to quadruple-ζ, for each family. This is BSIE made visible: does the error shrink steadily, for every method? Do the two families behave the same way at the same ζ?</li>
-<li><strong>Cost scaling.</strong> Wall time against the number of basis functions on log–log axes, with a straight-line fit for each method. The slope is the exponent <span class="math inline">\(n\)</span> in time <span class="math inline">\(\propto K^n\)</span>. Class 2 said the formal scaling of HF and hybrid DFT is <span class="math inline">\(K^4\)</span>, and that practice is usually kinder. You will measure your own <span class="math inline">\(n\)</span>, and decide which points to trust (very short jobs are dominated by fixed overhead).</li>
+<li><strong>Cost scaling.</strong> Wall time against the number of basis functions on log–log axes, with a straight-line fit for each method. The slope is the exponent <span class="math inline">\(n\)</span> in time <span class="math inline">\(\propto K^n\)</span>. Lecture 2 said the formal scaling of HF and hybrid DFT is <span class="math inline">\(K^4\)</span>, and that practice is usually kinder. You will measure your own <span class="math inline">\(n\)</span>, and decide which points to trust (very short jobs are dominated by fixed overhead).</li>
 </ul>
 <p>The questions at the end of the page ask you to describe the trend with ζ for each method, compare the two families, classify each method’s behavior, report and interpret your measured exponent, and choose the best combination of method and basis for this reaction, considering both accuracy and cost.</p>
 <div class="callout callout-style-default callout-important callout-titled">
@@ -1171,7 +1167,7 @@ Table&nbsp;4: The Experiment 1 design. Each method/basis pair gives one reaction
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Before running anything, answer the warm-up quiz and <strong>lock your predictions</strong> in the <em>Predict first</em> section of the experiment page. You will predict, among other things, how the error of ωB97M-V and of Hartree–Fock changes from double- to quadruple-ζ, which family gives smaller errors at the same ζ, and which method comes closest to the reference with def2-QZVP. Predictions are not graded on being right: they are part of your submission so you (and we) can see how your intuition changes. Think about them using Classes 1 and 2, commit, and then let your data answer. Once locked, they cannot be changed.</p>
+<p>Before running anything, answer the warm-up quiz and <strong>lock your predictions</strong> in the <em>Predict first</em> section of the experiment page. You will predict, among other things, how the error of ωB97M-V and of Hartree–Fock changes from double- to quadruple-ζ, which family gives smaller errors at the same ζ, and which method comes closest to the reference with def2-QZVP. Predictions are not graded on being right: they are part of your submission so you (and we) can see how your intuition changes. Think about them using Lectures 1 and 2, commit, and then let your data answer. Once locked, they cannot be changed.</p>
 </div>
 </div>
 </section>
@@ -1183,15 +1179,15 @@ Table&nbsp;4: The Experiment 1 design. Each method/basis pair gives one reaction
 <li>Download your submission file (a <code>.json</code> file).</li>
 <li>Open the Microsoft Form linked on the page, sign in with your Florida Tech email, and upload the file. You can resubmit until the deadline; the latest upload counts.</li>
 </ol>
-<p>The optional Colab notebook at the bottom of the page extrapolates the HCl dimer to the CBS limit with PySCF, using the ideas of <a href="../lectures/l02-basis-sets.html">Class 2</a>.</p>
+<p>The optional Colab notebook at the bottom of the page extrapolates the HCl dimer to the CBS limit with PySCF, using the ideas of <a href="../lectures/l02-basis-sets.html">Lecture 2</a>.</p>
 </section>
 </section>
-<section id="before-next-class" class="level2" data-number="7">
-<h2 data-number="7" class="anchored" data-anchor-id="before-next-class"><span class="header-section-number">7</span> Before next class</h2>
+<section id="before-next-lecture" class="level2" data-number="7">
+<h2 data-number="7" class="anchored" data-anchor-id="before-next-lecture"><span class="header-section-number">7</span> Before next lecture</h2>
 <ul>
 <li>Install IQmol and run the test job (<a href="../guides/first-job.html">Guides 1–2</a>) if you have not yet.</li>
 <li>Lock your Experiment 1 predictions, then run the first batch of jobs: for example, all 12 jobs of one method, or all 8 jobs of one basis set. Check one output thoroughly with the five checks above before submitting the rest.</li>
-<li>Class 4 opens the second approximation, the Hamiltonian: Hartree–Fock and the self-consistent field. You will find out what the SCF cycles you just counted are actually doing, and why the “HF” row of your Experiment 1 table matters so much.</li>
+<li>Lecture 4 opens the second approximation, the Hamiltonian: Hartree–Fock and the self-consistent field. You will find out what the SCF cycles you just counted are actually doing, and why the “HF” row of your Experiment 1 table matters so much.</li>
 </ul>
 </section>
 <section id="key-points" class="level2" data-number="8">
@@ -1800,13 +1796,13 @@ Yu, H. S., X. He, S. L. Li, and D. G. Truhlar. 2016. <em>Chem. Sci.</em> 7: 5032
   </script>
 <nav class="page-navigation" aria-label="Page">
   <div class="nav-page nav-page-previous">
-      <a href="../lectures/l02-basis-sets.html" class="pagination-link" aria-label="Class 2 · Approximating the wave function: basis sets">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Class 2 · Approximating the wave function: basis sets</span>
+      <a href="../lectures/l02-basis-sets.html" class="pagination-link" aria-label="Lecture 2 · Approximating the wave function: basis sets">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Lecture 2 · Approximating the wave function: basis sets</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../lectures/l04-hartree-fock.html" class="pagination-link" aria-label="Class 4 · Approximating the Hamiltonian I: Hartree–Fock and the SCF">
-        <span class="nav-page-text">Class 4 · Approximating the Hamiltonian I: Hartree–Fock and the SCF</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../lectures/l04-hartree-fock.html" class="pagination-link" aria-label="Lecture 4 · Approximating the Hamiltonian I: Hartree–Fock and the SCF">
+        <span class="nav-page-text">Lecture 4 · Approximating the Hamiltonian I: Hartree–Fock and the SCF</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

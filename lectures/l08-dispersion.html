@@ -8,7 +8,7 @@
 
 <meta name="description" content="Why almost every method does well on conformers, where London dispersion comes from, why semilocal DFT and Hartree–Fock miss it, and how -D4 and VV10 put it back.">
 
-<title>Class 8 · Dispersion and noncovalent interactions – Computational Chemistry Lab</title>
+<title>Lecture 8 · Dispersion and noncovalent interactions – Computational Chemistry Lab</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -323,10 +323,6 @@ window.Quarto = {
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
-  <li class="nav-item">
-    <a class="nav-link" href="../index.html"> 
-<span class="menu-text">Home</span></a>
-  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-guides" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Guides</span>
@@ -365,63 +361,63 @@ window.Quarto = {
   </li>  
         <li>
     <a class="dropdown-item" href="../lectures/l01-molecular-schrodinger.html">
- <span class="dropdown-text">1 · The molecular Schrödinger equation</span></a>
+ <span class="dropdown-text">Lecture 1 · The molecular Schrödinger equation</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../lectures/l02-basis-sets.html">
- <span class="dropdown-text">2 · Basis sets</span></a>
+ <span class="dropdown-text">Lecture 2 · Basis sets</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../lectures/l03-from-theory-to-a-calculation.html">
- <span class="dropdown-text">3 · From theory to a calculation</span></a>
+ <span class="dropdown-text">Lecture 3 · From theory to a calculation</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../lectures/l04-hartree-fock.html">
- <span class="dropdown-text">4 · Hartree–Fock and the SCF</span></a>
+ <span class="dropdown-text">Lecture 4 · Hartree–Fock and the SCF</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../lectures/l05-density-functional-theory.html">
- <span class="dropdown-text">5 · Density functional theory</span></a>
+ <span class="dropdown-text">Lecture 5 · Density functional theory</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../lectures/l06-jacobs-ladder.html">
- <span class="dropdown-text">6 · Jacob’s ladder</span></a>
+ <span class="dropdown-text">Lecture 6 · Jacob’s ladder</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../lectures/l07-benchmarking.html">
- <span class="dropdown-text">7 · How we test a functional</span></a>
+ <span class="dropdown-text">Lecture 7 · How we test a functional</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../lectures/l08-dispersion.html">
- <span class="dropdown-text">8 · Dispersion</span></a>
+ <span class="dropdown-text">Lecture 8 · Dispersion</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../lectures/l09-difficult-cases.html">
- <span class="dropdown-text">9 · Difficult cases for DFT</span></a>
+ <span class="dropdown-text">Lecture 9 · Difficult cases for DFT</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../lectures/l10-error-cancellation.html">
- <span class="dropdown-text">10 · Basis-set vs functional error</span></a>
+ <span class="dropdown-text">Lecture 10 · Basis-set vs functional error</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../lectures/l11-integration-grids.html">
- <span class="dropdown-text">11 · Integration grids</span></a>
+ <span class="dropdown-text">Lecture 11 · Integration grids</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../lectures/l12-scf-stability.html">
- <span class="dropdown-text">12 · SCF stability and transition metals</span></a>
+ <span class="dropdown-text">Lecture 12 · SCF stability and transition metals</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../lectures/l13-theory-vs-experiment.html">
- <span class="dropdown-text">13 · Theory vs experiment</span></a>
+ <span class="dropdown-text">Lecture 13 · Theory vs experiment</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../lectures/l14-choosing-a-method.html">
- <span class="dropdown-text">14 · Choosing a method</span></a>
+ <span class="dropdown-text">Lecture 14 · Choosing a method</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../lectures/l15-wrap-up.html">
- <span class="dropdown-text">15 · What we learned</span></a>
+ <span class="dropdown-text">Lecture 15 · What we learned</span></a>
   </li>  
     </ul>
   </li>
@@ -489,7 +485,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../lectures/l08-dispersion.html">Class 8 · Dispersion and noncovalent interactions</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../lectures/l08-dispersion.html">Lecture 8 · Dispersion and noncovalent interactions</a></li></ol></nav>
         <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -510,91 +506,91 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../lectures/l01-molecular-schrodinger.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Class 1 · The molecular Schrödinger equation</span></a>
+ <span class="menu-text">Lecture 1 · The molecular Schrödinger equation</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../lectures/l02-basis-sets.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Class 2 · Approximating the wave function: basis sets</span></a>
+ <span class="menu-text">Lecture 2 · Approximating the wave function: basis sets</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../lectures/l03-from-theory-to-a-calculation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Class 3 · From theory to a calculation: IQmol, Q-Chem and Experiment 1</span></a>
+ <span class="menu-text">Lecture 3 · From theory to a calculation: IQmol, Q-Chem and Experiment 1</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../lectures/l04-hartree-fock.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Class 4 · Approximating the Hamiltonian I: Hartree–Fock and the SCF</span></a>
+ <span class="menu-text">Lecture 4 · Approximating the Hamiltonian I: Hartree–Fock and the SCF</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../lectures/l05-density-functional-theory.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Class 5 · Approximating the Hamiltonian II: density functional theory</span></a>
+ <span class="menu-text">Lecture 5 · Approximating the Hamiltonian II: density functional theory</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../lectures/l06-jacobs-ladder.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Class 6 · Approximating the Hamiltonian III: Jacob’s ladder</span></a>
+ <span class="menu-text">Lecture 6 · Approximating the Hamiltonian III: Jacob’s ladder</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../lectures/l07-benchmarking.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Class 7 · How we test a functional</span></a>
+ <span class="menu-text">Lecture 7 · How we test a functional</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../lectures/l08-dispersion.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Class 8 · Dispersion and noncovalent interactions</span></a>
+ <span class="menu-text">Lecture 8 · Dispersion and noncovalent interactions</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../lectures/l09-difficult-cases.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Class 9 · Why some reactions are hard for DFT</span></a>
+ <span class="menu-text">Lecture 9 · Why some reactions are hard for DFT</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../lectures/l10-error-cancellation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Class 10 · Basis-set error vs functional error</span></a>
+ <span class="menu-text">Lecture 10 · Basis-set error vs functional error</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../lectures/l11-integration-grids.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Class 11 · Numerical integration grids</span></a>
+ <span class="menu-text">Lecture 11 · Numerical integration grids</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../lectures/l12-scf-stability.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Class 12 · SCF stability, open shells and transition metals</span></a>
+ <span class="menu-text">Lecture 12 · SCF stability, open shells and transition metals</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../lectures/l13-theory-vs-experiment.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Class 13 · From electronic energies to experiment</span></a>
+ <span class="menu-text">Lecture 13 · From electronic energies to experiment</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../lectures/l14-choosing-a-method.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Class 14 · Choosing, running and reporting a method</span></a>
+ <span class="menu-text">Lecture 14 · Choosing, running and reporting a method</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../lectures/l15-wrap-up.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Class 15 · What we learned</span></a>
+ <span class="menu-text">Lecture 15 · What we learned</span></a>
   </div>
 </li>
     </ul>
@@ -658,7 +654,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Class 8 · Dispersion and noncovalent interactions</h1>
+<h1 class="title">Lecture 8 · Dispersion and noncovalent interactions</h1>
 <p class="subtitle lead">Debrief of Experiment 3 and introduction to Experiment 4</p>
 </div>
 
@@ -691,7 +687,7 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>After this class you should be able to:</p>
+<p>After this lecture you should be able to:</p>
 <ul>
 <li>explain why most methods give small errors for the reactions of Experiment 3, and why LSDA and Hartree–Fock are the usual exceptions;</li>
 <li>read the cost-vs-accuracy chart and explain why hybrids cost more per SCF cycle than (meta-)GGAs;</li>
@@ -724,7 +720,7 @@ window.Quarto = {
 <p>What you probably saw on the <em>signed error</em> chart is a sea of very short bars. For 3a, 3b and 3d, nearly every method lands within a few tenths of a kcal/mol of the reference, whatever its rung. The ranking among the best methods changes from reaction to reaction, and the differences between them are often smaller than 0.1–0.2 kcal/mol. Differences that small are close to the uncertainty of the reference values and of your own numerical settings, so they should not be over-interpreted.</p>
 <section id="why-error-cancellation" class="level3" data-number="1.1.1">
 <h3 data-number="1.1.1" class="anchored" data-anchor-id="why-error-cancellation"><span class="header-section-number">1.1.1</span> Why: error cancellation</h3>
-<p>The explanation is the one we anticipated in <a href="../lectures/l07-benchmarking.html">Class 7</a>. Each reaction compares two forms of the <em>same</em> molecule. The number of electrons, the bonds, the lone pairs and the core orbitals are identical on both sides. An approximate functional makes errors in describing each of these features, but it makes nearly the same errors in the reactant and in the product. When you compute ΔE = E(product) − E(reactant), those errors cancel. What remains is the error in describing the small <em>change</em> in the density, and that change is small and local.</p>
+<p>The explanation is the one we anticipated in <a href="../lectures/l07-benchmarking.html">Lecture 7</a>. Each reaction compares two forms of the <em>same</em> molecule. The number of electrons, the bonds, the lone pairs and the core orbitals are identical on both sides. An approximate functional makes errors in describing each of these features, but it makes nearly the same errors in the reactant and in the product. When you compute ΔE = E(product) − E(reactant), those errors cancel. What remains is the error in describing the small <em>change</em> in the density, and that change is small and local.</p>
 <p>This is the most powerful idea in practical quantum chemistry. It is also fragile, because it depends on the reaction, not on the method. Nobody can tell in advance, from the reaction type alone, whether a conformational change will be easy. That is why we benchmark.</p>
 </section>
 <section id="the-usual-outliers-butane-14-diol-lsda-and-hf" class="level3" data-number="1.1.2">
@@ -743,7 +739,7 @@ window.Quarto = {
 <p>The <em>cost vs accuracy</em> chart plots the MAE against the time per SCF cycle on a log axis. You probably saw something like this:</p>
 <ul>
 <li><strong>SPW92 and the GGAs</strong> are the cheapest per cycle. They need only the density and its gradient on the integration grid.</li>
-<li><strong>Meta-GGAs</strong> cost slightly more: they need τ on the grid too, and are often run on finer grids (Class 11).</li>
+<li><strong>Meta-GGAs</strong> cost slightly more: they need τ on the grid too, and are often run on finer grids (Lecture 11).</li>
 <li><strong>Hybrids</strong> are clearly more expensive per cycle. They need the HF exchange matrix K, built from the four-index two-electron integrals, and that step dominates.</li>
 <li><strong>Range-separated hybrids</strong> (ωB97M-V, M11) need extra integrals for the long-range exchange, and <strong>VV10</strong> (B97M-V, ωB97M-V) adds a double integral over grid points. These are usually the most expensive per cycle.</li>
 <li><strong>HF</strong> needs K but no grid at all, so it costs about the same as a hybrid.</li>
@@ -1000,7 +996,7 @@ E_\text{c}^\text{nl} = \frac{1}{2}\iint \rho(\mathbf r)\,\Phi(\mathbf r, \mathbf
 </section>
 <section id="a-reminder-about-bsse" class="level2" data-number="2.6">
 <h2 data-number="2.6" class="anchored" data-anchor-id="a-reminder-about-bsse"><span class="header-section-number">2.6</span> A reminder about BSSE</h2>
-<p>When you compute the binding energy of a dimer, E(dimer) − E(monomer A) − E(monomer B), BSSE makes the dimer artificially too stable (Class 7). With def2-TZVP the BSSE is much smaller than with double-ζ sets, but it is not zero, and for a dimer bound by 1–2 kcal/mol even a few tenths matter. We do not correct for it in Experiment 4. Class 10 defines the counterpoise correction that removes most of it.</p>
+<p>When you compute the binding energy of a dimer, E(dimer) − E(monomer A) − E(monomer B), BSSE makes the dimer artificially too stable (Lecture 7). With def2-TZVP the BSSE is much smaller than with double-ζ sets, but it is not zero, and for a dimer bound by 1–2 kcal/mol even a few tenths matter. We do not correct for it in Experiment 4. Lecture 10 defines the counterpoise correction that removes most of it.</p>
 </section>
 </section>
 <section id="experiment-4-briefing" class="level1" data-number="3">
@@ -1734,13 +1730,13 @@ Zhao, Y., and D. G. Truhlar. 2008. <em>Theor. Chem. Acc.</em> 120: 215–41.
   </script>
 <nav class="page-navigation" aria-label="Page">
   <div class="nav-page nav-page-previous">
-      <a href="../lectures/l07-benchmarking.html" class="pagination-link" aria-label="Class 7 · How we test a functional">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Class 7 · How we test a functional</span>
+      <a href="../lectures/l07-benchmarking.html" class="pagination-link" aria-label="Lecture 7 · How we test a functional">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Lecture 7 · How we test a functional</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../lectures/l09-difficult-cases.html" class="pagination-link" aria-label="Class 9 · Why some reactions are hard for DFT">
-        <span class="nav-page-text">Class 9 · Why some reactions are hard for DFT</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../lectures/l09-difficult-cases.html" class="pagination-link" aria-label="Lecture 9 · Why some reactions are hard for DFT">
+        <span class="nav-page-text">Lecture 9 · Why some reactions are hard for DFT</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
