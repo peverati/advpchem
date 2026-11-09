@@ -31,6 +31,7 @@ ul.task-list li input[type="checkbox"] {
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
+  margin-bottom: 0em;
 }
 .hanging-indent div.csl-entry {
   margin-left:2em;
@@ -730,7 +731,7 @@ window.Quarto = {
 </section>
 <section id="the-cao-spotlight" class="level2" data-number="1.4">
 <h2 data-number="1.4" class="anchored" data-anchor-id="the-cao-spotlight"><span class="header-section-number">1.4</span> The CaO spotlight</h2>
-<p>The <em>spotlight</em> chart for 5b highlights MN15. You probably saw that MN15 has one of the smallest errors on CaO, while most other functionals miss it by many kcal/mol. This is not proof that MN15 understands CaO better. CaO is part of the database MN15 was fitted to <span class="citation" data-cites="yu2016a yu2015a">(<a href="#ref-yu2016a" role="doc-biblioref">Yu et al. 2016</a>; <a href="#ref-yu2015a" role="doc-biblioref">Yu and Truhlar 2015</a>)</span>, so reproducing it well is what the fit was designed to do. On the other reactions of Experiment 5, MN15 is not exceptional. A functional must be judged on data it was <strong>not</strong> trained on. This is true of every fitted functional, Minnesota or not.</p>
+<p>The <em>spotlight</em> chart for 5b highlights MN15. You probably saw that MN15 has one of the smallest errors on CaO, while most other functionals miss it by many kcal/mol. This is not proof that MN15 understands CaO better. CaO is part of the database MN15 was fitted to <span class="citation" data-cites="yu2016a yu2015a">&nbsp;[<a href="#ref-yu2016a" role="doc-biblioref">1</a>,<a href="#ref-yu2015a" role="doc-biblioref">2</a>]</span>, so reproducing it well is what the fit was designed to do. On the other reactions of Experiment 5, MN15 is not exceptional. A functional must be judged on data it was <strong>not</strong> trained on. This is true of every fitted functional, Minnesota or not.</p>
 </section>
 <section id="from-easy-to-hard" class="level2" data-number="1.5">
 <h2 data-number="1.5" class="anchored" data-anchor-id="from-easy-to-hard"><span class="header-section-number">1.5</span> From easy to hard</h2>
@@ -751,7 +752,7 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>There is no best functional, only functionals that are better on average or better for a class of problems. Experiment 5 shows that a functional can be excellent on one reaction and poor on the next, even among reactions with five heavy atoms. As Hopmann put it, “Do not use DFT for mechanisms it cannot handle” <span class="citation" data-cites="hopmann2019">(<a href="#ref-hopmann2019" role="doc-biblioref">Hopmann 2019</a>)</span>.</p>
+<p>There is no best functional, only functionals that are better on average or better for a class of problems. Experiment 5 shows that a functional can be excellent on one reaction and poor on the next, even among reactions with five heavy atoms. As Hopmann put it, “Do not use DFT for mechanisms it cannot handle” <span class="citation" data-cites="hopmann2019">&nbsp;[<a href="#ref-hopmann2019" role="doc-biblioref">3</a>]</span>.</p>
 </div>
 </div>
 </section>
@@ -817,11 +818,11 @@ Figure&nbsp;1: Schematic error budget. In each case the method error is the same
 <section id="basis-set-superposition-error" class="level2" data-number="2.3">
 <h2 data-number="2.3" class="anchored" data-anchor-id="basis-set-superposition-error"><span class="header-section-number">2.3</span> Basis-set superposition error</h2>
 <p>The <strong>basis-set superposition error</strong> (BSSE) appears whenever two fragments come close: two molecules in a dimer, or two distant parts of one molecule. Each fragment is described by its own basis functions, but in the complex it can also use the functions centered on its partner. The isolated fragment has no such help. So the complex is described with an effectively larger basis than the separated fragments, and it comes out artificially <strong>too stable</strong>. For a dimer, BSSE always makes the binding too strong.</p>
-<p>BSSE is not limited to dimers. In a large, compact molecule, an atom can borrow functions from other atoms that are close in space but far along the chain. This <strong>intramolecular BSSE</strong> favors compact structures over extended ones. It matters, for example, when comparing a branched alkane with a linear one, or a folded conformer with an unfolded one <span class="citation" data-cites="kruse2012gcp">(<a href="#ref-kruse2012gcp" role="doc-biblioref">Kruse and Grimme 2012</a>)</span>.</p>
+<p>BSSE is not limited to dimers. In a large, compact molecule, an atom can borrow functions from other atoms that are close in space but far along the chain. This <strong>intramolecular BSSE</strong> favors compact structures over extended ones. It matters, for example, when comparing a branched alkane with a linear one, or a folded conformer with an unfolded one <span class="citation" data-cites="kruse2012gcp">&nbsp;[<a href="#ref-kruse2012gcp" role="doc-biblioref">4</a>]</span>.</p>
 <p>BSSE shrinks quickly as the basis grows, because a fragment that already has a nearly complete basis gains little from its partner. It is a significant problem for double-ζ sets and much smaller for triple-ζ and quadruple-ζ sets. It is a different thing from BSIE, although both are consequences of an incomplete basis.</p>
 <section id="the-counterpoise-correction" class="level3" data-number="2.3.1">
 <h3 data-number="2.3.1" class="anchored" data-anchor-id="the-counterpoise-correction"><span class="header-section-number">2.3.1</span> The counterpoise correction</h3>
-<p>Boys and Bernardi proposed a simple way to remove most of the BSSE of a dimer AB <span class="citation" data-cites="boys1970">(<a href="#ref-boys1970" role="doc-biblioref">Boys and Bernardi 1970</a>)</span>: compute the monomers with the <em>same</em> basis they enjoy in the dimer. In practice, the monomer A is computed at its geometry in the dimer, together with the basis functions of B placed at B’s atomic positions, but without B’s nuclei and electrons. These are called <strong>ghost atoms</strong>. Writing <span class="math inline">\(E_X^{Y}\)</span> for the energy of fragment X computed in the basis of Y, all at the dimer geometry, the <strong>counterpoise-corrected</strong> interaction energy is</p>
+<p>Boys and Bernardi proposed a simple way to remove most of the BSSE of a dimer AB <span class="citation" data-cites="boys1970">&nbsp;[<a href="#ref-boys1970" role="doc-biblioref">5</a>]</span>: compute the monomers with the <em>same</em> basis they enjoy in the dimer. In practice, the monomer A is computed at its geometry in the dimer, together with the basis functions of B placed at B’s atomic positions, but without B’s nuclei and electrons. These are called <strong>ghost atoms</strong>. Writing <span class="math inline">\(E_X^{Y}\)</span> for the energy of fragment X computed in the basis of Y, all at the dimer geometry, the <strong>counterpoise-corrected</strong> interaction energy is</p>
 <p><span id="eq-cp"><span class="math display">\[
 \Delta E_\text{int}^\text{CP} = E_{AB}^{AB} - E_{A}^{AB} - E_{B}^{AB} .
 \tag{2}\]</span></span></p>
@@ -830,20 +831,20 @@ Figure&nbsp;1: Schematic error budget. In each case the method error is the same
 \delta_\text{BSSE} = \big(E_A^{AB} - E_A^{A}\big) + \big(E_B^{AB} - E_B^{B}\big) \le 0 .
 \tag{3}\]</span></span></p>
 <p>Each term is negative (or zero), because a larger basis can only lower the energy variationally. If the monomers relax their geometry in the dimer, a small deformation term is added, but the idea is the same. Q-Chem and most other programs can do counterpoise calculations with ghost atoms.</p>
-<p>The counterpoise correction is the standard tool for dimers, but it has limits. It is defined for well-separated fragments, not for intramolecular BSSE. And it removes the BSSE but not the BSIE, so a counterpoise-corrected double-ζ result is still far from the CBS limit. For large systems, Kruse and Grimme proposed a geometric counterpoise correction (gCP) that estimates the inter- and intramolecular BSSE from the geometry alone <span class="citation" data-cites="kruse2012gcp">(<a href="#ref-kruse2012gcp" role="doc-biblioref">Kruse and Grimme 2012</a>)</span>.</p>
+<p>The counterpoise correction is the standard tool for dimers, but it has limits. It is defined for well-separated fragments, not for intramolecular BSSE. And it removes the BSSE but not the BSIE, so a counterpoise-corrected double-ζ result is still far from the CBS limit. For large systems, Kruse and Grimme proposed a geometric counterpoise correction (gCP) that estimates the inter- and intramolecular BSSE from the geometry alone <span class="citation" data-cites="kruse2012gcp">&nbsp;[<a href="#ref-kruse2012gcp" role="doc-biblioref">4</a>]</span>.</p>
 </section>
 </section>
 <section id="why-b3lyp6-31g-became-so-popular" class="level2" data-number="2.4">
 <h2 data-number="2.4" class="anchored" data-anchor-id="why-b3lyp6-31g-became-so-popular"><span class="header-section-number">2.4</span> Why B3LYP/6-31G* became so popular</h2>
 <section id="a-brief-history" class="level3" data-number="2.4.1">
 <h3 data-number="2.4.1" class="anchored" data-anchor-id="a-brief-history"><span class="header-section-number">2.4.1</span> A brief history</h3>
-<p>In the 1990s two things happened at once. Becke introduced hybrid functionals <span class="citation" data-cites="becke1993">(<a href="#ref-becke1993" role="doc-biblioref">Becke 1993</a>)</span>, and in 1994 Stephens, Frisch and co-workers defined B3LYP <span class="citation" data-cites="stephens1994">(<a href="#ref-stephens1994" role="doc-biblioref">Stephens et al. 1994</a>)</span>, which quickly became available in the most widely used quantum chemistry program of the time (Gaussian). The 6-31G* basis set of Pople and co-workers <span class="citation" data-cites="hariharan1973 francl1982">(<a href="#ref-hariharan1973" role="doc-biblioref">Hariharan and Pople 1973</a>; <a href="#ref-francl1982" role="doc-biblioref">Francl et al. 1982</a>)</span> was already one of the most used basis sets, in that program and in the textbooks. Computers were slow: a double-ζ basis was what you could afford for a molecule with ten or twenty heavy atoms.</p>
+<p>In the 1990s two things happened at once. Becke introduced hybrid functionals <span class="citation" data-cites="becke1993">&nbsp;[<a href="#ref-becke1993" role="doc-biblioref">6</a>]</span>, and in 1994 Stephens, Frisch and co-workers defined B3LYP <span class="citation" data-cites="stephens1994">&nbsp;[<a href="#ref-stephens1994" role="doc-biblioref">7</a>]</span>, which quickly became available in the most widely used quantum chemistry program of the time (Gaussian). The 6-31G* basis set of Pople and co-workers <span class="citation" data-cites="hariharan1973 francl1982">&nbsp;[<a href="#ref-hariharan1973" role="doc-biblioref">8</a>,<a href="#ref-francl1982" role="doc-biblioref">9</a>]</span> was already one of the most used basis sets, in that program and in the textbooks. Computers were slow: a double-ζ basis was what you could afford for a molecule with ten or twenty heavy atoms.</p>
 <p>B3LYP/6-31G* was a huge improvement over what organic chemists used before (Hartree–Fock, semi-empirical methods). Geometries were good, reaction energies were often within a few kcal/mol, and calculations finished overnight. Papers that used it worked, so the next papers used it too. B3LYP’s original papers became some of the most cited in all of chemistry, and the combination B3LYP/6-31G* became a de facto standard, often chosen because “everybody uses it” rather than because it was tested for the problem at hand.</p>
 </section>
 <section id="right-for-the-wrong-reasons" class="level3" data-number="2.4.2">
 <h3 data-number="2.4.2" class="anchored" data-anchor-id="right-for-the-wrong-reasons"><span class="header-section-number">2.4.2</span> Right for the wrong reasons</h3>
 <p>B3LYP has no dispersion (Lecture 8). With a complete basis, it underbinds dimers and gives too little stability to compact molecules. 6-31G* is a small, unbalanced basis with a large BSSE, which artificially stabilizes compact structures and complexes. The two errors have <strong>opposite signs</strong>. In many organic systems, the BSSE of 6-31G* partly compensates the missing dispersion of B3LYP, and the combination looks better than B3LYP with a large basis.</p>
-<p>Kruse, Goerigk and Grimme analyzed this in detail in 2012 <span class="citation" data-cites="kruse2012">(<a href="#ref-kruse2012" role="doc-biblioref">Kruse et al. 2012</a>)</span>. They showed that much of the apparent success of B3LYP/6-31G* comes from this fortuitous cancellation, that it fails badly when the cancellation does not happen, and that adding dispersion and BSSE corrections (or simply using a better basis and a modern functional) removes the problem. Their title says it plainly: the standard B3LYP/6-31G* model chemistry should not be used for molecular thermochemistry. A broader analysis of small basis sets and their error sources was given by Sure, Brandenburg and Grimme <span class="citation" data-cites="sure2016">(<a href="#ref-sure2016" role="doc-biblioref">Sure et al. 2016</a>)</span>.</p>
+<p>Kruse, Goerigk and Grimme analyzed this in detail in 2012 <span class="citation" data-cites="kruse2012">&nbsp;[<a href="#ref-kruse2012" role="doc-biblioref">10</a>]</span>. They showed that much of the apparent success of B3LYP/6-31G* comes from this fortuitous cancellation, that it fails badly when the cancellation does not happen, and that adding dispersion and BSSE corrections (or simply using a better basis and a modern functional) removes the problem. Their title says it plainly: the standard B3LYP/6-31G* model chemistry should not be used for molecular thermochemistry. A broader analysis of small basis sets and their error sources was given by Sure, Brandenburg and Grimme <span class="citation" data-cites="sure2016">&nbsp;[<a href="#ref-sure2016" role="doc-biblioref">11</a>]</span>.</p>
 <p>The worrying part is not that B3LYP/6-31G* is sometimes accurate. It is that we cannot predict <strong>when</strong>. Lucky cancellations depend on the reaction. Experiment 6 lets you see this for yourself.</p>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -871,10 +872,10 @@ Figure&nbsp;1: Schematic error budget. In each case the method error is the same
 <h3 data-number="2.5.1" class="anchored" data-anchor-id="four-polarized-double-ζ-sets"><span class="header-section-number">2.5.1</span> Four polarized double-ζ sets</h3>
 <p>All four basis sets of Experiment 6 are “polarized double-ζ”: two functions per valence atomic orbital, plus polarization functions. But they were built differently:</p>
 <ul>
-<li><strong>6-31G*</strong> (Pople) <span class="citation" data-cites="hariharan1973 francl1982">(<a href="#ref-hariharan1973" role="doc-biblioref">Hariharan and Pople 1973</a>; <a href="#ref-francl1982" role="doc-biblioref">Francl et al. 1982</a>)</span>: a split-valence set from the 1970s. The star adds one set of d functions on non-hydrogen atoms only. Hydrogen has no polarization functions (that would be 6-31G**). The s and p functions of each valence shell share exponents (“sp shells”), which was a trick to speed up integral evaluation on old computers.</li>
-<li><strong>def2-SVP</strong> (Karlsruhe) <span class="citation" data-cites="weigend2005">(<a href="#ref-weigend2005" role="doc-biblioref">Weigend and Ahlrichs 2005</a>)</span>: split valence plus polarization on all atoms, including p functions on hydrogen. Optimized mostly at the HF level and designed to be balanced across the periodic table.</li>
-<li><strong>cc-pVDZ</strong> (Dunning) <span class="citation" data-cites="dunning1989">(<a href="#ref-dunning1989" role="doc-biblioref">Dunning 1989</a>)</span>: correlation consistent. The polarization functions were chosen to recover correlation energy in wave-function methods. Same composition as def2-SVP for first-row atoms, but different exponents and contractions.</li>
-<li><strong>pc-1</strong> (Jensen) <span class="citation" data-cites="jensen2001 jensen2002">(<a href="#ref-jensen2001" role="doc-biblioref">Jensen 2001</a>, <a href="#ref-jensen2002" role="doc-biblioref">2002</a>)</span>: polarization consistent, optimized specifically for DFT. If it is not available, the smallest Karlsruhe set, def2-SV(P), which drops the p functions on hydrogen, is a fallback.</li>
+<li><strong>6-31G*</strong> (Pople) <span class="citation" data-cites="hariharan1973 francl1982">&nbsp;[<a href="#ref-hariharan1973" role="doc-biblioref">8</a>,<a href="#ref-francl1982" role="doc-biblioref">9</a>]</span>: a split-valence set from the 1970s. The star adds one set of d functions on non-hydrogen atoms only. Hydrogen has no polarization functions (that would be 6-31G**). The s and p functions of each valence shell share exponents (“sp shells”), which was a trick to speed up integral evaluation on old computers.</li>
+<li><strong>def2-SVP</strong> (Karlsruhe) <span class="citation" data-cites="weigend2005">&nbsp;[<a href="#ref-weigend2005" role="doc-biblioref">12</a>]</span>: split valence plus polarization on all atoms, including p functions on hydrogen. Optimized mostly at the HF level and designed to be balanced across the periodic table.</li>
+<li><strong>cc-pVDZ</strong> (Dunning) <span class="citation" data-cites="dunning1989">&nbsp;[<a href="#ref-dunning1989" role="doc-biblioref">13</a>]</span>: correlation consistent. The polarization functions were chosen to recover correlation energy in wave-function methods. Same composition as def2-SVP for first-row atoms, but different exponents and contractions.</li>
+<li><strong>pc-1</strong> (Jensen) <span class="citation" data-cites="jensen2001 jensen2002">&nbsp;[<a href="#ref-jensen2001" role="doc-biblioref">14</a>,<a href="#ref-jensen2002" role="doc-biblioref">15</a>]</span>: polarization consistent, optimized specifically for DFT. If it is not available, the smallest Karlsruhe set, def2-SV(P), which drops the p functions on hydrogen, is a fallback.</li>
 </ul>
 </section>
 <section id="how-to-count-basis-functions" class="level3" data-number="2.5.2">
@@ -1046,11 +1047,11 @@ Table&nbsp;1: Contracted compositions of the four polarized double-ζ sets for H
 <section id="further-reading" class="level2" data-number="3.6">
 <h2 data-number="3.6" class="anchored" data-anchor-id="further-reading"><span class="header-section-number">3.6</span> Further reading</h2>
 <ul>
-<li>H. Kruse, L. Goerigk and S. Grimme, “Why the standard B3LYP/6-31G* model chemistry should not be used in DFT calculations of molecular thermochemistry: understanding and correcting the problem” <span class="citation" data-cites="kruse2012">(<a href="#ref-kruse2012" role="doc-biblioref">Kruse et al. 2012</a>)</span>.</li>
-<li>S. F. Boys and F. Bernardi, the original counterpoise paper <span class="citation" data-cites="boys1970">(<a href="#ref-boys1970" role="doc-biblioref">Boys and Bernardi 1970</a>)</span>.</li>
-<li>R. Sure, J. G. Brandenburg and S. Grimme, “Small atomic orbital basis set first-principles quantum chemical methods for large molecular and periodic systems: a critical analysis of error sources” <span class="citation" data-cites="sure2016">(<a href="#ref-sure2016" role="doc-biblioref">Sure et al. 2016</a>)</span>.</li>
-<li>F. Jensen, “Atomic orbital basis sets” <span class="citation" data-cites="jensen2013">(<a href="#ref-jensen2013" role="doc-biblioref">Jensen 2013</a>)</span>. A review of basis-set families and how they are built.</li>
-<li>P. Morgante and R. Peverati, “The devil in the details” <span class="citation" data-cites="morgante2020">(<a href="#ref-morgante2020" role="doc-biblioref">Morgante and Peverati 2020</a>)</span>.</li>
+<li>H. Kruse, L. Goerigk and S. Grimme, “Why the standard B3LYP/6-31G* model chemistry should not be used in DFT calculations of molecular thermochemistry: understanding and correcting the problem” <span class="citation" data-cites="kruse2012">&nbsp;[<a href="#ref-kruse2012" role="doc-biblioref">10</a>]</span>.</li>
+<li>S. F. Boys and F. Bernardi, the original counterpoise paper <span class="citation" data-cites="boys1970">&nbsp;[<a href="#ref-boys1970" role="doc-biblioref">5</a>]</span>.</li>
+<li>R. Sure, J. G. Brandenburg and S. Grimme, “Small atomic orbital basis set first-principles quantum chemical methods for large molecular and periodic systems: a critical analysis of error sources” <span class="citation" data-cites="sure2016">&nbsp;[<a href="#ref-sure2016" role="doc-biblioref">11</a>]</span>.</li>
+<li>F. Jensen, “Atomic orbital basis sets” <span class="citation" data-cites="jensen2013">&nbsp;[<a href="#ref-jensen2013" role="doc-biblioref">16</a>]</span>. A review of basis-set families and how they are built.</li>
+<li>P. Morgante and R. Peverati, “The devil in the details” <span class="citation" data-cites="morgante2020">&nbsp;[<a href="#ref-morgante2020" role="doc-biblioref">17</a>]</span>.</li>
 </ul>
 
 
@@ -1058,57 +1059,57 @@ Table&nbsp;1: Contracted compositions of the four polarized double-ζ sets for H
 </section>
 </section>
 
-<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
-<div id="ref-becke1993" class="csl-entry" role="listitem">
-Becke, A. D. 1993. <em>J. Chem. Phys.</em> 98: 5648–52.
-</div>
-<div id="ref-boys1970" class="csl-entry" role="listitem">
-Boys, S. F., and F. Bernardi. 1970. <span>“The Calculation of Small Molecular Interactions by the Differences of Separate Total Energies. <span>S</span>ome Procedures with Reduced Errors.”</span> <em>Mol. Phys.</em> 19: 553–66. <a href="https://doi.org/10.1080/00268977000101561">https://doi.org/10.1080/00268977000101561</a>.
-</div>
-<div id="ref-dunning1989" class="csl-entry" role="listitem">
-Dunning, T. H., Jr. 1989. <em>J. Chem. Phys.</em> 90: 1007–23.
-</div>
-<div id="ref-francl1982" class="csl-entry" role="listitem">
-Francl, M. M., W. J. Pietro, W. J. Hehre, et al. 1982. <em>J. Chem. Phys.</em> 77: 3654–65.
-</div>
-<div id="ref-hariharan1973" class="csl-entry" role="listitem">
-Hariharan, P. C., and J. A. Pople. 1973. <em>Theor. Chim. Acta</em> 28: 213–22.
-</div>
-<div id="ref-hopmann2019" class="csl-entry" role="listitem">
-Hopmann, K. H. 2019. <em>Organometallics</em> 38: 603–5.
-</div>
-<div id="ref-jensen2001" class="csl-entry" role="listitem">
-Jensen, F. 2001. <em>J. Chem. Phys.</em> 115: 9113–25.
-</div>
-<div id="ref-jensen2002" class="csl-entry" role="listitem">
-Jensen, F. 2002. <em>J. Chem. Phys.</em> 116: 3502.
-</div>
-<div id="ref-jensen2013" class="csl-entry" role="listitem">
-Jensen, F. 2013. <em>WIREs Comp. Mol. Sci.</em> 3: 273–95.
-</div>
-<div id="ref-kruse2012" class="csl-entry" role="listitem">
-Kruse, H., L. Goerigk, and S. Grimme. 2012. <em>J. Org. Chem.</em> 77: 10824–34.
-</div>
-<div id="ref-kruse2012gcp" class="csl-entry" role="listitem">
-Kruse, H., and S. Grimme. 2012. <span>“A Geometrical Correction for the Inter- and Intra-Molecular Basis Set Superposition Error in <span>Hartree</span>–<span>Fock</span> and Density Functional Theory Calculations for Large Systems.”</span> <em>J. Chem. Phys.</em> 136: 154101. <a href="https://doi.org/10.1063/1.3700154">https://doi.org/10.1063/1.3700154</a>.
-</div>
-<div id="ref-morgante2020" class="csl-entry" role="listitem">
-Morgante, P., and R. Peverati. 2020. <span>“The Devil in the Details: A Tutorial Review on Some Undervalued Aspects of Density Functional Theory Calculations.”</span> <em>Int. J. Quantum Chem.</em> 120: e26332.
-</div>
-<div id="ref-stephens1994" class="csl-entry" role="listitem">
-Stephens, P. J., F. J. Devlin, C. F. Chabalowski, and M. J. Frisch. 1994. <em>J. Phys. Chem.</em> 98: 11623–27.
-</div>
-<div id="ref-sure2016" class="csl-entry" role="listitem">
-Sure, R., J. G. Brandenburg, and S. Grimme. 2016. <span>“Small Atomic Orbital Basis Set First-Principles Quantum Chemical Methods for Large Molecular and Periodic Systems: A Critical Analysis of Error Sources.”</span> <em>ChemistryOpen</em> 5: 94–109. <a href="https://doi.org/10.1002/open.201500192">https://doi.org/10.1002/open.201500192</a>.
-</div>
-<div id="ref-weigend2005" class="csl-entry" role="listitem">
-Weigend, F., and R. Ahlrichs. 2005. <em>Phys. Chem. Chem. Phys.</em> 7: 3297–305.
-</div>
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body" data-entry-spacing="0" role="list">
 <div id="ref-yu2016a" class="csl-entry" role="listitem">
-Yu, H. S., X. He, S. L. Li, and D. G. Truhlar. 2016. <em>Chem. Sci.</em> 7: 5032–51.
+<div class="csl-left-margin">[1] </div><div class="csl-right-inline">H. S. Yu, X. He, S. L. Li, and D. G. Truhlar, Chem. Sci. <strong>7</strong>, 5032 (2016).</div>
 </div>
 <div id="ref-yu2015a" class="csl-entry" role="listitem">
-Yu, H., and D. G. Truhlar. 2015. <em>J. Chem. Theory Comput.</em> 11: 2968–83.
+<div class="csl-left-margin">[2] </div><div class="csl-right-inline">H. Yu and D. G. Truhlar, J. Chem. Theory Comput. <strong>11</strong>, 2968 (2015).</div>
+</div>
+<div id="ref-hopmann2019" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[3] </div><div class="csl-right-inline">K. H. Hopmann, Organometallics <strong>38</strong>, 603 (2019).</div>
+</div>
+<div id="ref-kruse2012gcp" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[4] </div><div class="csl-right-inline">H. Kruse and S. Grimme, <a href="https://doi.org/10.1063/1.3700154">A geometrical correction for the inter- and intra-molecular basis set superposition error in <span>Hartree</span>–<span>Fock</span> and density functional theory calculations for large systems</a>, J. Chem. Phys. <strong>136</strong>, 154101 (2012).</div>
+</div>
+<div id="ref-boys1970" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[5] </div><div class="csl-right-inline">S. F. Boys and F. Bernardi, <a href="https://doi.org/10.1080/00268977000101561">The calculation of small molecular interactions by the differences of separate total energies. <span>S</span>ome procedures with reduced errors</a>, Mol. Phys. <strong>19</strong>, 553 (1970).</div>
+</div>
+<div id="ref-becke1993" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[6] </div><div class="csl-right-inline">A. D. Becke, J. Chem. Phys. <strong>98</strong>, 5648 (1993).</div>
+</div>
+<div id="ref-stephens1994" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[7] </div><div class="csl-right-inline">P. J. Stephens, F. J. Devlin, C. F. Chabalowski, and M. J. Frisch, J. Phys. Chem. <strong>98</strong>, 11623 (1994).</div>
+</div>
+<div id="ref-hariharan1973" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[8] </div><div class="csl-right-inline">P. C. Hariharan and J. A. Pople, Theor. Chim. Acta <strong>28</strong>, 213 (1973).</div>
+</div>
+<div id="ref-francl1982" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[9] </div><div class="csl-right-inline">M. M. Francl, W. J. Pietro, W. J. Hehre, J. S. Binkley, M. S. Gordon, D. J. DeFrees, and J. A. Pople, J. Chem. Phys. <strong>77</strong>, 3654 (1982).</div>
+</div>
+<div id="ref-kruse2012" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[10] </div><div class="csl-right-inline">H. Kruse, L. Goerigk, and S. Grimme, J. Org. Chem. <strong>77</strong>, 10824 (2012).</div>
+</div>
+<div id="ref-sure2016" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[11] </div><div class="csl-right-inline">R. Sure, J. G. Brandenburg, and S. Grimme, <a href="https://doi.org/10.1002/open.201500192">Small atomic orbital basis set first-principles quantum chemical methods for large molecular and periodic systems: A critical analysis of error sources</a>, ChemistryOpen <strong>5</strong>, 94 (2016).</div>
+</div>
+<div id="ref-weigend2005" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[12] </div><div class="csl-right-inline">F. Weigend and R. Ahlrichs, Phys. Chem. Chem. Phys. <strong>7</strong>, 3297 (2005).</div>
+</div>
+<div id="ref-dunning1989" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[13] </div><div class="csl-right-inline">T. H. Dunning Jr., J. Chem. Phys. <strong>90</strong>, 1007 (1989).</div>
+</div>
+<div id="ref-jensen2001" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[14] </div><div class="csl-right-inline">F. Jensen, J. Chem. Phys. <strong>115</strong>, 9113 (2001).</div>
+</div>
+<div id="ref-jensen2002" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[15] </div><div class="csl-right-inline">F. Jensen, J. Chem. Phys. <strong>116</strong>, 3502 (2002).</div>
+</div>
+<div id="ref-jensen2013" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[16] </div><div class="csl-right-inline">F. Jensen, WIREs Comp. Mol. Sci. <strong>3</strong>, 273 (2013).</div>
+</div>
+<div id="ref-morgante2020" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[17] </div><div class="csl-right-inline">P. Morgante and R. Peverati, The devil in the details: A tutorial review on some undervalued aspects of density functional theory calculations, Int. J. Quantum Chem. <strong>120</strong>, e26332 (2020).</div>
 </div>
 </div></section></div></main> <!-- /main -->
 <!-- Peverati lab logo at the top right of the navbar (light and dark versions). -->

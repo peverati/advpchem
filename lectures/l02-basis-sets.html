@@ -31,6 +31,7 @@ ul.task-list li input[type="checkbox"] {
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
+  margin-bottom: 0em;
 }
 .hanging-indent div.csl-entry {
   margin-left:2em;
@@ -755,7 +756,7 @@ E(\text{basis}_1) \;\geq\; E(\text{basis}_2) \quad \text{if basis}_2 \supseteq \
 <p><span id="eq-sto"><span class="math display">\[
 \chi^\text{STO}(r,\theta,\varphi) = N\, r^{n-1} e^{-\zeta r}\, Y_\ell^{m}(\theta,\varphi) .
 \tag{2}\]</span></span></p>
-<p>The <strong>exponent</strong> <span class="math inline">\(\zeta\)</span> (zeta) sets the size: a large <span class="math inline">\(\zeta\)</span> gives a tight function close to the nucleus; a small <span class="math inline">\(\zeta\)</span> gives a diffuse one. STOs have the right physics. They have a <strong>cusp</strong> at the nucleus (a finite slope at <span class="math inline">\(r = 0\)</span>, as every exact wave function must <span class="citation" data-cites="kato1957">(<a href="#ref-kato1957" role="doc-biblioref">Kato 1957</a>)</span>) and an <strong>exponential tail</strong> at large <span class="math inline">\(r\)</span>, like real bound states (Lecture 1).</p>
+<p>The <strong>exponent</strong> <span class="math inline">\(\zeta\)</span> (zeta) sets the size: a large <span class="math inline">\(\zeta\)</span> gives a tight function close to the nucleus; a small <span class="math inline">\(\zeta\)</span> gives a diffuse one. STOs have the right physics. They have a <strong>cusp</strong> at the nucleus (a finite slope at <span class="math inline">\(r = 0\)</span>, as every exact wave function must <span class="citation" data-cites="kato1957">&nbsp;[<a href="#ref-kato1957" role="doc-biblioref">1</a>]</span>) and an <strong>exponential tail</strong> at large <span class="math inline">\(r\)</span>, like real bound states (Lecture 1).</p>
 <p>Their weakness is computational. A molecular calculation needs huge numbers of integrals over basis functions, the worst being the <strong>two-electron integrals</strong></p>
 <p><span id="eq-eri"><span class="math display">\[
 (\mu\nu|\lambda\sigma) = \iint \frac{\chi_\mu(\mathbf{r}_1)\chi_\nu(\mathbf{r}_1)\,\chi_\lambda(\mathbf{r}_2)\chi_\sigma(\mathbf{r}_2)}{|\mathbf{r}_1-\mathbf{r}_2|}\, d\mathbf{r}_1 d\mathbf{r}_2 ,
@@ -764,7 +765,7 @@ E(\text{basis}_1) \;\geq\; E(\text{basis}_2) \quad \text{if basis}_2 \supseteq \
 </section>
 <section id="gaussian-type-orbitals" class="level3" data-number="2.2">
 <h3 data-number="2.2" class="anchored" data-anchor-id="gaussian-type-orbitals"><span class="header-section-number">2.2</span> Gaussian-type orbitals</h3>
-<p>In 1950, Boys proposed using <strong>Gaussian-type orbitals</strong> (GTOs) instead <span class="citation" data-cites="boys1950">(<a href="#ref-boys1950" role="doc-biblioref">Boys 1950</a>)</span>:</p>
+<p>In 1950, Boys proposed using <strong>Gaussian-type orbitals</strong> (GTOs) instead <span class="citation" data-cites="boys1950">&nbsp;[<a href="#ref-boys1950" role="doc-biblioref">2</a>]</span>:</p>
 <p><span id="eq-gto"><span class="math display">\[
 \chi^\text{GTO}(x,y,z) = N\, x^{a} y^{b} z^{c}\, e^{-\alpha r^2}, \qquad \ell = a + b + c .
 \tag{4}\]</span></span></p>
@@ -804,7 +805,7 @@ Figure&nbsp;1: The Gaussian product theorem in one dimension. The product (black
 \chi_\mu(\mathbf{r}) = \sum_{k=1}^{L} d_{k\mu}\, g_k(\alpha_k, \mathbf{r}) .
 \tag{6}\]</span></span></p>
 <p>The exponents <span class="math inline">\(\alpha_k\)</span> and the <strong>contraction coefficients</strong> <span class="math inline">\(d_{k\mu}\)</span> are chosen once, when the basis set is designed, and never change during a calculation. The program optimizes only the coefficients <span class="math inline">\(c_{\mu i}\)</span> of <a href="#eq-lcao" class="quarto-xref">Equation&nbsp;1</a>, one per <em>contracted</em> function. Contraction gives functions with a better shape without increasing <span class="math inline">\(K\)</span>.</p>
-<p>The simplest example is <strong>STO-3G</strong> <span class="citation" data-cites="hehre1969">(<a href="#ref-hehre1969" role="doc-biblioref">Hehre et al. 1969</a>)</span>: each Slater-type orbital is replaced by a contraction of three primitive Gaussians, fitted to reproduce it as closely as possible. For the hydrogen 1s function, which in STO-3G mimics a Slater function with <span class="math inline">\(\zeta = 1.24\)</span> (slightly tighter than the free-atom value of 1.0, because a hydrogen in a molecule holds its electron more tightly), the published primitives are:</p>
+<p>The simplest example is <strong>STO-3G</strong> <span class="citation" data-cites="hehre1969">&nbsp;[<a href="#ref-hehre1969" role="doc-biblioref">3</a>]</span>: each Slater-type orbital is replaced by a contraction of three primitive Gaussians, fitted to reproduce it as closely as possible. For the hydrogen 1s function, which in STO-3G mimics a Slater function with <span class="math inline">\(\zeta = 1.24\)</span> (slightly tighter than the free-atom value of 1.0, because a hydrogen in a molecule holds its electron more tightly), the published primitives are:</p>
 <div id="tbl-sto3g" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-sto3g-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -984,23 +985,23 @@ Table&nbsp;3: Reading a Pople basis-set name. The numbers before “G” describ
 <tbody>
 <tr class="odd">
 <td>STO-3G</td>
-<td>minimal; each STO fitted by 3 Gaussians <span class="citation" data-cites="hehre1969">(<a href="#ref-hehre1969" role="doc-biblioref">Hehre et al. 1969</a>)</span></td>
+<td>minimal; each STO fitted by 3 Gaussians <span class="citation" data-cites="hehre1969">&nbsp;[<a href="#ref-hehre1969" role="doc-biblioref">3</a>]</span></td>
 </tr>
 <tr class="even">
 <td>3-21G</td>
-<td>core: 3 primitives in 1 function; valence split in two: 2 primitives + 1 primitive <span class="citation" data-cites="binkley1980">(<a href="#ref-binkley1980" role="doc-biblioref">Binkley et al. 1980</a>)</span></td>
+<td>core: 3 primitives in 1 function; valence split in two: 2 primitives + 1 primitive <span class="citation" data-cites="binkley1980">&nbsp;[<a href="#ref-binkley1980" role="doc-biblioref">4</a>]</span></td>
 </tr>
 <tr class="odd">
 <td>6-31G</td>
-<td>core: 6 primitives; valence: 3 + 1 (double-ζ) <span class="citation" data-cites="ditchfield1971 hehre1972">(<a href="#ref-ditchfield1971" role="doc-biblioref">Ditchfield et al. 1971</a>; <a href="#ref-hehre1972" role="doc-biblioref">Hehre et al. 1972</a>)</span></td>
+<td>core: 6 primitives; valence: 3 + 1 (double-ζ) <span class="citation" data-cites="ditchfield1971 hehre1972">&nbsp;[<a href="#ref-ditchfield1971" role="doc-biblioref">5</a>,<a href="#ref-hehre1972" role="doc-biblioref">6</a>]</span></td>
 </tr>
 <tr class="even">
 <td>6-311G</td>
-<td>core: 6; valence: 3 + 1 + 1 (triple-ζ) <span class="citation" data-cites="krishnan1980">(<a href="#ref-krishnan1980" role="doc-biblioref">Krishnan et al. 1980</a>)</span></td>
+<td>core: 6; valence: 3 + 1 + 1 (triple-ζ) <span class="citation" data-cites="krishnan1980">&nbsp;[<a href="#ref-krishnan1980" role="doc-biblioref">7</a>]</span></td>
 </tr>
 <tr class="odd">
 <td>6-31G* = 6-31G(d)</td>
-<td>6-31G plus one set of d polarization functions on heavy (non-hydrogen) atoms <span class="citation" data-cites="hariharan1973 francl1982">(<a href="#ref-hariharan1973" role="doc-biblioref">Hariharan and Pople 1973</a>; <a href="#ref-francl1982" role="doc-biblioref">Francl et al. 1982</a>)</span></td>
+<td>6-31G plus one set of d polarization functions on heavy (non-hydrogen) atoms <span class="citation" data-cites="hariharan1973 francl1982">&nbsp;[<a href="#ref-hariharan1973" role="doc-biblioref">8</a>,<a href="#ref-francl1982" role="doc-biblioref">9</a>]</span></td>
 </tr>
 <tr class="even">
 <td>6-31G** = 6-31G(d,p)</td>
@@ -1043,23 +1044,23 @@ Table&nbsp;3: Reading a Pople basis-set name. The numbers before “G” describ
 <h2 data-number="5" class="anchored" data-anchor-id="the-modern-families-used-in-this-course"><span class="header-section-number">5</span> The modern families used in this course</h2>
 <section id="karlsruhe-def2-basis-sets" class="level3" data-number="5.1">
 <h3 data-number="5.1" class="anchored" data-anchor-id="karlsruhe-def2-basis-sets"><span class="header-section-number">5.1</span> Karlsruhe def2 basis sets</h3>
-<p>The <strong>def2</strong> basis sets of Weigend and Ahlrichs <span class="citation" data-cites="weigend2005">(<a href="#ref-weigend2005" role="doc-biblioref">Weigend and Ahlrichs 2005</a>)</span> (the “Ahlrichs” or “Karlsruhe” family) were designed to give consistent quality across almost the whole periodic table, H to Rn. The names describe the valence quality:</p>
+<p>The <strong>def2</strong> basis sets of Weigend and Ahlrichs <span class="citation" data-cites="weigend2005">&nbsp;[<a href="#ref-weigend2005" role="doc-biblioref">10</a>]</span> (the “Ahlrichs” or “Karlsruhe” family) were designed to give consistent quality across almost the whole periodic table, H to Rn. The names describe the valence quality:</p>
 <ul>
 <li><strong>def2-SVP</strong>: split valence (double-ζ) plus polarization;</li>
 <li><strong>def2-TZVP</strong>: triple-ζ valence plus polarization;</li>
 <li><strong>def2-QZVP</strong>: quadruple-ζ valence plus polarization.</li>
 </ul>
 <p>Variants with an extra P (def2-TZVPP, def2-QZVPP) add more polarization, and variants ending in D add diffuse functions. “def2” stands for the second generation of the Karlsruhe <em>default</em> sets. For elements beyond krypton, def2 replaces the inner-core electrons with an <strong>effective core potential</strong> (ECP): a fixed potential that represents the core and includes the scalar-relativistic effects that matter for heavy atoms. Only the outer electrons are treated explicitly. You will use this in Experiments 8 and 10 for ruthenium and palladium.</p>
-<p>The def2 family has been found to be among the most cost-effective choices for DFT <span class="citation" data-cites="witte2016">(<a href="#ref-witte2016" role="doc-biblioref">Witte et al. 2016</a>)</span>, which is one reason it is the default basis of most experiments in this lab.</p>
+<p>The def2 family has been found to be among the most cost-effective choices for DFT <span class="citation" data-cites="witte2016">&nbsp;[<a href="#ref-witte2016" role="doc-biblioref">11</a>]</span>, which is one reason it is the default basis of most experiments in this lab.</p>
 </section>
 <section id="dunning-correlation-consistent-basis-sets" class="level3" data-number="5.2">
 <h3 data-number="5.2" class="anchored" data-anchor-id="dunning-correlation-consistent-basis-sets"><span class="header-section-number">5.2</span> Dunning correlation-consistent basis sets</h3>
-<p>The <strong>correlation-consistent</strong> basis sets of Dunning and co-workers are written <strong>cc-pVnZ</strong>: <em>correlation-consistent polarized valence n-zeta</em>, with <span class="math inline">\(n\)</span> = D, T, Q, 5, 6 <span class="citation" data-cites="dunning1989 woon1993">(<a href="#ref-dunning1989" role="doc-biblioref">Dunning 1989</a>; <a href="#ref-woon1993" role="doc-biblioref">Woon and Dunning 1993</a>)</span>. They were built for correlated wave-function methods (MP2, CCSD(T)). The design rule is that functions are added in groups that each recover a similar amount of <strong>correlation energy</strong>. Going from cc-pVDZ to cc-pVTZ adds one more s, p and d function <em>and</em> the first f function on oxygen, because these contribute comparably. The result is a family that converges <strong>systematically</strong> toward the CBS limit, so results at several <span class="math inline">\(n\)</span> can be extrapolated (<a href="#sec-cbs" class="quarto-xref">Section&nbsp;6.2</a>).</p>
-<p>The prefix <strong>aug-</strong> adds one diffuse function of <em>each</em> angular momentum present <span class="citation" data-cites="kendall1992">(<a href="#ref-kendall1992" role="doc-biblioref">Kendall et al. 1992</a>)</span>: aug-cc-pVTZ is the standard choice for anions and weak interactions with correlated methods. (Other prefixes, such as cc-pCVnZ for core correlation, exist but are not used here.)</p>
+<p>The <strong>correlation-consistent</strong> basis sets of Dunning and co-workers are written <strong>cc-pVnZ</strong>: <em>correlation-consistent polarized valence n-zeta</em>, with <span class="math inline">\(n\)</span> = D, T, Q, 5, 6 <span class="citation" data-cites="dunning1989 woon1993">&nbsp;[<a href="#ref-dunning1989" role="doc-biblioref">12</a>,<a href="#ref-woon1993" role="doc-biblioref">13</a>]</span>. They were built for correlated wave-function methods (MP2, CCSD(T)). The design rule is that functions are added in groups that each recover a similar amount of <strong>correlation energy</strong>. Going from cc-pVDZ to cc-pVTZ adds one more s, p and d function <em>and</em> the first f function on oxygen, because these contribute comparably. The result is a family that converges <strong>systematically</strong> toward the CBS limit, so results at several <span class="math inline">\(n\)</span> can be extrapolated (<a href="#sec-cbs" class="quarto-xref">Section&nbsp;6.2</a>).</p>
+<p>The prefix <strong>aug-</strong> adds one diffuse function of <em>each</em> angular momentum present <span class="citation" data-cites="kendall1992">&nbsp;[<a href="#ref-kendall1992" role="doc-biblioref">14</a>]</span>: aug-cc-pVTZ is the standard choice for anions and weak interactions with correlated methods. (Other prefixes, such as cc-pCVnZ for core correlation, exist but are not used here.)</p>
 </section>
 <section id="jensen-polarization-consistent-basis-sets" class="level3" data-number="5.3">
 <h3 data-number="5.3" class="anchored" data-anchor-id="jensen-polarization-consistent-basis-sets"><span class="header-section-number">5.3</span> Jensen polarization-consistent basis sets</h3>
-<p>Jensen’s <strong>pc-n</strong> basis sets (pc-0, pc-1, pc-2, pc-3, pc-4) apply the same systematic idea, but are optimized for Hartree–Fock and DFT instead of correlated methods <span class="citation" data-cites="jensen2001">(<a href="#ref-jensen2001" role="doc-biblioref">Jensen 2001</a>)</span>. pc-1 is double-ζ quality. You will use pc-1 in <a href="../experiments/ex06-b3lyp-631gs.html">Experiment 6</a> to compare double-ζ basis sets from different families.</p>
+<p>Jensen’s <strong>pc-n</strong> basis sets (pc-0, pc-1, pc-2, pc-3, pc-4) apply the same systematic idea, but are optimized for Hartree–Fock and DFT instead of correlated methods <span class="citation" data-cites="jensen2001">&nbsp;[<a href="#ref-jensen2001" role="doc-biblioref">15</a>]</span>. pc-1 is double-ζ quality. You will use pc-1 in <a href="../experiments/ex06-b3lyp-631gs.html">Experiment 6</a> to compare double-ζ basis sets from different families.</p>
 </section>
 <section id="counting-basis-functions" class="level3" data-number="5.4">
 <h3 data-number="5.4" class="anchored" data-anchor-id="counting-basis-functions"><span class="header-section-number">5.4</span> Counting basis functions</h3>
@@ -1186,11 +1187,11 @@ Table&nbsp;4: Number of basis functions for water, from the published shell comp
 <section id="more-functions-better-results" class="level3" data-number="6.1">
 <h3 data-number="6.1" class="anchored" data-anchor-id="more-functions-better-results"><span class="header-section-number">6.1</span> More functions, better results</h3>
 <p>The central message of this chapter fits in one sentence: <strong>in a systematic family, more functions give results that converge toward the CBS limit.</strong> <a href="#fig-convergence" class="quarto-xref">Figure&nbsp;3</a> (a) sketches the typical behavior of the total energy. The first step, double- to triple-ζ, is large; each further step is smaller.</p>
-<p>For Hartree–Fock and DFT, the total energy converges <em>fast</em>, roughly exponentially with the cardinal number <span class="citation" data-cites="feller1992">(<a href="#ref-feller1992" role="doc-biblioref">Feller 1992</a>)</span>:</p>
+<p>For Hartree–Fock and DFT, the total energy converges <em>fast</em>, roughly exponentially with the cardinal number <span class="citation" data-cites="feller1992">&nbsp;[<a href="#ref-feller1992" role="doc-biblioref">16</a>]</span>:</p>
 <p><span id="eq-cbs-hf"><span class="math display">\[
 E(n) = E_\text{CBS} + A\, e^{-\alpha n} .
 \tag{7}\]</span></span></p>
-<p>The <strong>correlation energy</strong> of wave-function methods converges much more slowly, as an inverse power <span class="citation" data-cites="helgaker1997 halkier1998">(<a href="#ref-helgaker1997" role="doc-biblioref">Helgaker et al. 1997</a>; <a href="#ref-halkier1998" role="doc-biblioref">Halkier et al. 1998</a>)</span>:</p>
+<p>The <strong>correlation energy</strong> of wave-function methods converges much more slowly, as an inverse power <span class="citation" data-cites="helgaker1997 halkier1998">&nbsp;[<a href="#ref-helgaker1997" role="doc-biblioref">17</a>,<a href="#ref-halkier1998" role="doc-biblioref">18</a>]</span>:</p>
 <p><span id="eq-cbs-corr"><span class="math display">\[
 E_\text{corr}(n) = E_\text{corr,CBS} + A\, n^{-3} .
 \tag{8}\]</span></span></p>
@@ -1253,7 +1254,7 @@ E_\text{corr,CBS} = \frac{64(-0.3080) - 27(-0.2950)}{64 - 27} = \frac{-19.712 + 
 <h3 data-number="6.4" class="anchored" data-anchor-id="two-basis-set-errors-bsie-and-bsse"><span class="header-section-number">6.4</span> Two basis-set errors: BSIE and BSSE</h3>
 <ul>
 <li><strong>Basis-set incompleteness error (BSIE).</strong> The difference between a result in a finite basis and the CBS limit, with the same method. It affects every calculation. It shrinks as the basis grows, and it is what Experiment 1 measures for a reaction energy.</li>
-<li><strong>Basis-set superposition error (BSSE).</strong> A specific artifact of incomplete basis sets in systems made of fragments, such as a dimer. In the dimer, each monomer can “borrow” the basis functions centered on its partner to improve its own description, lowering its energy. The isolated monomers have no partner functions to borrow. The dimer is therefore artificially stabilized, and the interaction energy is too large in magnitude. BSSE also vanishes in the CBS limit. The standard correction, the counterpoise method of Boys and Bernardi <span class="citation" data-cites="boys1970">(<a href="#ref-boys1970" role="doc-biblioref">Boys and Bernardi 1970</a>)</span>, recomputes each monomer in the full dimer basis. We return to BSSE in Lectures 8 and 10.</li>
+<li><strong>Basis-set superposition error (BSSE).</strong> A specific artifact of incomplete basis sets in systems made of fragments, such as a dimer. In the dimer, each monomer can “borrow” the basis functions centered on its partner to improve its own description, lowering its energy. The isolated monomers have no partner functions to borrow. The dimer is therefore artificially stabilized, and the interaction energy is too large in magnitude. BSSE also vanishes in the CBS limit. The standard correction, the counterpoise method of Boys and Bernardi <span class="citation" data-cites="boys1970">&nbsp;[<a href="#ref-boys1970" role="doc-biblioref">19</a>]</span>, recomputes each monomer in the full dimer basis. We return to BSSE in Lectures 8 and 10.</li>
 </ul>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -1309,10 +1310,10 @@ E_\text{corr,CBS} = \frac{64(-0.3080) - 27(-0.2950)}{64 - 27} = \frac{-19.712 + 
 <section id="further-reading" class="level2" data-number="9">
 <h2 data-number="9" class="anchored" data-anchor-id="further-reading"><span class="header-section-number">9</span> Further reading</h2>
 <ul>
-<li>F. Jensen, “Atomic orbital basis sets” <span class="citation" data-cites="jensen2013">(<a href="#ref-jensen2013" role="doc-biblioref">Jensen 2013</a>)</span>, and B. Nagy and F. Jensen, “Basis sets in quantum chemistry” <span class="citation" data-cites="nagy2017">(<a href="#ref-nagy2017" role="doc-biblioref">Nagy and Jensen 2017</a>)</span>: modern, readable reviews of everything in this chapter.</li>
-<li>A. Szabo and N. S. Ostlund, <em>Modern Quantum Chemistry</em> <span class="citation" data-cites="szabo1996">(<a href="#ref-szabo1996" role="doc-biblioref">Szabo and Ostlund 1996</a>)</span>, §3.6: the classic derivation of STO-nG and the minimal-basis H₂ calculation.</li>
-<li>T. Helgaker, P. Jørgensen and J. Olsen, <em>Molecular Electronic-Structure Theory</em> <span class="citation" data-cites="helgaker2000">(<a href="#ref-helgaker2000" role="doc-biblioref">Helgaker et al. 2000</a>)</span>, chapters 6 and 8: Gaussian functions, basis-set design and convergence in depth.</li>
-<li>F. Weigend and R. Ahlrichs <span class="citation" data-cites="weigend2005">(<a href="#ref-weigend2005" role="doc-biblioref">Weigend and Ahlrichs 2005</a>)</span>: the original def2 paper, with tables of the shell compositions for every element.</li>
+<li>F. Jensen, “Atomic orbital basis sets” <span class="citation" data-cites="jensen2013">&nbsp;[<a href="#ref-jensen2013" role="doc-biblioref">20</a>]</span>, and B. Nagy and F. Jensen, “Basis sets in quantum chemistry” <span class="citation" data-cites="nagy2017">&nbsp;[<a href="#ref-nagy2017" role="doc-biblioref">21</a>]</span>: modern, readable reviews of everything in this chapter.</li>
+<li>A. Szabo and N. S. Ostlund, <em>Modern Quantum Chemistry</em> <span class="citation" data-cites="szabo1996">&nbsp;[<a href="#ref-szabo1996" role="doc-biblioref">22</a>]</span>, §3.6: the classic derivation of STO-nG and the minimal-basis H₂ calculation.</li>
+<li>T. Helgaker, P. Jørgensen and J. Olsen, <em>Molecular Electronic-Structure Theory</em> <span class="citation" data-cites="helgaker2000">&nbsp;[<a href="#ref-helgaker2000" role="doc-biblioref">23</a>]</span>, chapters 6 and 8: Gaussian functions, basis-set design and convergence in depth.</li>
+<li>F. Weigend and R. Ahlrichs <span class="citation" data-cites="weigend2005">&nbsp;[<a href="#ref-weigend2005" role="doc-biblioref">10</a>]</span>: the original def2 paper, with tables of the shell compositions for every element.</li>
 <li>The <a href="https://www.basissetexchange.org">Basis Set Exchange</a> lists the exponents and coefficients of nearly every published basis set; you can look up any of the sets in <a href="#tbl-count" class="quarto-xref">Table&nbsp;4</a> there.</li>
 </ul>
 
@@ -1320,75 +1321,75 @@ E_\text{corr,CBS} = \frac{64(-0.3080) - 27(-0.2950)}{64 - 27} = \frac{-19.712 + 
 
 </section>
 
-<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
-<div id="ref-binkley1980" class="csl-entry" role="listitem">
-Binkley, J. S., J. A. Pople, and W. J. Hehre. 1980. <span>“Self-Consistent Molecular Orbital Methods. 21. <span>S</span>mall Split-Valence Basis Sets for First-Row Elements.”</span> <em>J. Am. Chem. Soc.</em> 102: 939–47. <a href="https://doi.org/10.1021/ja00523a008">https://doi.org/10.1021/ja00523a008</a>.
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body" data-entry-spacing="0" role="list">
+<div id="ref-kato1957" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[1] </div><div class="csl-right-inline">T. Kato, <a href="https://doi.org/10.1002/cpa.3160100201">On the eigenfunctions of many-particle systems in quantum mechanics</a>, Commun. Pure Appl. Math. <strong>10</strong>, 151 (1957).</div>
 </div>
 <div id="ref-boys1950" class="csl-entry" role="listitem">
-Boys, S. F. 1950. <span>“Electronic Wave Functions. <span>I</span>. <span>A</span> General Method of Calculation for the Stationary States of Any Molecular System.”</span> <em>Proc. R. Soc. Lond. A</em> 200: 542–54. <a href="https://doi.org/10.1098/rspa.1950.0036">https://doi.org/10.1098/rspa.1950.0036</a>.
-</div>
-<div id="ref-boys1970" class="csl-entry" role="listitem">
-Boys, S. F., and F. Bernardi. 1970. <span>“The Calculation of Small Molecular Interactions by the Differences of Separate Total Energies. <span>S</span>ome Procedures with Reduced Errors.”</span> <em>Mol. Phys.</em> 19: 553–66. <a href="https://doi.org/10.1080/00268977000101561">https://doi.org/10.1080/00268977000101561</a>.
-</div>
-<div id="ref-ditchfield1971" class="csl-entry" role="listitem">
-Ditchfield, R., W. J. Hehre, and J. A. Pople. 1971. <em>J. Chem. Phys.</em> 54: 724–28.
-</div>
-<div id="ref-dunning1989" class="csl-entry" role="listitem">
-Dunning, T. H., Jr. 1989. <em>J. Chem. Phys.</em> 90: 1007–23.
-</div>
-<div id="ref-feller1992" class="csl-entry" role="listitem">
-Feller, D. 1992. <span>“Application of Systematic Sequences of Wave Functions to the Water Dimer.”</span> <em>J. Chem. Phys.</em> 96: 6104–14. <a href="https://doi.org/10.1063/1.462652">https://doi.org/10.1063/1.462652</a>.
-</div>
-<div id="ref-francl1982" class="csl-entry" role="listitem">
-Francl, M. M., W. J. Pietro, W. J. Hehre, et al. 1982. <em>J. Chem. Phys.</em> 77: 3654–65.
-</div>
-<div id="ref-halkier1998" class="csl-entry" role="listitem">
-Halkier, A., T. Helgaker, P. Jørgensen, et al. 1998. <span>“Basis-Set Convergence in Correlated Calculations on <span>Ne</span>, <span>N₂</span>, and <span>H₂O</span>.”</span> <em>Chem. Phys. Lett.</em> 286: 243–52. <a href="https://doi.org/10.1016/S0009-2614(98)00111-0">https://doi.org/10.1016/S0009-2614(98)00111-0</a>.
-</div>
-<div id="ref-hariharan1973" class="csl-entry" role="listitem">
-Hariharan, P. C., and J. A. Pople. 1973. <em>Theor. Chim. Acta</em> 28: 213–22.
-</div>
-<div id="ref-hehre1972" class="csl-entry" role="listitem">
-Hehre, W. J., R. Ditchfield, and J. A. Pople. 1972. <em>J. Chem. Phys.</em> 56: 2257–61.
+<div class="csl-left-margin">[2] </div><div class="csl-right-inline">S. F. Boys, <a href="https://doi.org/10.1098/rspa.1950.0036">Electronic wave functions. <span>I</span>. <span>A</span> general method of calculation for the stationary states of any molecular system</a>, Proc. R. Soc. Lond. A <strong>200</strong>, 542 (1950).</div>
 </div>
 <div id="ref-hehre1969" class="csl-entry" role="listitem">
-Hehre, W. J., R. F. Stewart, and J. A. Pople. 1969. <span>“Self-Consistent Molecular-Orbital Methods. <span>I</span>. <span>U</span>se of <span>G</span>aussian Expansions of <span>S</span>later-Type Atomic Orbitals.”</span> <em>J. Chem. Phys.</em> 51: 2657–64. <a href="https://doi.org/10.1063/1.1672392">https://doi.org/10.1063/1.1672392</a>.
+<div class="csl-left-margin">[3] </div><div class="csl-right-inline">W. J. Hehre, R. F. Stewart, and J. A. Pople, <a href="https://doi.org/10.1063/1.1672392">Self-consistent molecular-orbital methods. <span>I</span>. <span>U</span>se of <span>G</span>aussian expansions of <span>S</span>later-type atomic orbitals</a>, J. Chem. Phys. <strong>51</strong>, 2657 (1969).</div>
 </div>
-<div id="ref-helgaker2000" class="csl-entry" role="listitem">
-Helgaker, T., P. Jørgensen, and J. Olsen. 2000. <em>Molecular Electronic-Structure Theory</em>. Wiley.
+<div id="ref-binkley1980" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[4] </div><div class="csl-right-inline">J. S. Binkley, J. A. Pople, and W. J. Hehre, <a href="https://doi.org/10.1021/ja00523a008">Self-consistent molecular orbital methods. 21. <span>S</span>mall split-valence basis sets for first-row elements</a>, J. Am. Chem. Soc. <strong>102</strong>, 939 (1980).</div>
 </div>
-<div id="ref-helgaker1997" class="csl-entry" role="listitem">
-Helgaker, T., W. Klopper, H. Koch, and J. Noga. 1997. <span>“Basis-Set Convergence of Correlated Calculations on Water.”</span> <em>J. Chem. Phys.</em> 106: 9639–46. <a href="https://doi.org/10.1063/1.473863">https://doi.org/10.1063/1.473863</a>.
+<div id="ref-ditchfield1971" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[5] </div><div class="csl-right-inline">R. Ditchfield, W. J. Hehre, and J. A. Pople, J. Chem. Phys. <strong>54</strong>, 724 (1971).</div>
 </div>
-<div id="ref-jensen2001" class="csl-entry" role="listitem">
-Jensen, F. 2001. <em>J. Chem. Phys.</em> 115: 9113–25.
-</div>
-<div id="ref-jensen2013" class="csl-entry" role="listitem">
-Jensen, F. 2013. <em>WIREs Comp. Mol. Sci.</em> 3: 273–95.
-</div>
-<div id="ref-kato1957" class="csl-entry" role="listitem">
-Kato, T. 1957. <span>“On the Eigenfunctions of Many-Particle Systems in Quantum Mechanics.”</span> <em>Commun. Pure Appl. Math.</em> 10: 151–77. <a href="https://doi.org/10.1002/cpa.3160100201">https://doi.org/10.1002/cpa.3160100201</a>.
-</div>
-<div id="ref-kendall1992" class="csl-entry" role="listitem">
-Kendall, R. A., T. H. Dunning Jr., and R. J. Harrison. 1992. <span>“Electron Affinities of the First-Row Atoms Revisited. <span>S</span>ystematic Basis Sets and Wave Functions.”</span> <em>J. Chem. Phys.</em> 96: 6796–806. <a href="https://doi.org/10.1063/1.462569">https://doi.org/10.1063/1.462569</a>.
+<div id="ref-hehre1972" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[6] </div><div class="csl-right-inline">W. J. Hehre, R. Ditchfield, and J. A. Pople, J. Chem. Phys. <strong>56</strong>, 2257 (1972).</div>
 </div>
 <div id="ref-krishnan1980" class="csl-entry" role="listitem">
-Krishnan, R., J. S. Binkley, R. Seeger, and J. A. Pople. 1980. <span>“Self-Consistent Molecular Orbital Methods. <span>XX</span>. <span>A</span> Basis Set for Correlated Wave Functions.”</span> <em>J. Chem. Phys.</em> 72: 650–54. <a href="https://doi.org/10.1063/1.438955">https://doi.org/10.1063/1.438955</a>.
+<div class="csl-left-margin">[7] </div><div class="csl-right-inline">R. Krishnan, J. S. Binkley, R. Seeger, and J. A. Pople, <a href="https://doi.org/10.1063/1.438955">Self-consistent molecular orbital methods. <span>XX</span>. <span>A</span> basis set for correlated wave functions</a>, J. Chem. Phys. <strong>72</strong>, 650 (1980).</div>
 </div>
-<div id="ref-nagy2017" class="csl-entry" role="listitem">
-Nagy, B., and F. Jensen. 2017. <span>“Basis Sets in Quantum Chemistry.”</span> In <em>Reviews in Computational Chemistry</em>, edited by A. L. Parrill and K. B. Lipkowitz. John Wiley &amp; Sons.
+<div id="ref-hariharan1973" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[8] </div><div class="csl-right-inline">P. C. Hariharan and J. A. Pople, Theor. Chim. Acta <strong>28</strong>, 213 (1973).</div>
 </div>
-<div id="ref-szabo1996" class="csl-entry" role="listitem">
-Szabo, A., and N. S. Ostlund. 1996. <em>Modern Quantum Chemistry: Introduction to Advanced Electronic Structure Theory</em>. Dover.
+<div id="ref-francl1982" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[9] </div><div class="csl-right-inline">M. M. Francl, W. J. Pietro, W. J. Hehre, J. S. Binkley, M. S. Gordon, D. J. DeFrees, and J. A. Pople, J. Chem. Phys. <strong>77</strong>, 3654 (1982).</div>
 </div>
 <div id="ref-weigend2005" class="csl-entry" role="listitem">
-Weigend, F., and R. Ahlrichs. 2005. <em>Phys. Chem. Chem. Phys.</em> 7: 3297–305.
+<div class="csl-left-margin">[10] </div><div class="csl-right-inline">F. Weigend and R. Ahlrichs, Phys. Chem. Chem. Phys. <strong>7</strong>, 3297 (2005).</div>
 </div>
 <div id="ref-witte2016" class="csl-entry" role="listitem">
-Witte, J., J. B. Neaton, and M. Head-Gordon. 2016. <em>J. Chem. Phys.</em> 144: 194306.
+<div class="csl-left-margin">[11] </div><div class="csl-right-inline">J. Witte, J. B. Neaton, and M. Head-Gordon, J. Chem. Phys. <strong>144</strong>, 194306 (2016).</div>
+</div>
+<div id="ref-dunning1989" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[12] </div><div class="csl-right-inline">T. H. Dunning Jr., J. Chem. Phys. <strong>90</strong>, 1007 (1989).</div>
 </div>
 <div id="ref-woon1993" class="csl-entry" role="listitem">
-Woon, D. E., and T. H. Dunning Jr. 1993. <em>J. Chem. Phys.</em> 98: 1358–71.
+<div class="csl-left-margin">[13] </div><div class="csl-right-inline">D. E. Woon and T. H. Dunning Jr., J. Chem. Phys. <strong>98</strong>, 1358 (1993).</div>
+</div>
+<div id="ref-kendall1992" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[14] </div><div class="csl-right-inline">R. A. Kendall, T. H. Dunning Jr., and R. J. Harrison, <a href="https://doi.org/10.1063/1.462569">Electron affinities of the first-row atoms revisited. <span>S</span>ystematic basis sets and wave functions</a>, J. Chem. Phys. <strong>96</strong>, 6796 (1992).</div>
+</div>
+<div id="ref-jensen2001" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[15] </div><div class="csl-right-inline">F. Jensen, J. Chem. Phys. <strong>115</strong>, 9113 (2001).</div>
+</div>
+<div id="ref-feller1992" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[16] </div><div class="csl-right-inline">D. Feller, <a href="https://doi.org/10.1063/1.462652">Application of systematic sequences of wave functions to the water dimer</a>, J. Chem. Phys. <strong>96</strong>, 6104 (1992).</div>
+</div>
+<div id="ref-helgaker1997" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[17] </div><div class="csl-right-inline">T. Helgaker, W. Klopper, H. Koch, and J. Noga, <a href="https://doi.org/10.1063/1.473863">Basis-set convergence of correlated calculations on water</a>, J. Chem. Phys. <strong>106</strong>, 9639 (1997).</div>
+</div>
+<div id="ref-halkier1998" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[18] </div><div class="csl-right-inline">A. Halkier, T. Helgaker, P. Jørgensen, W. Klopper, H. Koch, J. Olsen, and A. K. Wilson, <a href="https://doi.org/10.1016/S0009-2614(98)00111-0">Basis-set convergence in correlated calculations on <span>Ne</span>, <span>N₂</span>, and <span>H₂O</span></a>, Chem. Phys. Lett. <strong>286</strong>, 243 (1998).</div>
+</div>
+<div id="ref-boys1970" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[19] </div><div class="csl-right-inline">S. F. Boys and F. Bernardi, <a href="https://doi.org/10.1080/00268977000101561">The calculation of small molecular interactions by the differences of separate total energies. <span>S</span>ome procedures with reduced errors</a>, Mol. Phys. <strong>19</strong>, 553 (1970).</div>
+</div>
+<div id="ref-jensen2013" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[20] </div><div class="csl-right-inline">F. Jensen, WIREs Comp. Mol. Sci. <strong>3</strong>, 273 (2013).</div>
+</div>
+<div id="ref-nagy2017" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[21] </div><div class="csl-right-inline">B. Nagy and F. Jensen, <em>Basis Sets in Quantum Chemistry</em>, in <em>Reviews in Computational Chemistry</em>, edited by A. L. Parrill and K. B. Lipkowitz (John Wiley &amp; Sons, Hoboken, NJ, 2017), pp. 93–149.</div>
+</div>
+<div id="ref-szabo1996" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[22] </div><div class="csl-right-inline">A. Szabo and N. S. Ostlund, <em>Modern Quantum Chemistry: Introduction to Advanced Electronic Structure Theory</em> (Dover, Mineola, NY, 1996).</div>
+</div>
+<div id="ref-helgaker2000" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[23] </div><div class="csl-right-inline">T. Helgaker, P. Jørgensen, and J. Olsen, <em>Molecular Electronic-Structure Theory</em> (Wiley, Chichester, 2000).</div>
 </div>
 </div></section></div></main> <!-- /main -->
 <!-- Peverati lab logo at the top right of the navbar (light and dark versions). -->

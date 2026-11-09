@@ -31,6 +31,7 @@ ul.task-list li input[type="checkbox"] {
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
+  margin-bottom: 0em;
 }
 .hanging-indent div.csl-entry {
   margin-left:2em;
@@ -713,7 +714,7 @@ window.Quarto = {
 <h2 data-number="1.2" class="anchored" data-anchor-id="three-reactions-three-behaviors"><span class="header-section-number">1.2</span> Three reactions, three behaviors</h2>
 <p><strong>4a, the Diels–Alder reaction.</strong> Most of you probably found that B3LYP/6-31G* is <em>closer</em> to the reference than B3LYP/def2-TZVP, and by a wide margin. This is not because 6-31G* is a better basis. At a nearly converged basis, B3LYP makes this reaction too little exothermic: it has no dispersion (<a href="../lectures/l08-dispersion.html">Lecture 8</a>), and it has a known tendency to underbind when π bonds turn into σ bonds. A small basis makes an error of its own, and here that error has the opposite sign. The product, cyclohexene, is one compact molecule with two new C–C σ bonds. With a small basis it can “borrow” functions from neighboring atoms more than the two separate reactants can (the intramolecular cousin of basis-set superposition error, <a href="../lectures/l10-error-cancellation.html">Lecture 10</a>). A small basis therefore favors the product and makes the reaction more exothermic. Two errors with opposite signs cancel, and the result looks good.</p>
 <p><strong>4b, n-hexane → neohexane.</strong> Here the small bases probably gave nearly the same answer as def2-TZVP. Both sides of the reaction have the same number and kind of bonds, so the basis-set errors almost cancel between reactant and product. B3LYP’s error for this reaction is mostly the missing intramolecular dispersion, which no basis set can supply. -D4 fixes most of it.</p>
-<p><strong>5b, CaO → Ca + O.</strong> This is where 6-31G* probably failed badly, by tens of kcal/mol, while the other double-ζ sets stayed in a more reasonable range. CaO is a strongly ionic molecule (close to Ca²⁺O²⁻), and the products are two neutral atoms. Nothing on one side of the reaction resembles the other side, so there is no cancellation to rely on. The 6-31G* set for calcium is a much later addition to the Pople family <span class="citation" data-cites="rassolov2001">(<a href="#ref-rassolov2001" role="doc-biblioref">Rassolov et al. 2001</a>)</span> than the sets for C, H and O, and it describes the ionic molecule and the separated atoms very unevenly. The other three double-ζ families were built to be more balanced across the periodic table <span class="citation" data-cites="weigend2005 jensen2001">(<a href="#ref-weigend2005" role="doc-biblioref">Weigend and Ahlrichs 2005</a>; <a href="#ref-jensen2001" role="doc-biblioref">Jensen 2001</a>)</span>.</p>
+<p><strong>5b, CaO → Ca + O.</strong> This is where 6-31G* probably failed badly, by tens of kcal/mol, while the other double-ζ sets stayed in a more reasonable range. CaO is a strongly ionic molecule (close to Ca²⁺O²⁻), and the products are two neutral atoms. Nothing on one side of the reaction resembles the other side, so there is no cancellation to rely on. The 6-31G* set for calcium is a much later addition to the Pople family <span class="citation" data-cites="rassolov2001">&nbsp;[<a href="#ref-rassolov2001" role="doc-biblioref">1</a>]</span> than the sets for C, H and O, and it describes the ionic molecule and the separated atoms very unevenly. The other three double-ζ families were built to be more balanced across the periodic table <span class="citation" data-cites="weigend2005 jensen2001">&nbsp;[<a href="#ref-weigend2005" role="doc-biblioref">2</a>,<a href="#ref-jensen2001" role="doc-biblioref">3</a>]</span>.</p>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -740,7 +741,7 @@ window.Quarto = {
 <h2 data-number="1.5" class="anchored" data-anchor-id="lessons-from-experiment-6"><span class="header-section-number">1.5</span> Lessons from Experiment 6</h2>
 <ol type="1">
 <li><strong>Converge the basis first, then judge the functional.</strong> A functional’s error is only meaningful at (or near) the complete-basis-set limit. In this course, def2-TZVP is our practical stand-in for it.</li>
-<li><strong>A small basis that wins is a warning, not a result.</strong> Kruse, Goerigk and Grimme reached the same conclusion for B3LYP/6-31G* on a much larger data set <span class="citation" data-cites="kruse2012">(<a href="#ref-kruse2012" role="doc-biblioref">Kruse et al. 2012</a>)</span>.</li>
+<li><strong>A small basis that wins is a warning, not a result.</strong> Kruse, Goerigk and Grimme reached the same conclusion for B3LYP/6-31G* on a much larger data set <span class="citation" data-cites="kruse2012">&nbsp;[<a href="#ref-kruse2012" role="doc-biblioref">4</a>]</span>.</li>
 <li><strong>Corrections are designed for a context.</strong> -D4 assumes a reasonable basis. Using it with 6-31G* mixes a physical correction with an unphysical error.</li>
 </ol>
 <p>The same logic returns today. The integration grid is a third numerical approximation, after the basis set and the SCF convergence threshold, and its errors can also hide or mimic chemistry.</p>
@@ -784,7 +785,7 @@ V^\mathrm{xc}_{\mu\nu} = \int \chi_\mu(\mathbf{r})\, v_\mathrm{xc}(\mathbf{r})\,
 </section>
 <section id="beckes-fuzzy-cells" class="level2" data-number="2.3">
 <h2 data-number="2.3" class="anchored" data-anchor-id="beckes-fuzzy-cells"><span class="header-section-number">2.3</span> Becke’s fuzzy cells</h2>
-<p>In 1988 Becke solved this problem in a way that almost every program still uses <span class="citation" data-cites="becke1988a">(<a href="#ref-becke1988a" role="doc-biblioref">Becke 1988</a>)</span>. The idea is to split the integrand into atomic pieces,</p>
+<p>In 1988 Becke solved this problem in a way that almost every program still uses <span class="citation" data-cites="becke1988a">&nbsp;[<a href="#ref-becke1988a" role="doc-biblioref">5</a>]</span>. The idea is to split the integrand into atomic pieces,</p>
 <p><span class="math display">\[
 F(\mathbf{r}) = \sum_A w_A(\mathbf{r})\, F(\mathbf{r}), \qquad \sum_A w_A(\mathbf{r}) = 1 \text{ at every point},
 \]</span></p>
@@ -837,7 +838,7 @@ Figure&nbsp;1: Becke’s partitioning for a homonuclear diatomic. (a) Cell weigh
 </section>
 <section id="the-atomic-grid-radial-shells-angular-points" class="level2" data-number="2.4">
 <h2 data-number="2.4" class="anchored" data-anchor-id="the-atomic-grid-radial-shells-angular-points"><span class="header-section-number">2.4</span> The atomic grid: radial shells × angular points</h2>
-<p><strong>Radial shells.</strong> The radial integral runs from 0 to ∞, so programs map it onto a finite interval and use a standard one-dimensional rule. Becke used Gauss–Chebyshev points <span class="math inline">\(x_i\)</span> in (−1, 1) mapped with <span class="math inline">\(r = r_m (1 + x)/(1 - x)\)</span>, where <span class="math inline">\(r_m\)</span> is about half the atom’s Bragg–Slater radius <span class="citation" data-cites="becke1988a">(<a href="#ref-becke1988a" role="doc-biblioref">Becke 1988</a>)</span>. Murray, Handy and Laming proposed an Euler–Maclaurin scheme that many programs, Q-Chem among them, still use <span class="citation" data-cites="murray1993">(<a href="#ref-murray1993" role="doc-biblioref">Murray et al. 1993</a>)</span>. Every good radial scheme places many shells close to the nucleus, where the density changes fastest, and only a few far away (<a href="#fig-radial" class="quarto-xref">Figure&nbsp;2</a>).</p>
+<p><strong>Radial shells.</strong> The radial integral runs from 0 to ∞, so programs map it onto a finite interval and use a standard one-dimensional rule. Becke used Gauss–Chebyshev points <span class="math inline">\(x_i\)</span> in (−1, 1) mapped with <span class="math inline">\(r = r_m (1 + x)/(1 - x)\)</span>, where <span class="math inline">\(r_m\)</span> is about half the atom’s Bragg–Slater radius <span class="citation" data-cites="becke1988a">&nbsp;[<a href="#ref-becke1988a" role="doc-biblioref">5</a>]</span>. Murray, Handy and Laming proposed an Euler–Maclaurin scheme that many programs, Q-Chem among them, still use <span class="citation" data-cites="murray1993">&nbsp;[<a href="#ref-murray1993" role="doc-biblioref">6</a>]</span>. Every good radial scheme places many shells close to the nucleus, where the density changes fastest, and only a few far away (<a href="#fig-radial" class="quarto-xref">Figure&nbsp;2</a>).</p>
 <div id="fig-radial" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Four rows of tick marks, one row each for 23, 50, 75 and 99 radial shells, showing shells densely packed near r = 0 and increasingly far apart at larger r.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-radial-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -848,7 +849,7 @@ Figure&nbsp;2: Radial shells generated by Becke’s mapping for 23, 50, 75 and 9
 </figcaption>
 </figure>
 </div>
-<p><strong>Angular points.</strong> On each shell the angular integral is done with a <strong>Lebedev</strong> grid <span class="citation" data-cites="lebedev1976">(<a href="#ref-lebedev1976" role="doc-biblioref">Lebedev 1976</a>)</span>. Lebedev grids place points on the sphere with octahedral symmetry, and their weights are chosen so the grid integrates every spherical harmonic <span class="math inline">\(Y_{lm}\)</span> up to a certain degree <span class="math inline">\(L\)</span> exactly. They are the most efficient rules known for this job. Only certain sizes exist:</p>
+<p><strong>Angular points.</strong> On each shell the angular integral is done with a <strong>Lebedev</strong> grid <span class="citation" data-cites="lebedev1976">&nbsp;[<a href="#ref-lebedev1976" role="doc-biblioref">7</a>]</span>. Lebedev grids place points on the sphere with octahedral symmetry, and their weights are chosen so the grid integrates every spherical harmonic <span class="math inline">\(Y_{lm}\)</span> up to a certain degree <span class="math inline">\(L\)</span> exactly. They are the most efficient rules known for this job. Only certain sizes exist:</p>
 <div id="tbl-lebedev" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-lebedev-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -884,11 +885,11 @@ Table&nbsp;1: Common Lebedev grids. A grid of degree <span class="math inline">\
 </section>
 <section id="pruning" class="level2" data-number="2.5">
 <h2 data-number="2.5" class="anchored" data-anchor-id="pruning"><span class="header-section-number">2.5</span> Pruning</h2>
-<p>Close to a nucleus the density is almost spherical. Far from all nuclei it is small and smooth. Only in the valence region does the angular structure of bonds and lone pairs matter. A <strong>pruned</strong> grid uses this: it keeps the full angular grid only in the valence region and uses smaller Lebedev grids on the inner and outer shells. SG-1, for example, is built from a (50,194) grid by dividing the 50 shells into five regions with 6, 38, 86, 194 and 86 angular points <span class="citation" data-cites="gill1993">(<a href="#ref-gill1993" role="doc-biblioref">Gill et al. 1993</a>)</span>. Pruning removes about two thirds of the points with almost no loss of accuracy.</p>
+<p>Close to a nucleus the density is almost spherical. Far from all nuclei it is small and smooth. Only in the valence region does the angular structure of bonds and lone pairs matter. A <strong>pruned</strong> grid uses this: it keeps the full angular grid only in the valence region and uses smaller Lebedev grids on the inner and outer shells. SG-1, for example, is built from a (50,194) grid by dividing the 50 shells into five regions with 6, 38, 86, 194 and 86 angular points <span class="citation" data-cites="gill1993">&nbsp;[<a href="#ref-gill1993" role="doc-biblioref">8</a>]</span>. Pruning removes about two thirds of the points with almost no loss of accuracy.</p>
 </section>
 <section id="standard-grids-in-q-chem" class="level2" data-number="2.6">
 <h2 data-number="2.6" class="anchored" data-anchor-id="standard-grids-in-q-chem"><span class="header-section-number">2.6</span> Standard grids in Q-Chem</h2>
-<p>Q-Chem offers four <strong>standard grids</strong>, SG-0 to SG-3, selected with the <code>$rem</code> keyword <code>XC_GRID</code> <span class="citation" data-cites="qchemmanual">(<a href="#ref-qchemmanual" role="doc-biblioref">Q-Chem, Inc., n.d.</a>)</span>:</p>
+<p>Q-Chem offers four <strong>standard grids</strong>, SG-0 to SG-3, selected with the <code>$rem</code> keyword <code>XC_GRID</code> <span class="citation" data-cites="qchemmanual">&nbsp;[<a href="#ref-qchemmanual" role="doc-biblioref">9</a>]</span>:</p>
 <div id="tbl-sg" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-sg-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -918,28 +919,28 @@ Table&nbsp;2: The standard grids in Q-Chem. Point counts are for one carbon atom
 <td style="text-align: center;">0</td>
 <td style="text-align: center;">(23,170)</td>
 <td style="text-align: right;">≈ 1,400</td>
-<td><span class="citation" data-cites="chien2006">Chien and Gill (<a href="#ref-chien2006" role="doc-biblioref">2006</a>)</span></td>
+<td><span class="citation" data-cites="chien2006">&nbsp;[<a href="#ref-chien2006" role="doc-biblioref">10</a>]</span></td>
 </tr>
 <tr class="even">
 <td>SG-1</td>
 <td style="text-align: center;">1</td>
 <td style="text-align: center;">(50,194)</td>
 <td style="text-align: right;">≈ 3,800</td>
-<td><span class="citation" data-cites="gill1993">Gill et al. (<a href="#ref-gill1993" role="doc-biblioref">1993</a>)</span></td>
+<td><span class="citation" data-cites="gill1993">&nbsp;[<a href="#ref-gill1993" role="doc-biblioref">8</a>]</span></td>
 </tr>
 <tr class="odd">
 <td>SG-2</td>
 <td style="text-align: center;">2</td>
 <td style="text-align: center;">(75,302)</td>
 <td style="text-align: right;">≈ 7,800</td>
-<td><span class="citation" data-cites="dasgupta2017">Dasgupta and Herbert (<a href="#ref-dasgupta2017" role="doc-biblioref">2017</a>)</span></td>
+<td><span class="citation" data-cites="dasgupta2017">&nbsp;[<a href="#ref-dasgupta2017" role="doc-biblioref">11</a>]</span></td>
 </tr>
 <tr class="even">
 <td>SG-3</td>
 <td style="text-align: center;">3</td>
 <td style="text-align: center;">(99,590)</td>
 <td style="text-align: right;">≈ 17,700</td>
-<td><span class="citation" data-cites="dasgupta2017">Dasgupta and Herbert (<a href="#ref-dasgupta2017" role="doc-biblioref">2017</a>)</span></td>
+<td><span class="citation" data-cites="dasgupta2017">&nbsp;[<a href="#ref-dasgupta2017" role="doc-biblioref">11</a>]</span></td>
 </tr>
 </tbody>
 </table>
@@ -947,7 +948,7 @@ Table&nbsp;2: The standard grids in Q-Chem. Point counts are for one carbon atom
 </figure>
 </div>
 <p>You can also ask for an unpruned grid directly. The value is written as two six-digit numbers glued together: the number of radial shells, then the number of Lebedev points. <code>XC_GRID 000099000590</code> means an unpruned (99,590) grid, and <code>XC_GRID 000075000302</code> an unpruned (75,302) grid. Experiment 9 uses this format.</p>
-<p>The <strong>default grid</strong> depends on the program, its version and the functional. Recent Q-Chem versions use SG-1 for LSDA, most GGAs and hybrids, SG-2 for meta-GGAs and B97-based functionals, and SG-3 for Minnesota functionals <span class="citation" data-cites="qchemmanual">(<a href="#ref-qchemmanual" role="doc-biblioref">Q-Chem, Inc., n.d.</a>)</span>. Older versions used SG-1 for everything. Other programs have their own defaults. Because you can’t be sure what a default means on a given server, <strong>always set the grid explicitly and report it.</strong></p>
+<p>The <strong>default grid</strong> depends on the program, its version and the functional. Recent Q-Chem versions use SG-1 for LSDA, most GGAs and hybrids, SG-2 for meta-GGAs and B97-based functionals, and SG-3 for Minnesota functionals <span class="citation" data-cites="qchemmanual">&nbsp;[<a href="#ref-qchemmanual" role="doc-biblioref">9</a>]</span>. Older versions used SG-1 for everything. Other programs have their own defaults. Because you can’t be sure what a default means on a given server, <strong>always set the grid explicitly and report it.</strong></p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -996,7 +997,7 @@ Table&nbsp;2: The standard grids in Q-Chem. Point counts are for one carbon atom
 <li><strong>Meta-GGAs</strong> also depend on the kinetic-energy density <span class="math inline">\(\tau(\mathbf{r}) = \tfrac{1}{2}\sum_i |\nabla\phi_i(\mathbf{r})|^2\)</span>. Many use <span class="math inline">\(\tau\)</span> through a ratio such as <span class="math inline">\(\alpha = (\tau - \tau_\mathrm{W})/\tau_\mathrm{unif}\)</span>, where <span class="math inline">\(\tau_\mathrm{W} = |\nabla\rho|^2/8\rho\)</span> is the von Weizsäcker kinetic-energy density. In the tails of the density and between atoms, <span class="math inline">\(\alpha\)</span> is a ratio of two small numbers. It varies rapidly and is numerically delicate.</li>
 <li><strong>Heavily parametrized functionals</strong> expand their enhancement factors in power series with many fitted coefficients, often large and of alternating sign. The fit makes the functional accurate on its training set but can make the enhancement factor oscillate as a function of <span class="math inline">\(\alpha\)</span> or of the reduced gradient. Oscillations in the functional become structure in the integrand, which a coarse grid samples badly.</li>
 </ul>
-<p>Both effects are well documented. Wheeler and Houk showed that the M06 family gives unreliable torsional profiles and reaction energies with the grids that were defaults at the time <span class="citation" data-cites="wheeler2010 zhao2008">(<a href="#ref-wheeler2010" role="doc-biblioref">Wheeler and Houk 2010</a>; <a href="#ref-zhao2008" role="doc-biblioref">Zhao and Truhlar 2008</a>)</span>. Mardirossian and Head-Gordon examined two generations of Minnesota functionals and found that meta-GGAs, in particular the heavily parametrized ones, need much finer grids than GGAs <span class="citation" data-cites="mardirossian2016 mardirossian2013">(<a href="#ref-mardirossian2016" role="doc-biblioref">Mardirossian and Head-Gordon 2016b</a>, <a href="#ref-mardirossian2013" role="doc-biblioref">2013</a>)</span>. More recently, Lehtola and Marques tested hundreds of functionals and found that many modern ones, including SCAN, converge impractically slowly with standard grids <span class="citation" data-cites="lehtola2022">(<a href="#ref-lehtola2022" role="doc-biblioref">Lehtola and Marques 2022</a>)</span>. The design of a functional, not only its accuracy, decides how much grid it needs. Functionals designed with smoothness in mind, such as ωB97M-V, tend to be better behaved <span class="citation" data-cites="mardirossian2016a">(<a href="#ref-mardirossian2016a" role="doc-biblioref">Mardirossian and Head-Gordon 2016a</a>)</span>.</p>
+<p>Both effects are well documented. Wheeler and Houk showed that the M06 family gives unreliable torsional profiles and reaction energies with the grids that were defaults at the time <span class="citation" data-cites="wheeler2010 zhao2008">&nbsp;[<a href="#ref-wheeler2010" role="doc-biblioref">12</a>,<a href="#ref-zhao2008" role="doc-biblioref">13</a>]</span>. Mardirossian and Head-Gordon examined two generations of Minnesota functionals and found that meta-GGAs, in particular the heavily parametrized ones, need much finer grids than GGAs <span class="citation" data-cites="mardirossian2016 mardirossian2013">&nbsp;[<a href="#ref-mardirossian2016" role="doc-biblioref">14</a>,<a href="#ref-mardirossian2013" role="doc-biblioref">15</a>]</span>. More recently, Lehtola and Marques tested hundreds of functionals and found that many modern ones, including SCAN, converge impractically slowly with standard grids <span class="citation" data-cites="lehtola2022">&nbsp;[<a href="#ref-lehtola2022" role="doc-biblioref">16</a>]</span>. The design of a functional, not only its accuracy, decides how much grid it needs. Functionals designed with smoothness in mind, such as ωB97M-V, tend to be better behaved <span class="citation" data-cites="mardirossian2016a">&nbsp;[<a href="#ref-mardirossian2016a" role="doc-biblioref">17</a>]</span>.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1059,7 +1060,7 @@ Table&nbsp;2: The standard grids in Q-Chem. Point counts are for one carbon atom
 </section>
 <section id="the-system-and-the-reference" class="level2" data-number="3.2">
 <h2 data-number="3.2" class="anchored" data-anchor-id="the-system-and-the-reference"><span class="header-section-number">3.2</span> The system and the reference</h2>
-<p>Ar₂ is held together only by dispersion. The geometries come from the RG10 subset <span class="citation" data-cites="tang2003">(<a href="#ref-tang2003" role="doc-biblioref">Tang and Toennies 2003</a>)</span> of MGCDB84 <span class="citation" data-cites="mardirossian2017">(<a href="#ref-mardirossian2017" role="doc-biblioref">Mardirossian and Head-Gordon 2017</a>)</span>: 31 Ar–Ar distances from 3.0 to 6.0 Å in steps of 0.1 Å, plus the argon atom. The interaction energy at each distance is</p>
+<p>Ar₂ is held together only by dispersion. The geometries come from the RG10 subset <span class="citation" data-cites="tang2003">&nbsp;[<a href="#ref-tang2003" role="doc-biblioref">18</a>]</span> of MGCDB84 <span class="citation" data-cites="mardirossian2017">&nbsp;[<a href="#ref-mardirossian2017" role="doc-biblioref">19</a>]</span>: 31 Ar–Ar distances from 3.0 to 6.0 Å in steps of 0.1 Å, plus the argon atom. The interaction energy at each distance is</p>
 <p><span class="math display">\[
 \Delta E(r) = E\big(\mathrm{Ar}_2(r)\big) - 2\,E(\mathrm{Ar}),
 \]</span></p>
@@ -1192,13 +1193,13 @@ Figure&nbsp;3: The VSXC functional on the Ar₂ curve with four integration grid
 <section id="further-reading" class="level2" data-number="3.9">
 <h2 data-number="3.9" class="anchored" data-anchor-id="further-reading"><span class="header-section-number">3.9</span> Further reading</h2>
 <ul>
-<li>A. D. Becke, “A multicenter numerical integration scheme for polyatomic molecules” <span class="citation" data-cites="becke1988a">(<a href="#ref-becke1988a" role="doc-biblioref">Becke 1988</a>)</span>. The original fuzzy-cell paper; short and readable.</li>
-<li>P. M. W. Gill, B. G. Johnson and J. A. Pople, the SG-1 paper <span class="citation" data-cites="gill1993">(<a href="#ref-gill1993" role="doc-biblioref">Gill et al. 1993</a>)</span>, and S. Dasgupta and J. M. Herbert on SG-2 and SG-3 <span class="citation" data-cites="dasgupta2017">(<a href="#ref-dasgupta2017" role="doc-biblioref">Dasgupta and Herbert 2017</a>)</span>: how a standard grid is designed and tested.</li>
-<li>S. E. Wheeler and K. N. Houk on grid sensitivity of the M06 family <span class="citation" data-cites="wheeler2010">(<a href="#ref-wheeler2010" role="doc-biblioref">Wheeler and Houk 2010</a>)</span>, and N. Mardirossian and M. Head-Gordon on grid sensitivity of meta-GGAs <span class="citation" data-cites="mardirossian2016">(<a href="#ref-mardirossian2016" role="doc-biblioref">Mardirossian and Head-Gordon 2016b</a>)</span>.</li>
-<li>S. Lehtola and M. A. L. Marques, “Many recent density functionals are numerically ill-behaved” <span class="citation" data-cites="lehtola2022">(<a href="#ref-lehtola2022" role="doc-biblioref">Lehtola and Marques 2022</a>)</span>.</li>
-<li>P. Morgante and R. Peverati, “The devil in the details” <span class="citation" data-cites="morgante2020">(<a href="#ref-morgante2020" role="doc-biblioref">Morgante and Peverati 2020</a>)</span>: the review behind several experiments of this course, including the grid experiment.</li>
-<li>H. Kruse, L. Goerigk and S. Grimme on why B3LYP/6-31G* is “right for the wrong reasons” <span class="citation" data-cites="kruse2012">(<a href="#ref-kruse2012" role="doc-biblioref">Kruse et al. 2012</a>)</span>.</li>
-<li>The Q-Chem manual, section on DFT numerical quadrature <span class="citation" data-cites="qchemmanual">(<a href="#ref-qchemmanual" role="doc-biblioref">Q-Chem, Inc., n.d.</a>)</span>.</li>
+<li>A. D. Becke, “A multicenter numerical integration scheme for polyatomic molecules” <span class="citation" data-cites="becke1988a">&nbsp;[<a href="#ref-becke1988a" role="doc-biblioref">5</a>]</span>. The original fuzzy-cell paper; short and readable.</li>
+<li>P. M. W. Gill, B. G. Johnson and J. A. Pople, the SG-1 paper <span class="citation" data-cites="gill1993">&nbsp;[<a href="#ref-gill1993" role="doc-biblioref">8</a>]</span>, and S. Dasgupta and J. M. Herbert on SG-2 and SG-3 <span class="citation" data-cites="dasgupta2017">&nbsp;[<a href="#ref-dasgupta2017" role="doc-biblioref">11</a>]</span>: how a standard grid is designed and tested.</li>
+<li>S. E. Wheeler and K. N. Houk on grid sensitivity of the M06 family <span class="citation" data-cites="wheeler2010">&nbsp;[<a href="#ref-wheeler2010" role="doc-biblioref">12</a>]</span>, and N. Mardirossian and M. Head-Gordon on grid sensitivity of meta-GGAs <span class="citation" data-cites="mardirossian2016">&nbsp;[<a href="#ref-mardirossian2016" role="doc-biblioref">14</a>]</span>.</li>
+<li>S. Lehtola and M. A. L. Marques, “Many recent density functionals are numerically ill-behaved” <span class="citation" data-cites="lehtola2022">&nbsp;[<a href="#ref-lehtola2022" role="doc-biblioref">16</a>]</span>.</li>
+<li>P. Morgante and R. Peverati, “The devil in the details” <span class="citation" data-cites="morgante2020">&nbsp;[<a href="#ref-morgante2020" role="doc-biblioref">20</a>]</span>: the review behind several experiments of this course, including the grid experiment.</li>
+<li>H. Kruse, L. Goerigk and S. Grimme on why B3LYP/6-31G* is “right for the wrong reasons” <span class="citation" data-cites="kruse2012">&nbsp;[<a href="#ref-kruse2012" role="doc-biblioref">4</a>]</span>.</li>
+<li>The Q-Chem manual, section on DFT numerical quadrature <span class="citation" data-cites="qchemmanual">&nbsp;[<a href="#ref-qchemmanual" role="doc-biblioref">9</a>]</span>.</li>
 </ul>
 
 
@@ -1206,66 +1207,66 @@ Figure&nbsp;3: The VSXC functional on the Ar₂ curve with four integration grid
 </section>
 </section>
 
-<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
-<div id="ref-becke1988a" class="csl-entry" role="listitem">
-Becke, A. D. 1988. <em>J. Chem. Phys.</em> 88: 2547–53.
-</div>
-<div id="ref-chien2006" class="csl-entry" role="listitem">
-Chien, S.-H., and P. M. W. Gill. 2006. <span>“<span>SG-0</span>: A Small Standard Grid for <span>DFT</span> Quadrature on Large Systems.”</span> <em>J. Comput. Chem.</em> 27: 730–39. <a href="https://doi.org/10.1002/jcc.20383">https://doi.org/10.1002/jcc.20383</a>.
-</div>
-<div id="ref-dasgupta2017" class="csl-entry" role="listitem">
-Dasgupta, S., and J. M. Herbert. 2017. <span>“Standard Grids for High-Precision Integration of Modern Density Functionals: <span>SG-2</span> and <span>SG-3</span>.”</span> <em>J. Comput. Chem.</em> 38: 869–82. <a href="https://doi.org/10.1002/jcc.24761">https://doi.org/10.1002/jcc.24761</a>.
-</div>
-<div id="ref-gill1993" class="csl-entry" role="listitem">
-Gill, P. M. W., B. G. Johnson, and J. A. Pople. 1993. <span>“A Standard Grid for Density Functional Calculations.”</span> <em>Chem. Phys. Lett.</em> 209: 506–12. <a href="https://doi.org/10.1016/0009-2614(93)80125-9">https://doi.org/10.1016/0009-2614(93)80125-9</a>.
-</div>
-<div id="ref-jensen2001" class="csl-entry" role="listitem">
-Jensen, F. 2001. <em>J. Chem. Phys.</em> 115: 9113–25.
-</div>
-<div id="ref-kruse2012" class="csl-entry" role="listitem">
-Kruse, H., L. Goerigk, and S. Grimme. 2012. <em>J. Org. Chem.</em> 77: 10824–34.
-</div>
-<div id="ref-lebedev1976" class="csl-entry" role="listitem">
-Lebedev, V. I. 1976. <span>“Quadratures on a Sphere.”</span> <em>USSR Comput. Math. Math. Phys.</em> 16 (2): 10–24. <a href="https://doi.org/10.1016/0041-5553(76)90100-2">https://doi.org/10.1016/0041-5553(76)90100-2</a>.
-</div>
-<div id="ref-lehtola2022" class="csl-entry" role="listitem">
-Lehtola, S., and M. A. L. Marques. 2022. <span>“Many Recent Density Functionals Are Numerically Ill-Behaved.”</span> <em>J. Chem. Phys.</em> 157: 174114. <a href="https://doi.org/10.1063/5.0121187">https://doi.org/10.1063/5.0121187</a>.
-</div>
-<div id="ref-mardirossian2013" class="csl-entry" role="listitem">
-Mardirossian, N., and M. Head-Gordon. 2013. <em>J. Chem. Theory Comput.</em> 9: 4453–61.
-</div>
-<div id="ref-mardirossian2016a" class="csl-entry" role="listitem">
-Mardirossian, N., and M. Head-Gordon. 2016a. <em>J. Chem. Phys.</em> 144: 214110.
-</div>
-<div id="ref-mardirossian2016" class="csl-entry" role="listitem">
-Mardirossian, N., and M. Head-Gordon. 2016b. <em>J. Chem. Theory Comput.</em> 12: 4303–25.
-</div>
-<div id="ref-mardirossian2017" class="csl-entry" role="listitem">
-Mardirossian, N., and M. Head-Gordon. 2017. <em>Mol. Phys.</em> 115: 2315–72.
-</div>
-<div id="ref-morgante2020" class="csl-entry" role="listitem">
-Morgante, P., and R. Peverati. 2020. <span>“The Devil in the Details: A Tutorial Review on Some Undervalued Aspects of Density Functional Theory Calculations.”</span> <em>Int. J. Quantum Chem.</em> 120: e26332.
-</div>
-<div id="ref-murray1993" class="csl-entry" role="listitem">
-Murray, C. W., N. C. Handy, and G. J. Laming. 1993. <span>“Quadrature Schemes for Integrals of Density Functional Theory.”</span> <em>Mol. Phys.</em> 78: 997–1014. <a href="https://doi.org/10.1080/00268979300100651">https://doi.org/10.1080/00268979300100651</a>.
-</div>
-<div id="ref-qchemmanual" class="csl-entry" role="listitem">
-Q-Chem, Inc. n.d. <em><span>Q-Chem</span> User’s Manual: Numerical Integration Grids (<span>XC_GRID</span>)</em>. <a href="https://manual.q-chem.com/latest/" class="uri">Https://manual.q-chem.com/latest/</a>.
-</div>
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body" data-entry-spacing="0" role="list">
 <div id="ref-rassolov2001" class="csl-entry" role="listitem">
-Rassolov, V. A., M. A. Ratner, J. A. Pople, P. C. Redfern, and L. A. Curtiss. 2001. <em>J. Comput. Chem.</em> 22: 976–84.
-</div>
-<div id="ref-tang2003" class="csl-entry" role="listitem">
-Tang, K. T., and J. P. Toennies. 2003. <em>J. Chem. Phys.</em> 118: 4976–83.
+<div class="csl-left-margin">[1] </div><div class="csl-right-inline">V. A. Rassolov, M. A. Ratner, J. A. Pople, P. C. Redfern, and L. A. Curtiss, J. Comput. Chem. <strong>22</strong>, 976 (2001).</div>
 </div>
 <div id="ref-weigend2005" class="csl-entry" role="listitem">
-Weigend, F., and R. Ahlrichs. 2005. <em>Phys. Chem. Chem. Phys.</em> 7: 3297–305.
+<div class="csl-left-margin">[2] </div><div class="csl-right-inline">F. Weigend and R. Ahlrichs, Phys. Chem. Chem. Phys. <strong>7</strong>, 3297 (2005).</div>
+</div>
+<div id="ref-jensen2001" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[3] </div><div class="csl-right-inline">F. Jensen, J. Chem. Phys. <strong>115</strong>, 9113 (2001).</div>
+</div>
+<div id="ref-kruse2012" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[4] </div><div class="csl-right-inline">H. Kruse, L. Goerigk, and S. Grimme, J. Org. Chem. <strong>77</strong>, 10824 (2012).</div>
+</div>
+<div id="ref-becke1988a" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[5] </div><div class="csl-right-inline">A. D. Becke, J. Chem. Phys. <strong>88</strong>, 2547 (1988).</div>
+</div>
+<div id="ref-murray1993" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[6] </div><div class="csl-right-inline">C. W. Murray, N. C. Handy, and G. J. Laming, <a href="https://doi.org/10.1080/00268979300100651">Quadrature schemes for integrals of density functional theory</a>, Mol. Phys. <strong>78</strong>, 997 (1993).</div>
+</div>
+<div id="ref-lebedev1976" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[7] </div><div class="csl-right-inline">V. I. Lebedev, <a href="https://doi.org/10.1016/0041-5553(76)90100-2">Quadratures on a sphere</a>, USSR Comput. Math. Math. Phys. <strong>16</strong>, 10 (1976).</div>
+</div>
+<div id="ref-gill1993" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[8] </div><div class="csl-right-inline">P. M. W. Gill, B. G. Johnson, and J. A. Pople, <a href="https://doi.org/10.1016/0009-2614(93)80125-9">A standard grid for density functional calculations</a>, Chem. Phys. Lett. <strong>209</strong>, 506 (1993).</div>
+</div>
+<div id="ref-qchemmanual" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[9] </div><div class="csl-right-inline">Q-Chem, Inc., <span>Q-Chem</span> user’s manual: Numerical integration grids (<span>XC_GRID</span>), (n.d.).</div>
+</div>
+<div id="ref-chien2006" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[10] </div><div class="csl-right-inline">S.-H. Chien and P. M. W. Gill, <a href="https://doi.org/10.1002/jcc.20383"><span>SG-0</span>: A small standard grid for <span>DFT</span> quadrature on large systems</a>, J. Comput. Chem. <strong>27</strong>, 730 (2006).</div>
+</div>
+<div id="ref-dasgupta2017" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[11] </div><div class="csl-right-inline">S. Dasgupta and J. M. Herbert, <a href="https://doi.org/10.1002/jcc.24761">Standard grids for high-precision integration of modern density functionals: <span>SG-2</span> and <span>SG-3</span></a>, J. Comput. Chem. <strong>38</strong>, 869 (2017).</div>
 </div>
 <div id="ref-wheeler2010" class="csl-entry" role="listitem">
-Wheeler, S. E., and K. N. Houk. 2010. <em>J. Chem. Theory Comput.</em> 6: 395–404.
+<div class="csl-left-margin">[12] </div><div class="csl-right-inline">S. E. Wheeler and K. N. Houk, J. Chem. Theory Comput. <strong>6</strong>, 395 (2010).</div>
 </div>
 <div id="ref-zhao2008" class="csl-entry" role="listitem">
-Zhao, Y., and D. G. Truhlar. 2008. <em>Theor. Chem. Acc.</em> 120: 215–41.
+<div class="csl-left-margin">[13] </div><div class="csl-right-inline">Y. Zhao and D. G. Truhlar, Theor. Chem. Acc. <strong>120</strong>, 215 (2008).</div>
+</div>
+<div id="ref-mardirossian2016" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[14] </div><div class="csl-right-inline">N. Mardirossian and M. Head-Gordon, J. Chem. Theory Comput. <strong>12</strong>, 4303 (2016).</div>
+</div>
+<div id="ref-mardirossian2013" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[15] </div><div class="csl-right-inline">N. Mardirossian and M. Head-Gordon, J. Chem. Theory Comput. <strong>9</strong>, 4453 (2013).</div>
+</div>
+<div id="ref-lehtola2022" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[16] </div><div class="csl-right-inline">S. Lehtola and M. A. L. Marques, <a href="https://doi.org/10.1063/5.0121187">Many recent density functionals are numerically ill-behaved</a>, J. Chem. Phys. <strong>157</strong>, 174114 (2022).</div>
+</div>
+<div id="ref-mardirossian2016a" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[17] </div><div class="csl-right-inline">N. Mardirossian and M. Head-Gordon, J. Chem. Phys. <strong>144</strong>, 214110 (2016).</div>
+</div>
+<div id="ref-tang2003" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[18] </div><div class="csl-right-inline">K. T. Tang and J. P. Toennies, J. Chem. Phys. <strong>118</strong>, 4976 (2003).</div>
+</div>
+<div id="ref-mardirossian2017" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[19] </div><div class="csl-right-inline">N. Mardirossian and M. Head-Gordon, Mol. Phys. <strong>115</strong>, 2315 (2017).</div>
+</div>
+<div id="ref-morgante2020" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[20] </div><div class="csl-right-inline">P. Morgante and R. Peverati, The devil in the details: A tutorial review on some undervalued aspects of density functional theory calculations, Int. J. Quantum Chem. <strong>120</strong>, e26332 (2020).</div>
 </div>
 </div></section></div></main> <!-- /main -->
 <!-- Peverati lab logo at the top right of the navbar (light and dark versions). -->

@@ -31,6 +31,7 @@ ul.task-list li input[type="checkbox"] {
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
+  margin-bottom: 0em;
 }
 .hanging-indent div.csl-entry {
   margin-left:2em;
@@ -600,14 +601,14 @@ div.csl-indent {
 </section>
 <section id="background" class="level2">
 <h2 class="anchored" data-anchor-id="background">Background</h2>
-<p>The B3LYP functional <span class="citation" data-cites="vosko1980 becke1988 lee1988 becke1993 stephens1994">(<a href="#ref-vosko1980" role="doc-biblioref">Vosko et al. 1980</a>; <a href="#ref-becke1988" role="doc-biblioref">Becke 1988</a>, <a href="#ref-becke1993" role="doc-biblioref">1993</a>; <a href="#ref-lee1988" role="doc-biblioref">Lee et al. 1988</a>; <a href="#ref-stephens1994" role="doc-biblioref">Stephens et al. 1994</a>)</span> with the 6-31G* basis set of Pople and co-workers <span class="citation" data-cites="ditchfield1971 hehre1972 hariharan1973 dill1975 binkley1977 francl1982 gordon1982 rassolov1998 rassolov2001">(<a href="#ref-ditchfield1971" role="doc-biblioref">Ditchfield et al. 1971</a>; <a href="#ref-hehre1972" role="doc-biblioref">Hehre et al. 1972</a>; <a href="#ref-hariharan1973" role="doc-biblioref">Hariharan and Pople 1973</a>; <a href="#ref-dill1975" role="doc-biblioref">Dill and Pople 1975</a>; <a href="#ref-binkley1977" role="doc-biblioref">Binkley and Pople 1977</a>; <a href="#ref-francl1982" role="doc-biblioref">Francl et al. 1982</a>; <a href="#ref-gordon1982" role="doc-biblioref">Gordon et al. 1982</a>; <a href="#ref-rassolov1998" role="doc-biblioref">Rassolov et al. 1998</a>, <a href="#ref-rassolov2001" role="doc-biblioref">2001</a>)</span> is the de facto standard method in the organic chemistry community. The functional is based on the three-parameter hybrid scheme Becke introduced in 1993 <span class="citation" data-cites="becke1993">(<a href="#ref-becke1993" role="doc-biblioref">Becke 1993</a>)</span>. The original three-parameter functional combined his 1988 exchange functional <span class="citation" data-cites="becke1988">(<a href="#ref-becke1988" role="doc-biblioref">Becke 1988</a>)</span> with the Perdew–Wang (PW91) correlation functional <span class="citation" data-cites="perdew1992 perdew2018 perdew1992a">(<a href="#ref-perdew1992" role="doc-biblioref">Perdew and Wang 1992</a>, <a href="#ref-perdew2018" role="doc-biblioref">2018</a>; <a href="#ref-perdew1992a" role="doc-biblioref">Perdew et al. 1992</a>)</span>. One year later, Frisch and co-workers introduced B3LYP by replacing PW91 with LYP <span class="citation" data-cites="lee1988">(<a href="#ref-lee1988" role="doc-biblioref">Lee et al. 1988</a>)</span>, which gave better results in a computational study of circular dichroism spectra <span class="citation" data-cites="stephens1994">(<a href="#ref-stephens1994" role="doc-biblioref">Stephens et al. 1994</a>)</span>. B3LYP became more popular than B3PW91, even though their performance and theoretical foundations are almost identical.</p>
+<p>The B3LYP functional <span class="citation" data-cites="vosko1980 becke1988 lee1988 becke1993 stephens1994">&nbsp;[<a href="#ref-vosko1980" role="doc-biblioref">1</a>–<a href="#ref-stephens1994" role="doc-biblioref">5</a>]</span> with the 6-31G* basis set of Pople and co-workers <span class="citation" data-cites="ditchfield1971 hehre1972 hariharan1973 dill1975 binkley1977 francl1982 gordon1982 rassolov1998 rassolov2001">&nbsp;[<a href="#ref-ditchfield1971" role="doc-biblioref">6</a>–<a href="#ref-rassolov2001" role="doc-biblioref">14</a>]</span> is the de facto standard method in the organic chemistry community. The functional is based on the three-parameter hybrid scheme Becke introduced in 1993 <span class="citation" data-cites="becke1993">&nbsp;[<a href="#ref-becke1993" role="doc-biblioref">4</a>]</span>. The original three-parameter functional combined his 1988 exchange functional <span class="citation" data-cites="becke1988">&nbsp;[<a href="#ref-becke1988" role="doc-biblioref">2</a>]</span> with the Perdew–Wang (PW91) correlation functional <span class="citation" data-cites="perdew1992 perdew2018 perdew1992a">&nbsp;[<a href="#ref-perdew1992" role="doc-biblioref">15</a>–<a href="#ref-perdew1992a" role="doc-biblioref">17</a>]</span>. One year later, Frisch and co-workers introduced B3LYP by replacing PW91 with LYP <span class="citation" data-cites="lee1988">&nbsp;[<a href="#ref-lee1988" role="doc-biblioref">3</a>]</span>, which gave better results in a computational study of circular dichroism spectra <span class="citation" data-cites="stephens1994">&nbsp;[<a href="#ref-stephens1994" role="doc-biblioref">5</a>]</span>. B3LYP became more popular than B3PW91, even though their performance and theoretical foundations are almost identical.</p>
 <p>6-31G* is a double-ζ split-valence polarized basis set, so it contains a moderate number of basis functions. Its use with B3LYP became popular in the 1990s and early 2000s because it allowed calculations on relatively large molecules relevant to organic chemistry, with performance far better than the methods available before, such as semi-empirical methods and Hartree–Fock. Given how much computers have improved in the last two decades, however, a double-ζ basis set in a research setting is sometimes dangerous, as you saw in Experiment 1.</p>
 <p>In this experiment you will test B3LYP with several double-ζ polarized basis sets to understand why B3LYP/6-31G* is so “special”:</p>
 <ul>
 <li><strong>6-31G*</strong> (Pople)</li>
-<li><strong>cc-pVDZ</strong> (Dunning) <span class="citation" data-cites="dunning1989 woon1993 woon1994 wilson1999 koput2002 balabanov2005 prascher2011">(<a href="#ref-dunning1989" role="doc-biblioref">Dunning 1989</a>; <a href="#ref-woon1993" role="doc-biblioref">Woon and Dunning 1993</a>, <a href="#ref-woon1994" role="doc-biblioref">1994</a>; <a href="#ref-wilson1999" role="doc-biblioref">Wilson et al. 1999</a>; <a href="#ref-koput2002" role="doc-biblioref">Koput and Peterson 2002</a>; <a href="#ref-balabanov2005" role="doc-biblioref">Balabanov and Peterson 2005</a>; <a href="#ref-prascher2011" role="doc-biblioref">Prascher et al. 2011</a>)</span></li>
-<li><strong>def2-SVP</strong> (Ahlrichs) <span class="citation" data-cites="weigend2005">(<a href="#ref-weigend2005" role="doc-biblioref">Weigend and Ahlrichs 2005</a>)</span></li>
-<li><strong>pc-1</strong> (Jensen) <span class="citation" data-cites="jensen2001 jensen2002 jensen2007 jensen2004 jensen2012">(<a href="#ref-jensen2001" role="doc-biblioref">Jensen 2001</a>, <a href="#ref-jensen2002" role="doc-biblioref">2002</a>, <a href="#ref-jensen2007" role="doc-biblioref">2007</a>, <a href="#ref-jensen2012" role="doc-biblioref">2012</a>; <a href="#ref-jensen2004" role="doc-biblioref">Jensen and Helgaker 2004</a>)</span>. If it is not available, use def2-SV(P), the smallest of the Ahlrichs basis sets.</li>
+<li><strong>cc-pVDZ</strong> (Dunning) <span class="citation" data-cites="dunning1989 woon1993 woon1994 wilson1999 koput2002 balabanov2005 prascher2011">&nbsp;[<a href="#ref-dunning1989" role="doc-biblioref">18</a>–<a href="#ref-prascher2011" role="doc-biblioref">24</a>]</span></li>
+<li><strong>def2-SVP</strong> (Ahlrichs) <span class="citation" data-cites="weigend2005">&nbsp;[<a href="#ref-weigend2005" role="doc-biblioref">25</a>]</span></li>
+<li><strong>pc-1</strong> (Jensen) <span class="citation" data-cites="jensen2001 jensen2002 jensen2007 jensen2004 jensen2012">&nbsp;[<a href="#ref-jensen2001" role="doc-biblioref">26</a>–<a href="#ref-jensen2012" role="doc-biblioref">30</a>]</span>. If it is not available, use def2-SV(P), the smallest of the Ahlrichs basis sets.</li>
 </ul>
 <p>Run them on three reactions you already know: the Diels–Alder reaction <strong>4a</strong>, the alkane isomerization <strong>4b</strong> and the CaO dissociation <strong>5b</strong>. They were chosen because they respond to the small basis sets in very different ways; find out how. Compare with the <strong>def2-TZVP</strong> results you obtained in Experiments 4 and 5 with the same functionals. As before, report each computed reaction energy with its error with respect to the reference value.</p>
 </section>
@@ -658,7 +659,7 @@ div.csl-indent {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>This experiment shows that B3LYP/6-31G* works so well because it benefits from a fortuitous <strong>error cancellation</strong> <span class="citation" data-cites="kruse2012">(<a href="#ref-kruse2012" role="doc-biblioref">Kruse et al. 2012</a>)</span>. Theory says a functional’s error with a small basis set should always be larger than with a big one. That B3LYP/6-31G* doesn’t follow this expectation when compared with B3LYP/def2-TZVP is worrisome: it points to a lucky cancellation of errors. Lucky cancellations are unpredictable. Sometimes they work in your favor, as for the reactions of Experiment 4, and sometimes against you, as for those of Experiment 5. The 6-31G* basis set does not make B3LYP better or more physically sound. Instead of trying to work out which chemical problems B3LYP/6-31G* can solve, we suggest moving away from it toward a more modern functional with predictable behavior with respect to the basis set. If that’s not possible because of limited computing resources, put more appropriate corrections in place, such as those suggested by Kruse, Goerigk and Grimme, with the help of an expert. In 2012, Cohen, Mori-Sánchez and Yang wrote that uniformly outperforming B3LYP was still a challenge for xc functionals <span class="citation" data-cites="cohen2012">(<a href="#ref-cohen2012" role="doc-biblioref">Cohen et al. 2012</a>)</span>. Recent reviews have shown that this is no longer true <span class="citation" data-cites="mardirossian2017 goerigk2019 peverati2014 yu2016b">(<a href="#ref-mardirossian2017" role="doc-biblioref">Mardirossian and Head-Gordon 2017</a>; <a href="#ref-goerigk2019" role="doc-biblioref">Goerigk and Mehta 2019</a>; <a href="#ref-peverati2014" role="doc-biblioref">Peverati and Truhlar 2014</a>; <a href="#ref-yu2016b" role="doc-biblioref">Yu et al. 2016</a>)</span>. We feel the real challenge now is to get rid of B3LYP/6-31G* altogether, though, as Kruse, Goerigk and Grimme noted, we don’t expect this to happen anytime soon.</p>
+<p>This experiment shows that B3LYP/6-31G* works so well because it benefits from a fortuitous <strong>error cancellation</strong> <span class="citation" data-cites="kruse2012">&nbsp;[<a href="#ref-kruse2012" role="doc-biblioref">31</a>]</span>. Theory says a functional’s error with a small basis set should always be larger than with a big one. That B3LYP/6-31G* doesn’t follow this expectation when compared with B3LYP/def2-TZVP is worrisome: it points to a lucky cancellation of errors. Lucky cancellations are unpredictable. Sometimes they work in your favor, as for the reactions of Experiment 4, and sometimes against you, as for those of Experiment 5. The 6-31G* basis set does not make B3LYP better or more physically sound. Instead of trying to work out which chemical problems B3LYP/6-31G* can solve, we suggest moving away from it toward a more modern functional with predictable behavior with respect to the basis set. If that’s not possible because of limited computing resources, put more appropriate corrections in place, such as those suggested by Kruse, Goerigk and Grimme, with the help of an expert. In 2012, Cohen, Mori-Sánchez and Yang wrote that uniformly outperforming B3LYP was still a challenge for xc functionals <span class="citation" data-cites="cohen2012">&nbsp;[<a href="#ref-cohen2012" role="doc-biblioref">32</a>]</span>. Recent reviews have shown that this is no longer true <span class="citation" data-cites="mardirossian2017 goerigk2019 peverati2014 yu2016b">&nbsp;[<a href="#ref-mardirossian2017" role="doc-biblioref">33</a>–<a href="#ref-yu2016b" role="doc-biblioref">36</a>]</span>. We feel the real challenge now is to get rid of B3LYP/6-31G* altogether, though, as Kruse, Goerigk and Grimme noted, we don’t expect this to happen anytime soon.</p>
 </div>
 </div>
 </section>
@@ -673,114 +674,114 @@ div.csl-indent {
 
 </section>
 
-<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
-<div id="ref-balabanov2005" class="csl-entry" role="listitem">
-Balabanov, N. B., and K. A. Peterson. 2005. <em>J. Chem. Phys.</em> 123: 064107.
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body" data-entry-spacing="0" role="list">
+<div id="ref-vosko1980" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[1] </div><div class="csl-right-inline">S. H. Vosko, L. Wilk, and M. Nusair, Can. J. Phys. <strong>58</strong>, 1200 (1980).</div>
 </div>
 <div id="ref-becke1988" class="csl-entry" role="listitem">
-Becke, A. D. 1988. <em>Phys. Rev. A</em> 38: 3098–100.
-</div>
-<div id="ref-becke1993" class="csl-entry" role="listitem">
-Becke, A. D. 1993. <em>J. Chem. Phys.</em> 98: 5648–52.
-</div>
-<div id="ref-binkley1977" class="csl-entry" role="listitem">
-Binkley, J. S., and J. A. Pople. 1977. <em>J. Chem. Phys.</em> 66: 879–80.
-</div>
-<div id="ref-cohen2012" class="csl-entry" role="listitem">
-Cohen, A. J., P. Mori-Sánchez, and W. Yang. 2012. <em>Chem. Rev.</em> 112: 289–320.
-</div>
-<div id="ref-dill1975" class="csl-entry" role="listitem">
-Dill, J. D., and J. A. Pople. 1975. <em>J. Chem. Phys.</em> 62: 2921–23.
-</div>
-<div id="ref-ditchfield1971" class="csl-entry" role="listitem">
-Ditchfield, R., W. J. Hehre, and J. A. Pople. 1971. <em>J. Chem. Phys.</em> 54: 724–28.
-</div>
-<div id="ref-dunning1989" class="csl-entry" role="listitem">
-Dunning, T. H., Jr. 1989. <em>J. Chem. Phys.</em> 90: 1007–23.
-</div>
-<div id="ref-francl1982" class="csl-entry" role="listitem">
-Francl, M. M., W. J. Pietro, W. J. Hehre, et al. 1982. <em>J. Chem. Phys.</em> 77: 3654–65.
-</div>
-<div id="ref-goerigk2019" class="csl-entry" role="listitem">
-Goerigk, L., and N. Mehta. 2019. <em>Aust. J. Chem.</em> 72: 563–73.
-</div>
-<div id="ref-gordon1982" class="csl-entry" role="listitem">
-Gordon, M. S., J. S. Binkley, J. A. Pople, W. J. Pietro, and W. J. Hehre. 1982. <em>J. Am. Chem. Soc.</em> 104: 2797–803.
-</div>
-<div id="ref-hariharan1973" class="csl-entry" role="listitem">
-Hariharan, P. C., and J. A. Pople. 1973. <em>Theor. Chim. Acta</em> 28: 213–22.
-</div>
-<div id="ref-hehre1972" class="csl-entry" role="listitem">
-Hehre, W. J., R. Ditchfield, and J. A. Pople. 1972. <em>J. Chem. Phys.</em> 56: 2257–61.
-</div>
-<div id="ref-jensen2001" class="csl-entry" role="listitem">
-Jensen, F. 2001. <em>J. Chem. Phys.</em> 115: 9113–25.
-</div>
-<div id="ref-jensen2002" class="csl-entry" role="listitem">
-Jensen, F. 2002. <em>J. Chem. Phys.</em> 116: 3502.
-</div>
-<div id="ref-jensen2007" class="csl-entry" role="listitem">
-Jensen, F. 2007. <em>J. Phys. Chem. A</em> 111: 11198–204.
-</div>
-<div id="ref-jensen2012" class="csl-entry" role="listitem">
-Jensen, F. 2012. <em>J. Chem. Phys.</em> 136: 114107.
-</div>
-<div id="ref-jensen2004" class="csl-entry" role="listitem">
-Jensen, F., and T. Helgaker. 2004. <em>J. Chem. Phys.</em> 121: 3463–70.
-</div>
-<div id="ref-koput2002" class="csl-entry" role="listitem">
-Koput, J., and K. A. Peterson. 2002. <em>J. Phys. Chem. A</em> 106: 9595–99.
-</div>
-<div id="ref-kruse2012" class="csl-entry" role="listitem">
-Kruse, H., L. Goerigk, and S. Grimme. 2012. <em>J. Org. Chem.</em> 77: 10824–34.
+<div class="csl-left-margin">[2] </div><div class="csl-right-inline">A. D. Becke, Phys. Rev. A <strong>38</strong>, 3098 (1988).</div>
 </div>
 <div id="ref-lee1988" class="csl-entry" role="listitem">
-Lee, C., W. Yang, and R. G. Parr. 1988. <em>Phys. Rev. B</em> 37: 785–89.
+<div class="csl-left-margin">[3] </div><div class="csl-right-inline">C. Lee, W. Yang, and R. G. Parr, Phys. Rev. B <strong>37</strong>, 785 (1988).</div>
 </div>
-<div id="ref-mardirossian2017" class="csl-entry" role="listitem">
-Mardirossian, N., and M. Head-Gordon. 2017. <em>Mol. Phys.</em> 115: 2315–72.
-</div>
-<div id="ref-perdew1992a" class="csl-entry" role="listitem">
-Perdew, J. P., J. A. Chevary, S. H. Vosko, et al. 1992. <em>Phys. Rev. B</em> 46: 6671–87.
-</div>
-<div id="ref-perdew1992" class="csl-entry" role="listitem">
-Perdew, J. P., and Y. Wang. 1992. <em>Phys. Rev. B</em> 45: 13244–49.
-</div>
-<div id="ref-perdew2018" class="csl-entry" role="listitem">
-Perdew, J. P., and Y. Wang. 2018. <em>Phys. Rev. B</em> 98: 079904.
-</div>
-<div id="ref-peverati2014" class="csl-entry" role="listitem">
-Peverati, R., and D. G. Truhlar. 2014. <em>Philos. Trans. R. Soc. A</em> 372: 20120476.
-</div>
-<div id="ref-prascher2011" class="csl-entry" role="listitem">
-Prascher, B. P., D. E. Woon, K. A. Peterson, T. H. Dunning Jr., and A. K. Wilson. 2011. <em>Theor. Chem. Acc.</em> 128: 69–82.
-</div>
-<div id="ref-rassolov1998" class="csl-entry" role="listitem">
-Rassolov, V. A., J. A. Pople, M. A. Ratner, and T. L. Windus. 1998. <em>J. Chem. Phys.</em> 109: 1223–29.
-</div>
-<div id="ref-rassolov2001" class="csl-entry" role="listitem">
-Rassolov, V. A., M. A. Ratner, J. A. Pople, P. C. Redfern, and L. A. Curtiss. 2001. <em>J. Comput. Chem.</em> 22: 976–84.
+<div id="ref-becke1993" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[4] </div><div class="csl-right-inline">A. D. Becke, J. Chem. Phys. <strong>98</strong>, 5648 (1993).</div>
 </div>
 <div id="ref-stephens1994" class="csl-entry" role="listitem">
-Stephens, P. J., F. J. Devlin, C. F. Chabalowski, and M. J. Frisch. 1994. <em>J. Phys. Chem.</em> 98: 11623–27.
+<div class="csl-left-margin">[5] </div><div class="csl-right-inline">P. J. Stephens, F. J. Devlin, C. F. Chabalowski, and M. J. Frisch, J. Phys. Chem. <strong>98</strong>, 11623 (1994).</div>
 </div>
-<div id="ref-vosko1980" class="csl-entry" role="listitem">
-Vosko, S. H., L. Wilk, and M. Nusair. 1980. <em>Can. J. Phys.</em> 58: 1200–1211.
+<div id="ref-ditchfield1971" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[6] </div><div class="csl-right-inline">R. Ditchfield, W. J. Hehre, and J. A. Pople, J. Chem. Phys. <strong>54</strong>, 724 (1971).</div>
 </div>
-<div id="ref-weigend2005" class="csl-entry" role="listitem">
-Weigend, F., and R. Ahlrichs. 2005. <em>Phys. Chem. Chem. Phys.</em> 7: 3297–305.
+<div id="ref-hehre1972" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[7] </div><div class="csl-right-inline">W. J. Hehre, R. Ditchfield, and J. A. Pople, J. Chem. Phys. <strong>56</strong>, 2257 (1972).</div>
 </div>
-<div id="ref-wilson1999" class="csl-entry" role="listitem">
-Wilson, A. K., D. E. Woon, K. A. Peterson, and T. H. Dunning Jr. 1999. <em>J. Chem. Phys.</em> 110: 7667–76.
+<div id="ref-hariharan1973" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[8] </div><div class="csl-right-inline">P. C. Hariharan and J. A. Pople, Theor. Chim. Acta <strong>28</strong>, 213 (1973).</div>
+</div>
+<div id="ref-dill1975" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[9] </div><div class="csl-right-inline">J. D. Dill and J. A. Pople, J. Chem. Phys. <strong>62</strong>, 2921 (1975).</div>
+</div>
+<div id="ref-binkley1977" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[10] </div><div class="csl-right-inline">J. S. Binkley and J. A. Pople, J. Chem. Phys. <strong>66</strong>, 879 (1977).</div>
+</div>
+<div id="ref-francl1982" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[11] </div><div class="csl-right-inline">M. M. Francl, W. J. Pietro, W. J. Hehre, J. S. Binkley, M. S. Gordon, D. J. DeFrees, and J. A. Pople, J. Chem. Phys. <strong>77</strong>, 3654 (1982).</div>
+</div>
+<div id="ref-gordon1982" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[12] </div><div class="csl-right-inline">M. S. Gordon, J. S. Binkley, J. A. Pople, W. J. Pietro, and W. J. Hehre, J. Am. Chem. Soc. <strong>104</strong>, 2797 (1982).</div>
+</div>
+<div id="ref-rassolov1998" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[13] </div><div class="csl-right-inline">V. A. Rassolov, J. A. Pople, M. A. Ratner, and T. L. Windus, J. Chem. Phys. <strong>109</strong>, 1223 (1998).</div>
+</div>
+<div id="ref-rassolov2001" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[14] </div><div class="csl-right-inline">V. A. Rassolov, M. A. Ratner, J. A. Pople, P. C. Redfern, and L. A. Curtiss, J. Comput. Chem. <strong>22</strong>, 976 (2001).</div>
+</div>
+<div id="ref-perdew1992" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[15] </div><div class="csl-right-inline">J. P. Perdew and Y. Wang, Phys. Rev. B <strong>45</strong>, 13244 (1992).</div>
+</div>
+<div id="ref-perdew2018" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[16] </div><div class="csl-right-inline">J. P. Perdew and Y. Wang, Phys. Rev. B <strong>98</strong>, 079904 (2018).</div>
+</div>
+<div id="ref-perdew1992a" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[17] </div><div class="csl-right-inline">J. P. Perdew, J. A. Chevary, S. H. Vosko, K. A. Jackson, M. R. Pederson, D. J. Singh, and C. Fiolhais, Phys. Rev. B <strong>46</strong>, 6671 (1992).</div>
+</div>
+<div id="ref-dunning1989" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[18] </div><div class="csl-right-inline">T. H. Dunning Jr., J. Chem. Phys. <strong>90</strong>, 1007 (1989).</div>
 </div>
 <div id="ref-woon1993" class="csl-entry" role="listitem">
-Woon, D. E., and T. H. Dunning Jr. 1993. <em>J. Chem. Phys.</em> 98: 1358–71.
+<div class="csl-left-margin">[19] </div><div class="csl-right-inline">D. E. Woon and T. H. Dunning Jr., J. Chem. Phys. <strong>98</strong>, 1358 (1993).</div>
 </div>
 <div id="ref-woon1994" class="csl-entry" role="listitem">
-Woon, D. E., and T. H. Dunning Jr. 1994. <em>J. Chem. Phys.</em> 100: 2975–88.
+<div class="csl-left-margin">[20] </div><div class="csl-right-inline">D. E. Woon and T. H. Dunning Jr., J. Chem. Phys. <strong>100</strong>, 2975 (1994).</div>
+</div>
+<div id="ref-wilson1999" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[21] </div><div class="csl-right-inline">A. K. Wilson, D. E. Woon, K. A. Peterson, and T. H. Dunning Jr., J. Chem. Phys. <strong>110</strong>, 7667 (1999).</div>
+</div>
+<div id="ref-koput2002" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[22] </div><div class="csl-right-inline">J. Koput and K. A. Peterson, J. Phys. Chem. A <strong>106</strong>, 9595 (2002).</div>
+</div>
+<div id="ref-balabanov2005" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[23] </div><div class="csl-right-inline">N. B. Balabanov and K. A. Peterson, J. Chem. Phys. <strong>123</strong>, 064107 (2005).</div>
+</div>
+<div id="ref-prascher2011" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[24] </div><div class="csl-right-inline">B. P. Prascher, D. E. Woon, K. A. Peterson, T. H. Dunning Jr., and A. K. Wilson, Theor. Chem. Acc. <strong>128</strong>, 69 (2011).</div>
+</div>
+<div id="ref-weigend2005" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[25] </div><div class="csl-right-inline">F. Weigend and R. Ahlrichs, Phys. Chem. Chem. Phys. <strong>7</strong>, 3297 (2005).</div>
+</div>
+<div id="ref-jensen2001" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[26] </div><div class="csl-right-inline">F. Jensen, J. Chem. Phys. <strong>115</strong>, 9113 (2001).</div>
+</div>
+<div id="ref-jensen2002" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[27] </div><div class="csl-right-inline">F. Jensen, J. Chem. Phys. <strong>116</strong>, 3502 (2002).</div>
+</div>
+<div id="ref-jensen2007" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[28] </div><div class="csl-right-inline">F. Jensen, J. Phys. Chem. A <strong>111</strong>, 11198 (2007).</div>
+</div>
+<div id="ref-jensen2004" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[29] </div><div class="csl-right-inline">F. Jensen and T. Helgaker, J. Chem. Phys. <strong>121</strong>, 3463 (2004).</div>
+</div>
+<div id="ref-jensen2012" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[30] </div><div class="csl-right-inline">F. Jensen, J. Chem. Phys. <strong>136</strong>, 114107 (2012).</div>
+</div>
+<div id="ref-kruse2012" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[31] </div><div class="csl-right-inline">H. Kruse, L. Goerigk, and S. Grimme, J. Org. Chem. <strong>77</strong>, 10824 (2012).</div>
+</div>
+<div id="ref-cohen2012" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[32] </div><div class="csl-right-inline">A. J. Cohen, P. Mori-Sánchez, and W. Yang, Chem. Rev. <strong>112</strong>, 289 (2012).</div>
+</div>
+<div id="ref-mardirossian2017" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[33] </div><div class="csl-right-inline">N. Mardirossian and M. Head-Gordon, Mol. Phys. <strong>115</strong>, 2315 (2017).</div>
+</div>
+<div id="ref-goerigk2019" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[34] </div><div class="csl-right-inline">L. Goerigk and N. Mehta, Aust. J. Chem. <strong>72</strong>, 563 (2019).</div>
+</div>
+<div id="ref-peverati2014" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[35] </div><div class="csl-right-inline">R. Peverati and D. G. Truhlar, Philos. Trans. R. Soc. A <strong>372</strong>, 20120476 (2014).</div>
 </div>
 <div id="ref-yu2016b" class="csl-entry" role="listitem">
-Yu, H. S., S. L. Li, and D. G. Truhlar. 2016. <em>J. Chem. Phys.</em> 145: 130901.
+<div class="csl-left-margin">[36] </div><div class="csl-right-inline">H. S. Yu, S. L. Li, and D. G. Truhlar, J. Chem. Phys. <strong>145</strong>, 130901 (2016).</div>
 </div>
 </div></section></div></main> <!-- /main -->
 <!-- Peverati lab logo at the top right of the navbar (light and dark versions). -->

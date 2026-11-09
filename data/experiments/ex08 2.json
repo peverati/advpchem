@@ -1,0 +1,341 @@
+{
+ "id": "ex08",
+ "number": 8,
+ "title": "Stability Analysis and Transition Metals",
+ "geometry_dir": "ex08",
+ "rem_common": {
+  "JOBTYPE": "SP",
+  "SCF_CONVERGENCE": "8"
+ },
+ "species": [
+  {
+   "id": "fe_gs",
+   "label": "Fe ground state (quintet)",
+   "file": "05_Fe_gs_3dAEE8.xyz",
+   "charge": 0,
+   "mult": 5
+  },
+  {
+   "id": "fe_es",
+   "label": "Fe excited state (triplet)",
+   "file": "04_Fe_es_3dAEE8.xyz",
+   "charge": 0,
+   "mult": 3
+  },
+  {
+   "id": "ru_gs",
+   "label": "Ru⁺ ground state (quartet)",
+   "file": "07_Ru+_gs_4dAEE5.xyz",
+   "charge": 1,
+   "mult": 4
+  },
+  {
+   "id": "ru_es",
+   "label": "Ru⁺ excited state (sextet)",
+   "file": "06_Ru+_es_4dAEE5.xyz",
+   "charge": 1,
+   "mult": 6
+  }
+ ],
+ "methods": [
+  {
+   "id": "BP86",
+   "label": "BP86",
+   "rung": "GGA",
+   "rem": {
+    "METHOD": "BP86"
+   }
+  },
+  {
+   "id": "PBE",
+   "label": "PBE",
+   "rung": "GGA",
+   "rem": {
+    "METHOD": "PBE"
+   }
+  },
+  {
+   "id": "B97M-V",
+   "label": "B97M-V",
+   "rung": "meta-GGA",
+   "rem": {
+    "METHOD": "B97M-V"
+   }
+  },
+  {
+   "id": "PBE0",
+   "label": "PBE0",
+   "rung": "hybrid GGA",
+   "rem": {
+    "METHOD": "PBE0"
+   }
+  },
+  {
+   "id": "M06-2X",
+   "label": "M06-2X",
+   "rung": "hybrid meta-GGA",
+   "rem": {
+    "METHOD": "M06-2X"
+   }
+  }
+ ],
+ "bases": [
+  {
+   "id": "plain",
+   "label": "without stability analysis",
+   "zeta": 3,
+   "rem": {
+    "BASIS": "def2-TZVP"
+   }
+  },
+  {
+   "id": "stab",
+   "label": "with stability analysis",
+   "zeta": 3,
+   "rem": {
+    "BASIS": "def2-TZVP",
+    "INTERNAL_STABILITY": "TRUE"
+   }
+  }
+ ],
+ "reactions": [
+  {
+   "id": "Fe",
+   "label": "Fe: quintet → triplet",
+   "nu": {
+    "fe_gs": -1,
+    "fe_es": 1
+   },
+   "ref": 34.32
+  },
+  {
+   "id": "Ru+",
+   "label": "Ru⁺: quartet → sextet",
+   "nu": {
+    "ru_gs": -1,
+    "ru_es": 1
+   },
+   "ref": 21.96
+  }
+ ],
+ "fields": [
+  "energy",
+  "scf",
+  "time"
+ ],
+ "condition_label": "Method / run",
+ "quiz": [
+  {
+   "q": "A converged SCF solution is guaranteed to be…",
+   "options": [
+    "the ground state",
+    "a stationary point: a minimum, a saddle point or a maximum",
+    "a minimum, but maybe not the lowest one",
+    "an excited state"
+   ],
+   "answer": 1,
+   "explain": "Convergence only means the energy gradient with respect to orbital rotations is zero. Only the second derivatives tell you whether you are at a minimum."
+  },
+  {
+   "q": "Which systems are most likely to end up on an unstable SCF solution?",
+   "options": [
+    "Closed-shell organic molecules",
+    "Systems with nearly degenerate low-lying states, such as transition-metal atoms",
+    "Noble-gas atoms",
+    "Any molecule with a large basis set"
+   ],
+   "answer": 1,
+   "explain": "When several electronic configurations are close in energy, the SCF can easily converge to the wrong one. Fe and Ru⁺ have nearly degenerate 3d/4s (4d/5s) configurations."
+  },
+  {
+   "q": "The excitation energy here is E(excited) − E(ground). If only the ground-state SCF lands on a higher, unstable solution, the computed excitation energy will be…",
+   "options": [
+    "too large",
+    "too small",
+    "unaffected"
+   ],
+   "answer": 1,
+   "explain": "A ground-state energy that is too high shrinks the gap. If both states are affected, the error can go either way, which is why you must check every state."
+  },
+  {
+   "q": "What does Q-Chem's `INTERNAL_STABILITY` keyword do?",
+   "options": [
+    "Optimizes the geometry",
+    "Checks the second derivatives of the energy with respect to orbital rotations to see whether a lower solution exists",
+    "Adds a dispersion correction",
+    "Makes the SCF converge faster"
+   ],
+   "answer": 1,
+   "explain": "A negative eigenvalue of this electronic Hessian means the solution is not a minimum: moving the orbitals along that direction lowers the energy."
+  }
+ ],
+ "predictions": [
+  {
+   "id": "changes",
+   "prompt": "Will stability analysis find a lower solution for **at least one** functional and state?",
+   "options": [
+    "yes",
+    "no"
+   ],
+   "check": {
+    "type": "stability_changes",
+    "plain": "plain",
+    "stab": "stab",
+    "labels": [
+     "yes",
+     "no"
+    ]
+   }
+  },
+  {
+   "id": "biggest",
+   "prompt": "Which functional's result will stability analysis change the **most**?",
+   "options": [
+    "BP86",
+    "PBE",
+    "B97M-V",
+    "PBE0",
+    "M06-2X"
+   ],
+   "check": {
+    "type": "stability_biggest",
+    "plain": "plain",
+    "stab": "stab"
+   }
+  },
+  {
+   "id": "harder",
+   "prompt": "Which excitation energy will be harder for DFT (larger errors, with stability analysis)?",
+   "options": [
+    "Fe",
+    "Ru⁺",
+    "about the same"
+   ],
+   "check": {
+    "type": "harder",
+    "basis": "stab",
+    "reactions": [
+     "Fe",
+     "Ru+"
+    ],
+    "labels": [
+     "Fe",
+     "Ru⁺",
+     "about the same"
+    ]
+   }
+  }
+ ],
+ "questions": [
+  {
+   "id": "q1",
+   "text": "Compare the errors with and without stability analysis. Do you need the stability analysis here? Use the energy-lowering table: for which functionals and states did it change something, and by how much?"
+  },
+  {
+   "id": "q2",
+   "text": "Look at the size of the errors that remain *after* stability analysis. Is a converged, stable solution automatically a good one?"
+  },
+  {
+   "id": "q3",
+   "text": "Use the stability landscape: explain in your own words what the stability analysis does, and why a *converged* SCF can still be wrong."
+  },
+  {
+   "id": "q4",
+   "text": "Several functionals (SPW92, B3LYP, SCAN, ωB97M-V) and Hartree–Fock were removed from this experiment because their SCF calculations on these atoms often failed to converge. What does that tell you about running DFT on transition metals?"
+  },
+  {
+   "id": "q5",
+   "text": "Which functional would you recommend for these atoms? Justify with your numbers."
+  }
+ ],
+ "explore": [
+  "stability-lowering",
+  "signed-errors"
+ ],
+ "conditions": [
+  {
+   "method": "BP86",
+   "basis": "plain",
+   "species": [
+    "ru_gs",
+    "ru_es"
+   ]
+  },
+  {
+   "method": "PBE",
+   "basis": "plain",
+   "species": [
+    "fe_gs",
+    "fe_es",
+    "ru_gs",
+    "ru_es"
+   ]
+  },
+  {
+   "method": "PBE0",
+   "basis": "plain",
+   "species": [
+    "ru_gs",
+    "ru_es"
+   ]
+  },
+  {
+   "method": "M06-2X",
+   "basis": "plain",
+   "species": [
+    "fe_gs",
+    "fe_es"
+   ]
+  },
+  {
+   "method": "B97M-V",
+   "basis": "plain",
+   "species": [
+    "fe_gs",
+    "fe_es"
+   ]
+  },
+  {
+   "method": "BP86",
+   "basis": "stab",
+   "species": [
+    "ru_gs",
+    "ru_es"
+   ]
+  },
+  {
+   "method": "PBE",
+   "basis": "stab",
+   "species": [
+    "fe_gs",
+    "fe_es",
+    "ru_gs",
+    "ru_es"
+   ]
+  },
+  {
+   "method": "PBE0",
+   "basis": "stab",
+   "species": [
+    "ru_gs",
+    "ru_es"
+   ]
+  },
+  {
+   "method": "M06-2X",
+   "basis": "stab",
+   "species": [
+    "fe_gs",
+    "fe_es"
+   ]
+  },
+  {
+   "method": "B97M-V",
+   "basis": "stab",
+   "species": [
+    "fe_gs",
+    "fe_es"
+   ]
+  }
+ ]
+}

@@ -31,6 +31,7 @@ ul.task-list li input[type="checkbox"] {
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
+  margin-bottom: 0em;
 }
 .hanging-indent div.csl-entry {
   margin-left:2em;
@@ -736,7 +737,7 @@ window.Quarto = {
 </section>
 <section id="why-several-functionals-were-removed" class="level2" data-number="1.3">
 <h2 data-number="1.3" class="anchored" data-anchor-id="why-several-functionals-were-removed"><span class="header-section-number">1.3</span> Why several functionals were removed</h2>
-<p>SPW92, B3LYP, SCAN, ωB97M-V and Hartree–Fock were taken out of Experiment 8 because their SCF calculations on these atoms often did not converge on the IQmol server. Near-degenerate d orbitals make the SCF oscillate between occupations. Better initial guesses, damping, level shifting or direct-minimization algorithms (Q-Chem’s <code>SCF_ALGORITHM</code> options) often help, but they take experience. The lesson: for transition metals, expect convergence problems, always run a stability analysis, and get help from someone who has done it before <span class="citation" data-cites="cao2019">(<a href="#ref-cao2019" role="doc-biblioref">Cao and Ryde 2019</a>)</span>.</p>
+<p>SPW92, B3LYP, SCAN, ωB97M-V and Hartree–Fock were taken out of Experiment 8 because their SCF calculations on these atoms often did not converge on the IQmol server. Near-degenerate d orbitals make the SCF oscillate between occupations. Better initial guesses, damping, level shifting or direct-minimization algorithms (Q-Chem’s <code>SCF_ALGORITHM</code> options) often help, but they take experience. The lesson: for transition metals, expect convergence problems, always run a stability analysis, and get help from someone who has done it before <span class="citation" data-cites="cao2019">&nbsp;[<a href="#ref-cao2019" role="doc-biblioref">1</a>]</span>.</p>
 </section>
 <section id="spin-state-energetics-are-a-hard-benchmark" class="level2" data-number="1.4">
 <h2 data-number="1.4" class="anchored" data-anchor-id="spin-state-energetics-are-a-hard-benchmark"><span class="header-section-number">1.4</span> Spin-state energetics are a hard benchmark</h2>
@@ -947,7 +948,7 @@ Figure&nbsp;2: Three “bond energies” of H₂, to scale: the electronic <span
 <p>So <span class="math inline">\(\Delta E_\mathrm{SO} = 0 - 78.0 = -78.0\)</span> cm⁻¹ = <span class="math inline">\(-78.0 \times 0.0028591 = -0.22\)</span> kcal/mol. The same calculation for Cl (²P, <span class="math inline">\(J = 3/2\)</span> at 0 and <span class="math inline">\(J = 1/2\)</span> at 882.4 cm⁻¹) gives <span class="math inline">\(-\,2(882.4)/6 = -294.1\)</span> cm⁻¹ = −0.84 kcal/mol. For C it is −0.08 kcal/mol, and for Fe (⁵D, five levels up to 978 cm⁻¹) about −1.2 kcal/mol.</p>
 </div>
 </div>
-<p>Because the computed atoms are too high by <span class="math inline">\(|\Delta E_\mathrm{SO}|\)</span>, a computed atomization energy without spin–orbit coupling is too <em>large</em> by the sum of the atomic corrections. For O₃ → 3 O, that is 3 × 0.22 = 0.66 kcal/mol. Benchmark references such as W4-11 report values with spin–orbit effects removed <span class="citation" data-cites="karton2011">(<a href="#ref-karton2011" role="doc-biblioref">Karton et al. 2011</a>)</span>, so you can compare with them directly. An experimental number needs this correction first. For heavier atoms the correction grows quickly: for iodine it is several kcal/mol.</p>
+<p>Because the computed atoms are too high by <span class="math inline">\(|\Delta E_\mathrm{SO}|\)</span>, a computed atomization energy without spin–orbit coupling is too <em>large</em> by the sum of the atomic corrections. For O₃ → 3 O, that is 3 × 0.22 = 0.66 kcal/mol. Benchmark references such as W4-11 report values with spin–orbit effects removed <span class="citation" data-cites="karton2011">&nbsp;[<a href="#ref-karton2011" role="doc-biblioref">2</a>]</span>, so you can compare with them directly. An experimental number needs this correction first. For heavier atoms the correction grows quickly: for iodine it is several kcal/mol.</p>
 </section>
 <section id="atomization-energies-and-enthalpies-of-formation" class="level2" data-number="2.6">
 <h2 data-number="2.6" class="anchored" data-anchor-id="atomization-energies-and-enthalpies-of-formation"><span class="header-section-number">2.6</span> Atomization energies and enthalpies of formation</h2>
@@ -967,7 +968,7 @@ Figure&nbsp;2: Three “bond energies” of H₂, to scale: the electronic <span
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>From the NIST WebBook <span class="citation" data-cites="nistwebbook">(<a href="#ref-nistwebbook" role="doc-biblioref">Linstrom and Mallard, n.d.</a>)</span>, in kJ/mol: <span class="math inline">\(\Delta_f H^\circ(\mathrm{C}, g) = 716.68\)</span>, <span class="math inline">\(\Delta_f H^\circ(\mathrm{H}, g) = 217.998\)</span> and <span class="math inline">\(\Delta_f H^\circ(\mathrm{CH_4}, g) = -74.87\)</span>. In kcal/mol (÷ 4.184): 171.29, 52.10 and −17.89. Then</p>
+<p>From the NIST WebBook <span class="citation" data-cites="nistwebbook">&nbsp;[<a href="#ref-nistwebbook" role="doc-biblioref">3</a>]</span>, in kJ/mol: <span class="math inline">\(\Delta_f H^\circ(\mathrm{C}, g) = 716.68\)</span>, <span class="math inline">\(\Delta_f H^\circ(\mathrm{H}, g) = 217.998\)</span> and <span class="math inline">\(\Delta_f H^\circ(\mathrm{CH_4}, g) = -74.87\)</span>. In kcal/mol (÷ 4.184): 171.29, 52.10 and −17.89. Then</p>
 <p><span class="math display">\[
 \Delta H_{298} = 171.29 + 4(52.10) - (-17.89) = 397.6\ \text{kcal/mol}.
 \]</span></p>
@@ -985,7 +986,7 @@ Figure&nbsp;2: Three “bond energies” of H₂, to scale: the electronic <span
 </section>
 <section id="the-nist-chemistry-webbook" class="level2" data-number="2.8">
 <h2 data-number="2.8" class="anchored" data-anchor-id="the-nist-chemistry-webbook"><span class="header-section-number">2.8</span> The NIST Chemistry WebBook</h2>
-<p>The <a href="https://webbook.nist.gov/chemistry/">NIST Chemistry WebBook</a> <span class="citation" data-cites="nistwebbook">(<a href="#ref-nistwebbook" role="doc-biblioref">Linstrom and Mallard, n.d.</a>)</span> is the standard free source of gas-phase thermochemistry. To use it:</p>
+<p>The <a href="https://webbook.nist.gov/chemistry/">NIST Chemistry WebBook</a> <span class="citation" data-cites="nistwebbook">&nbsp;[<a href="#ref-nistwebbook" role="doc-biblioref">3</a>]</span> is the standard free source of gas-phase thermochemistry. To use it:</p>
 <ol type="1">
 <li>Search by <strong>formula</strong> (e.g.&nbsp;<code>FeCl</code>) or name, and choose the right species (check the structure and the phase).</li>
 <li>Open <strong>Gas phase thermochemistry data</strong>. Read <span class="math inline">\(\Delta_f H^\circ_\mathrm{gas}\)</span>, its <strong>units</strong> (usually kJ/mol) and its <strong>uncertainty</strong>.</li>
@@ -1006,7 +1007,7 @@ Figure&nbsp;2: Three “bond energies” of H₂, to scale: the electronic <span
 <div id="tbl-ex09" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-ex09-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;2: Reactions and reference values of Experiment 9. The bond dissociations come from the Minnesota 2015B database <span class="citation" data-cites="yu2016a">(<a href="#ref-yu2016a" role="doc-biblioref">Yu et al. 2016</a>)</span>; the atomization energies from W4-11 <span class="citation" data-cites="karton2011">(<a href="#ref-karton2011" role="doc-biblioref">Karton et al. 2011</a>)</span> in GMTKN55 <span class="citation" data-cites="goerigk2017">(<a href="#ref-goerigk2017" role="doc-biblioref">Goerigk et al. 2017</a>)</span>.
+Table&nbsp;2: Reactions and reference values of Experiment 9. The bond dissociations come from the Minnesota 2015B database <span class="citation" data-cites="yu2016a">&nbsp;[<a href="#ref-yu2016a" role="doc-biblioref">4</a>]</span>; the atomization energies from W4-11 <span class="citation" data-cites="karton2011">&nbsp;[<a href="#ref-karton2011" role="doc-biblioref">2</a>]</span> in GMTKN55 <span class="citation" data-cites="goerigk2017">&nbsp;[<a href="#ref-goerigk2017" role="doc-biblioref">5</a>]</span>.
 </figcaption>
 <div aria-describedby="tbl-ex09-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
@@ -1179,12 +1180,12 @@ Table&nbsp;2: Reactions and reference values of Experiment 9. The bond dissociat
 <section id="further-reading" class="level2" data-number="3.8">
 <h2 data-number="3.8" class="anchored" data-anchor-id="further-reading"><span class="header-section-number">3.8</span> Further reading</h2>
 <ul>
-<li>C. J. Cramer and D. G. Truhlar, “Density functional theory for transition metals and transition metal chemistry” <span class="citation" data-cites="cramer2009">(<a href="#ref-cramer2009" role="doc-biblioref">Cramer and Truhlar 2009</a>)</span>: spin states, multireference character and practical advice.</li>
-<li>W. Zhang, D. G. Truhlar and M. Tang, and X. Xu et al., on comparing computed and experimental bond energies of transition-metal compounds <span class="citation" data-cites="zhang2013 xu2015">(<a href="#ref-zhang2013" role="doc-biblioref">Zhang et al. 2013</a>; <a href="#ref-xu2015" role="doc-biblioref">Xu et al. 2015</a>)</span>.</li>
-<li>A. Karton, S. Daon and J. M. L. Martin, the W4-11 dataset <span class="citation" data-cites="karton2011">(<a href="#ref-karton2011" role="doc-biblioref">Karton et al. 2011</a>)</span>: how electronic reference values are built from experiment and high-level theory.</li>
-<li>L. A. Curtiss et al.&nbsp;on the G2 test set <span class="citation" data-cites="curtiss1997">(<a href="#ref-curtiss1997" role="doc-biblioref">Curtiss et al. 1997</a>)</span>: a standard source for spin–orbit and thermal corrections in thermochemistry.</li>
-<li>W. Koch and M. C. Holthausen, <em>A Chemist’s Guide to Density Functional Theory</em> <span class="citation" data-cites="koch2001">(<a href="#ref-koch2001" role="doc-biblioref">Koch and Holthausen 2001</a>)</span>, the chapters on thermochemistry and harmonic frequencies.</li>
-<li>The NIST Chemistry WebBook <span class="citation" data-cites="nistwebbook">(<a href="#ref-nistwebbook" role="doc-biblioref">Linstrom and Mallard, n.d.</a>)</span>.</li>
+<li>C. J. Cramer and D. G. Truhlar, “Density functional theory for transition metals and transition metal chemistry” <span class="citation" data-cites="cramer2009">&nbsp;[<a href="#ref-cramer2009" role="doc-biblioref">6</a>]</span>: spin states, multireference character and practical advice.</li>
+<li>W. Zhang, D. G. Truhlar and M. Tang, and X. Xu et al., on comparing computed and experimental bond energies of transition-metal compounds <span class="citation" data-cites="zhang2013 xu2015">&nbsp;[<a href="#ref-zhang2013" role="doc-biblioref">7</a>,<a href="#ref-xu2015" role="doc-biblioref">8</a>]</span>.</li>
+<li>A. Karton, S. Daon and J. M. L. Martin, the W4-11 dataset <span class="citation" data-cites="karton2011">&nbsp;[<a href="#ref-karton2011" role="doc-biblioref">2</a>]</span>: how electronic reference values are built from experiment and high-level theory.</li>
+<li>L. A. Curtiss et al.&nbsp;on the G2 test set <span class="citation" data-cites="curtiss1997">&nbsp;[<a href="#ref-curtiss1997" role="doc-biblioref">9</a>]</span>: a standard source for spin–orbit and thermal corrections in thermochemistry.</li>
+<li>W. Koch and M. C. Holthausen, <em>A Chemist’s Guide to Density Functional Theory</em> <span class="citation" data-cites="koch2001">&nbsp;[<a href="#ref-koch2001" role="doc-biblioref">10</a>]</span>, the chapters on thermochemistry and harmonic frequencies.</li>
+<li>The NIST Chemistry WebBook <span class="citation" data-cites="nistwebbook">&nbsp;[<a href="#ref-nistwebbook" role="doc-biblioref">3</a>]</span>.</li>
 <li>For a review of statistical thermodynamics, see the <a href="https://peverati.github.io/pchem2/">P-Chem 2 textbook</a>.</li>
 </ul>
 
@@ -1193,36 +1194,36 @@ Table&nbsp;2: Reactions and reference values of Experiment 9. The bond dissociat
 </section>
 </section>
 
-<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body" data-entry-spacing="0" role="list">
 <div id="ref-cao2019" class="csl-entry" role="listitem">
-Cao, L., and U. Ryde. 2019. <em>Phys. Chem. Chem. Phys.</em> 21: 2480–88.
-</div>
-<div id="ref-cramer2009" class="csl-entry" role="listitem">
-Cramer, C. J., and D. G. Truhlar. 2009. <em>Phys. Chem. Chem. Phys.</em> 11: 10757–816.
-</div>
-<div id="ref-curtiss1997" class="csl-entry" role="listitem">
-Curtiss, L. A., K. Raghavachari, P. C. Redfern, and J. A. Pople. 1997. <em>J. Chem. Phys.</em> 106: 1063–79.
-</div>
-<div id="ref-goerigk2017" class="csl-entry" role="listitem">
-Goerigk, L., A. Hansen, C. Bauer, S. Ehrlich, A. Najibi, and S. Grimme. 2017. <em>Phys. Chem. Chem. Phys.</em> 19: 32184–215.
+<div class="csl-left-margin">[1] </div><div class="csl-right-inline">L. Cao and U. Ryde, Phys. Chem. Chem. Phys. <strong>21</strong>, 2480 (2019).</div>
 </div>
 <div id="ref-karton2011" class="csl-entry" role="listitem">
-Karton, A., S. Daon, and J. M. L. Martin. 2011. <em>Chem. Phys. Lett.</em> 510: 165–78.
-</div>
-<div id="ref-koch2001" class="csl-entry" role="listitem">
-Koch, W., and M. C. Holthausen. 2001. <em>A Chemist’s Guide to Density Functional Theory</em>. 2nd ed. Wiley-VCH.
+<div class="csl-left-margin">[2] </div><div class="csl-right-inline">A. Karton, S. Daon, and J. M. L. Martin, Chem. Phys. Lett. <strong>510</strong>, 165 (2011).</div>
 </div>
 <div id="ref-nistwebbook" class="csl-entry" role="listitem">
-Linstrom, P. J., and W. G. Mallard. n.d. <em><span>NIST</span> Chemistry <span>WebBook</span>, <span>NIST</span> Standard Reference Database Number 69</em>. <a href="https://webbook.nist.gov/chemistry/" class="uri">Https://webbook.nist.gov/chemistry/</a>; National Institute of Standards; Technology. <a href="https://doi.org/10.18434/T4D303">https://doi.org/10.18434/T4D303</a>.
-</div>
-<div id="ref-xu2015" class="csl-entry" role="listitem">
-Xu, X., W. Zhang, M. Tang, and D. G. Truhlar. 2015. <em>J. Chem. Theory Comput.</em> 11: 2036–52.
+<div class="csl-left-margin">[3] </div><div class="csl-right-inline">P. J. Linstrom and W. G. Mallard, <a href="https://doi.org/10.18434/T4D303"><span>NIST</span> chemistry <span>WebBook</span>, <span>NIST</span> standard reference database number 69</a>, (n.d.).</div>
 </div>
 <div id="ref-yu2016a" class="csl-entry" role="listitem">
-Yu, H. S., X. He, S. L. Li, and D. G. Truhlar. 2016. <em>Chem. Sci.</em> 7: 5032–51.
+<div class="csl-left-margin">[4] </div><div class="csl-right-inline">H. S. Yu, X. He, S. L. Li, and D. G. Truhlar, Chem. Sci. <strong>7</strong>, 5032 (2016).</div>
+</div>
+<div id="ref-goerigk2017" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[5] </div><div class="csl-right-inline">L. Goerigk, A. Hansen, C. Bauer, S. Ehrlich, A. Najibi, and S. Grimme, Phys. Chem. Chem. Phys. <strong>19</strong>, 32184 (2017).</div>
+</div>
+<div id="ref-cramer2009" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[6] </div><div class="csl-right-inline">C. J. Cramer and D. G. Truhlar, Phys. Chem. Chem. Phys. <strong>11</strong>, 10757 (2009).</div>
 </div>
 <div id="ref-zhang2013" class="csl-entry" role="listitem">
-Zhang, W., D. G. Truhlar, and M. Tang. 2013. <em>J. Chem. Theory Comput.</em> 9: 3965–77.
+<div class="csl-left-margin">[7] </div><div class="csl-right-inline">W. Zhang, D. G. Truhlar, and M. Tang, J. Chem. Theory Comput. <strong>9</strong>, 3965 (2013).</div>
+</div>
+<div id="ref-xu2015" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[8] </div><div class="csl-right-inline">X. Xu, W. Zhang, M. Tang, and D. G. Truhlar, J. Chem. Theory Comput. <strong>11</strong>, 2036 (2015).</div>
+</div>
+<div id="ref-curtiss1997" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[9] </div><div class="csl-right-inline">L. A. Curtiss, K. Raghavachari, P. C. Redfern, and J. A. Pople, J. Chem. Phys. <strong>106</strong>, 1063 (1997).</div>
+</div>
+<div id="ref-koch2001" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[10] </div><div class="csl-right-inline">W. Koch and M. C. Holthausen, <em>A Chemist’s Guide to Density Functional Theory</em>, 2nd ed. (Wiley-VCH, Weinheim, 2001).</div>
 </div>
 </div></section></div></main> <!-- /main -->
 <!-- Peverati lab logo at the top right of the navbar (light and dark versions). -->

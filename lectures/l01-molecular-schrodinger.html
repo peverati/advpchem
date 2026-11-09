@@ -31,6 +31,7 @@ ul.task-list li input[type="checkbox"] {
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
+  margin-bottom: 0em;
 }
 .hanging-indent div.csl-entry {
   margin-left:2em;
@@ -711,7 +712,7 @@ window.Quarto = {
 </div>
 <section id="why-compute" class="level2" data-number="1">
 <h2 data-number="1" class="anchored" data-anchor-id="why-compute"><span class="header-section-number">1</span> Why compute?</h2>
-<p>Quantum chemistry programs such as Q-Chem <span class="citation" data-cites="epifanovsky2021">(<a href="#ref-epifanovsky2021" role="doc-biblioref"><span class="nocase">Epifanovsky et al.</span> 2021</a>)</span> solve, approximately, one equation: the Schrödinger equation for the electrons of a molecule. From its solution we get an <strong>energy</strong> for a given arrangement of atoms. Almost everything a computational chemist predicts is built from such energies:</p>
+<p>Quantum chemistry programs such as Q-Chem <span class="citation" data-cites="epifanovsky2021">&nbsp;[<a href="#ref-epifanovsky2021" role="doc-biblioref">1</a>]</span> solve, approximately, one equation: the Schrödinger equation for the electrons of a molecule. From its solution we get an <strong>energy</strong> for a given arrangement of atoms. Almost everything a computational chemist predicts is built from such energies:</p>
 <ul>
 <li><strong>Reaction energies.</strong> Compute the energy of every reactant and product, then combine them with the stoichiometric coefficients. Is the reaction uphill or downhill, and by how much?</li>
 <li><strong>Barrier heights.</strong> Compute the energy of a transition state and compare it with the reactants. The barrier controls the rate.</li>
@@ -786,7 +787,7 @@ window.Quarto = {
 <h2 data-number="2" class="anchored" data-anchor-id="review-the-schrödinger-equation-and-the-hydrogen-atom"><span class="header-section-number">2</span> Review: the Schrödinger equation and the hydrogen atom</h2>
 <section id="operators-eigenfunctions-eigenvalues" class="level3" data-number="2.1">
 <h3 data-number="2.1" class="anchored" data-anchor-id="operators-eigenfunctions-eigenvalues"><span class="header-section-number">2.1</span> Operators, eigenfunctions, eigenvalues</h3>
-<p>The time-independent Schrödinger equation (TISE) <span class="citation" data-cites="schrodinger1926">(<a href="#ref-schrodinger1926" role="doc-biblioref">Schrödinger 1926</a>)</span> is an eigenvalue equation:</p>
+<p>The time-independent Schrödinger equation (TISE) <span class="citation" data-cites="schrodinger1926">&nbsp;[<a href="#ref-schrodinger1926" role="doc-biblioref">2</a>]</span> is an eigenvalue equation:</p>
 <p><span id="eq-tise"><span class="math display">\[
 \hat{H}\Psi = E\Psi .
 \tag{1}\]</span></span></p>
@@ -834,7 +835,7 @@ Figure&nbsp;1: Hydrogen-atom radial functions <span class="math inline">\(R_{n\e
 </div>
 <p>The hydrogen orbitals are <strong>one-electron wave functions</strong>. That idea is the seed of everything we do: for many-electron systems we will build approximate wave functions out of one-electron functions (orbitals), and we will build the orbitals themselves out of simpler functions that look like the hydrogen solutions near each nucleus. Two properties of <span class="math inline">\(\psi_{1s} \propto e^{-r}\)</span> are worth noticing now, because Gaussian basis functions will get both of them wrong (<a href="../lectures/l02-basis-sets.html">Lecture 2</a>):</p>
 <ul>
-<li><strong>The cusp.</strong> At <span class="math inline">\(r = 0\)</span> the 1s function has a finite value and a sharp corner: its slope is <span class="math inline">\(d\psi/dr = -Z\psi(0)\)</span>, not zero. This is not an accident of hydrogen; it is required of any exact wave function wherever an electron meets a nucleus <span class="citation" data-cites="kato1957">(<a href="#ref-kato1957" role="doc-biblioref">Kato 1957</a>)</span>.</li>
+<li><strong>The cusp.</strong> At <span class="math inline">\(r = 0\)</span> the 1s function has a finite value and a sharp corner: its slope is <span class="math inline">\(d\psi/dr = -Z\psi(0)\)</span>, not zero. This is not an accident of hydrogen; it is required of any exact wave function wherever an electron meets a nucleus <span class="citation" data-cites="kato1957">&nbsp;[<a href="#ref-kato1957" role="doc-biblioref">3</a>]</span>.</li>
 <li><strong>The exponential tail.</strong> Far from the nucleus, bound wave functions decay as <span class="math inline">\(e^{-\sqrt{2I}\,r}\)</span>, where <span class="math inline">\(I\)</span> is the ionization energy in hartree. For hydrogen, <span class="math inline">\(I = 0.5\ E_\text{h}\)</span> and the decay is <span class="math inline">\(e^{-r}\)</span>.</li>
 </ul>
 </section>
@@ -944,7 +945,7 @@ Table&nbsp;1: Atomic units used in this course. In this lab, total energies are 
 <section id="clamped-nuclei" class="level3" data-number="4.1">
 <h3 data-number="4.1" class="anchored" data-anchor-id="clamped-nuclei"><span class="header-section-number">4.1</span> Clamped nuclei</h3>
 <p><a href="#eq-molham-au" class="quarto-xref">Equation&nbsp;5</a> still describes all particles at once. Even for H₂ (two nuclei, two electrons) it is a problem in 12 coordinates. The first and most important simplification uses the fact that nuclei are heavy: a proton is 1836 times heavier than an electron, and a ³⁵Cl nucleus about 64,000 times. For the same kinetic energy, nuclei move far more slowly. To the electrons, the nuclei look almost frozen; to the nuclei, the electrons adjust instantly to wherever the nuclei are.</p>
-<p>The <strong>Born–Oppenheimer approximation</strong> <span class="citation" data-cites="born1927">(<a href="#ref-born1927" role="doc-biblioref">Born and Oppenheimer 1927</a>)</span> makes this precise. We fix (“clamp”) the nuclei at positions <span class="math inline">\(\mathbf{R}\)</span>, drop the nuclear kinetic energy <span class="math inline">\(\hat{T}_n\)</span>, and solve for the electrons alone. The <strong>electronic Hamiltonian</strong> is</p>
+<p>The <strong>Born–Oppenheimer approximation</strong> <span class="citation" data-cites="born1927">&nbsp;[<a href="#ref-born1927" role="doc-biblioref">4</a>]</span> makes this precise. We fix (“clamp”) the nuclei at positions <span class="math inline">\(\mathbf{R}\)</span>, drop the nuclear kinetic energy <span class="math inline">\(\hat{T}_n\)</span>, and solve for the electrons alone. The <strong>electronic Hamiltonian</strong> is</p>
 <p><span id="eq-hel"><span class="math display">\[
 \hat{H}_\text{el} = -\sum_{i}\frac{1}{2}\nabla_i^2 - \sum_{i}\sum_{A}\frac{Z_A}{r_{iA}} + \sum_{i}\sum_{j&gt;i}\frac{1}{r_{ij}} ,
 \tag{6}\]</span></span></p>
@@ -1080,7 +1081,7 @@ Table&nbsp;2: The helium atom. Ignoring electron repulsion is a disaster; a sing
 \varphi_1(\mathbf{x}_2) &amp; \varphi_2(\mathbf{x}_2)
 \end{matrix}\right| .
 \tag{10}\]</span></span></p>
-<p>The second form is a determinant, and it generalizes to <span class="math inline">\(N\)</span> electrons. The <strong>Slater determinant</strong> <span class="citation" data-cites="slater1930">(<a href="#ref-slater1930" role="doc-biblioref">Slater 1930</a>)</span> is</p>
+<p>The second form is a determinant, and it generalizes to <span class="math inline">\(N\)</span> electrons. The <strong>Slater determinant</strong> <span class="citation" data-cites="slater1930">&nbsp;[<a href="#ref-slater1930" role="doc-biblioref">5</a>]</span> is</p>
 <p><span id="eq-slater"><span class="math display">\[
 \Psi(\mathbf{x}_1, \dots, \mathbf{x}_N) = \frac{1}{\sqrt{N!}}
 \left|\begin{matrix}
@@ -1251,39 +1252,39 @@ Table&nbsp;3: Decoding a model chemistry. You will meet each of these names in E
 <h2 data-number="9" class="anchored" data-anchor-id="further-reading"><span class="header-section-number">9</span> Further reading</h2>
 <ul>
 <li><a href="https://peverati.github.io/pchem2/">The Live Textbook of Physical Chemistry 2</a>, chapters 3, 5–8, 10 and 11, for the review material of this chapter.</li>
-<li>A. Szabo and N. S. Ostlund, <em>Modern Quantum Chemistry</em> <span class="citation" data-cites="szabo1996">(<a href="#ref-szabo1996" role="doc-biblioref">Szabo and Ostlund 1996</a>)</span>, chapters 1–2: the classic, careful introduction to the electronic Hamiltonian, Slater determinants and their algebra.</li>
-<li>T. Helgaker, P. Jørgensen and J. Olsen, <em>Molecular Electronic-Structure Theory</em> <span class="citation" data-cites="helgaker2000">(<a href="#ref-helgaker2000" role="doc-biblioref">Helgaker et al. 2000</a>)</span>: the advanced reference for everything in Lectures 1–4.</li>
-<li>W. Koch and M. C. Holthausen, <em>A Chemist’s Guide to Density Functional Theory</em> <span class="citation" data-cites="koch2001">(<a href="#ref-koch2001" role="doc-biblioref">Koch and Holthausen 2001</a>)</span>, chapter 1: a compact review of the many-electron problem from the point of view of DFT users.</li>
+<li>A. Szabo and N. S. Ostlund, <em>Modern Quantum Chemistry</em> <span class="citation" data-cites="szabo1996">&nbsp;[<a href="#ref-szabo1996" role="doc-biblioref">6</a>]</span>, chapters 1–2: the classic, careful introduction to the electronic Hamiltonian, Slater determinants and their algebra.</li>
+<li>T. Helgaker, P. Jørgensen and J. Olsen, <em>Molecular Electronic-Structure Theory</em> <span class="citation" data-cites="helgaker2000">&nbsp;[<a href="#ref-helgaker2000" role="doc-biblioref">7</a>]</span>: the advanced reference for everything in Lectures 1–4.</li>
+<li>W. Koch and M. C. Holthausen, <em>A Chemist’s Guide to Density Functional Theory</em> <span class="citation" data-cites="koch2001">&nbsp;[<a href="#ref-koch2001" role="doc-biblioref">8</a>]</span>, chapter 1: a compact review of the many-electron problem from the point of view of DFT users.</li>
 </ul>
 
 
 
 </section>
 
-<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
-<div id="ref-born1927" class="csl-entry" role="listitem">
-Born, M., and R. Oppenheimer. 1927. <span>“Zur Quantentheorie Der Molekeln.”</span> <em>Ann. Phys.</em> 389: 457–84. <a href="https://doi.org/10.1002/andp.19273892002">https://doi.org/10.1002/andp.19273892002</a>.
-</div>
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body" data-entry-spacing="0" role="list">
 <div id="ref-epifanovsky2021" class="csl-entry" role="listitem">
-<span class="nocase">Epifanovsky, E. et al.</span> 2021. <span>“Software for the Frontiers of Quantum Chemistry: An Overview of Developments in the <span>Q-Chem</span> 5 Package.”</span> <em>J. Chem. Phys.</em> 155: 084801.
-</div>
-<div id="ref-helgaker2000" class="csl-entry" role="listitem">
-Helgaker, T., P. Jørgensen, and J. Olsen. 2000. <em>Molecular Electronic-Structure Theory</em>. Wiley.
-</div>
-<div id="ref-kato1957" class="csl-entry" role="listitem">
-Kato, T. 1957. <span>“On the Eigenfunctions of Many-Particle Systems in Quantum Mechanics.”</span> <em>Commun. Pure Appl. Math.</em> 10: 151–77. <a href="https://doi.org/10.1002/cpa.3160100201">https://doi.org/10.1002/cpa.3160100201</a>.
-</div>
-<div id="ref-koch2001" class="csl-entry" role="listitem">
-Koch, W., and M. C. Holthausen. 2001. <em>A Chemist’s Guide to Density Functional Theory</em>. 2nd ed. Wiley-VCH.
+<div class="csl-left-margin">[1] </div><div class="csl-right-inline"><span class="nocase">E. Epifanovsky et al.</span>, Software for the frontiers of quantum chemistry: An overview of developments in the <span>Q-Chem</span> 5 package, J. Chem. Phys. <strong>155</strong>, 084801 (2021).</div>
 </div>
 <div id="ref-schrodinger1926" class="csl-entry" role="listitem">
-Schrödinger, E. 1926. <span>“Quantisierung Als Eigenwertproblem.”</span> <em>Ann. Phys.</em> 384: 361–76. <a href="https://doi.org/10.1002/andp.19263840404">https://doi.org/10.1002/andp.19263840404</a>.
+<div class="csl-left-margin">[2] </div><div class="csl-right-inline">E. Schrödinger, <a href="https://doi.org/10.1002/andp.19263840404">Quantisierung als eigenwertproblem</a>, Ann. Phys. <strong>384</strong>, 361 (1926).</div>
+</div>
+<div id="ref-kato1957" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[3] </div><div class="csl-right-inline">T. Kato, <a href="https://doi.org/10.1002/cpa.3160100201">On the eigenfunctions of many-particle systems in quantum mechanics</a>, Commun. Pure Appl. Math. <strong>10</strong>, 151 (1957).</div>
+</div>
+<div id="ref-born1927" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[4] </div><div class="csl-right-inline">M. Born and R. Oppenheimer, <a href="https://doi.org/10.1002/andp.19273892002">Zur quantentheorie der molekeln</a>, Ann. Phys. <strong>389</strong>, 457 (1927).</div>
 </div>
 <div id="ref-slater1930" class="csl-entry" role="listitem">
-Slater, J. C. 1930. <em>Phys. Rev.</em> 35: 210–11.
+<div class="csl-left-margin">[5] </div><div class="csl-right-inline">J. C. Slater, Phys. Rev. <strong>35</strong>, 210 (1930).</div>
 </div>
 <div id="ref-szabo1996" class="csl-entry" role="listitem">
-Szabo, A., and N. S. Ostlund. 1996. <em>Modern Quantum Chemistry: Introduction to Advanced Electronic Structure Theory</em>. Dover.
+<div class="csl-left-margin">[6] </div><div class="csl-right-inline">A. Szabo and N. S. Ostlund, <em>Modern Quantum Chemistry: Introduction to Advanced Electronic Structure Theory</em> (Dover, Mineola, NY, 1996).</div>
+</div>
+<div id="ref-helgaker2000" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[7] </div><div class="csl-right-inline">T. Helgaker, P. Jørgensen, and J. Olsen, <em>Molecular Electronic-Structure Theory</em> (Wiley, Chichester, 2000).</div>
+</div>
+<div id="ref-koch2001" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[8] </div><div class="csl-right-inline">W. Koch and M. C. Holthausen, <em>A Chemist’s Guide to Density Functional Theory</em>, 2nd ed. (Wiley-VCH, Weinheim, 2001).</div>
 </div>
 </div></section></div></main> <!-- /main -->
 <!-- Peverati lab logo at the top right of the navbar (light and dark versions). -->

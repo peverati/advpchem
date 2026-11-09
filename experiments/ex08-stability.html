@@ -31,6 +31,7 @@ ul.task-list li input[type="checkbox"] {
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
+  margin-bottom: 0em;
 }
 .hanging-indent div.csl-entry {
   margin-left:2em;
@@ -602,10 +603,10 @@ div.csl-indent {
 <section id="background" class="level2">
 <h2 class="anchored" data-anchor-id="background">Background</h2>
 <p>As you know, the coefficients of the basis functions in the Kohn–Sham orbitals come from an iterative procedure, the <strong>self-consistent field (SCF)</strong> procedure. Starting from an initial set of coefficients (the initial density matrix, or “guess”), it produces the final, optimized coefficients, which computational chemists call the converged SCF solution.</p>
-<p>A converged SCF solution is a <em>stationary point</em>, but we can’t know in advance whether it is a minimum, a maximum or a saddle point. To be sure we have the lowest energy, we must characterize the stationary point and correct it if needed. This <strong>stability analysis</strong> requires the second derivatives of the energy with respect to orbital rotations (the electronic Hessian), and it can be repeated more than once. When an instability is detected, two constraints can be lifted to lower the energy <span class="citation" data-cites="seeger1977">(<a href="#ref-seeger1977" role="doc-biblioref">Seeger and Pople 1977</a>)</span>: we can change the theoretical framework (from restricted to unrestricted), or we can allow complex instead of real orbitals. The wave function obtained after a stability analysis is <em>stable</em> and has a lower energy than the unstable one.</p>
-<p>How can an SCF end on an unstable solution? For example, it can land on an excited state while you are computing the ground state. With a reasonable guess this is unlikely for molecules made mostly of main-group elements, but it is much more likely for systems with nearly degenerate low-lying states, such as transition-metal atoms. Without a stability analysis you would never notice. Good descriptions of the procedure are in <span class="citation" data-cites="seeger1977">Seeger and Pople (<a href="#ref-seeger1977" role="doc-biblioref">1977</a>)</span>, <span class="citation" data-cites="bauernschmitt1996">Bauernschmitt and Ahlrichs (<a href="#ref-bauernschmitt1996" role="doc-biblioref">1996</a>)</span> and <span class="citation" data-cites="fukutome1981">Fukutome (<a href="#ref-fukutome1981" role="doc-biblioref">1981</a>)</span>.</p>
-<p>In this experiment you will use five functionals with the <strong>def2-TZVP</strong> basis set <span class="citation" data-cites="weigend2005">(<a href="#ref-weigend2005" role="doc-biblioref">Weigend and Ahlrichs 2005</a>)</span>: PBE <span class="citation" data-cites="perdew1996">(<a href="#ref-perdew1996" role="doc-biblioref">Perdew et al. 1996</a>)</span> for both atoms, BP86 <span class="citation" data-cites="becke1988 perdew1986 perdew1986a">(<a href="#ref-becke1988" role="doc-biblioref">Becke 1988</a>; <a href="#ref-perdew1986" role="doc-biblioref">Perdew 1986a</a>, <a href="#ref-perdew1986a" role="doc-biblioref">1986b</a>)</span> and PBE0 <span class="citation" data-cites="adamo1999 ernzerhof1999">(<a href="#ref-adamo1999" role="doc-biblioref">Adamo and Barone 1999</a>; <a href="#ref-ernzerhof1999" role="doc-biblioref">Ernzerhof and Scuseria 1999</a>)</span> for Ru⁺, and M06-2X <span class="citation" data-cites="zhao2008">(<a href="#ref-zhao2008" role="doc-biblioref">Zhao and Truhlar 2008</a>)</span> and B97M-V <span class="citation" data-cites="mardirossian2015 vydrov2010">(<a href="#ref-mardirossian2015" role="doc-biblioref">Mardirossian and Head-Gordon 2015</a>; <a href="#ref-vydrov2010" role="doc-biblioref">Vydrov and Van Voorhis 2010</a>)</span> for Fe. These are the combinations whose calculations converge reliably both with and without stability analysis. Other functionals (SPW92, B3LYP, SCAN, ωB97M-V) and Hartree–Fock were left out because their SCF often fails to converge for these atoms, itself a lesson about transition metals. Ru needs an effective core potential (<code>ECP = def2-ECP</code>).</p>
-<p>You will compute the excitation energies of two atoms, <strong>Fe</strong> (reference 34.32 kcal/mol) and <strong>Ru⁺</strong> (reference 21.96 kcal/mol). The data come from the 3dAEE8 <span class="citation" data-cites="hoyer2014 luo2014 yu2014">(<a href="#ref-hoyer2014" role="doc-biblioref">Hoyer et al. 2014</a>; <a href="#ref-luo2014" role="doc-biblioref">Luo et al. 2014</a>; <a href="#ref-yu2014" role="doc-biblioref">Yu and Truhlar 2014</a>)</span> and 4dAEE5 <span class="citation" data-cites="luo2012">(<a href="#ref-luo2012" role="doc-biblioref">Luo and Truhlar 2012</a>)</span> subsets of the Minnesota 2015B database <span class="citation" data-cites="yu2016a">(<a href="#ref-yu2016a" role="doc-biblioref">Yu et al. 2016</a>)</span>. Run two sets of calculations:</p>
+<p>A converged SCF solution is a <em>stationary point</em>, but we can’t know in advance whether it is a minimum, a maximum or a saddle point. To be sure we have the lowest energy, we must characterize the stationary point and correct it if needed. This <strong>stability analysis</strong> requires the second derivatives of the energy with respect to orbital rotations (the electronic Hessian), and it can be repeated more than once. When an instability is detected, two constraints can be lifted to lower the energy <span class="citation" data-cites="seeger1977">&nbsp;[<a href="#ref-seeger1977" role="doc-biblioref">1</a>]</span>: we can change the theoretical framework (from restricted to unrestricted), or we can allow complex instead of real orbitals. The wave function obtained after a stability analysis is <em>stable</em> and has a lower energy than the unstable one.</p>
+<p>How can an SCF end on an unstable solution? For example, it can land on an excited state while you are computing the ground state. With a reasonable guess this is unlikely for molecules made mostly of main-group elements, but it is much more likely for systems with nearly degenerate low-lying states, such as transition-metal atoms. Without a stability analysis you would never notice. Good descriptions of the procedure are in <span class="citation" data-cites="seeger1977">&nbsp;[<a href="#ref-seeger1977" role="doc-biblioref">1</a>]</span>, <span class="citation" data-cites="bauernschmitt1996">&nbsp;[<a href="#ref-bauernschmitt1996" role="doc-biblioref">2</a>]</span> and <span class="citation" data-cites="fukutome1981">&nbsp;[<a href="#ref-fukutome1981" role="doc-biblioref">3</a>]</span>.</p>
+<p>In this experiment you will use five functionals with the <strong>def2-TZVP</strong> basis set <span class="citation" data-cites="weigend2005">&nbsp;[<a href="#ref-weigend2005" role="doc-biblioref">4</a>]</span>: PBE <span class="citation" data-cites="perdew1996">&nbsp;[<a href="#ref-perdew1996" role="doc-biblioref">5</a>]</span> for both atoms, BP86 <span class="citation" data-cites="becke1988 perdew1986 perdew1986a">&nbsp;[<a href="#ref-becke1988" role="doc-biblioref">6</a>–<a href="#ref-perdew1986a" role="doc-biblioref">8</a>]</span> and PBE0 <span class="citation" data-cites="adamo1999 ernzerhof1999">&nbsp;[<a href="#ref-adamo1999" role="doc-biblioref">9</a>,<a href="#ref-ernzerhof1999" role="doc-biblioref">10</a>]</span> for Ru⁺, and M06-2X <span class="citation" data-cites="zhao2008">&nbsp;[<a href="#ref-zhao2008" role="doc-biblioref">11</a>]</span> and B97M-V <span class="citation" data-cites="mardirossian2015 vydrov2010">&nbsp;[<a href="#ref-mardirossian2015" role="doc-biblioref">12</a>,<a href="#ref-vydrov2010" role="doc-biblioref">13</a>]</span> for Fe. These are the combinations whose calculations converge reliably both with and without stability analysis. Other functionals (SPW92, B3LYP, SCAN, ωB97M-V) and Hartree–Fock were left out because their SCF often fails to converge for these atoms, itself a lesson about transition metals. Ru needs an effective core potential (<code>ECP = def2-ECP</code>).</p>
+<p>You will compute the excitation energies of two atoms, <strong>Fe</strong> (reference 34.32 kcal/mol) and <strong>Ru⁺</strong> (reference 21.96 kcal/mol). The data come from the 3dAEE8 <span class="citation" data-cites="hoyer2014 luo2014 yu2014">&nbsp;[<a href="#ref-hoyer2014" role="doc-biblioref">14</a>–<a href="#ref-yu2014" role="doc-biblioref">16</a>]</span> and 4dAEE5 <span class="citation" data-cites="luo2012">&nbsp;[<a href="#ref-luo2012" role="doc-biblioref">17</a>]</span> subsets of the Minnesota 2015B database <span class="citation" data-cites="yu2016a">&nbsp;[<a href="#ref-yu2016a" role="doc-biblioref">18</a>]</span>. Run two sets of calculations:</p>
 <ol type="1">
 <li><strong>Without</strong> stability analysis: compute the excitation energy E(excited) − E(ground).</li>
 <li><strong>With</strong> stability analysis: add <code>INTERNAL_STABILITY TRUE</code> to the <code>$rem</code> section, and check in the output whether an instability was found and the wave function re-optimized.</li>
@@ -666,7 +667,7 @@ div.csl-indent {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>This simple example shows that calculations involving transition metals are not easy. Even for “reactions” between atomic states the errors can be very large, and in extreme cases <span class="citation" data-cites="cao2019">(<a href="#ref-cao2019" role="doc-biblioref">Cao and Ryde 2019</a>)</span> it isn’t clear which functionals give the right answer. As general advice, always run a stability analysis on the final solution. It is mandatory for systems with low-lying states, such as transition metals, especially with a small basis set. In these problematic cases, it is always a good idea to seek help from a theoretician.</p>
+<p>This simple example shows that calculations involving transition metals are not easy. Even for “reactions” between atomic states the errors can be very large, and in extreme cases <span class="citation" data-cites="cao2019">&nbsp;[<a href="#ref-cao2019" role="doc-biblioref">19</a>]</span> it isn’t clear which functionals give the right answer. As general advice, always run a stability analysis on the final solution. It is mandatory for systems with low-lying states, such as transition metals, especially with a small basis set. In these problematic cases, it is always a good idea to seek help from a theoretician.</p>
 </div>
 </div>
 </section>
@@ -681,63 +682,63 @@ div.csl-indent {
 
 </section>
 
-<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
-<div id="ref-adamo1999" class="csl-entry" role="listitem">
-Adamo, C., and V. Barone. 1999. <em>J. Chem. Phys.</em> 110: 6158–70.
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body" data-entry-spacing="0" role="list">
+<div id="ref-seeger1977" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[1] </div><div class="csl-right-inline">R. Seeger and J. A. Pople, J. Chem. Phys. <strong>66</strong>, 3045 (1977).</div>
 </div>
 <div id="ref-bauernschmitt1996" class="csl-entry" role="listitem">
-Bauernschmitt, R., and R. Ahlrichs. 1996. <em>J. Chem. Phys.</em> 104: 9047–52.
-</div>
-<div id="ref-becke1988" class="csl-entry" role="listitem">
-Becke, A. D. 1988. <em>Phys. Rev. A</em> 38: 3098–100.
-</div>
-<div id="ref-cao2019" class="csl-entry" role="listitem">
-Cao, L., and U. Ryde. 2019. <em>Phys. Chem. Chem. Phys.</em> 21: 2480–88.
-</div>
-<div id="ref-ernzerhof1999" class="csl-entry" role="listitem">
-Ernzerhof, M., and G. E. Scuseria. 1999. <em>J. Chem. Phys.</em> 110: 5029–36.
+<div class="csl-left-margin">[2] </div><div class="csl-right-inline">R. Bauernschmitt and R. Ahlrichs, J. Chem. Phys. <strong>104</strong>, 9047 (1996).</div>
 </div>
 <div id="ref-fukutome1981" class="csl-entry" role="listitem">
-Fukutome, H. 1981. <em>Int. J. Quantum Chem.</em> 20: 955–1065.
-</div>
-<div id="ref-hoyer2014" class="csl-entry" role="listitem">
-Hoyer, C. E., G. Li Manni, D. G. Truhlar, and L. Gagliardi. 2014. <em>J. Chem. Phys.</em> 141: 204309.
-</div>
-<div id="ref-luo2014" class="csl-entry" role="listitem">
-Luo, S., B. B. Averkiev, K. R. Yang, X. Xu, and D. G. Truhlar. 2014. <em>J. Chem. Theory Comput.</em> 10: 102–21.
-</div>
-<div id="ref-luo2012" class="csl-entry" role="listitem">
-Luo, S., and D. G. Truhlar. 2012. <em>J. Chem. Theory Comput.</em> 8: 4112–26.
-</div>
-<div id="ref-mardirossian2015" class="csl-entry" role="listitem">
-Mardirossian, N., and M. Head-Gordon. 2015. <em>J. Chem. Phys.</em> 142: 074111.
-</div>
-<div id="ref-perdew1986" class="csl-entry" role="listitem">
-Perdew, J. P. 1986a. <em>Phys. Rev. B</em> 33: 8822–24.
-</div>
-<div id="ref-perdew1986a" class="csl-entry" role="listitem">
-Perdew, J. P. 1986b. <em>Phys. Rev. B</em> 34: 7406.
-</div>
-<div id="ref-perdew1996" class="csl-entry" role="listitem">
-Perdew, J. P., K. Burke, and M. Ernzerhof. 1996. <em>Phys. Rev. Lett.</em> 77: 3865–68.
-</div>
-<div id="ref-seeger1977" class="csl-entry" role="listitem">
-Seeger, R., and J. A. Pople. 1977. <em>J. Chem. Phys.</em> 66: 3045–50.
-</div>
-<div id="ref-vydrov2010" class="csl-entry" role="listitem">
-Vydrov, O. A., and T. Van Voorhis. 2010. <em>J. Chem. Phys.</em> 133: 244103.
+<div class="csl-left-margin">[3] </div><div class="csl-right-inline">H. Fukutome, Int. J. Quantum Chem. <strong>20</strong>, 955 (1981).</div>
 </div>
 <div id="ref-weigend2005" class="csl-entry" role="listitem">
-Weigend, F., and R. Ahlrichs. 2005. <em>Phys. Chem. Chem. Phys.</em> 7: 3297–305.
+<div class="csl-left-margin">[4] </div><div class="csl-right-inline">F. Weigend and R. Ahlrichs, Phys. Chem. Chem. Phys. <strong>7</strong>, 3297 (2005).</div>
 </div>
-<div id="ref-yu2016a" class="csl-entry" role="listitem">
-Yu, H. S., X. He, S. L. Li, and D. G. Truhlar. 2016. <em>Chem. Sci.</em> 7: 5032–51.
+<div id="ref-perdew1996" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[5] </div><div class="csl-right-inline">J. P. Perdew, K. Burke, and M. Ernzerhof, Phys. Rev. Lett. <strong>77</strong>, 3865 (1996).</div>
 </div>
-<div id="ref-yu2014" class="csl-entry" role="listitem">
-Yu, H., and D. G. Truhlar. 2014. <em>J. Chem. Theory Comput.</em> 10: 2291–305.
+<div id="ref-becke1988" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[6] </div><div class="csl-right-inline">A. D. Becke, Phys. Rev. A <strong>38</strong>, 3098 (1988).</div>
+</div>
+<div id="ref-perdew1986" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[7] </div><div class="csl-right-inline">J. P. Perdew, Phys. Rev. B <strong>33</strong>, 8822 (1986).</div>
+</div>
+<div id="ref-perdew1986a" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[8] </div><div class="csl-right-inline">J. P. Perdew, Phys. Rev. B <strong>34</strong>, 7406 (1986).</div>
+</div>
+<div id="ref-adamo1999" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[9] </div><div class="csl-right-inline">C. Adamo and V. Barone, J. Chem. Phys. <strong>110</strong>, 6158 (1999).</div>
+</div>
+<div id="ref-ernzerhof1999" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[10] </div><div class="csl-right-inline">M. Ernzerhof and G. E. Scuseria, J. Chem. Phys. <strong>110</strong>, 5029 (1999).</div>
 </div>
 <div id="ref-zhao2008" class="csl-entry" role="listitem">
-Zhao, Y., and D. G. Truhlar. 2008. <em>Theor. Chem. Acc.</em> 120: 215–41.
+<div class="csl-left-margin">[11] </div><div class="csl-right-inline">Y. Zhao and D. G. Truhlar, Theor. Chem. Acc. <strong>120</strong>, 215 (2008).</div>
+</div>
+<div id="ref-mardirossian2015" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[12] </div><div class="csl-right-inline">N. Mardirossian and M. Head-Gordon, J. Chem. Phys. <strong>142</strong>, 074111 (2015).</div>
+</div>
+<div id="ref-vydrov2010" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[13] </div><div class="csl-right-inline">O. A. Vydrov and T. Van Voorhis, J. Chem. Phys. <strong>133</strong>, 244103 (2010).</div>
+</div>
+<div id="ref-hoyer2014" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[14] </div><div class="csl-right-inline">C. E. Hoyer, G. Li Manni, D. G. Truhlar, and L. Gagliardi, J. Chem. Phys. <strong>141</strong>, 204309 (2014).</div>
+</div>
+<div id="ref-luo2014" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[15] </div><div class="csl-right-inline">S. Luo, B. B. Averkiev, K. R. Yang, X. Xu, and D. G. Truhlar, J. Chem. Theory Comput. <strong>10</strong>, 102 (2014).</div>
+</div>
+<div id="ref-yu2014" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[16] </div><div class="csl-right-inline">H. Yu and D. G. Truhlar, J. Chem. Theory Comput. <strong>10</strong>, 2291 (2014).</div>
+</div>
+<div id="ref-luo2012" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[17] </div><div class="csl-right-inline">S. Luo and D. G. Truhlar, J. Chem. Theory Comput. <strong>8</strong>, 4112 (2012).</div>
+</div>
+<div id="ref-yu2016a" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[18] </div><div class="csl-right-inline">H. S. Yu, X. He, S. L. Li, and D. G. Truhlar, Chem. Sci. <strong>7</strong>, 5032 (2016).</div>
+</div>
+<div id="ref-cao2019" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[19] </div><div class="csl-right-inline">L. Cao and U. Ryde, Phys. Chem. Chem. Phys. <strong>21</strong>, 2480 (2019).</div>
 </div>
 </div></section></div></main> <!-- /main -->
 <!-- Peverati lab logo at the top right of the navbar (light and dark versions). -->

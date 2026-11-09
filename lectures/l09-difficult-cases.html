@@ -31,6 +31,7 @@ ul.task-list li input[type="checkbox"] {
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
+  margin-bottom: 0em;
 }
 .hanging-indent div.csl-entry {
   margin-left:2em;
@@ -766,7 +767,7 @@ window.Quarto = {
 </section>
 <section id="part-2-why-dft-fails" class="level1" data-number="2">
 <h1 data-number="2"><span class="header-section-number">2</span> Part 2 · Why DFT fails</h1>
-<p>Experiment 5 contains reactions that are hard for nearly every functional. To understand why, we need three ideas: self-interaction (and delocalization) error, static correlation, and the special difficulty of atomization energies. All are discussed in the excellent review by Cohen, Mori-Sánchez and Yang <span class="citation" data-cites="cohen2012">(<a href="#ref-cohen2012" role="doc-biblioref">Cohen et al. 2012</a>)</span>.</p>
+<p>Experiment 5 contains reactions that are hard for nearly every functional. To understand why, we need three ideas: self-interaction (and delocalization) error, static correlation, and the special difficulty of atomization energies. All are discussed in the excellent review by Cohen, Mori-Sánchez and Yang <span class="citation" data-cites="cohen2012">&nbsp;[<a href="#ref-cohen2012" role="doc-biblioref">1</a>]</span>.</p>
 <section id="self-interaction-error" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="self-interaction-error"><span class="header-section-number">2.1</span> Self-interaction error</h2>
 <section id="one-electron-should-not-repel-itself" class="level3" data-number="2.1.1">
@@ -783,11 +784,11 @@ J[\rho] = \frac{1}{2}\iint \frac{\rho(\mathbf r)\rho(\mathbf r')}{|\mathbf r - \
 <p><span id="eq-sic"><span class="math display">\[
 J[\rho_1] + E_\text{xc}[\rho_1] = 0 \quad \text{for any one-electron density } \rho_1 .
 \tag{3}\]</span></span></p>
-<p>In Hartree–Fock, the condition holds automatically, because the Coulomb and exchange integrals of an orbital with itself are equal (J<sub>ii</sub> = K<sub>ii</sub>, Lecture 4). Approximate functionals (LSDA, GGAs, meta-GGAs) do not satisfy <a href="#eq-sic" class="quarto-xref">Equation&nbsp;3</a>. Perdew and Zunger called the leftover the <strong>self-interaction error</strong> (SIE) and proposed an orbital-by-orbital correction for it <span class="citation" data-cites="perdew1981">(<a href="#ref-perdew1981" role="doc-biblioref">Perdew and Zunger 1981</a>)</span>. Hybrids reduce the SIE in proportion to their fraction of HF exchange, and range-separated hybrids, with 100% HF exchange at long range, remove it at long range.</p>
+<p>In Hartree–Fock, the condition holds automatically, because the Coulomb and exchange integrals of an orbital with itself are equal (J<sub>ii</sub> = K<sub>ii</sub>, Lecture 4). Approximate functionals (LSDA, GGAs, meta-GGAs) do not satisfy <a href="#eq-sic" class="quarto-xref">Equation&nbsp;3</a>. Perdew and Zunger called the leftover the <strong>self-interaction error</strong> (SIE) and proposed an orbital-by-orbital correction for it <span class="citation" data-cites="perdew1981">&nbsp;[<a href="#ref-perdew1981" role="doc-biblioref">2</a>]</span>. Hybrids reduce the SIE in proportion to their fraction of HF exchange, and range-separated hybrids, with 100% HF exchange at long range, remove it at long range.</p>
 </section>
 <section id="many-electrons-delocalization-error" class="level3" data-number="2.1.2">
 <h3 data-number="2.1.2" class="anchored" data-anchor-id="many-electrons-delocalization-error"><span class="header-section-number">2.1.2</span> Many electrons: delocalization error</h3>
-<p>For many-electron systems the more useful concept is the <strong>delocalization error</strong> <span class="citation" data-cites="morisanchez2008">(<a href="#ref-morisanchez2008" role="doc-biblioref">Mori-Sánchez et al. 2008</a>)</span>. Imagine allowing the number of electrons N to vary continuously, so that a system can hold a fractional number of electrons (think of a statistical mixture, or of one electron shared between two very distant fragments). The exact energy E(N) is a series of <strong>straight lines</strong> between integer values of N <span class="citation" data-cites="perdew1982">(<a href="#ref-perdew1982" role="doc-biblioref">Perdew et al. 1982</a>)</span>. Approximate functionals give curves instead (<a href="#fig-fractional" class="quarto-xref">Figure&nbsp;1</a>):</p>
+<p>For many-electron systems the more useful concept is the <strong>delocalization error</strong> <span class="citation" data-cites="morisanchez2008">&nbsp;[<a href="#ref-morisanchez2008" role="doc-biblioref">3</a>]</span>. Imagine allowing the number of electrons N to vary continuously, so that a system can hold a fractional number of electrons (think of a statistical mixture, or of one electron shared between two very distant fragments). The exact energy E(N) is a series of <strong>straight lines</strong> between integer values of N <span class="citation" data-cites="perdew1982">&nbsp;[<a href="#ref-perdew1982" role="doc-biblioref">4</a>]</span>. Approximate functionals give curves instead (<a href="#fig-fractional" class="quarto-xref">Figure&nbsp;1</a>):</p>
 <ul>
 <li>typical density functionals give curves that bow <strong>below</strong> the straight lines (they are convex). Fractional charges, and therefore electrons spread over too large a region, come out <strong>too low in energy</strong>. This is the <strong>delocalization error</strong>.</li>
 <li>Hartree–Fock gives curves that bow <strong>above</strong> the lines (concave). It favors electrons that are too localized: the <strong>localization error</strong>.</li>
@@ -808,7 +809,7 @@ Figure&nbsp;1: Schematic of the energy of a system as a function of a continuous
 <h3 data-number="2.1.3" class="anchored" data-anchor-id="chemical-consequences"><span class="header-section-number">2.1.3</span> Chemical consequences</h3>
 <p>The delocalization error shows up in many places:</p>
 <ul>
-<li><strong>Stretched one-electron bonds.</strong> For H₂⁺ at long distance, the exact answer is a proton plus a hydrogen atom, or equivalently half an electron on each side with the same energy. Approximate functionals favor the delocalized “half and half” state too much, and give a dissociation curve that is far too low at large distance. The same happens for other radical cations <span class="citation" data-cites="bally1997">(<a href="#ref-bally1997" role="doc-biblioref">Bally and Sastry 1997</a>)</span>.</li>
+<li><strong>Stretched one-electron bonds.</strong> For H₂⁺ at long distance, the exact answer is a proton plus a hydrogen atom, or equivalently half an electron on each side with the same energy. Approximate functionals favor the delocalized “half and half” state too much, and give a dissociation curve that is far too low at large distance. The same happens for other radical cations <span class="citation" data-cites="bally1997">&nbsp;[<a href="#ref-bally1997" role="doc-biblioref">5</a>]</span>.</li>
 <li><strong>Barrier heights too low.</strong> In a transition state, bonds are partly broken and electrons are more delocalized than in reactants. GGAs overstabilize the transition state and underestimate barriers, often by several kcal/mol. More HF exchange raises barriers, which is why functionals built for kinetics (M06-2X, for example) have a lot of it.</li>
 <li><strong>Charge-transfer complexes</strong> and donor–acceptor systems are overbound, because partial charge transfer is overstabilized.</li>
 <li><strong>Conjugated and delocalized systems</strong> are overstabilized relative to localized ones (we saw a hint of this in 4a).</li>
@@ -850,10 +851,10 @@ Figure&nbsp;1: Schematic of the energy of a system as a function of a continuous
 <h3 data-number="2.2.3" class="anchored" data-anchor-id="where-static-correlation-appears-in-experiment-5"><span class="header-section-number">2.2.3</span> Where static correlation appears in Experiment 5</h3>
 <ul>
 <li><strong>Ozone.</strong> O₃ has partial <strong>diradical character</strong>: besides the main closed-shell configuration, a second configuration with two electrons promoted into a low-lying π* orbital has a large weight. This makes O₃ a classic multireference molecule. Reactions 5a (ozonolysis) and 5d (2 O₃ → 3 O₂) both involve it.</li>
-<li><strong>CaO.</strong> Calcium oxide is a molecule with low-lying excited states and strongly mixed bonding (ionic Ca²⁺O²⁻ and less ionic configurations close in energy). Reaction 5b comes from MR-MGM-BE4, a subset of <em>multireference</em> main-group bond energies <span class="citation" data-cites="yu2015a">(<a href="#ref-yu2015a" role="doc-biblioref">Yu and Truhlar 2015</a>)</span>.</li>
+<li><strong>CaO.</strong> Calcium oxide is a molecule with low-lying excited states and strongly mixed bonding (ionic Ca²⁺O²⁻ and less ionic configurations close in energy). Reaction 5b comes from MR-MGM-BE4, a subset of <em>multireference</em> main-group bond energies <span class="citation" data-cites="yu2015a">&nbsp;[<a href="#ref-yu2015a" role="doc-biblioref">6</a>]</span>.</li>
 <li><strong>Stretched bonds and bond breaking</strong> in general, and <strong>transition-metal compounds</strong> (Lecture 12).</li>
 </ul>
-<p>How do you know whether a molecule has multireference character? Diagnostics exist, for example the T₁ diagnostic from coupled cluster <span class="citation" data-cites="lee1989">(<a href="#ref-lee1989" role="doc-biblioref">Lee and Taylor 1989</a>)</span>, or the fraction of the atomization energy that comes from the (T) triples. Large values are a warning: the reference values themselves may carry larger uncertainties, and DFT results should be treated with caution.</p>
+<p>How do you know whether a molecule has multireference character? Diagnostics exist, for example the T₁ diagnostic from coupled cluster <span class="citation" data-cites="lee1989">&nbsp;[<a href="#ref-lee1989" role="doc-biblioref">7</a>]</span>, or the fraction of the atomization energy that comes from the (T) triples. Large values are a warning: the reference values themselves may carry larger uncertainties, and DFT results should be treated with caution.</p>
 </section>
 </section>
 <section id="atomization-energies-and-open-shell-atoms" class="level2" data-number="2.3">
@@ -864,7 +865,7 @@ Figure&nbsp;1: Schematic of the energy of a system as a function of a continuous
 <p><span id="eq-atomization"><span class="math display">\[
 \mathrm{H_2SO_4 \rightarrow S + 4\,O + 2\,H}, \qquad \Delta E = E(\mathrm S) + 4E(\mathrm O) + 2E(\mathrm H) - E(\mathrm{H_2SO_4}).
 \tag{4}\]</span></span></p>
-<p>Here all the bonds are broken at once, and the products are open-shell atoms while the reactant is a closed-shell molecule. This is the opposite of an isodesmic reaction: there is essentially <strong>no error cancellation</strong>. Every error in the description of each bond adds up. That is why atomization energies are the classic hard test for functionals, and the test on which Becke’s first hybrid functionals were judged <span class="citation" data-cites="becke1993">(<a href="#ref-becke1993" role="doc-biblioref">Becke 1993</a>)</span>.</p>
+<p>Here all the bonds are broken at once, and the products are open-shell atoms while the reactant is a closed-shell molecule. This is the opposite of an isodesmic reaction: there is essentially <strong>no error cancellation</strong>. Every error in the description of each bond adds up. That is why atomization energies are the classic hard test for functionals, and the test on which Becke’s first hybrid functionals were judged <span class="citation" data-cites="becke1993">&nbsp;[<a href="#ref-becke1993" role="doc-biblioref">8</a>]</span>.</p>
 </section>
 <section id="why-hartreefock-fails-dramatically" class="level3" data-number="2.3.2">
 <h3 data-number="2.3.2" class="anchored" data-anchor-id="why-hartreefock-fails-dramatically"><span class="header-section-number">2.3.2</span> Why Hartree–Fock fails dramatically</h3>
@@ -961,7 +962,7 @@ Table&nbsp;1: Ground-state multiplicities of the open-shell species (and Ca) in 
 <section id="training-sets-and-fitted-functionals" class="level2" data-number="2.5">
 <h2 data-number="2.5" class="anchored" data-anchor-id="training-sets-and-fitted-functionals"><span class="header-section-number">2.5</span> Training sets and fitted functionals</h2>
 <p>Many functionals contain parameters fitted to data (Lecture 6). B3LYP has 3; the Minnesota functionals have several dozen. The data used for the fit are the <strong>training set</strong>. A fitted functional reproduces its training set well <em>by construction</em>, so a good result on a training-set molecule is expected, not impressive. What matters for a user is how the functional performs on systems it was <strong>not</strong> fitted to.</p>
-<p>Reaction 5b (CaO → Ca + O) belongs to the MR-MGM-BE4 subset of Minnesota Database 2015B <span class="citation" data-cites="yu2015a">(<a href="#ref-yu2015a" role="doc-biblioref">Yu and Truhlar 2015</a>)</span>, and MN15 was parametrized on that database <span class="citation" data-cites="yu2016a">(<a href="#ref-yu2016a" role="doc-biblioref">Yu et al. 2016</a>)</span>. Experiment 5 has a <em>spotlight</em> chart for this reaction. When you look at it, ask: is this result a test of MN15, or a check that the fit worked? The same caution applies to any benchmark: before you use a dataset to judge a functional, check whether it was part of the functional’s training set.</p>
+<p>Reaction 5b (CaO → Ca + O) belongs to the MR-MGM-BE4 subset of Minnesota Database 2015B <span class="citation" data-cites="yu2015a">&nbsp;[<a href="#ref-yu2015a" role="doc-biblioref">6</a>]</span>, and MN15 was parametrized on that database <span class="citation" data-cites="yu2016a">&nbsp;[<a href="#ref-yu2016a" role="doc-biblioref">9</a>]</span>. Experiment 5 has a <em>spotlight</em> chart for this reaction. When you look at it, ask: is this result a test of MN15, or a check that the fit worked? The same caution applies to any benchmark: before you use a dataset to judge a functional, check whether it was part of the functional’s training set.</p>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -988,7 +989,7 @@ Table&nbsp;1: Ground-state multiplicities of the open-shell species (and Ca) in 
 <h2 data-number="3.1" class="anchored" data-anchor-id="the-goal"><span class="header-section-number">3.1</span> The goal</h2>
 <p><a href="../experiments/ex05-difficult-cases.html">Experiment 5</a> is the last experiment on functionals. It contains four reactions that look simple chemically (the largest molecules have only five atoms heavier than hydrogen) but are known to be hard for DFT.</p>
 <table class="table-striped caption-top table">
-<caption>Reactions of Experiment 5. Data from the DC13 subset of GMTKN55 <span class="citation" data-cites="goerigk2017">(<a href="#ref-goerigk2017" role="doc-biblioref">Goerigk et al. 2017</a>)</span>, the MR-MGM-BE4 and SMAE3 subsets of Minnesota 2015B <span class="citation" data-cites="yu2016a yu2015a">(<a href="#ref-yu2016a" role="doc-biblioref">Yu et al. 2016</a>; <a href="#ref-yu2015a" role="doc-biblioref">Yu and Truhlar 2015</a>)</span>, and W4-17 <span class="citation" data-cites="karton2017">(<a href="#ref-karton2017" role="doc-biblioref">Karton et al. 2017</a>)</span>.</caption>
+<caption>Reactions of Experiment 5. Data from the DC13 subset of GMTKN55 <span class="citation" data-cites="goerigk2017">&nbsp;[<a href="#ref-goerigk2017" role="doc-biblioref">10</a>]</span>, the MR-MGM-BE4 and SMAE3 subsets of Minnesota 2015B <span class="citation" data-cites="yu2016a yu2015a">&nbsp;[<a href="#ref-yu2015a" role="doc-biblioref">6</a>,<a href="#ref-yu2016a" role="doc-biblioref">9</a>]</span>, and W4-17 <span class="citation" data-cites="karton2017">&nbsp;[<a href="#ref-karton2017" role="doc-biblioref">11</a>]</span>.</caption>
 <thead>
 <tr class="header">
 <th>Reaction</th>
@@ -1073,11 +1074,11 @@ Table&nbsp;1: Ground-state multiplicities of the open-shell species (and Ca) in 
 <section id="further-reading" class="level2" data-number="3.6">
 <h2 data-number="3.6" class="anchored" data-anchor-id="further-reading"><span class="header-section-number">3.6</span> Further reading</h2>
 <ul>
-<li>A. J. Cohen, P. Mori-Sánchez and W. Yang, “Challenges for density functional theory” <span class="citation" data-cites="cohen2012">(<a href="#ref-cohen2012" role="doc-biblioref">Cohen et al. 2012</a>)</span>. The best review of delocalization error and static correlation.</li>
-<li>P. Mori-Sánchez, A. J. Cohen and W. Yang, “Localization and delocalization errors in density functional theory” <span class="citation" data-cites="morisanchez2008">(<a href="#ref-morisanchez2008" role="doc-biblioref">Mori-Sánchez et al. 2008</a>)</span>.</li>
-<li>J. P. Perdew and A. Zunger, the original self-interaction-correction paper <span class="citation" data-cites="perdew1981">(<a href="#ref-perdew1981" role="doc-biblioref">Perdew and Zunger 1981</a>)</span>.</li>
-<li>E. R. Johnson, P. Mori-Sánchez, A. J. Cohen and W. Yang, “Delocalization errors in density functionals and implications for main-group thermochemistry” <span class="citation" data-cites="johnson2008">(<a href="#ref-johnson2008" role="doc-biblioref">Johnson et al. 2008</a>)</span>.</li>
-<li>K. H. Hopmann’s editorial in <em>Organometallics</em> on what makes a computational study useful <span class="citation" data-cites="hopmann2019">(<a href="#ref-hopmann2019" role="doc-biblioref">Hopmann 2019</a>)</span>: “Do not use DFT for mechanisms it cannot handle.”</li>
+<li>A. J. Cohen, P. Mori-Sánchez and W. Yang, “Challenges for density functional theory” <span class="citation" data-cites="cohen2012">&nbsp;[<a href="#ref-cohen2012" role="doc-biblioref">1</a>]</span>. The best review of delocalization error and static correlation.</li>
+<li>P. Mori-Sánchez, A. J. Cohen and W. Yang, “Localization and delocalization errors in density functional theory” <span class="citation" data-cites="morisanchez2008">&nbsp;[<a href="#ref-morisanchez2008" role="doc-biblioref">3</a>]</span>.</li>
+<li>J. P. Perdew and A. Zunger, the original self-interaction-correction paper <span class="citation" data-cites="perdew1981">&nbsp;[<a href="#ref-perdew1981" role="doc-biblioref">2</a>]</span>.</li>
+<li>E. R. Johnson, P. Mori-Sánchez, A. J. Cohen and W. Yang, “Delocalization errors in density functionals and implications for main-group thermochemistry” <span class="citation" data-cites="johnson2008">&nbsp;[<a href="#ref-johnson2008" role="doc-biblioref">12</a>]</span>.</li>
+<li>K. H. Hopmann’s editorial in <em>Organometallics</em> on what makes a computational study useful <span class="citation" data-cites="hopmann2019">&nbsp;[<a href="#ref-hopmann2019" role="doc-biblioref">13</a>]</span>: “Do not use DFT for mechanisms it cannot handle.”</li>
 </ul>
 
 
@@ -1085,45 +1086,45 @@ Table&nbsp;1: Ground-state multiplicities of the open-shell species (and Ca) in 
 </section>
 </section>
 
-<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
-<div id="ref-bally1997" class="csl-entry" role="listitem">
-Bally, T., and G. N. Sastry. 1997. <span>“Incorrect Dissociation Behavior of Radical Ions in Density Functional Calculations.”</span> <em>J. Phys. Chem. A</em> 101: 7923–25. <a href="https://doi.org/10.1021/jp972378y">https://doi.org/10.1021/jp972378y</a>.
-</div>
-<div id="ref-becke1993" class="csl-entry" role="listitem">
-Becke, A. D. 1993. <em>J. Chem. Phys.</em> 98: 5648–52.
-</div>
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body" data-entry-spacing="0" role="list">
 <div id="ref-cohen2012" class="csl-entry" role="listitem">
-Cohen, A. J., P. Mori-Sánchez, and W. Yang. 2012. <em>Chem. Rev.</em> 112: 289–320.
-</div>
-<div id="ref-goerigk2017" class="csl-entry" role="listitem">
-Goerigk, L., A. Hansen, C. Bauer, S. Ehrlich, A. Najibi, and S. Grimme. 2017. <em>Phys. Chem. Chem. Phys.</em> 19: 32184–215.
-</div>
-<div id="ref-hopmann2019" class="csl-entry" role="listitem">
-Hopmann, K. H. 2019. <em>Organometallics</em> 38: 603–5.
-</div>
-<div id="ref-johnson2008" class="csl-entry" role="listitem">
-Johnson, E. R., P. Mori-Sánchez, A. J. Cohen, and W. Yang. 2008. <em>J. Chem. Phys.</em> 129: 204112.
-</div>
-<div id="ref-karton2017" class="csl-entry" role="listitem">
-Karton, A., N. Sylvetsky, and J. M. L. Martin. 2017. <em>J. Comput. Chem.</em> 38: 2063–75.
-</div>
-<div id="ref-lee1989" class="csl-entry" role="listitem">
-Lee, T. J., and P. R. Taylor. 1989. <span>“A Diagnostic for Determining the Quality of Single-Reference Electron Correlation Methods.”</span> <em>Int. J. Quantum Chem.</em> 36 (S23): 199–207. <a href="https://doi.org/10.1002/qua.560360824">https://doi.org/10.1002/qua.560360824</a>.
-</div>
-<div id="ref-morisanchez2008" class="csl-entry" role="listitem">
-Mori-Sánchez, P., A. J. Cohen, and W. Yang. 2008. <span>“Localization and Delocalization Errors in Density Functional Theory and Implications for Band-Gap Prediction.”</span> <em>Phys. Rev. Lett.</em> 100: 146401. <a href="https://doi.org/10.1103/PhysRevLett.100.146401">https://doi.org/10.1103/PhysRevLett.100.146401</a>.
-</div>
-<div id="ref-perdew1982" class="csl-entry" role="listitem">
-Perdew, J. P., R. G. Parr, M. Levy, and J. L. Balduz. 1982. <span>“Density-Functional Theory for Fractional Particle Number: Derivative Discontinuities of the Energy.”</span> <em>Phys. Rev. Lett.</em> 49: 1691–94. <a href="https://doi.org/10.1103/PhysRevLett.49.1691">https://doi.org/10.1103/PhysRevLett.49.1691</a>.
+<div class="csl-left-margin">[1] </div><div class="csl-right-inline">A. J. Cohen, P. Mori-Sánchez, and W. Yang, Chem. Rev. <strong>112</strong>, 289 (2012).</div>
 </div>
 <div id="ref-perdew1981" class="csl-entry" role="listitem">
-Perdew, J. P., and A. Zunger. 1981. <span>“Self-Interaction Correction to Density-Functional Approximations for Many-Electron Systems.”</span> <em>Phys. Rev. B</em> 23: 5048–79. <a href="https://doi.org/10.1103/PhysRevB.23.5048">https://doi.org/10.1103/PhysRevB.23.5048</a>.
+<div class="csl-left-margin">[2] </div><div class="csl-right-inline">J. P. Perdew and A. Zunger, <a href="https://doi.org/10.1103/PhysRevB.23.5048">Self-interaction correction to density-functional approximations for many-electron systems</a>, Phys. Rev. B <strong>23</strong>, 5048 (1981).</div>
 </div>
-<div id="ref-yu2016a" class="csl-entry" role="listitem">
-Yu, H. S., X. He, S. L. Li, and D. G. Truhlar. 2016. <em>Chem. Sci.</em> 7: 5032–51.
+<div id="ref-morisanchez2008" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[3] </div><div class="csl-right-inline">P. Mori-Sánchez, A. J. Cohen, and W. Yang, <a href="https://doi.org/10.1103/PhysRevLett.100.146401">Localization and delocalization errors in density functional theory and implications for band-gap prediction</a>, Phys. Rev. Lett. <strong>100</strong>, 146401 (2008).</div>
+</div>
+<div id="ref-perdew1982" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[4] </div><div class="csl-right-inline">J. P. Perdew, R. G. Parr, M. Levy, and J. L. Balduz, <a href="https://doi.org/10.1103/PhysRevLett.49.1691">Density-functional theory for fractional particle number: Derivative discontinuities of the energy</a>, Phys. Rev. Lett. <strong>49</strong>, 1691 (1982).</div>
+</div>
+<div id="ref-bally1997" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[5] </div><div class="csl-right-inline">T. Bally and G. N. Sastry, <a href="https://doi.org/10.1021/jp972378y">Incorrect dissociation behavior of radical ions in density functional calculations</a>, J. Phys. Chem. A <strong>101</strong>, 7923 (1997).</div>
 </div>
 <div id="ref-yu2015a" class="csl-entry" role="listitem">
-Yu, H., and D. G. Truhlar. 2015. <em>J. Chem. Theory Comput.</em> 11: 2968–83.
+<div class="csl-left-margin">[6] </div><div class="csl-right-inline">H. Yu and D. G. Truhlar, J. Chem. Theory Comput. <strong>11</strong>, 2968 (2015).</div>
+</div>
+<div id="ref-lee1989" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[7] </div><div class="csl-right-inline">T. J. Lee and P. R. Taylor, <a href="https://doi.org/10.1002/qua.560360824">A diagnostic for determining the quality of single-reference electron correlation methods</a>, Int. J. Quantum Chem. <strong>36</strong>, 199 (1989).</div>
+</div>
+<div id="ref-becke1993" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[8] </div><div class="csl-right-inline">A. D. Becke, J. Chem. Phys. <strong>98</strong>, 5648 (1993).</div>
+</div>
+<div id="ref-yu2016a" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[9] </div><div class="csl-right-inline">H. S. Yu, X. He, S. L. Li, and D. G. Truhlar, Chem. Sci. <strong>7</strong>, 5032 (2016).</div>
+</div>
+<div id="ref-goerigk2017" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[10] </div><div class="csl-right-inline">L. Goerigk, A. Hansen, C. Bauer, S. Ehrlich, A. Najibi, and S. Grimme, Phys. Chem. Chem. Phys. <strong>19</strong>, 32184 (2017).</div>
+</div>
+<div id="ref-karton2017" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[11] </div><div class="csl-right-inline">A. Karton, N. Sylvetsky, and J. M. L. Martin, J. Comput. Chem. <strong>38</strong>, 2063 (2017).</div>
+</div>
+<div id="ref-johnson2008" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[12] </div><div class="csl-right-inline">E. R. Johnson, P. Mori-Sánchez, A. J. Cohen, and W. Yang, J. Chem. Phys. <strong>129</strong>, 204112 (2008).</div>
+</div>
+<div id="ref-hopmann2019" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[13] </div><div class="csl-right-inline">K. H. Hopmann, Organometallics <strong>38</strong>, 603 (2019).</div>
 </div>
 </div></section></div></main> <!-- /main -->
 <!-- Peverati lab logo at the top right of the navbar (light and dark versions). -->

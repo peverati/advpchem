@@ -31,6 +31,7 @@ ul.task-list li input[type="checkbox"] {
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
+  margin-bottom: 0em;
 }
 .hanging-indent div.csl-entry {
   margin-left:2em;
@@ -730,13 +731,13 @@ window.Quarto = {
 <h2 data-number="2" class="anchored" data-anchor-id="the-mean-field-idea"><span class="header-section-number">2</span> The mean-field idea</h2>
 <section id="hartrees-average-field" class="level3" data-number="2.1">
 <h3 data-number="2.1" class="anchored" data-anchor-id="hartrees-average-field"><span class="header-section-number">2.1</span> Hartree’s average field</h3>
-<p>In 1928 Douglas Hartree proposed a simple way out of the many-electron problem <span class="citation" data-cites="hartree1928">(<a href="#ref-hartree1928" role="doc-biblioref">Hartree 1928</a>)</span>. Instead of following every electron as it dodges every other electron, let each electron move in the <strong>average</strong> electrostatic field created by the nuclei and by the <em>charge cloud</em> of all the other electrons. Each electron then obeys its own one-electron Schrödinger equation, with an effective potential that depends on where the other electrons are on average.</p>
+<p>In 1928 Douglas Hartree proposed a simple way out of the many-electron problem <span class="citation" data-cites="hartree1928">&nbsp;[<a href="#ref-hartree1928" role="doc-biblioref">1</a>]</span>. Instead of following every electron as it dodges every other electron, let each electron move in the <strong>average</strong> electrostatic field created by the nuclei and by the <em>charge cloud</em> of all the other electrons. Each electron then obeys its own one-electron Schrödinger equation, with an effective potential that depends on where the other electrons are on average.</p>
 <p>This is a <strong>mean-field</strong> approximation. It replaces the instantaneous repulsion <span class="math inline">\(1/|\mathbf{r}_i - \mathbf{r}_j|\)</span> by an interaction with a smeared-out charge density. The catch is that the average field depends on the orbitals of the other electrons, which are themselves the solutions we are looking for. Hartree solved the problem iteratively: guess the orbitals, compute the field, solve for new orbitals, compute a new field, and repeat until the orbitals that come out produce the same field that went in. He called the result a <strong>self-consistent field</strong> (SCF). The name survives in every quantum chemistry program, including the “SCF” lines of your Q-Chem outputs.</p>
 <p>Hartree wrote the many-electron wave function as a simple product of orbitals, <span class="math inline">\(\Psi = \varphi_1(\mathbf{r}_1)\varphi_2(\mathbf{r}_2)\cdots\varphi_N(\mathbf{r}_N)\)</span>. A product like this is not antisymmetric. It violates the Pauli principle, and it misses an important energy term, as we will see.</p>
 </section>
 <section id="the-slater-determinant" class="level3" data-number="2.2">
 <h3 data-number="2.2" class="anchored" data-anchor-id="the-slater-determinant"><span class="header-section-number">2.2</span> The Slater determinant</h3>
-<p>In 1930 Fock <span class="citation" data-cites="fock1930">(<a href="#ref-fock1930" role="doc-biblioref">Fock 1930</a>)</span> and Slater <span class="citation" data-cites="slater1930">(<a href="#ref-slater1930" role="doc-biblioref">Slater 1930</a>)</span> fixed this by using a determinant of <strong>spin orbitals</strong> instead of a product. A spin orbital <span class="math inline">\(\phi_i(\mathbf{x})\)</span> is a spatial orbital times a spin function, <span class="math inline">\(\phi_i(\mathbf{x}) = \varphi_i(\mathbf{r})\,\sigma(\omega)\)</span> with <span class="math inline">\(\sigma = \alpha\)</span> or <span class="math inline">\(\beta\)</span>, and <span class="math inline">\(\mathbf{x} = (\mathbf{r},\omega)\)</span> collects the space and spin coordinates of one electron. The <strong>Slater determinant</strong> is</p>
+<p>In 1930 Fock <span class="citation" data-cites="fock1930">&nbsp;[<a href="#ref-fock1930" role="doc-biblioref">2</a>]</span> and Slater <span class="citation" data-cites="slater1930">&nbsp;[<a href="#ref-slater1930" role="doc-biblioref">3</a>]</span> fixed this by using a determinant of <strong>spin orbitals</strong> instead of a product. A spin orbital <span class="math inline">\(\phi_i(\mathbf{x})\)</span> is a spatial orbital times a spin function, <span class="math inline">\(\phi_i(\mathbf{x}) = \varphi_i(\mathbf{r})\,\sigma(\omega)\)</span> with <span class="math inline">\(\sigma = \alpha\)</span> or <span class="math inline">\(\beta\)</span>, and <span class="math inline">\(\mathbf{x} = (\mathbf{r},\omega)\)</span> collects the space and spin coordinates of one electron. The <strong>Slater determinant</strong> is</p>
 <p><span id="eq-slater"><span class="math display">\[
 \Psi(\mathbf{x}_1,\ldots,\mathbf{x}_N) = \frac{1}{\sqrt{N!}}
 \left|\begin{matrix}
@@ -751,7 +752,7 @@ window.Quarto = {
 </section>
 <section id="the-energy-of-a-slater-determinant" class="level3" data-number="2.3">
 <h3 data-number="2.3" class="anchored" data-anchor-id="the-energy-of-a-slater-determinant"><span class="header-section-number">2.3</span> The energy of a Slater determinant</h3>
-<p>Take the expectation value of the Hamiltonian (<a href="#eq-hel" class="quarto-xref">Equation&nbsp;1</a>) with a normalized determinant of orthonormal spin orbitals. The algebra is long but standard (see <span class="citation" data-cites="szabo1996">Szabo and Ostlund (<a href="#ref-szabo1996" role="doc-biblioref">1996</a>)</span>, chapter 2). The result is short:</p>
+<p>Take the expectation value of the Hamiltonian (<a href="#eq-hel" class="quarto-xref">Equation&nbsp;1</a>) with a normalized determinant of orthonormal spin orbitals. The algebra is long but standard (see <span class="citation" data-cites="szabo1996">&nbsp;[<a href="#ref-szabo1996" role="doc-biblioref">4</a>]</span>, chapter 2). The result is short:</p>
 <p><span id="eq-ehf"><span class="math display">\[
 E_{\mathrm{HF}} = \sum_{i=1}^{N} h_{i} \;+\; \frac{1}{2}\sum_{i=1}^{N}\sum_{j=1}^{N}\left(J_{ij} - K_{ij}\right) \;+\; V_{nn}.
 \tag{3}\]</span></span></p>
@@ -834,7 +835,7 @@ E_{\mathrm{HF}} = \sum_i \varepsilon_i - \frac{1}{2}\sum_{i,j}\left(J_{ij} - K_{
 <h2 data-number="3" class="anchored" data-anchor-id="the-roothaanhall-equations-and-the-scf-loop"><span class="header-section-number">3</span> The Roothaan–Hall equations and the SCF loop</h2>
 <section id="from-integro-differential-equations-to-matrices" class="level3" data-number="3.1">
 <h3 data-number="3.1" class="anchored" data-anchor-id="from-integro-differential-equations-to-matrices"><span class="header-section-number">3.1</span> From integro-differential equations to matrices</h3>
-<p>Equations (<a href="#eq-hf" class="quarto-xref">Equation&nbsp;4</a>) are coupled integro-differential equations. For atoms they can be solved numerically on a radial grid, as Hartree did. For molecules this is impractical. In 1951 Roothaan <span class="citation" data-cites="roothaan1951">(<a href="#ref-roothaan1951" role="doc-biblioref">Roothaan 1951</a>)</span> and, independently, Hall <span class="citation" data-cites="hall1951">(<a href="#ref-hall1951" role="doc-biblioref">Hall 1951</a>)</span> used the LCAO idea from <a href="../lectures/l02-basis-sets.html">Lecture 2</a>: expand each spatial orbital in a finite basis of <span class="math inline">\(K\)</span> functions,</p>
+<p>Equations (<a href="#eq-hf" class="quarto-xref">Equation&nbsp;4</a>) are coupled integro-differential equations. For atoms they can be solved numerically on a radial grid, as Hartree did. For molecules this is impractical. In 1951 Roothaan <span class="citation" data-cites="roothaan1951">&nbsp;[<a href="#ref-roothaan1951" role="doc-biblioref">5</a>]</span> and, independently, Hall <span class="citation" data-cites="hall1951">&nbsp;[<a href="#ref-hall1951" role="doc-biblioref">6</a>]</span> used the LCAO idea from <a href="../lectures/l02-basis-sets.html">Lecture 2</a>: expand each spatial orbital in a finite basis of <span class="math inline">\(K\)</span> functions,</p>
 <p><span id="eq-lcao"><span class="math display">\[
 \varphi_i(\mathbf{r}) = \sum_{\mu=1}^{K} c_{\mu i}\,\chi_\mu(\mathbf{r}).
 \tag{7}\]</span></span></p>
@@ -909,7 +910,7 @@ Figure&nbsp;1: The self-consistent field (SCF) loop used by Hartree–Fock and b
 <p><span id="eq-diis"><span class="math display">\[
 \mathbf{F}\mathbf{P}\mathbf{S} - \mathbf{S}\mathbf{P}\mathbf{F} = \mathbf{0}.
 \tag{12}\]</span></span></p>
-<p>Away from convergence this commutator is not zero, and its size is a natural error measure. Pulay’s <strong>DIIS</strong> method (direct inversion in the iterative subspace) <span class="citation" data-cites="pulay1980">(<a href="#ref-pulay1980" role="doc-biblioref">Pulay 1980</a>)</span> uses it twice. First, the largest element of the commutator is the <strong>DIIS error</strong> that Q-Chem prints in the third column of the SCF table. Second, instead of using only the newest Fock matrix, DIIS builds the next one as a linear combination of the Fock matrices from the last several cycles, with coefficients chosen to make the combined error as small as possible. This extrapolation is what makes modern SCF calculations converge in 10–20 cycles instead of hundreds.</p>
+<p>Away from convergence this commutator is not zero, and its size is a natural error measure. Pulay’s <strong>DIIS</strong> method (direct inversion in the iterative subspace) <span class="citation" data-cites="pulay1980">&nbsp;[<a href="#ref-pulay1980" role="doc-biblioref">7</a>]</span> uses it twice. First, the largest element of the commutator is the <strong>DIIS error</strong> that Q-Chem prints in the third column of the SCF table. Second, instead of using only the newest Fock matrix, DIIS builds the next one as a linear combination of the Fock matrices from the last several cycles, with coefficients chosen to make the combined error as small as possible. This extrapolation is what makes modern SCF calculations converge in 10–20 cycles instead of hundreds.</p>
 <p>Here is what this looks like in a Q-Chem output (see the <a href="../guides/reading-output.html">guide on reading the output</a>):</p>
 <pre><code> ---------------------------------------
   Cycle       Energy         DIIS error
@@ -945,7 +946,7 @@ Figure&nbsp;1: The self-consistent field (SCF) loop used by Hartree–Fock and b
 <h3 data-number="3.4" class="anchored" data-anchor-id="sec-rhf-uhf"><span class="header-section-number">3.4</span> Restricted and unrestricted Hartree–Fock</h3>
 <p>Molecules with unpaired electrons (radicals, the O and S atoms, triplet states, many transition-metal complexes) cannot use <a href="#eq-fock-rhf" class="quarto-xref">Equation&nbsp;6</a>, because their <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> electrons are not paired up in the same spatial orbitals. There are two common ways to handle them:</p>
 <ul>
-<li><strong>Unrestricted Hartree–Fock (UHF)</strong> <span class="citation" data-cites="pople1954">(<a href="#ref-pople1954" role="doc-biblioref">Pople and Nesbet 1954</a>)</span> gives the <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> electrons their own sets of spatial orbitals, <span class="math inline">\(\{\varphi_i^\alpha\}\)</span> and <span class="math inline">\(\{\varphi_i^\beta\}\)</span>. There are two Fock matrices and two density matrices, coupled through the Coulomb term (the <span class="math inline">\(\alpha\)</span> electrons repel the <span class="math inline">\(\beta\)</span> electrons and vice versa). In a basis these are the Pople–Nesbet equations, <span class="math inline">\(\mathbf{F}^\alpha\mathbf{C}^\alpha = \mathbf{S}\mathbf{C}^\alpha\boldsymbol{\varepsilon}^\alpha\)</span> and the same for <span class="math inline">\(\beta\)</span>. UHF has more freedom than RHF, so its energy is lower or equal. The price is that the UHF determinant is not, in general, an eigenfunction of <span class="math inline">\(\hat S^2\)</span>: it is contaminated by higher spin states. Q-Chem prints <span class="math inline">\(\langle \hat S^2\rangle\)</span> for unrestricted jobs so you can check (a pure doublet has <span class="math inline">\(0.75\)</span>, a pure triplet <span class="math inline">\(2.0\)</span>).</li>
+<li><strong>Unrestricted Hartree–Fock (UHF)</strong> <span class="citation" data-cites="pople1954">&nbsp;[<a href="#ref-pople1954" role="doc-biblioref">8</a>]</span> gives the <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> electrons their own sets of spatial orbitals, <span class="math inline">\(\{\varphi_i^\alpha\}\)</span> and <span class="math inline">\(\{\varphi_i^\beta\}\)</span>. There are two Fock matrices and two density matrices, coupled through the Coulomb term (the <span class="math inline">\(\alpha\)</span> electrons repel the <span class="math inline">\(\beta\)</span> electrons and vice versa). In a basis these are the Pople–Nesbet equations, <span class="math inline">\(\mathbf{F}^\alpha\mathbf{C}^\alpha = \mathbf{S}\mathbf{C}^\alpha\boldsymbol{\varepsilon}^\alpha\)</span> and the same for <span class="math inline">\(\beta\)</span>. UHF has more freedom than RHF, so its energy is lower or equal. The price is that the UHF determinant is not, in general, an eigenfunction of <span class="math inline">\(\hat S^2\)</span>: it is contaminated by higher spin states. Q-Chem prints <span class="math inline">\(\langle \hat S^2\rangle\)</span> for unrestricted jobs so you can check (a pure doublet has <span class="math inline">\(0.75\)</span>, a pure triplet <span class="math inline">\(2.0\)</span>).</li>
 <li><strong>Restricted open-shell Hartree–Fock (ROHF)</strong> keeps doubly occupied orbitals for the paired electrons and singly occupied orbitals for the unpaired ones. It gives a pure spin state, at a slightly higher energy than UHF.</li>
 </ul>
 <p>In this course, open-shell species are run <strong>unrestricted</strong> (Q-Chem does this automatically when the multiplicity is larger than 1). The same choice exists in DFT, where we speak of restricted and unrestricted Kohn–Sham. You will use unrestricted calculations for atoms and radicals in <a href="../experiments/ex05-difficult-cases.html">Experiment 5</a> and later.</p>
@@ -968,7 +969,7 @@ Figure&nbsp;1: The self-consistent field (SCF) loop used by Hartree–Fock and b
 <h2 data-number="4" class="anchored" data-anchor-id="orbital-energies-and-koopmans-theorem"><span class="header-section-number">4</span> Orbital energies and Koopmans’ theorem</h2>
 <p>Diagonalizing the Fock matrix gives <span class="math inline">\(K\)</span> orbitals, but only the lowest <span class="math inline">\(N/2\)</span> (for RHF) are <strong>occupied</strong>. The remaining <span class="math inline">\(K - N/2\)</span> are <strong>virtual</strong> (unoccupied) orbitals. The highest occupied one is the <strong>HOMO</strong> and the lowest unoccupied one the <strong>LUMO</strong>. The number of virtual orbitals grows with the basis set, while the number of occupied orbitals is fixed by the number of electrons.</p>
 <p>Q-Chem prints the orbital energies after the SCF table, under a heading “Orbital Energies (a.u.)”, split into “Occupied” and “Virtual” lists (for unrestricted jobs, separately for <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span>). Occupied orbital energies are negative: these electrons are bound. Their pattern follows chemical intuition: very low core levels (about <span class="math inline">\(-20.5\)</span> Eh for the O 1s orbital in water), then valence levels between about <span class="math inline">\(-1.5\)</span> and <span class="math inline">\(-0.3\)</span> Eh. Compare the minimal-basis water numbers in <a href="https://peverati.github.io/pchem2/Poly.html#hartree-fock-calculation-for-water">P-Chem 2 §13.2</a>.</p>
-<p><strong>Koopmans’ theorem</strong> <span class="citation" data-cites="koopmans1934">(<a href="#ref-koopmans1934" role="doc-biblioref">Koopmans 1934</a>)</span> gives the occupied orbital energies a physical meaning. If we remove an electron from orbital <span class="math inline">\(i\)</span> and keep all the other orbitals frozen, the energy of the resulting cation, minus the energy of the neutral molecule, is exactly <span class="math inline">\(-\varepsilon_i\)</span>. So the first ionization energy is approximately</p>
+<p><strong>Koopmans’ theorem</strong> <span class="citation" data-cites="koopmans1934">&nbsp;[<a href="#ref-koopmans1934" role="doc-biblioref">9</a>]</span> gives the occupied orbital energies a physical meaning. If we remove an electron from orbital <span class="math inline">\(i\)</span> and keep all the other orbitals frozen, the energy of the resulting cation, minus the energy of the neutral molecule, is exactly <span class="math inline">\(-\varepsilon_i\)</span>. So the first ionization energy is approximately</p>
 <p><span id="eq-koopmans"><span class="math display">\[
 \mathrm{IE} \approx -\varepsilon_{\mathrm{HOMO}}.
 \tag{13}\]</span></span></p>
@@ -1005,7 +1006,7 @@ Figure&nbsp;1: The self-consistent field (SCF) loop used by Hartree–Fock and b
 <section id="the-correlation-energy" class="level3" data-number="5.1">
 <h3 data-number="5.1" class="anchored" data-anchor-id="the-correlation-energy"><span class="header-section-number">5.1</span> The correlation energy</h3>
 <p>The Hartree–Fock wave function is the best single determinant, but it is still only one determinant. In the mean-field picture, each electron sees the <em>average</em> position of the others. Real electrons react to each other’s <em>instantaneous</em> positions: they avoid each other more than the average field suggests. Their motions are <strong>correlated</strong>. Exchange already keeps same-spin electrons apart (the Fermi hole), but nothing in HF keeps opposite-spin electrons apart.</p>
-<p>Löwdin defined the <strong>correlation energy</strong> as the difference between the exact energy and the Hartree–Fock energy <span class="citation" data-cites="lowdin1955">(<a href="#ref-lowdin1955" role="doc-biblioref">Löwdin 1955</a>)</span>:</p>
+<p>Löwdin defined the <strong>correlation energy</strong> as the difference between the exact energy and the Hartree–Fock energy <span class="citation" data-cites="lowdin1955">&nbsp;[<a href="#ref-lowdin1955" role="doc-biblioref">10</a>]</span>:</p>
 <p><span id="eq-ecorr"><span class="math display">\[
 E_{\mathrm{corr}} = E_{\mathrm{exact}} - E_{\mathrm{HF}}.
 \tag{14}\]</span></span></p>
@@ -1063,8 +1064,8 @@ Figure&nbsp;2: Dissociation of H₂ computed with a minimal basis set (STO-3G), 
 <p>There are two broad families of methods that go beyond Hartree–Fock.</p>
 <p><strong>Correlated wave-function methods</strong> keep the HF determinant as a starting point (the <em>reference</em>) and add excited determinants to it.</p>
 <ul>
-<li><strong>Møller–Plesset perturbation theory</strong> treats the difference between the real Hamiltonian and the sum of Fock operators as a perturbation <span class="citation" data-cites="moller1934">(<a href="#ref-moller1934" role="doc-biblioref">Møller and Plesset 1934</a>)</span>. Its second-order version, <strong>MP2</strong>, recovers a large part of the dynamic correlation and describes dispersion, at a cost that scales as <span class="math inline">\(N^5\)</span>.</li>
-<li><strong>Coupled-cluster theory</strong> includes excitations to all orders in an exponential form. <strong>CCSD(T)</strong> (singles, doubles and a perturbative estimate of triples) <span class="citation" data-cites="raghavachari1989">(<a href="#ref-raghavachari1989" role="doc-biblioref">Raghavachari et al. 1989</a>)</span> is called the “gold standard” of quantum chemistry: for molecules without strong static correlation, CCSD(T) near the CBS limit is typically within about 1 kcal/mol of experiment for reaction energies. Its cost scales as <span class="math inline">\(N^7\)</span>: doubling the size of the molecule makes the calculation about 128 times slower. The reference values of most reactions in this lab come from CCSD(T)/CBS or similar high-level calculations collected in benchmark databases <span class="citation" data-cites="goerigk2017">(<a href="#ref-goerigk2017" role="doc-biblioref">Goerigk et al. 2017</a>)</span>, as you will see in <a href="../lectures/l07-benchmarking.html">Lecture 7</a>.</li>
+<li><strong>Møller–Plesset perturbation theory</strong> treats the difference between the real Hamiltonian and the sum of Fock operators as a perturbation <span class="citation" data-cites="moller1934">&nbsp;[<a href="#ref-moller1934" role="doc-biblioref">11</a>]</span>. Its second-order version, <strong>MP2</strong>, recovers a large part of the dynamic correlation and describes dispersion, at a cost that scales as <span class="math inline">\(N^5\)</span>.</li>
+<li><strong>Coupled-cluster theory</strong> includes excitations to all orders in an exponential form. <strong>CCSD(T)</strong> (singles, doubles and a perturbative estimate of triples) <span class="citation" data-cites="raghavachari1989">&nbsp;[<a href="#ref-raghavachari1989" role="doc-biblioref">12</a>]</span> is called the “gold standard” of quantum chemistry: for molecules without strong static correlation, CCSD(T) near the CBS limit is typically within about 1 kcal/mol of experiment for reaction energies. Its cost scales as <span class="math inline">\(N^7\)</span>: doubling the size of the molecule makes the calculation about 128 times slower. The reference values of most reactions in this lab come from CCSD(T)/CBS or similar high-level calculations collected in benchmark databases <span class="citation" data-cites="goerigk2017">&nbsp;[<a href="#ref-goerigk2017" role="doc-biblioref">13</a>]</span>, as you will see in <a href="../lectures/l07-benchmarking.html">Lecture 7</a>.</li>
 <li><strong>Multireference methods</strong> (CASSCF, MRCI, CASPT2) start from several determinants and are needed when static correlation is strong. They are outside the scope of this course.</li>
 </ul>
 <p><strong>Density functional theory</strong> takes a different path. It keeps a one-determinant, mean-field machinery, with the same SCF loop and the same <span class="math inline">\(N^3\)</span>–<span class="math inline">\(N^4\)</span> cost as HF, but it changes the <em>Hamiltonian</em> of that machinery so that it includes, approximately, both exchange and correlation. How that is possible, and why the hard part is a single term called the exchange–correlation energy, is the subject of <a href="../lectures/l05-density-functional-theory.html">Lecture 5</a>.</p>
@@ -1160,61 +1161,61 @@ Table&nbsp;1: Hartree–Fock and the methods that go beyond it. “Formal cost�
 <h2 class="unnumbered anchored" data-anchor-id="further-reading">Further reading</h2>
 <ul>
 <li>P-Chem 2 textbook: <a href="https://peverati.github.io/pchem2/Molecules.html#solving-the-electronic-eigenvalue-problem">Introduction to Molecules, §11.3</a> and <a href="https://peverati.github.io/pchem2/Poly.html#hartree-fock-calculation-for-water">Hartree–Fock calculation for water, §13.2</a>.</li>
-<li><span class="citation" data-cites="szabo1996">Szabo and Ostlund (<a href="#ref-szabo1996" role="doc-biblioref">1996</a>)</span>, chapters 2–3: the classic, step-by-step derivation of everything in this chapter, including a complete minimal-basis H₂ calculation like the one in <a href="#fig-h2" class="quarto-xref">Figure&nbsp;2</a>.</li>
-<li><span class="citation" data-cites="helgaker2000">Helgaker et al. (<a href="#ref-helgaker2000" role="doc-biblioref">2000</a>)</span>: the advanced reference on wave-function methods, for those who want the full theory.</li>
-<li><span class="citation" data-cites="pulay1980">Pulay (<a href="#ref-pulay1980" role="doc-biblioref">1980</a>)</span>: the original DIIS paper, short and readable.</li>
-<li><span class="citation" data-cites="koch2001">Koch and Holthausen (<a href="#ref-koch2001" role="doc-biblioref">2001</a>)</span>, chapter 1: a compact review of Hartree–Fock and correlation written as a lead-in to DFT.</li>
+<li><span class="citation" data-cites="szabo1996">&nbsp;[<a href="#ref-szabo1996" role="doc-biblioref">4</a>]</span>, chapters 2–3: the classic, step-by-step derivation of everything in this chapter, including a complete minimal-basis H₂ calculation like the one in <a href="#fig-h2" class="quarto-xref">Figure&nbsp;2</a>.</li>
+<li><span class="citation" data-cites="helgaker2000">&nbsp;[<a href="#ref-helgaker2000" role="doc-biblioref">14</a>]</span>: the advanced reference on wave-function methods, for those who want the full theory.</li>
+<li><span class="citation" data-cites="pulay1980">&nbsp;[<a href="#ref-pulay1980" role="doc-biblioref">7</a>]</span>: the original DIIS paper, short and readable.</li>
+<li><span class="citation" data-cites="koch2001">&nbsp;[<a href="#ref-koch2001" role="doc-biblioref">15</a>]</span>, chapter 1: a compact review of Hartree–Fock and correlation written as a lead-in to DFT.</li>
 </ul>
 
 
 
 </section>
 
-<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
-<div id="ref-fock1930" class="csl-entry" role="listitem">
-Fock, V. 1930. <em>Z. Phys.</em> 61: 126–48.
-</div>
-<div id="ref-goerigk2017" class="csl-entry" role="listitem">
-Goerigk, L., A. Hansen, C. Bauer, S. Ehrlich, A. Najibi, and S. Grimme. 2017. <em>Phys. Chem. Chem. Phys.</em> 19: 32184–215.
-</div>
-<div id="ref-hall1951" class="csl-entry" role="listitem">
-Hall, G. G. 1951. <span>“The Molecular Orbital Theory of Chemical Valency. <span>VIII</span>. <span>A</span> Method of Calculating Ionization Potentials.”</span> <em>Proc. R. Soc. London, Ser. A</em> 205: 541–52. <a href="https://doi.org/10.1098/rspa.1951.0048">https://doi.org/10.1098/rspa.1951.0048</a>.
-</div>
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body" data-entry-spacing="0" role="list">
 <div id="ref-hartree1928" class="csl-entry" role="listitem">
-Hartree, D. R. 1928. <em>Math. Proc. Camb. Philos. Soc.</em> 24: 89–110.
+<div class="csl-left-margin">[1] </div><div class="csl-right-inline">D. R. Hartree, Math. Proc. Camb. Philos. Soc. <strong>24</strong>, 89 (1928).</div>
 </div>
-<div id="ref-helgaker2000" class="csl-entry" role="listitem">
-Helgaker, T., P. Jørgensen, and J. Olsen. 2000. <em>Molecular Electronic-Structure Theory</em>. Wiley.
-</div>
-<div id="ref-koch2001" class="csl-entry" role="listitem">
-Koch, W., and M. C. Holthausen. 2001. <em>A Chemist’s Guide to Density Functional Theory</em>. 2nd ed. Wiley-VCH.
-</div>
-<div id="ref-koopmans1934" class="csl-entry" role="listitem">
-Koopmans, T. 1934. <span>“<span>Ü</span>ber Die <span>Z</span>uordnung von <span>W</span>ellenfunktionen Und <span>E</span>igenwerten Zu Den Einzelnen <span>E</span>lektronen Eines <span>A</span>toms.”</span> <em>Physica</em> 1: 104–13. <a href="https://doi.org/10.1016/S0031-8914(34)90011-2">https://doi.org/10.1016/S0031-8914(34)90011-2</a>.
-</div>
-<div id="ref-lowdin1955" class="csl-entry" role="listitem">
-Löwdin, P.-O. 1955. <span>“Quantum Theory of Many-Particle Systems. <span>III</span>. <span>E</span>xtension of the <span>H</span>artree–<span>F</span>ock Scheme to Include Degenerate Systems and Correlation Effects.”</span> <em>Phys. Rev.</em> 97: 1509–20. <a href="https://doi.org/10.1103/PhysRev.97.1509">https://doi.org/10.1103/PhysRev.97.1509</a>.
-</div>
-<div id="ref-moller1934" class="csl-entry" role="listitem">
-Møller, C., and M. S. Plesset. 1934. <span>“Note on an Approximation Treatment for Many-Electron Systems.”</span> <em>Phys. Rev.</em> 46: 618–22. <a href="https://doi.org/10.1103/PhysRev.46.618">https://doi.org/10.1103/PhysRev.46.618</a>.
-</div>
-<div id="ref-pople1954" class="csl-entry" role="listitem">
-Pople, J. A., and R. K. Nesbet. 1954. <span>“Self-Consistent Orbitals for Radicals.”</span> <em>J. Chem. Phys.</em> 22: 571–72. <a href="https://doi.org/10.1063/1.1740120">https://doi.org/10.1063/1.1740120</a>.
-</div>
-<div id="ref-pulay1980" class="csl-entry" role="listitem">
-Pulay, P. 1980. <span>“Convergence Acceleration of Iterative Sequences. <span>T</span>he Case of <span>SCF</span> Iteration.”</span> <em>Chem. Phys. Lett.</em> 73: 393–98. <a href="https://doi.org/10.1016/0009-2614(80)80396-4">https://doi.org/10.1016/0009-2614(80)80396-4</a>.
-</div>
-<div id="ref-raghavachari1989" class="csl-entry" role="listitem">
-Raghavachari, K., G. W. Trucks, J. A. Pople, and M. Head-Gordon. 1989. <span>“A Fifth-Order Perturbation Comparison of Electron Correlation Theories.”</span> <em>Chem. Phys. Lett.</em> 157: 479–83. <a href="https://doi.org/10.1016/S0009-2614(89)87395-6">https://doi.org/10.1016/S0009-2614(89)87395-6</a>.
-</div>
-<div id="ref-roothaan1951" class="csl-entry" role="listitem">
-Roothaan, C. C. J. 1951. <span>“New Developments in Molecular Orbital Theory.”</span> <em>Rev. Mod. Phys.</em> 23: 69–89. <a href="https://doi.org/10.1103/RevModPhys.23.69">https://doi.org/10.1103/RevModPhys.23.69</a>.
+<div id="ref-fock1930" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[2] </div><div class="csl-right-inline">V. Fock, Z. Phys. <strong>61</strong>, 126 (1930).</div>
 </div>
 <div id="ref-slater1930" class="csl-entry" role="listitem">
-Slater, J. C. 1930. <em>Phys. Rev.</em> 35: 210–11.
+<div class="csl-left-margin">[3] </div><div class="csl-right-inline">J. C. Slater, Phys. Rev. <strong>35</strong>, 210 (1930).</div>
 </div>
 <div id="ref-szabo1996" class="csl-entry" role="listitem">
-Szabo, A., and N. S. Ostlund. 1996. <em>Modern Quantum Chemistry: Introduction to Advanced Electronic Structure Theory</em>. Dover.
+<div class="csl-left-margin">[4] </div><div class="csl-right-inline">A. Szabo and N. S. Ostlund, <em>Modern Quantum Chemistry: Introduction to Advanced Electronic Structure Theory</em> (Dover, Mineola, NY, 1996).</div>
+</div>
+<div id="ref-roothaan1951" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[5] </div><div class="csl-right-inline">C. C. J. Roothaan, <a href="https://doi.org/10.1103/RevModPhys.23.69">New developments in molecular orbital theory</a>, Rev. Mod. Phys. <strong>23</strong>, 69 (1951).</div>
+</div>
+<div id="ref-hall1951" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[6] </div><div class="csl-right-inline">G. G. Hall, <a href="https://doi.org/10.1098/rspa.1951.0048">The molecular orbital theory of chemical valency. <span>VIII</span>. <span>A</span> method of calculating ionization potentials</a>, Proc. R. Soc. London, Ser. A <strong>205</strong>, 541 (1951).</div>
+</div>
+<div id="ref-pulay1980" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[7] </div><div class="csl-right-inline">P. Pulay, <a href="https://doi.org/10.1016/0009-2614(80)80396-4">Convergence acceleration of iterative sequences. <span>T</span>he case of <span>SCF</span> iteration</a>, Chem. Phys. Lett. <strong>73</strong>, 393 (1980).</div>
+</div>
+<div id="ref-pople1954" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[8] </div><div class="csl-right-inline">J. A. Pople and R. K. Nesbet, <a href="https://doi.org/10.1063/1.1740120">Self-consistent orbitals for radicals</a>, J. Chem. Phys. <strong>22</strong>, 571 (1954).</div>
+</div>
+<div id="ref-koopmans1934" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[9] </div><div class="csl-right-inline">T. Koopmans, <a href="https://doi.org/10.1016/S0031-8914(34)90011-2"><span>Ü</span>ber die <span>Z</span>uordnung von <span>W</span>ellenfunktionen und <span>E</span>igenwerten zu den einzelnen <span>E</span>lektronen eines <span>A</span>toms</a>, Physica <strong>1</strong>, 104 (1934).</div>
+</div>
+<div id="ref-lowdin1955" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[10] </div><div class="csl-right-inline">P.-O. Löwdin, <a href="https://doi.org/10.1103/PhysRev.97.1509">Quantum theory of many-particle systems. <span>III</span>. <span>E</span>xtension of the <span>H</span>artree–<span>F</span>ock scheme to include degenerate systems and correlation effects</a>, Phys. Rev. <strong>97</strong>, 1509 (1955).</div>
+</div>
+<div id="ref-moller1934" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[11] </div><div class="csl-right-inline">C. Møller and M. S. Plesset, <a href="https://doi.org/10.1103/PhysRev.46.618">Note on an approximation treatment for many-electron systems</a>, Phys. Rev. <strong>46</strong>, 618 (1934).</div>
+</div>
+<div id="ref-raghavachari1989" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[12] </div><div class="csl-right-inline">K. Raghavachari, G. W. Trucks, J. A. Pople, and M. Head-Gordon, <a href="https://doi.org/10.1016/S0009-2614(89)87395-6">A fifth-order perturbation comparison of electron correlation theories</a>, Chem. Phys. Lett. <strong>157</strong>, 479 (1989).</div>
+</div>
+<div id="ref-goerigk2017" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[13] </div><div class="csl-right-inline">L. Goerigk, A. Hansen, C. Bauer, S. Ehrlich, A. Najibi, and S. Grimme, Phys. Chem. Chem. Phys. <strong>19</strong>, 32184 (2017).</div>
+</div>
+<div id="ref-helgaker2000" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[14] </div><div class="csl-right-inline">T. Helgaker, P. Jørgensen, and J. Olsen, <em>Molecular Electronic-Structure Theory</em> (Wiley, Chichester, 2000).</div>
+</div>
+<div id="ref-koch2001" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[15] </div><div class="csl-right-inline">W. Koch and M. C. Holthausen, <em>A Chemist’s Guide to Density Functional Theory</em>, 2nd ed. (Wiley-VCH, Weinheim, 2001).</div>
 </div>
 </div></section></div></main> <!-- /main -->
 <!-- Peverati lab logo at the top right of the navbar (light and dark versions). -->

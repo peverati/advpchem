@@ -1,0 +1,17 @@
+{
+  "_help": "Edit this file each semester. 'form' = share link of the Microsoft Form for that experiment (with a file-upload question). 'due' = ISO date shown on the page. 'release_class_results' = true shows the class comparison (needs data/class/exNN.json from tools/aggregate.py).",
+  "semester": "Fall 2026",
+  "instructor": "Prof. Roberto Peverati",
+  "experiments": {
+    "ex01": { "form": "", "due": "", "release_class_results": false },
+    "ex02": { "form": "", "due": "", "release_class_results": false },
+    "ex03": { "form": "", "due": "", "release_class_results": false },
+    "ex04": { "form": "", "due": "", "release_class_results": false },
+    "ex05": { "form": "", "due": "", "release_class_results": false },
+    "ex06": { "form": "", "due": "", "release_class_results": false },
+    "ex07": { "form": "", "due": "", "release_class_results": false },
+    "ex08": { "form": "", "due": "", "release_class_results": false },
+    "ex09": { "form": "", "due": "", "release_class_results": false },
+    "ex10": { "form": "", "due": "", "release_class_results": false }
+  }
+}

@@ -31,6 +31,7 @@ ul.task-list li input[type="checkbox"] {
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
+  margin-bottom: 0em;
 }
 .hanging-indent div.csl-entry {
   margin-left:2em;
@@ -703,7 +704,7 @@ window.Quarto = {
 </div>
 <section id="why-look-beyond-the-wave-function" class="level2" data-number="1">
 <h2 data-number="1" class="anchored" data-anchor-id="why-look-beyond-the-wave-function"><span class="header-section-number">1</span> Why look beyond the wave function?</h2>
-<p>The many-electron wave function <span class="math inline">\(\Psi(\mathbf{x}_1, \ldots, \mathbf{x}_N)\)</span> depends on <span class="math inline">\(3N\)</span> spatial coordinates (plus <span class="math inline">\(N\)</span> spin coordinates). For benzene, with 42 electrons, that is a function of 126 variables. Suppose you wanted to store it on a coarse grid of only 10 points per coordinate: you would need <span class="math inline">\(10^{126}\)</span> numbers, far more than the number of atoms in the observable universe. Walter Kohn called this growth the “exponential wall” of wave-function methods <span class="citation" data-cites="kohn1999">(<a href="#ref-kohn1999" role="doc-biblioref">Kohn 1999</a>)</span>.</p>
+<p>The many-electron wave function <span class="math inline">\(\Psi(\mathbf{x}_1, \ldots, \mathbf{x}_N)\)</span> depends on <span class="math inline">\(3N\)</span> spatial coordinates (plus <span class="math inline">\(N\)</span> spin coordinates). For benzene, with 42 electrons, that is a function of 126 variables. Suppose you wanted to store it on a coarse grid of only 10 points per coordinate: you would need <span class="math inline">\(10^{126}\)</span> numbers, far more than the number of atoms in the observable universe. Walter Kohn called this growth the “exponential wall” of wave-function methods <span class="citation" data-cites="kohn1999">&nbsp;[<a href="#ref-kohn1999" role="doc-biblioref">1</a>]</span>.</p>
 <p>Correlated wave-function methods avoid storing <span class="math inline">\(\Psi\)</span> on a grid, but they pay in a different currency: computer time. As you saw in <a href="../lectures/l04-hartree-fock.html">Lecture 4</a>, MP2 scales as <span class="math inline">\(N^5\)</span> and CCSD(T) as <span class="math inline">\(N^7\)</span> with system size. CCSD(T) on a molecule with 30 heavy atoms is a major undertaking, and on the 50–100 atoms of a typical catalyst or drug molecule it is out of reach for routine work.</p>
 <p>Yet most questions in chemistry are about one simple function: where the electrons are. The <strong>electron density</strong> <span class="math inline">\(\rho(\mathbf{r})\)</span> depends on only <strong>three</strong> coordinates, whatever the number of electrons. Density functional theory (DFT) is the theory that says this function is enough, in principle, to get the exact ground-state energy. In practice it is the method behind most of the quantum chemistry done today, and the method of almost every experiment in this course.</p>
 </section>
@@ -732,7 +733,7 @@ window.Quarto = {
 </section>
 <section id="the-hohenbergkohn-theorems" class="level2" data-number="3">
 <h2 data-number="3" class="anchored" data-anchor-id="the-hohenbergkohn-theorems"><span class="header-section-number">3</span> The Hohenberg–Kohn theorems</h2>
-<p>In the electronic Hamiltonian, the only part that depends on the molecule is the attraction to the nuclei. We collect it in the <strong>external potential</strong> <span class="math inline">\(v_{\mathrm{ext}}(\mathbf{r}) = -\sum_A Z_A/|\mathbf{r} - \mathbf{R}_A|\)</span>. The kinetic energy <span class="math inline">\(\hat T\)</span> and the electron–electron repulsion <span class="math inline">\(\hat V_{ee}\)</span> are the same for every molecule with <span class="math inline">\(N\)</span> electrons. In 1964 Pierre Hohenberg and Walter Kohn proved two theorems about this situation <span class="citation" data-cites="hohenberg1964">(<a href="#ref-hohenberg1964" role="doc-biblioref">Hohenberg and Kohn 1964</a>)</span>.</p>
+<p>In the electronic Hamiltonian, the only part that depends on the molecule is the attraction to the nuclei. We collect it in the <strong>external potential</strong> <span class="math inline">\(v_{\mathrm{ext}}(\mathbf{r}) = -\sum_A Z_A/|\mathbf{r} - \mathbf{R}_A|\)</span>. The kinetic energy <span class="math inline">\(\hat T\)</span> and the electron–electron repulsion <span class="math inline">\(\hat V_{ee}\)</span> are the same for every molecule with <span class="math inline">\(N\)</span> electrons. In 1964 Pierre Hohenberg and Walter Kohn proved two theorems about this situation <span class="citation" data-cites="hohenberg1964">&nbsp;[<a href="#ref-hohenberg1964" role="doc-biblioref">2</a>]</span>.</p>
 <p><strong>First theorem (existence).</strong> <em>The ground-state density determines the external potential, up to an additive constant.</em> Since <span class="math inline">\(v_{\mathrm{ext}}\)</span> and <span class="math inline">\(N\)</span> fix the Hamiltonian, the density determines the Hamiltonian, and therefore the ground-state wave function, the energy, and every other ground-state property.</p>
 <p>The proof is short. Suppose two different external potentials <span class="math inline">\(v\)</span> and <span class="math inline">\(v'\)</span> (with Hamiltonians <span class="math inline">\(\hat H\)</span> and <span class="math inline">\(\hat H'\)</span>, and nondegenerate ground states <span class="math inline">\(\Psi\)</span> and <span class="math inline">\(\Psi'\)</span>) gave the same ground-state density <span class="math inline">\(\rho\)</span>. Use <span class="math inline">\(\Psi'\)</span> as a trial function for <span class="math inline">\(\hat H\)</span>. By the variational principle,</p>
 <p><span class="math display">\[
@@ -745,7 +746,7 @@ E_v[\rho] = F[\rho] + \int v_{\mathrm{ext}}(\mathbf{r})\,\rho(\mathbf{r})\,d\mat
 \tag{2}\]</span></span></p>
 <p>and it is minimized by the exact ground-state density. For any trial density <span class="math inline">\(\tilde\rho\)</span> that is positive and integrates to <span class="math inline">\(N\)</span> (with some technical conditions), <span class="math inline">\(E_v[\tilde\rho] \ge E_0\)</span>.</p>
 <p>A <em>functional</em> is a rule that takes a whole function and returns a number, just as <span class="math inline">\(E[\Psi] = \langle\Psi|\hat H|\Psi\rangle\)</span> takes a wave function and returns an energy. We write functionals with square brackets.</p>
-<p>The term <span class="math inline">\(F[\rho] = T[\rho] + V_{ee}[\rho]\)</span> is the <strong>universal functional</strong>: the kinetic and electron–electron energy of the electrons. “Universal” means it is the same for every atom, molecule or solid. Only <span class="math inline">\(v_{\mathrm{ext}}\)</span> changes from one system to another. Levy later gave a cleaner definition that removes most of the technical conditions: <span class="math inline">\(F[\rho]\)</span> is the lowest value of <span class="math inline">\(\langle\Psi|\hat T + \hat V_{ee}|\Psi\rangle\)</span> over all wave functions that give the density <span class="math inline">\(\rho\)</span> <span class="citation" data-cites="levy1979">(<a href="#ref-levy1979" role="doc-biblioref">Levy 1979</a>)</span>.</p>
+<p>The term <span class="math inline">\(F[\rho] = T[\rho] + V_{ee}[\rho]\)</span> is the <strong>universal functional</strong>: the kinetic and electron–electron energy of the electrons. “Universal” means it is the same for every atom, molecule or solid. Only <span class="math inline">\(v_{\mathrm{ext}}\)</span> changes from one system to another. Levy later gave a cleaner definition that removes most of the technical conditions: <span class="math inline">\(F[\rho]\)</span> is the lowest value of <span class="math inline">\(\langle\Psi|\hat T + \hat V_{ee}|\Psi\rangle\)</span> over all wave functions that give the density <span class="math inline">\(\rho\)</span> <span class="citation" data-cites="levy1979">&nbsp;[<a href="#ref-levy1979" role="doc-biblioref">3</a>]</span>.</p>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -762,7 +763,7 @@ E_v[\rho] = F[\rho] + \int v_{\mathrm{ext}}(\mathbf{r})\,\rho(\mathbf{r})\,d\mat
 </section>
 <section id="a-cautionary-tale-thomasfermi-theory" class="level2" data-number="4">
 <h2 data-number="4" class="anchored" data-anchor-id="a-cautionary-tale-thomasfermi-theory"><span class="header-section-number">4</span> A cautionary tale: Thomas–Fermi theory</h2>
-<p>The idea of using only the density is older than the theorems. In 1927, Thomas <span class="citation" data-cites="thomas1927">(<a href="#ref-thomas1927" role="doc-biblioref">Thomas 1927</a>)</span> and Fermi <span class="citation" data-cites="fermi1927">(<a href="#ref-fermi1927" role="doc-biblioref">Fermi 1927</a>)</span> wrote the energy of an atom as a functional of the density alone. They took the electrostatic terms exactly,</p>
+<p>The idea of using only the density is older than the theorems. In 1927, Thomas <span class="citation" data-cites="thomas1927">&nbsp;[<a href="#ref-thomas1927" role="doc-biblioref">4</a>]</span> and Fermi <span class="citation" data-cites="fermi1927">&nbsp;[<a href="#ref-fermi1927" role="doc-biblioref">5</a>]</span> wrote the energy of an atom as a functional of the density alone. They took the electrostatic terms exactly,</p>
 <p><span id="eq-classical"><span class="math display">\[
 E_{ne}[\rho] = \int v_{\mathrm{ext}}(\mathbf{r})\,\rho(\mathbf{r})\,d\mathbf{r}, \qquad J[\rho] = \frac{1}{2}\iint \frac{\rho(\mathbf{r})\,\rho(\mathbf{r}')}{|\mathbf{r} - \mathbf{r}'|}\,d\mathbf{r}\,d\mathbf{r}',
 \tag{3}\]</span></span></p>
@@ -770,15 +771,15 @@ E_{ne}[\rho] = \int v_{\mathrm{ext}}(\mathbf{r})\,\rho(\mathbf{r})\,d\mathbf{r},
 <p><span class="math display">\[
 T_{\mathrm{TF}}[\rho] = C_F \int \rho(\mathbf{r})^{5/3}\,d\mathbf{r}, \qquad C_F = \frac{3}{10}\left(3\pi^2\right)^{2/3} \approx 2.871.
 \]</span></p>
-<p><span class="math inline">\(J[\rho]\)</span> is the <strong>Hartree energy</strong>: the classical self-repulsion of the charge cloud <span class="math inline">\(\rho\)</span>. It is the same as <span class="math inline">\(\frac{1}{2}\sum_{ij}J_{ij}\)</span> of Lecture 4, including the unphysical <span class="math inline">\(i = j\)</span> terms. Dirac soon added an exchange term of the same local form <span class="citation" data-cites="dirac1930">(<a href="#ref-dirac1930" role="doc-biblioref">Dirac 1930</a>)</span>, which we will meet again below.</p>
-<p>Thomas–Fermi theory gives rough total energies of heavy atoms, but it fails for chemistry in a spectacular way: it has no shell structure (the density decreases smoothly from the nucleus, with no K, L, M shells), and Teller proved in 1962 that <strong>no molecule is bound</strong> in Thomas–Fermi theory <span class="citation" data-cites="teller1962">(<a href="#ref-teller1962" role="doc-biblioref">Teller 1962</a>)</span>. Any molecule is always higher in energy than its separated atoms. The culprit is the kinetic energy. It is the largest energy term after the nuclear attraction, and the local formula above misses most of the subtle changes in kinetic energy that make chemical bonds. Orbital-free kinetic-energy functionals are still an active research topic, but they are not accurate enough for chemistry.</p>
+<p><span class="math inline">\(J[\rho]\)</span> is the <strong>Hartree energy</strong>: the classical self-repulsion of the charge cloud <span class="math inline">\(\rho\)</span>. It is the same as <span class="math inline">\(\frac{1}{2}\sum_{ij}J_{ij}\)</span> of Lecture 4, including the unphysical <span class="math inline">\(i = j\)</span> terms. Dirac soon added an exchange term of the same local form <span class="citation" data-cites="dirac1930">&nbsp;[<a href="#ref-dirac1930" role="doc-biblioref">6</a>]</span>, which we will meet again below.</p>
+<p>Thomas–Fermi theory gives rough total energies of heavy atoms, but it fails for chemistry in a spectacular way: it has no shell structure (the density decreases smoothly from the nucleus, with no K, L, M shells), and Teller proved in 1962 that <strong>no molecule is bound</strong> in Thomas–Fermi theory <span class="citation" data-cites="teller1962">&nbsp;[<a href="#ref-teller1962" role="doc-biblioref">7</a>]</span>. Any molecule is always higher in energy than its separated atoms. The culprit is the kinetic energy. It is the largest energy term after the nuclear attraction, and the local formula above misses most of the subtle changes in kinetic energy that make chemical bonds. Orbital-free kinetic-energy functionals are still an active research topic, but they are not accurate enough for chemistry.</p>
 <p>The lesson for what follows: <strong>do not approximate the kinetic energy with a simple density functional.</strong></p>
 </section>
 <section id="the-kohnsham-scheme" class="level2" data-number="5">
 <h2 data-number="5" class="anchored" data-anchor-id="the-kohnsham-scheme"><span class="header-section-number">5</span> The Kohn–Sham scheme</h2>
 <section id="a-fictitious-system-with-the-real-density" class="level3" data-number="5.1">
 <h3 data-number="5.1" class="anchored" data-anchor-id="a-fictitious-system-with-the-real-density"><span class="header-section-number">5.1</span> A fictitious system with the real density</h3>
-<p>In 1965, Kohn and Lu Jeu Sham found a way around the kinetic-energy problem <span class="citation" data-cites="kohn1965">(<a href="#ref-kohn1965" role="doc-biblioref">Kohn and Sham 1965</a>)</span>. The idea is to bring orbitals back, but only as a tool.</p>
+<p>In 1965, Kohn and Lu Jeu Sham found a way around the kinetic-energy problem <span class="citation" data-cites="kohn1965">&nbsp;[<a href="#ref-kohn1965" role="doc-biblioref">8</a>]</span>. The idea is to bring orbitals back, but only as a tool.</p>
 <p>Imagine a fictitious system of <span class="math inline">\(N\)</span> <strong>non-interacting</strong> electrons moving in some effective local potential <span class="math inline">\(v_s(\mathbf{r})\)</span>, chosen so that the density of this fictitious system is exactly equal to the density of the real, interacting molecule (<a href="#fig-ks" class="quarto-xref">Figure&nbsp;1</a>). A system of non-interacting electrons is easy: its exact wave function is a single Slater determinant of orbitals <span class="math inline">\(\varphi_i\)</span>, each obeying a one-electron Schrödinger equation. And its kinetic energy can be computed <strong>exactly</strong> from the orbitals:</p>
 <p><span id="eq-ts"><span class="math display">\[
 T_s[\rho] = \sum_{i=1}^{N}\left\langle\varphi_i\left|-\frac{1}{2}\nabla^2\right|\varphi_i\right\rangle.
@@ -1006,7 +1007,7 @@ E_{xc}^{\mathrm{LDA}}[\rho] = \int \rho(\mathbf{r})\,\varepsilon_{xc}^{\mathrm{u
 </section>
 <section id="lsda-exchange" class="level3" data-number="6.2">
 <h3 data-number="6.2" class="anchored" data-anchor-id="lsda-exchange"><span class="header-section-number">6.2</span> LSDA exchange</h3>
-<p>For the uniform gas, the exchange energy can be computed analytically from plane-wave orbitals (Dirac, 1930 <span class="citation" data-cites="dirac1930">(<a href="#ref-dirac1930" role="doc-biblioref">Dirac 1930</a>)</span>). The result is</p>
+<p>For the uniform gas, the exchange energy can be computed analytically from plane-wave orbitals (Dirac, 1930 <span class="citation" data-cites="dirac1930">&nbsp;[<a href="#ref-dirac1930" role="doc-biblioref">6</a>]</span>). The result is</p>
 <p><span id="eq-ldax"><span class="math display">\[
 E_x^{\mathrm{LDA}}[\rho] = -C_x\int\rho(\mathbf{r})^{4/3}\,d\mathbf{r}, \qquad C_x = \frac{3}{4}\left(\frac{3}{\pi}\right)^{1/3} \approx 0.7386.
 \tag{9}\]</span></span></p>
@@ -1015,14 +1016,14 @@ E_x^{\mathrm{LDA}}[\rho] = -C_x\int\rho(\mathbf{r})^{4/3}\,d\mathbf{r}, \qquad C
 E_x^{\mathrm{LSDA}}[\rho_\alpha,\rho_\beta] = -\frac{3}{2}\left(\frac{3}{4\pi}\right)^{1/3}\sum_{\sigma=\alpha,\beta}\int\rho_\sigma(\mathbf{r})^{4/3}\,d\mathbf{r}.
 \tag{10}\]</span></span></p>
 <p>For a closed shell (<span class="math inline">\(\rho_\alpha = \rho_\beta = \rho/2\)</span>), <a href="#eq-lsdax" class="quarto-xref">Equation&nbsp;10</a> reduces to <a href="#eq-ldax" class="quarto-xref">Equation&nbsp;9</a>. Notice the power <span class="math inline">\(4/3\)</span>. You can check it by dimensional analysis: an energy in atomic units has dimension 1/length, a density 1/length³, and <span class="math inline">\(\rho^{4/3}\,d\mathbf{r}\)</span> has dimension <span class="math inline">\((1/\text{length})^4 \times \text{length}^3 = 1/\text{length}\)</span>.</p>
-<p>In 1951 Slater arrived at the same <span class="math inline">\(\rho^{4/3}\)</span> form independently, by approximating the Hartree–Fock exchange potential <span class="citation" data-cites="slater1951">(<a href="#ref-slater1951" role="doc-biblioref">Slater 1951</a>)</span>. His constant was <span class="math inline">\(3/2\)</span> times larger. Programs later introduced the <span class="math inline">\(X\alpha\)</span> method, with an adjustable prefactor <span class="math inline">\(\alpha\)</span>: Slater’s value is <span class="math inline">\(\alpha = 1\)</span>, and the uniform-gas (Kohn–Sham) value is <span class="math inline">\(\alpha = 2/3\)</span>. Today, “Slater exchange” in a functional name (the “S” in SVWN or SPW92) means <a href="#eq-lsdax" class="quarto-xref">Equation&nbsp;10</a> with the uniform-gas constant.</p>
+<p>In 1951 Slater arrived at the same <span class="math inline">\(\rho^{4/3}\)</span> form independently, by approximating the Hartree–Fock exchange potential <span class="citation" data-cites="slater1951">&nbsp;[<a href="#ref-slater1951" role="doc-biblioref">9</a>]</span>. His constant was <span class="math inline">\(3/2\)</span> times larger. Programs later introduced the <span class="math inline">\(X\alpha\)</span> method, with an adjustable prefactor <span class="math inline">\(\alpha\)</span>: Slater’s value is <span class="math inline">\(\alpha = 1\)</span>, and the uniform-gas (Kohn–Sham) value is <span class="math inline">\(\alpha = 2/3\)</span>. Today, “Slater exchange” in a functional name (the “S” in SVWN or SPW92) means <a href="#eq-lsdax" class="quarto-xref">Equation&nbsp;10</a> with the uniform-gas constant.</p>
 </section>
 <section id="lsda-correlation" class="level3" data-number="6.3">
 <h3 data-number="6.3" class="anchored" data-anchor-id="lsda-correlation"><span class="header-section-number">6.3</span> LSDA correlation</h3>
-<p>The correlation energy of the uniform gas has no closed form. It is known analytically only in the limits of very high and very low density. In 1980, Ceperley and Alder computed it accurately at intermediate densities with quantum Monte Carlo simulations <span class="citation" data-cites="ceperley1980">(<a href="#ref-ceperley1980" role="doc-biblioref">Ceperley and Alder 1980</a>)</span>. Others then fitted analytic formulas that reproduce the Monte Carlo numbers and the known limits, as functions of the <strong>Wigner–Seitz radius</strong> <span class="math inline">\(r_s = (3/4\pi\rho)^{1/3}\)</span> (the radius of a sphere that contains, on average, one electron) and of the spin polarization <span class="math inline">\(\zeta = (\rho_\alpha - \rho_\beta)/\rho\)</span>. The two parametrizations you will see are:</p>
+<p>The correlation energy of the uniform gas has no closed form. It is known analytically only in the limits of very high and very low density. In 1980, Ceperley and Alder computed it accurately at intermediate densities with quantum Monte Carlo simulations <span class="citation" data-cites="ceperley1980">&nbsp;[<a href="#ref-ceperley1980" role="doc-biblioref">10</a>]</span>. Others then fitted analytic formulas that reproduce the Monte Carlo numbers and the known limits, as functions of the <strong>Wigner–Seitz radius</strong> <span class="math inline">\(r_s = (3/4\pi\rho)^{1/3}\)</span> (the radius of a sphere that contains, on average, one electron) and of the spin polarization <span class="math inline">\(\zeta = (\rho_\alpha - \rho_\beta)/\rho\)</span>. The two parametrizations you will see are:</p>
 <ul>
-<li><strong>VWN</strong> (Vosko, Wilk and Nusair, 1980) <span class="citation" data-cites="vosko1980">(<a href="#ref-vosko1980" role="doc-biblioref">Vosko et al. 1980</a>)</span>, which comes in several variants (the paper gives more than one fit). Different programs use different VWN variants inside the same named functional, which is one reason why “the same” functional can give slightly different energies in different codes.</li>
-<li><strong>PW92</strong> (Perdew and Wang, 1992) <span class="citation" data-cites="perdew1992">(<a href="#ref-perdew1992" role="doc-biblioref">Perdew and Wang 1992</a>)</span>, a later and more careful fit.</li>
+<li><strong>VWN</strong> (Vosko, Wilk and Nusair, 1980) <span class="citation" data-cites="vosko1980">&nbsp;[<a href="#ref-vosko1980" role="doc-biblioref">11</a>]</span>, which comes in several variants (the paper gives more than one fit). Different programs use different VWN variants inside the same named functional, which is one reason why “the same” functional can give slightly different energies in different codes.</li>
+<li><strong>PW92</strong> (Perdew and Wang, 1992) <span class="citation" data-cites="perdew1992">&nbsp;[<a href="#ref-perdew1992" role="doc-biblioref">12</a>]</span>, a later and more careful fit.</li>
 </ul>
 <p>In this course, LSDA means <strong>SPW92</strong>: Slater exchange plus PW92 correlation. Its close relative SVWN5 (Slater plus VWN correlation, form V) gives very similar results. Both are “pure” LSDA: they use nothing but the local spin densities.</p>
 <div class="callout callout-style-default callout-note callout-titled">
@@ -1101,8 +1102,8 @@ E_{xc} \approx \sum_{k} w_k\, \rho(\mathbf{r}_k)\,\varepsilon_{xc}\big(\rho(\mat
 <section id="sec-errors" class="level2" data-number="8">
 <h2 data-number="8" class="anchored" data-anchor-id="sec-errors"><span class="header-section-number">8</span> Known errors of approximate functionals</h2>
 <p>Every functional you will use in this course is an approximation, and approximations fail in characteristic ways. Three of them are worth knowing by name from the start. Each returns in later classes, with experiments designed to expose it.</p>
-<p><strong>1. Self-interaction and delocalization error.</strong> In approximate functionals, the approximate <span class="math inline">\(E_x\)</span> does not exactly cancel the self-repulsion contained in <span class="math inline">\(J[\rho]\)</span> (as in the hydrogen atom above). Perdew and Zunger made this precise in 1981 and proposed a correction <span class="citation" data-cites="perdew1981">(<a href="#ref-perdew1981" role="doc-biblioref">Perdew and Zunger 1981</a>)</span>. Because an electron that repels itself prefers to be spread out, approximate functionals systematically over-stabilize <strong>delocalized</strong> charge. This is called <strong>delocalization error</strong> <span class="citation" data-cites="cohen2012">(<a href="#ref-cohen2012" role="doc-biblioref">Cohen et al. 2012</a>)</span>. Its symptoms are striking. In stretched H₂⁺, a one-electron system, LSDA and GGAs predict an energy far too low, with the electron shared between two distant protons. Reaction barriers come out too low, because transition states have stretched, delocalized bonds. Charge-transfer complexes are overbound, and orbital energies are too high. Mixing in Hartree–Fock exchange, which has no self-interaction, reduces this error (<a href="../lectures/l06-jacobs-ladder.html">Lecture 6</a>). It returns in <a href="../lectures/l09-difficult-cases.html">Lecture 9</a>.</p>
-<p><strong>2. Missing long-range dispersion.</strong> LSDA depends only on the density at each point. GGAs and meta-GGAs (<a href="../lectures/l06-jacobs-ladder.html">Lecture 6</a>) also look at its derivatives at that point, but still only locally. Dispersion, however, is a correlation between density fluctuations at two points that can be far apart, on two molecules whose densities do not overlap. A local or semilocal functional cannot see it: as two argon atoms are pulled apart, the energy of any such functional approaches the separated-atom value too quickly. The functional may give some spurious binding where the densities overlap (LSDA often does), but for the wrong reason. Dispersion must be added, by an empirical correction like <strong>-D4</strong> <span class="citation" data-cites="caldeweyher2017 caldeweyher2019">(<a href="#ref-caldeweyher2017" role="doc-biblioref">Caldeweyher et al. 2017</a>, <a href="#ref-caldeweyher2019" role="doc-biblioref">2019</a>)</span> or by a nonlocal correlation functional (VV10) <span class="citation" data-cites="vydrov2010">(<a href="#ref-vydrov2010" role="doc-biblioref">Vydrov and Van Voorhis 2010</a>)</span>. This is the subject of <a href="../lectures/l08-dispersion.html">Lecture 8</a> and <a href="../experiments/ex04-organic-b.html">Experiment 4</a>.</p>
+<p><strong>1. Self-interaction and delocalization error.</strong> In approximate functionals, the approximate <span class="math inline">\(E_x\)</span> does not exactly cancel the self-repulsion contained in <span class="math inline">\(J[\rho]\)</span> (as in the hydrogen atom above). Perdew and Zunger made this precise in 1981 and proposed a correction <span class="citation" data-cites="perdew1981">&nbsp;[<a href="#ref-perdew1981" role="doc-biblioref">13</a>]</span>. Because an electron that repels itself prefers to be spread out, approximate functionals systematically over-stabilize <strong>delocalized</strong> charge. This is called <strong>delocalization error</strong> <span class="citation" data-cites="cohen2012">&nbsp;[<a href="#ref-cohen2012" role="doc-biblioref">14</a>]</span>. Its symptoms are striking. In stretched H₂⁺, a one-electron system, LSDA and GGAs predict an energy far too low, with the electron shared between two distant protons. Reaction barriers come out too low, because transition states have stretched, delocalized bonds. Charge-transfer complexes are overbound, and orbital energies are too high. Mixing in Hartree–Fock exchange, which has no self-interaction, reduces this error (<a href="../lectures/l06-jacobs-ladder.html">Lecture 6</a>). It returns in <a href="../lectures/l09-difficult-cases.html">Lecture 9</a>.</p>
+<p><strong>2. Missing long-range dispersion.</strong> LSDA depends only on the density at each point. GGAs and meta-GGAs (<a href="../lectures/l06-jacobs-ladder.html">Lecture 6</a>) also look at its derivatives at that point, but still only locally. Dispersion, however, is a correlation between density fluctuations at two points that can be far apart, on two molecules whose densities do not overlap. A local or semilocal functional cannot see it: as two argon atoms are pulled apart, the energy of any such functional approaches the separated-atom value too quickly. The functional may give some spurious binding where the densities overlap (LSDA often does), but for the wrong reason. Dispersion must be added, by an empirical correction like <strong>-D4</strong> <span class="citation" data-cites="caldeweyher2017 caldeweyher2019">&nbsp;[<a href="#ref-caldeweyher2017" role="doc-biblioref">15</a>,<a href="#ref-caldeweyher2019" role="doc-biblioref">16</a>]</span> or by a nonlocal correlation functional (VV10) <span class="citation" data-cites="vydrov2010">&nbsp;[<a href="#ref-vydrov2010" role="doc-biblioref">17</a>]</span>. This is the subject of <a href="../lectures/l08-dispersion.html">Lecture 8</a> and <a href="../experiments/ex04-organic-b.html">Experiment 4</a>.</p>
 <p><strong>3. Static correlation.</strong> The Kohn–Sham reference is a single determinant. When the true wave function needs two or more determinants with similar weights (stretched bonds, diradicals, ozone, many transition-metal compounds), approximate functionals struggle. In principle the exact <span class="math inline">\(E_{xc}\)</span> would handle it. In practice, approximate functionals do it badly or not at all, and often the unrestricted calculation breaks spin symmetry, just as UHF does for stretched H₂ (<a href="../lectures/l04-hartree-fock.html">Lecture 4</a>). Static correlation and self-interaction are related, and they pull in opposite directions: adding Hartree–Fock exchange reduces self-interaction error but makes static-correlation problems worse. This tension is one reason why no single functional is best for everything. It returns in <a href="../lectures/l09-difficult-cases.html">Lecture 9</a> and <a href="../lectures/l12-scf-stability.html">Lecture 12</a>.</p>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -1151,84 +1152,84 @@ E_{xc} \approx \sum_{k} w_k\, \rho(\mathbf{r}_k)\,\varepsilon_{xc}\big(\rho(\mat
 <section id="further-reading" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="further-reading">Further reading</h2>
 <ul>
-<li><span class="citation" data-cites="koch2001">Koch and Holthausen (<a href="#ref-koch2001" role="doc-biblioref">2001</a>)</span>, chapters 3–6: the standard introduction to DFT for chemists, from Hohenberg–Kohn to the LSDA and beyond. Written for exactly the audience of this course.</li>
-<li><span class="citation" data-cites="kohn1999">Kohn (<a href="#ref-kohn1999" role="doc-biblioref">1999</a>)</span>: Walter Kohn’s Nobel lecture, an elegant and readable account of why the density is enough.</li>
-<li><span class="citation" data-cites="burke2012">Burke (<a href="#ref-burke2012" role="doc-biblioref">2012</a>)</span>: a short perspective on what DFT is, what it is not, and where approximations come from.</li>
-<li><span class="citation" data-cites="parr1989">Parr and Yang (<a href="#ref-parr1989" role="doc-biblioref">1989</a>)</span>: the classic, more mathematical textbook.</li>
-<li><span class="citation" data-cites="cohen2012">Cohen et al. (<a href="#ref-cohen2012" role="doc-biblioref">2012</a>)</span>: a review of the main errors of approximate functionals (self-interaction, delocalization, static correlation), for after Lecture 9.</li>
-<li><span class="citation" data-cites="peverati2014">Peverati and Truhlar (<a href="#ref-peverati2014" role="doc-biblioref">2014</a>)</span> and <span class="citation" data-cites="mardirossian2017">Mardirossian and Head-Gordon (<a href="#ref-mardirossian2017" role="doc-biblioref">2017</a>)</span>: reviews of modern functionals, useful for <a href="../experiments/ex02-jacobs-ladder.html">Experiment 2</a>.</li>
+<li><span class="citation" data-cites="koch2001">&nbsp;[<a href="#ref-koch2001" role="doc-biblioref">18</a>]</span>, chapters 3–6: the standard introduction to DFT for chemists, from Hohenberg–Kohn to the LSDA and beyond. Written for exactly the audience of this course.</li>
+<li><span class="citation" data-cites="kohn1999">&nbsp;[<a href="#ref-kohn1999" role="doc-biblioref">1</a>]</span>: Walter Kohn’s Nobel lecture, an elegant and readable account of why the density is enough.</li>
+<li><span class="citation" data-cites="burke2012">&nbsp;[<a href="#ref-burke2012" role="doc-biblioref">19</a>]</span>: a short perspective on what DFT is, what it is not, and where approximations come from.</li>
+<li><span class="citation" data-cites="parr1989">&nbsp;[<a href="#ref-parr1989" role="doc-biblioref">20</a>]</span>: the classic, more mathematical textbook.</li>
+<li><span class="citation" data-cites="cohen2012">&nbsp;[<a href="#ref-cohen2012" role="doc-biblioref">14</a>]</span>: a review of the main errors of approximate functionals (self-interaction, delocalization, static correlation), for after Lecture 9.</li>
+<li><span class="citation" data-cites="peverati2014">&nbsp;[<a href="#ref-peverati2014" role="doc-biblioref">21</a>]</span> and <span class="citation" data-cites="mardirossian2017">&nbsp;[<a href="#ref-mardirossian2017" role="doc-biblioref">22</a>]</span>: reviews of modern functionals, useful for <a href="../experiments/ex02-jacobs-ladder.html">Experiment 2</a>.</li>
 </ul>
 
 
 
 </section>
 
-<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
-<div id="ref-burke2012" class="csl-entry" role="listitem">
-Burke, K. 2012. <span>“Perspective on Density Functional Theory.”</span> <em>J. Chem. Phys.</em> 136: 150901. <a href="https://doi.org/10.1063/1.4704546">https://doi.org/10.1063/1.4704546</a>.
-</div>
-<div id="ref-caldeweyher2017" class="csl-entry" role="listitem">
-Caldeweyher, E., C. Bannwarth, and S. Grimme. 2017. <em>J. Chem. Phys.</em> 147: 034112.
-</div>
-<div id="ref-caldeweyher2019" class="csl-entry" role="listitem">
-Caldeweyher, E., S. Ehlert, A. Hansen, et al. 2019. <em>J. Chem. Phys.</em> 150: 154122.
-</div>
-<div id="ref-ceperley1980" class="csl-entry" role="listitem">
-Ceperley, D. M., and B. J. Alder. 1980. <span>“Ground State of the Electron Gas by a Stochastic Method.”</span> <em>Phys. Rev. Lett.</em> 45: 566–69. <a href="https://doi.org/10.1103/PhysRevLett.45.566">https://doi.org/10.1103/PhysRevLett.45.566</a>.
-</div>
-<div id="ref-cohen2012" class="csl-entry" role="listitem">
-Cohen, A. J., P. Mori-Sánchez, and W. Yang. 2012. <em>Chem. Rev.</em> 112: 289–320.
-</div>
-<div id="ref-dirac1930" class="csl-entry" role="listitem">
-Dirac, P. A. M. 1930. <span>“Note on Exchange Phenomena in the <span>Thomas</span> Atom.”</span> <em>Math. Proc. Cambridge Philos. Soc.</em> 26: 376–85. <a href="https://doi.org/10.1017/S0305004100016108">https://doi.org/10.1017/S0305004100016108</a>.
-</div>
-<div id="ref-fermi1927" class="csl-entry" role="listitem">
-Fermi, E. 1927. <span>“Un Metodo Statistico Per La Determinazione Di Alcune Propriet<span>à</span> Dell’atomo.”</span> <em>Rend. Accad. Naz. Lincei</em> 6: 602–7.
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body" data-entry-spacing="0" role="list">
+<div id="ref-kohn1999" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[1] </div><div class="csl-right-inline">W. Kohn, <a href="https://doi.org/10.1103/RevModPhys.71.1253">Nobel <span>Lecture</span>: Electronic structure of matter—wave functions and density functionals</a>, Rev. Mod. Phys. <strong>71</strong>, 1253 (1999).</div>
 </div>
 <div id="ref-hohenberg1964" class="csl-entry" role="listitem">
-Hohenberg, P., and W. Kohn. 1964. <em>Phys. Rev.</em> 136: B864–71.
-</div>
-<div id="ref-koch2001" class="csl-entry" role="listitem">
-Koch, W., and M. C. Holthausen. 2001. <em>A Chemist’s Guide to Density Functional Theory</em>. 2nd ed. Wiley-VCH.
-</div>
-<div id="ref-kohn1999" class="csl-entry" role="listitem">
-Kohn, W. 1999. <span>“Nobel <span>Lecture</span>: Electronic Structure of Matter—Wave Functions and Density Functionals.”</span> <em>Rev. Mod. Phys.</em> 71: 1253–66. <a href="https://doi.org/10.1103/RevModPhys.71.1253">https://doi.org/10.1103/RevModPhys.71.1253</a>.
-</div>
-<div id="ref-kohn1965" class="csl-entry" role="listitem">
-Kohn, W., and L. Sham. 1965. <em>Phys. Rev.</em> 140: A1133–38.
+<div class="csl-left-margin">[2] </div><div class="csl-right-inline">P. Hohenberg and W. Kohn, Phys. Rev. <strong>136</strong>, B864 (1964).</div>
 </div>
 <div id="ref-levy1979" class="csl-entry" role="listitem">
-Levy, M. 1979. <span>“Universal Variational Functionals of Electron Densities, First-Order Density Matrices, and Natural Spin-Orbitals and Solution of the <span class="math inline">\(v\)</span>-Representability Problem.”</span> <em>Proc. Natl. Acad. Sci. USA</em> 76: 6062–65. <a href="https://doi.org/10.1073/pnas.76.12.6062">https://doi.org/10.1073/pnas.76.12.6062</a>.
-</div>
-<div id="ref-mardirossian2017" class="csl-entry" role="listitem">
-Mardirossian, N., and M. Head-Gordon. 2017. <em>Mol. Phys.</em> 115: 2315–72.
-</div>
-<div id="ref-parr1989" class="csl-entry" role="listitem">
-Parr, R. G., and W. Yang. 1989. <em>Density-Functional Theory of Atoms and Molecules</em>. Oxford University Press.
-</div>
-<div id="ref-perdew1992" class="csl-entry" role="listitem">
-Perdew, J. P., and Y. Wang. 1992. <em>Phys. Rev. B</em> 45: 13244–49.
-</div>
-<div id="ref-perdew1981" class="csl-entry" role="listitem">
-Perdew, J. P., and A. Zunger. 1981. <span>“Self-Interaction Correction to Density-Functional Approximations for Many-Electron Systems.”</span> <em>Phys. Rev. B</em> 23: 5048–79. <a href="https://doi.org/10.1103/PhysRevB.23.5048">https://doi.org/10.1103/PhysRevB.23.5048</a>.
-</div>
-<div id="ref-peverati2014" class="csl-entry" role="listitem">
-Peverati, R., and D. G. Truhlar. 2014. <em>Philos. Trans. R. Soc. A</em> 372: 20120476.
-</div>
-<div id="ref-slater1951" class="csl-entry" role="listitem">
-Slater, J. C. 1951. <em>Phys. Rev.</em> 81: 385–90.
-</div>
-<div id="ref-teller1962" class="csl-entry" role="listitem">
-Teller, E. 1962. <span>“On the Stability of Molecules in the <span>Thomas–Fermi</span> Theory.”</span> <em>Rev. Mod. Phys.</em> 34: 627–31. <a href="https://doi.org/10.1103/RevModPhys.34.627">https://doi.org/10.1103/RevModPhys.34.627</a>.
+<div class="csl-left-margin">[3] </div><div class="csl-right-inline">M. Levy, <a href="https://doi.org/10.1073/pnas.76.12.6062">Universal variational functionals of electron densities, first-order density matrices, and natural spin-orbitals and solution of the <span class="math inline">\(v\)</span>-representability problem</a>, Proc. Natl. Acad. Sci. USA <strong>76</strong>, 6062 (1979).</div>
 </div>
 <div id="ref-thomas1927" class="csl-entry" role="listitem">
-Thomas, L. H. 1927. <span>“The Calculation of Atomic Fields.”</span> <em>Math. Proc. Cambridge Philos. Soc.</em> 23: 542–48. <a href="https://doi.org/10.1017/S0305004100011683">https://doi.org/10.1017/S0305004100011683</a>.
+<div class="csl-left-margin">[4] </div><div class="csl-right-inline">L. H. Thomas, <a href="https://doi.org/10.1017/S0305004100011683">The calculation of atomic fields</a>, Math. Proc. Cambridge Philos. Soc. <strong>23</strong>, 542 (1927).</div>
+</div>
+<div id="ref-fermi1927" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[5] </div><div class="csl-right-inline">E. Fermi, Un metodo statistico per la determinazione di alcune propriet<span>à</span> dell’atomo, Rend. Accad. Naz. Lincei <strong>6</strong>, 602 (1927).</div>
+</div>
+<div id="ref-dirac1930" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[6] </div><div class="csl-right-inline">P. A. M. Dirac, <a href="https://doi.org/10.1017/S0305004100016108">Note on exchange phenomena in the <span>Thomas</span> atom</a>, Math. Proc. Cambridge Philos. Soc. <strong>26</strong>, 376 (1930).</div>
+</div>
+<div id="ref-teller1962" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[7] </div><div class="csl-right-inline">E. Teller, <a href="https://doi.org/10.1103/RevModPhys.34.627">On the stability of molecules in the <span>Thomas–Fermi</span> theory</a>, Rev. Mod. Phys. <strong>34</strong>, 627 (1962).</div>
+</div>
+<div id="ref-kohn1965" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[8] </div><div class="csl-right-inline">W. Kohn and L. Sham, Phys. Rev. <strong>140</strong>, A1133 (1965).</div>
+</div>
+<div id="ref-slater1951" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[9] </div><div class="csl-right-inline">J. C. Slater, Phys. Rev. <strong>81</strong>, 385 (1951).</div>
+</div>
+<div id="ref-ceperley1980" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[10] </div><div class="csl-right-inline">D. M. Ceperley and B. J. Alder, <a href="https://doi.org/10.1103/PhysRevLett.45.566">Ground state of the electron gas by a stochastic method</a>, Phys. Rev. Lett. <strong>45</strong>, 566 (1980).</div>
 </div>
 <div id="ref-vosko1980" class="csl-entry" role="listitem">
-Vosko, S. H., L. Wilk, and M. Nusair. 1980. <em>Can. J. Phys.</em> 58: 1200–1211.
+<div class="csl-left-margin">[11] </div><div class="csl-right-inline">S. H. Vosko, L. Wilk, and M. Nusair, Can. J. Phys. <strong>58</strong>, 1200 (1980).</div>
+</div>
+<div id="ref-perdew1992" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[12] </div><div class="csl-right-inline">J. P. Perdew and Y. Wang, Phys. Rev. B <strong>45</strong>, 13244 (1992).</div>
+</div>
+<div id="ref-perdew1981" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[13] </div><div class="csl-right-inline">J. P. Perdew and A. Zunger, <a href="https://doi.org/10.1103/PhysRevB.23.5048">Self-interaction correction to density-functional approximations for many-electron systems</a>, Phys. Rev. B <strong>23</strong>, 5048 (1981).</div>
+</div>
+<div id="ref-cohen2012" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[14] </div><div class="csl-right-inline">A. J. Cohen, P. Mori-Sánchez, and W. Yang, Chem. Rev. <strong>112</strong>, 289 (2012).</div>
+</div>
+<div id="ref-caldeweyher2017" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[15] </div><div class="csl-right-inline">E. Caldeweyher, C. Bannwarth, and S. Grimme, J. Chem. Phys. <strong>147</strong>, 034112 (2017).</div>
+</div>
+<div id="ref-caldeweyher2019" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[16] </div><div class="csl-right-inline">E. Caldeweyher, S. Ehlert, A. Hansen, H. Neugebauer, S. Spicher, C. Bannwarth, and S. Grimme, J. Chem. Phys. <strong>150</strong>, 154122 (2019).</div>
 </div>
 <div id="ref-vydrov2010" class="csl-entry" role="listitem">
-Vydrov, O. A., and T. Van Voorhis. 2010. <em>J. Chem. Phys.</em> 133: 244103.
+<div class="csl-left-margin">[17] </div><div class="csl-right-inline">O. A. Vydrov and T. Van Voorhis, J. Chem. Phys. <strong>133</strong>, 244103 (2010).</div>
+</div>
+<div id="ref-koch2001" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[18] </div><div class="csl-right-inline">W. Koch and M. C. Holthausen, <em>A Chemist’s Guide to Density Functional Theory</em>, 2nd ed. (Wiley-VCH, Weinheim, 2001).</div>
+</div>
+<div id="ref-burke2012" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[19] </div><div class="csl-right-inline">K. Burke, <a href="https://doi.org/10.1063/1.4704546">Perspective on density functional theory</a>, J. Chem. Phys. <strong>136</strong>, 150901 (2012).</div>
+</div>
+<div id="ref-parr1989" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[20] </div><div class="csl-right-inline">R. G. Parr and W. Yang, <em>Density-Functional Theory of Atoms and Molecules</em> (Oxford University Press, New York, 1989).</div>
+</div>
+<div id="ref-peverati2014" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[21] </div><div class="csl-right-inline">R. Peverati and D. G. Truhlar, Philos. Trans. R. Soc. A <strong>372</strong>, 20120476 (2014).</div>
+</div>
+<div id="ref-mardirossian2017" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[22] </div><div class="csl-right-inline">N. Mardirossian and M. Head-Gordon, Mol. Phys. <strong>115</strong>, 2315 (2017).</div>
 </div>
 </div></section></div></main> <!-- /main -->
 <!-- Peverati lab logo at the top right of the navbar (light and dark versions). -->

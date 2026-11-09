@@ -31,6 +31,7 @@ ul.task-list li input[type="checkbox"] {
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
+  margin-bottom: 0em;
 }
 .hanging-indent div.csl-entry {
   margin-left:2em;
@@ -730,8 +731,8 @@ window.Quarto = {
 <p>The typical pattern, which you probably reproduced:</p>
 <ul>
 <li><strong>SG-1 is too coarse for this problem for almost everyone.</strong> Even B3LYP may show small ripples at SG-1 on a scale of 0.1 kcal/mol, invisible in ordinary reaction energies but obvious here.</li>
-<li><strong>The meta-GGAs M06-L and M11-L and the hybrid meta-GGA M11</strong> were usually the most sensitive. Their curves often still had spurious minima at SG-2, and sometimes small irregularities even at SG-3. This matches what Wheeler and Houk <span class="citation" data-cites="wheeler2010">(<a href="#ref-wheeler2010" role="doc-biblioref">Wheeler and Houk 2010</a>)</span> and Mardirossian and Head-Gordon <span class="citation" data-cites="mardirossian2016">(<a href="#ref-mardirossian2016" role="doc-biblioref">Mardirossian and Head-Gordon 2016b</a>)</span> reported for Minnesota functionals.</li>
-<li><strong>ωB97M-V</strong> is also a meta-GGA, but it was designed with smoothness in mind <span class="citation" data-cites="mardirossian2016a">(<a href="#ref-mardirossian2016a" role="doc-biblioref">Mardirossian and Head-Gordon 2016a</a>)</span>. It usually converges by SG-2.</li>
+<li><strong>The meta-GGAs M06-L and M11-L and the hybrid meta-GGA M11</strong> were usually the most sensitive. Their curves often still had spurious minima at SG-2, and sometimes small irregularities even at SG-3. This matches what Wheeler and Houk <span class="citation" data-cites="wheeler2010">&nbsp;[<a href="#ref-wheeler2010" role="doc-biblioref">1</a>]</span> and Mardirossian and Head-Gordon <span class="citation" data-cites="mardirossian2016">&nbsp;[<a href="#ref-mardirossian2016" role="doc-biblioref">2</a>]</span> reported for Minnesota functionals.</li>
+<li><strong>ωB97M-V</strong> is also a meta-GGA, but it was designed with smoothness in mind <span class="citation" data-cites="mardirossian2016a">&nbsp;[<a href="#ref-mardirossian2016a" role="doc-biblioref">3</a>]</span>. It usually converges by SG-2.</li>
 <li><strong>B3LYP</strong> converges quickly with the grid, because a GGA hybrid has a smooth integrand.</li>
 </ul>
 </section>
@@ -838,7 +839,7 @@ E(30^\circ) = 2\sin^2 30^\circ - \sin^2 60^\circ = 2(0.25) - 0.75 = -0.25,
 </section>
 <section id="the-electronic-hessian" class="level2" data-number="2.3">
 <h2 data-number="2.3" class="anchored" data-anchor-id="the-electronic-hessian"><span class="header-section-number">2.3</span> The electronic Hessian</h2>
-<p>For a real, closed-shell Hartree–Fock determinant, the Hessian has a simple block structure built from two matrices <span class="citation" data-cites="cizek1967 seeger1977">(<a href="#ref-cizek1967" role="doc-biblioref">Čı́žek and Paldus 1967</a>; <a href="#ref-seeger1977" role="doc-biblioref">Seeger and Pople 1977</a>)</span>:</p>
+<p>For a real, closed-shell Hartree–Fock determinant, the Hessian has a simple block structure built from two matrices <span class="citation" data-cites="cizek1967 seeger1977">&nbsp;[<a href="#ref-cizek1967" role="doc-biblioref">4</a>,<a href="#ref-seeger1977" role="doc-biblioref">5</a>]</span>:</p>
 <p><span class="math display">\[
 A_{ia,jb} = (\varepsilon_a - \varepsilon_i)\,\delta_{ij}\,\delta_{ab} + \langle aj \| ib \rangle, \qquad
 B_{ia,jb} = \langle ab \| ij \rangle,
@@ -852,7 +853,7 @@ B_{ia,jb} = \langle ab \| ij \rangle,
 </section>
 <section id="internal-and-external-instabilities" class="level2" data-number="2.4">
 <h2 data-number="2.4" class="anchored" data-anchor-id="internal-and-external-instabilities"><span class="header-section-number">2.4</span> Internal and external instabilities</h2>
-<p>Every SCF calculation works within constraints: restricted or unrestricted spin orbitals, real or complex coefficients. These form a hierarchy <span class="citation" data-cites="seeger1977 fukutome1981">(<a href="#ref-seeger1977" role="doc-biblioref">Seeger and Pople 1977</a>; <a href="#ref-fukutome1981" role="doc-biblioref">Fukutome 1981</a>)</span>:</p>
+<p>Every SCF calculation works within constraints: restricted or unrestricted spin orbitals, real or complex coefficients. These form a hierarchy <span class="citation" data-cites="seeger1977 fukutome1981">&nbsp;[<a href="#ref-seeger1977" role="doc-biblioref">5</a>,<a href="#ref-fukutome1981" role="doc-biblioref">6</a>]</span>:</p>
 <p><span class="math display">\[
 \text{RHF} \subset \text{UHF} \subset \text{GHF}, \qquad \text{real} \subset \text{complex}.
 \]</span></p>
@@ -860,13 +861,13 @@ B_{ia,jb} = \langle ab \| ij \rangle,
 <li>An <strong>internal instability</strong> means a lower solution exists <em>within the same constraints</em>: for example, a UHF (or UKS) solution that can lower its energy by rotating to a different UHF solution. This is the typical case for open-shell atoms that converged to the wrong occupation of their d orbitals.</li>
 <li>An <strong>external instability</strong> means a lower solution exists only if you <em>relax a constraint</em>. The classic example is a restricted solution with a lower unrestricted solution (an <strong>RHF → UHF</strong>, or triplet, instability). Stretch H₂ and the RHF solution, stable near equilibrium, becomes externally unstable past the Coulson–Fischer point (roughly 1.2 Å for HF). From there on, UHF lets the two electrons localize on separate atoms and gives a lower energy.</li>
 </ul>
-<p>A stability analysis computes the lowest eigenvalues of the Hessian. If one is negative, the program rotates the orbitals along the corresponding eigenvector, which is downhill by construction, converges the SCF again from there, and checks the new solution. It repeats until all eigenvalues are non-negative <span class="citation" data-cites="bauernschmitt1996">(<a href="#ref-bauernschmitt1996" role="doc-biblioref">Bauernschmitt and Ahlrichs 1996</a>)</span>.</p>
+<p>A stability analysis computes the lowest eigenvalues of the Hessian. If one is negative, the program rotates the orbitals along the corresponding eigenvector, which is downhill by construction, converges the SCF again from there, and checks the new solution. It repeats until all eigenvalues are non-negative <span class="citation" data-cites="bauernschmitt1996">&nbsp;[<a href="#ref-bauernschmitt1996" role="doc-biblioref">7</a>]</span>.</p>
 </section>
 <section id="sec-qchem-stability" class="level2" data-number="2.5">
 <h2 data-number="2.5" class="anchored" data-anchor-id="sec-qchem-stability"><span class="header-section-number">2.5</span> Stability analysis in Q-Chem</h2>
 <p>In Q-Chem, add one line to the <code>$rem</code> section:</p>
 <pre class="text"><code>INTERNAL_STABILITY  TRUE</code></pre>
-<p>After the SCF converges, Q-Chem checks for internal instabilities. If it finds one, it follows it, reconverges and checks again, and the output reports what it found and the new energy. The energy after a successful stability analysis can only be equal to or lower than the energy without it. Q-Chem <span class="citation" data-cites="epifanovsky2021">(<a href="#ref-epifanovsky2021" role="doc-biblioref"><span class="nocase">Epifanovsky et al.</span> 2021</a>)</span> has separate options for external (restricted → unrestricted) checks; the manual describes them. In this course the open-shell atoms already use unrestricted orbitals, so internal stability is what matters.</p>
+<p>After the SCF converges, Q-Chem checks for internal instabilities. If it finds one, it follows it, reconverges and checks again, and the output reports what it found and the new energy. The energy after a successful stability analysis can only be equal to or lower than the energy without it. Q-Chem <span class="citation" data-cites="epifanovsky2021">&nbsp;[<a href="#ref-epifanovsky2021" role="doc-biblioref">8</a>]</span> has separate options for external (restricted → unrestricted) checks; the manual describes them. In this course the open-shell atoms already use unrestricted orbitals, so internal stability is what matters.</p>
 <p>A stability analysis costs extra time, usually a few times the cost of the SCF itself, because finding the lowest Hessian eigenvalues requires work similar to a few excited-state calculations. For a small molecule that is nothing. For a large one, run the analysis on the final geometry at least.</p>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -974,13 +975,13 @@ Table&nbsp;2: Spin states and their exact ⟨S²⟩ values.
 <p>In main-group chemistry, a closed-shell molecule usually has one dominant electron configuration with a large HOMO–LUMO gap, and the SCF converges to it easily. Transition metals break both assumptions.</p>
 <p><strong>Near-degenerate configurations.</strong> The 3d and 4s orbitals (4d and 5s in the second row) have similar energies. The iron atom has the ground configuration [Ar]3d⁶4s² (a quintet, ⁵D), but states of the 3d⁷4s¹ configuration lie only about 1–2 eV higher. Each configuration also has many ways to place the d electrons in five d orbitals, so there are many low-lying states and many SCF solutions close in energy. In the language of <a href="#fig-toy" class="quarto-xref">Figure&nbsp;1</a>, the gap Δ is small, and instabilities are common.</p>
 <p><strong>Symmetry breaking.</strong> An open-shell atom with a partially filled d shell has a spherically symmetric density only on average over all the degenerate components. A single KS determinant picks one component and has a non-spherical density. Different starting guesses can land on different components, which in an approximate functional need not have exactly the same energy.</p>
-<p><strong>Spin-state energetics.</strong> The energy difference between spin states of the same metal depends strongly on the functional. Exact (HF) exchange stabilizes parallel spins, so functionals with more HF exchange tend to favor high-spin states, and semilocal functionals tend to favor low-spin states. No single functional is reliable for all transition-metal spin-state gaps, which is why they are a demanding benchmark <span class="citation" data-cites="cao2019">(<a href="#ref-cao2019" role="doc-biblioref">Cao and Ryde 2019</a>)</span>.</p>
+<p><strong>Spin-state energetics.</strong> The energy difference between spin states of the same metal depends strongly on the functional. Exact (HF) exchange stabilizes parallel spins, so functionals with more HF exchange tend to favor high-spin states, and semilocal functionals tend to favor low-spin states. No single functional is reliable for all transition-metal spin-state gaps, which is why they are a demanding benchmark <span class="citation" data-cites="cao2019">&nbsp;[<a href="#ref-cao2019" role="doc-biblioref">9</a>]</span>.</p>
 <p><strong>SCF convergence.</strong> With many nearly degenerate orbitals, the SCF can oscillate between occupations from one cycle to the next and never converge. Remedies exist (better guesses, damping, level shifting, direct-minimization algorithms), but some functionals fail more often than others. Experiment 8 keeps only the functional/atom pairs that converged reliably on the IQmol server; the ones that were removed are a lesson in themselves.</p>
 </section>
 <section id="effective-core-potentials-and-relativity" class="level2" data-number="3.3">
 <h2 data-number="3.3" class="anchored" data-anchor-id="effective-core-potentials-and-relativity"><span class="header-section-number">3.3</span> Effective core potentials and relativity</h2>
 <p>Ruthenium has 44 electrons and palladium 46. Their core electrons are chemically inert, but they cost basis functions and they move fast. Near a nucleus with charge <span class="math inline">\(Z\)</span>, an inner electron’s speed is a sizable fraction of the speed of light (roughly <span class="math inline">\(Z/137\)</span> in atomic units). <strong>Scalar relativistic effects</strong> contract and stabilize s and p orbitals, and through better screening expand and destabilize d and f orbitals. For 4d metals they shift orbital energies and excitation energies by amounts that matter chemically.</p>
-<p>An <strong>effective core potential</strong> (ECP) solves both problems at once. It replaces the core electrons with a potential fitted to accurate relativistic atomic calculations, so the scalar relativistic effects of the core are built in <span class="citation" data-cites="andrae1990">(<a href="#ref-andrae1990" role="doc-biblioref">Andrae et al. 1990</a>)</span>. Only the valence electrons are treated explicitly, with a basis set designed for that ECP. The def2 basis sets use small-core ECPs for elements beyond krypton <span class="citation" data-cites="weigend2005">(<a href="#ref-weigend2005" role="doc-biblioref">Weigend and Ahlrichs 2005</a>)</span>: for the 4d metals, 28 core electrons (the shells 1s through 3d) are replaced.</p>
+<p>An <strong>effective core potential</strong> (ECP) solves both problems at once. It replaces the core electrons with a potential fitted to accurate relativistic atomic calculations, so the scalar relativistic effects of the core are built in <span class="citation" data-cites="andrae1990">&nbsp;[<a href="#ref-andrae1990" role="doc-biblioref">10</a>]</span>. Only the valence electrons are treated explicitly, with a basis set designed for that ECP. The def2 basis sets use small-core ECPs for elements beyond krypton <span class="citation" data-cites="weigend2005">&nbsp;[<a href="#ref-weigend2005" role="doc-biblioref">11</a>]</span>: for the 4d metals, 28 core electrons (the shells 1s through 3d) are replaced.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1005,7 +1006,7 @@ Table&nbsp;2: Spin states and their exact ⟨S²⟩ values.
 </section>
 <section id="the-two-excitations" class="level2" data-number="4.2">
 <h2 data-number="4.2" class="anchored" data-anchor-id="the-two-excitations"><span class="header-section-number">4.2</span> The two excitations</h2>
-<p>The data come from the 3dAEE8 <span class="citation" data-cites="hoyer2014 luo2014 yu2014">(<a href="#ref-hoyer2014" role="doc-biblioref">Hoyer et al. 2014</a>; <a href="#ref-luo2014" role="doc-biblioref">Luo et al. 2014</a>; <a href="#ref-yu2014" role="doc-biblioref">Yu and Truhlar 2014</a>)</span> and 4dAEE5 <span class="citation" data-cites="luo2012">(<a href="#ref-luo2012" role="doc-biblioref">Luo and Truhlar 2012</a>)</span> subsets of the Minnesota 2015B database <span class="citation" data-cites="yu2016a">(<a href="#ref-yu2016a" role="doc-biblioref">Yu et al. 2016</a>)</span>. Each excitation energy is a reaction energy with ν = −1 for the ground state and ν = +1 for the excited state:</p>
+<p>The data come from the 3dAEE8 <span class="citation" data-cites="hoyer2014 luo2014 yu2014">&nbsp;[<a href="#ref-hoyer2014" role="doc-biblioref">12</a>–<a href="#ref-yu2014" role="doc-biblioref">14</a>]</span> and 4dAEE5 <span class="citation" data-cites="luo2012">&nbsp;[<a href="#ref-luo2012" role="doc-biblioref">15</a>]</span> subsets of the Minnesota 2015B database <span class="citation" data-cites="yu2016a">&nbsp;[<a href="#ref-yu2016a" role="doc-biblioref">16</a>]</span>. Each excitation energy is a reaction energy with ν = −1 for the ground state and ν = +1 for the excited state:</p>
 <div id="tbl-ex08" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-ex08-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -1146,13 +1147,13 @@ Table&nbsp;4: Functional/atom pairs in Experiment 8.
 <section id="further-reading" class="level2" data-number="4.8">
 <h2 data-number="4.8" class="anchored" data-anchor-id="further-reading"><span class="header-section-number">4.8</span> Further reading</h2>
 <ul>
-<li>R. Seeger and J. A. Pople, “Self-consistent molecular orbital methods. XVIII. Constraints and stability in Hartree–Fock theory” <span class="citation" data-cites="seeger1977">(<a href="#ref-seeger1977" role="doc-biblioref">Seeger and Pople 1977</a>)</span>: the classic paper on the hierarchy of instabilities.</li>
-<li>J. Čížek and J. Paldus <span class="citation" data-cites="cizek1967">(<a href="#ref-cizek1967" role="doc-biblioref">Čı́žek and Paldus 1967</a>)</span>: the original derivation of the stability conditions.</li>
-<li>R. Bauernschmitt and R. Ahlrichs, stability analysis for HF and DFT wave functions <span class="citation" data-cites="bauernschmitt1996">(<a href="#ref-bauernschmitt1996" role="doc-biblioref">Bauernschmitt and Ahlrichs 1996</a>)</span>.</li>
-<li>H. Fukutome, a group-theoretical classification of unrestricted solutions <span class="citation" data-cites="fukutome1981">(<a href="#ref-fukutome1981" role="doc-biblioref">Fukutome 1981</a>)</span>.</li>
-<li>D. Andrae et al., the Stuttgart effective core potentials for the 4d and 5d metals used with def2 basis sets <span class="citation" data-cites="andrae1990">(<a href="#ref-andrae1990" role="doc-biblioref">Andrae et al. 1990</a>)</span>.</li>
-<li>N. Mardirossian and M. Head-Gordon on grid sensitivity <span class="citation" data-cites="mardirossian2016">(<a href="#ref-mardirossian2016" role="doc-biblioref">Mardirossian and Head-Gordon 2016b</a>)</span>.</li>
-<li>P. Morgante and R. Peverati, “The devil in the details” <span class="citation" data-cites="morgante2020">(<a href="#ref-morgante2020" role="doc-biblioref">Morgante and Peverati 2020</a>)</span>, sections on grids and stability.</li>
+<li>R. Seeger and J. A. Pople, “Self-consistent molecular orbital methods. XVIII. Constraints and stability in Hartree–Fock theory” <span class="citation" data-cites="seeger1977">&nbsp;[<a href="#ref-seeger1977" role="doc-biblioref">5</a>]</span>: the classic paper on the hierarchy of instabilities.</li>
+<li>J. Čížek and J. Paldus <span class="citation" data-cites="cizek1967">&nbsp;[<a href="#ref-cizek1967" role="doc-biblioref">4</a>]</span>: the original derivation of the stability conditions.</li>
+<li>R. Bauernschmitt and R. Ahlrichs, stability analysis for HF and DFT wave functions <span class="citation" data-cites="bauernschmitt1996">&nbsp;[<a href="#ref-bauernschmitt1996" role="doc-biblioref">7</a>]</span>.</li>
+<li>H. Fukutome, a group-theoretical classification of unrestricted solutions <span class="citation" data-cites="fukutome1981">&nbsp;[<a href="#ref-fukutome1981" role="doc-biblioref">6</a>]</span>.</li>
+<li>D. Andrae et al., the Stuttgart effective core potentials for the 4d and 5d metals used with def2 basis sets <span class="citation" data-cites="andrae1990">&nbsp;[<a href="#ref-andrae1990" role="doc-biblioref">10</a>]</span>.</li>
+<li>N. Mardirossian and M. Head-Gordon on grid sensitivity <span class="citation" data-cites="mardirossian2016">&nbsp;[<a href="#ref-mardirossian2016" role="doc-biblioref">2</a>]</span>.</li>
+<li>P. Morgante and R. Peverati, “The devil in the details” <span class="citation" data-cites="morgante2020">&nbsp;[<a href="#ref-morgante2020" role="doc-biblioref">17</a>]</span>, sections on grids and stability.</li>
 </ul>
 
 
@@ -1160,57 +1161,57 @@ Table&nbsp;4: Functional/atom pairs in Experiment 8.
 </section>
 </section>
 
-<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
-<div id="ref-andrae1990" class="csl-entry" role="listitem">
-Andrae, D., U. Häußermann, M. Dolg, H. Stoll, and H. Preuß. 1990. <span>“Energy-Adjusted Ab Initio Pseudopotentials for the Second and Third Row Transition Elements.”</span> <em>Theor. Chim. Acta</em> 77: 123–41. <a href="https://doi.org/10.1007/BF01114537">https://doi.org/10.1007/BF01114537</a>.
-</div>
-<div id="ref-bauernschmitt1996" class="csl-entry" role="listitem">
-Bauernschmitt, R., and R. Ahlrichs. 1996. <em>J. Chem. Phys.</em> 104: 9047–52.
-</div>
-<div id="ref-cao2019" class="csl-entry" role="listitem">
-Cao, L., and U. Ryde. 2019. <em>Phys. Chem. Chem. Phys.</em> 21: 2480–88.
-</div>
-<div id="ref-cizek1967" class="csl-entry" role="listitem">
-Čı́žek, J., and J. Paldus. 1967. <span>“Stability Conditions for the Solutions of the <span>Hartree–Fock</span> Equations for Atomic and Molecular Systems. <span>Application</span> to the Pi-Electron Model of Cyclic Polyenes.”</span> <em>J. Chem. Phys.</em> 47: 3976–85. <a href="https://doi.org/10.1063/1.1701562">https://doi.org/10.1063/1.1701562</a>.
-</div>
-<div id="ref-epifanovsky2021" class="csl-entry" role="listitem">
-<span class="nocase">Epifanovsky, E. et al.</span> 2021. <span>“Software for the Frontiers of Quantum Chemistry: An Overview of Developments in the <span>Q-Chem</span> 5 Package.”</span> <em>J. Chem. Phys.</em> 155: 084801.
-</div>
-<div id="ref-fukutome1981" class="csl-entry" role="listitem">
-Fukutome, H. 1981. <em>Int. J. Quantum Chem.</em> 20: 955–1065.
-</div>
-<div id="ref-hoyer2014" class="csl-entry" role="listitem">
-Hoyer, C. E., G. Li Manni, D. G. Truhlar, and L. Gagliardi. 2014. <em>J. Chem. Phys.</em> 141: 204309.
-</div>
-<div id="ref-luo2014" class="csl-entry" role="listitem">
-Luo, S., B. B. Averkiev, K. R. Yang, X. Xu, and D. G. Truhlar. 2014. <em>J. Chem. Theory Comput.</em> 10: 102–21.
-</div>
-<div id="ref-luo2012" class="csl-entry" role="listitem">
-Luo, S., and D. G. Truhlar. 2012. <em>J. Chem. Theory Comput.</em> 8: 4112–26.
-</div>
-<div id="ref-mardirossian2016a" class="csl-entry" role="listitem">
-Mardirossian, N., and M. Head-Gordon. 2016a. <em>J. Chem. Phys.</em> 144: 214110.
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body" data-entry-spacing="0" role="list">
+<div id="ref-wheeler2010" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[1] </div><div class="csl-right-inline">S. E. Wheeler and K. N. Houk, J. Chem. Theory Comput. <strong>6</strong>, 395 (2010).</div>
 </div>
 <div id="ref-mardirossian2016" class="csl-entry" role="listitem">
-Mardirossian, N., and M. Head-Gordon. 2016b. <em>J. Chem. Theory Comput.</em> 12: 4303–25.
+<div class="csl-left-margin">[2] </div><div class="csl-right-inline">N. Mardirossian and M. Head-Gordon, J. Chem. Theory Comput. <strong>12</strong>, 4303 (2016).</div>
 </div>
-<div id="ref-morgante2020" class="csl-entry" role="listitem">
-Morgante, P., and R. Peverati. 2020. <span>“The Devil in the Details: A Tutorial Review on Some Undervalued Aspects of Density Functional Theory Calculations.”</span> <em>Int. J. Quantum Chem.</em> 120: e26332.
+<div id="ref-mardirossian2016a" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[3] </div><div class="csl-right-inline">N. Mardirossian and M. Head-Gordon, J. Chem. Phys. <strong>144</strong>, 214110 (2016).</div>
+</div>
+<div id="ref-cizek1967" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[4] </div><div class="csl-right-inline">J. Čı́žek and J. Paldus, <a href="https://doi.org/10.1063/1.1701562">Stability conditions for the solutions of the <span>Hartree–Fock</span> equations for atomic and molecular systems. <span>Application</span> to the pi-electron model of cyclic polyenes</a>, J. Chem. Phys. <strong>47</strong>, 3976 (1967).</div>
 </div>
 <div id="ref-seeger1977" class="csl-entry" role="listitem">
-Seeger, R., and J. A. Pople. 1977. <em>J. Chem. Phys.</em> 66: 3045–50.
+<div class="csl-left-margin">[5] </div><div class="csl-right-inline">R. Seeger and J. A. Pople, J. Chem. Phys. <strong>66</strong>, 3045 (1977).</div>
+</div>
+<div id="ref-fukutome1981" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[6] </div><div class="csl-right-inline">H. Fukutome, Int. J. Quantum Chem. <strong>20</strong>, 955 (1981).</div>
+</div>
+<div id="ref-bauernschmitt1996" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[7] </div><div class="csl-right-inline">R. Bauernschmitt and R. Ahlrichs, J. Chem. Phys. <strong>104</strong>, 9047 (1996).</div>
+</div>
+<div id="ref-epifanovsky2021" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[8] </div><div class="csl-right-inline"><span class="nocase">E. Epifanovsky et al.</span>, Software for the frontiers of quantum chemistry: An overview of developments in the <span>Q-Chem</span> 5 package, J. Chem. Phys. <strong>155</strong>, 084801 (2021).</div>
+</div>
+<div id="ref-cao2019" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[9] </div><div class="csl-right-inline">L. Cao and U. Ryde, Phys. Chem. Chem. Phys. <strong>21</strong>, 2480 (2019).</div>
+</div>
+<div id="ref-andrae1990" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[10] </div><div class="csl-right-inline">D. Andrae, U. Häußermann, M. Dolg, H. Stoll, and H. Preuß, <a href="https://doi.org/10.1007/BF01114537">Energy-adjusted ab initio pseudopotentials for the second and third row transition elements</a>, Theor. Chim. Acta <strong>77</strong>, 123 (1990).</div>
 </div>
 <div id="ref-weigend2005" class="csl-entry" role="listitem">
-Weigend, F., and R. Ahlrichs. 2005. <em>Phys. Chem. Chem. Phys.</em> 7: 3297–305.
+<div class="csl-left-margin">[11] </div><div class="csl-right-inline">F. Weigend and R. Ahlrichs, Phys. Chem. Chem. Phys. <strong>7</strong>, 3297 (2005).</div>
 </div>
-<div id="ref-wheeler2010" class="csl-entry" role="listitem">
-Wheeler, S. E., and K. N. Houk. 2010. <em>J. Chem. Theory Comput.</em> 6: 395–404.
+<div id="ref-hoyer2014" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[12] </div><div class="csl-right-inline">C. E. Hoyer, G. Li Manni, D. G. Truhlar, and L. Gagliardi, J. Chem. Phys. <strong>141</strong>, 204309 (2014).</div>
 </div>
-<div id="ref-yu2016a" class="csl-entry" role="listitem">
-Yu, H. S., X. He, S. L. Li, and D. G. Truhlar. 2016. <em>Chem. Sci.</em> 7: 5032–51.
+<div id="ref-luo2014" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[13] </div><div class="csl-right-inline">S. Luo, B. B. Averkiev, K. R. Yang, X. Xu, and D. G. Truhlar, J. Chem. Theory Comput. <strong>10</strong>, 102 (2014).</div>
 </div>
 <div id="ref-yu2014" class="csl-entry" role="listitem">
-Yu, H., and D. G. Truhlar. 2014. <em>J. Chem. Theory Comput.</em> 10: 2291–305.
+<div class="csl-left-margin">[14] </div><div class="csl-right-inline">H. Yu and D. G. Truhlar, J. Chem. Theory Comput. <strong>10</strong>, 2291 (2014).</div>
+</div>
+<div id="ref-luo2012" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[15] </div><div class="csl-right-inline">S. Luo and D. G. Truhlar, J. Chem. Theory Comput. <strong>8</strong>, 4112 (2012).</div>
+</div>
+<div id="ref-yu2016a" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[16] </div><div class="csl-right-inline">H. S. Yu, X. He, S. L. Li, and D. G. Truhlar, Chem. Sci. <strong>7</strong>, 5032 (2016).</div>
+</div>
+<div id="ref-morgante2020" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[17] </div><div class="csl-right-inline">P. Morgante and R. Peverati, The devil in the details: A tutorial review on some undervalued aspects of density functional theory calculations, Int. J. Quantum Chem. <strong>120</strong>, e26332 (2020).</div>
 </div>
 </div></section></div></main> <!-- /main -->
 <!-- Peverati lab logo at the top right of the navbar (light and dark versions). -->

@@ -1,0 +1,483 @@
+{
+ "id": "ex05",
+ "number": 5,
+ "title": "Difficult Cases for DFT",
+ "geometry_dir": "ex05",
+ "rem_common": {
+  "JOBTYPE": "SP",
+  "SCF_CONVERGENCE": "8"
+ },
+ "species": [
+  {
+   "id": "o3",
+   "label": "ozone",
+   "file": "DC13_o3.xyz",
+   "charge": 0,
+   "mult": 1
+  },
+  {
+   "id": "c2h4",
+   "label": "ethene",
+   "file": "DC13_c2h4.xyz",
+   "charge": 0,
+   "mult": 1
+  },
+  {
+   "id": "ozonide",
+   "label": "primary ozonide",
+   "file": "DC13_o3_c2h4_add.xyz",
+   "charge": 0,
+   "mult": 1
+  },
+  {
+   "id": "cao",
+   "label": "CaO",
+   "file": "02_CaO_MR-MGM-BE4.xyz",
+   "charge": 0,
+   "mult": 1
+  },
+  {
+   "id": "ca",
+   "label": "Ca atom",
+   "file": "01_Ca_MR-MGM-BE4.xyz",
+   "charge": 0,
+   "mult": 1
+  },
+  {
+   "id": "o_mgm",
+   "label": "O atom (triplet)",
+   "file": "10_O_MR-MGM-BE4.xyz",
+   "charge": 0,
+   "mult": 3
+  },
+  {
+   "id": "h2so4",
+   "label": "sulfuric acid",
+   "file": "SMAE3_H2SO4.xyz",
+   "charge": 0,
+   "mult": 1
+  },
+  {
+   "id": "s",
+   "label": "S atom (triplet)",
+   "file": "SMAE3_S.xyz",
+   "charge": 0,
+   "mult": 3
+  },
+  {
+   "id": "o",
+   "label": "O atom (triplet)",
+   "file": "SMAE3_O.xyz",
+   "charge": 0,
+   "mult": 3
+  },
+  {
+   "id": "h",
+   "label": "H atom (doublet)",
+   "file": "SMAE3_H.xyz",
+   "charge": 0,
+   "mult": 2
+  },
+  {
+   "id": "o3_w4",
+   "label": "ozone (W4-17)",
+   "file": "W4-17_o3.xyz",
+   "charge": 0,
+   "mult": 1
+  },
+  {
+   "id": "o2",
+   "label": "O₂ (triplet)",
+   "file": "W4-17_o2.xyz",
+   "charge": 0,
+   "mult": 3
+  }
+ ],
+ "reactions": [
+  {
+   "id": "5a",
+   "label": "5a  O₃ + C₂H₄ → primary ozonide",
+   "nu": {
+    "o3": -1,
+    "c2h4": -1,
+    "ozonide": 1
+   },
+   "ref": -58.7
+  },
+  {
+   "id": "5b",
+   "label": "5b  CaO → Ca + O",
+   "nu": {
+    "cao": -1,
+    "ca": 1,
+    "o_mgm": 1
+   },
+   "ref": 96.15
+  },
+  {
+   "id": "5c",
+   "label": "5c  H₂SO₄ → S + 4 O + 2 H",
+   "nu": {
+    "h2so4": -1,
+    "s": 1,
+    "o": 4,
+    "h": 2
+   },
+   "ref": 602.18
+  },
+  {
+   "id": "5d",
+   "label": "5d  2 O₃ → 3 O₂",
+   "nu": {
+    "o3_w4": -2,
+    "o2": 3
+   },
+   "ref": -67.6
+  }
+ ],
+ "methods": [
+  {
+   "id": "SPW92",
+   "label": "SPW92",
+   "rung": "LSDA",
+   "rem": {
+    "METHOD": "SPW92"
+   },
+   "disp": "none"
+  },
+  {
+   "id": "BP86",
+   "label": "BP86",
+   "rung": "GGA",
+   "rem": {
+    "METHOD": "BP86"
+   },
+   "disp": "none"
+  },
+  {
+   "id": "BLYP",
+   "label": "BLYP",
+   "rung": "GGA",
+   "rem": {
+    "METHOD": "BLYP"
+   },
+   "disp": "none"
+  },
+  {
+   "id": "PBE",
+   "label": "PBE",
+   "rung": "GGA",
+   "rem": {
+    "METHOD": "PBE"
+   },
+   "disp": "none"
+  },
+  {
+   "id": "PBE-D4",
+   "label": "PBE-D4",
+   "rung": "GGA",
+   "rem": {
+    "METHOD": "PBE",
+    "DFT_D": "D4"
+   },
+   "disp": "D4"
+  },
+  {
+   "id": "SCAN",
+   "label": "SCAN",
+   "rung": "meta-GGA",
+   "rem": {
+    "METHOD": "SCAN"
+   },
+   "disp": "none"
+  },
+  {
+   "id": "B97M-V",
+   "label": "B97M-V",
+   "rung": "meta-GGA",
+   "rem": {
+    "METHOD": "B97M-V"
+   },
+   "disp": "VV10 (nonlocal)"
+  },
+  {
+   "id": "B3LYP",
+   "label": "B3LYP",
+   "rung": "hybrid GGA",
+   "rem": {
+    "METHOD": "B3LYP"
+   },
+   "disp": "none"
+  },
+  {
+   "id": "B3LYP-D4",
+   "label": "B3LYP-D4",
+   "rung": "hybrid GGA",
+   "rem": {
+    "METHOD": "B3LYP",
+    "DFT_D": "D4"
+   },
+   "disp": "D4"
+  },
+  {
+   "id": "B3PW91",
+   "label": "B3PW91",
+   "rung": "hybrid GGA",
+   "rem": {
+    "METHOD": "B3PW91"
+   },
+   "disp": "none"
+  },
+  {
+   "id": "PBE0",
+   "label": "PBE0",
+   "rung": "hybrid GGA",
+   "rem": {
+    "METHOD": "PBE0"
+   },
+   "disp": "none"
+  },
+  {
+   "id": "M06-2X",
+   "label": "M06-2X",
+   "rung": "hybrid meta-GGA",
+   "rem": {
+    "METHOD": "M06-2X"
+   },
+   "disp": "fitted (Minnesota)"
+  },
+  {
+   "id": "M11",
+   "label": "M11",
+   "rung": "hybrid meta-GGA",
+   "rem": {
+    "METHOD": "M11"
+   },
+   "disp": "fitted (Minnesota)"
+  },
+  {
+   "id": "MN15",
+   "label": "MN15",
+   "rung": "hybrid meta-GGA",
+   "rem": {
+    "METHOD": "MN15"
+   },
+   "disp": "fitted (Minnesota)"
+  },
+  {
+   "id": "wB97M-V",
+   "label": "ωB97M-V",
+   "rung": "hybrid meta-GGA",
+   "rem": {
+    "METHOD": "wB97M-V"
+   },
+   "disp": "VV10 (nonlocal)"
+  },
+  {
+   "id": "HF",
+   "label": "HF",
+   "rung": "Hartree–Fock",
+   "rem": {
+    "METHOD": "HF"
+   },
+   "disp": "none"
+  }
+ ],
+ "bases": [
+  {
+   "id": "def2-TZVP",
+   "family": "Ahlrichs def2",
+   "zeta": 3
+  }
+ ],
+ "fields": [
+  "energy",
+  "scf",
+  "time"
+ ],
+ "spotlight": {
+  "reaction": "5b",
+  "method": "MN15"
+ },
+ "quiz": [
+  {
+   "q": "The atomization energy of H₂SO₄ is about 600 kcal/mol. An error of 6 kcal/mol is therefore about…",
+   "options": [
+    "0.01 %",
+    "1 %",
+    "10 %",
+    "100 %"
+   ],
+   "answer": 1,
+   "explain": "6/600 = 1 %. Large reaction energies can carry large absolute errors even when the relative error looks small, and chemistry is decided by absolute energies."
+  },
+  {
+   "q": "Which species in this experiment are **open-shell** (unpaired electrons)?",
+   "options": [
+    "Only the H atom",
+    "The O and S atoms (triplets), the H atom (doublet) and O₂ (triplet)",
+    "Ozone and the primary ozonide",
+    "None of them"
+   ],
+   "answer": 1,
+   "explain": "Atoms with partly filled p shells are high-spin in their ground state, and O₂ is the classic triplet molecule. Running them as singlets gives a converged, perfectly wrong energy."
+  },
+  {
+   "q": "Ozone (O₃) is notoriously difficult for DFT. Why?",
+   "options": [
+    "It is too large for def2-TZVP",
+    "Its electronic structure has significant multireference (static-correlation) character",
+    "It contains a transition metal",
+    "No reference value is available"
+   ],
+   "answer": 1,
+   "explain": "Ozone's ground state is not well described by a single Slater determinant (it has partial diradical character). Single-determinant Kohn–Sham DFT with approximate functionals struggles with such systems."
+  },
+  {
+   "q": "CaO is part of the database MN15 was fitted to. What does that mean for MN15's result on reaction 5b?",
+   "options": [
+    "It is an independent test of MN15",
+    "MN15's parameters were adjusted (among many other data) to reproduce this value, so good agreement is expected, not impressive",
+    "MN15 cannot be used for CaO",
+    "The reference value was computed with MN15"
+   ],
+   "answer": 1,
+   "explain": "Training-set data are not a fair test. To judge a functional, look at systems it was not fitted to."
+  }
+ ],
+ "predictions": [
+  {
+   "id": "harder",
+   "prompt": "Compared with Experiments 3 and 4, the typical error here will be…",
+   "options": [
+    "smaller",
+    "similar",
+    "much larger"
+   ],
+   "check": {
+    "type": "vs_previous",
+    "exps": [
+     "ex03",
+     "ex04"
+    ],
+    "labels": [
+     "smaller",
+     "similar",
+     "much larger"
+    ]
+   },
+   "pending": "Your data will answer this once this table is complete (it also needs your Experiment 3 and 4 results in this browser)."
+  },
+  {
+   "id": "best",
+   "prompt": "Which method will have the **smallest mean absolute error** here?",
+   "options": [
+    "SPW92",
+    "BP86",
+    "BLYP",
+    "PBE",
+    "PBE-D4",
+    "SCAN",
+    "B97M-V",
+    "B3LYP",
+    "B3LYP-D4",
+    "B3PW91",
+    "PBE0",
+    "M06-2X",
+    "M11",
+    "MN15",
+    "ωB97M-V",
+    "HF"
+   ],
+   "check": {
+    "type": "best"
+   }
+  },
+  {
+   "id": "worst",
+   "prompt": "Which method will have the **largest mean absolute error**?",
+   "options": [
+    "SPW92",
+    "BP86",
+    "BLYP",
+    "PBE",
+    "PBE-D4",
+    "SCAN",
+    "B97M-V",
+    "B3LYP",
+    "B3LYP-D4",
+    "B3PW91",
+    "PBE0",
+    "M06-2X",
+    "M11",
+    "MN15",
+    "ωB97M-V",
+    "HF"
+   ],
+   "check": {
+    "type": "worst"
+   }
+  },
+  {
+   "id": "d4",
+   "prompt": "For these reactions, -D4 (on B3LYP and PBE) will…",
+   "options": [
+    "help a lot",
+    "barely matter",
+    "make things worse"
+   ],
+   "check": {
+    "type": "pair",
+    "a": "B3LYP",
+    "b": "B3LYP-D4",
+    "tol": 0.5,
+    "labels": [
+     "help a lot",
+     "barely matter",
+     "make things worse"
+    ]
+   }
+  }
+ ],
+ "questions": [
+  {
+   "id": "q1",
+   "text": "Which method has the most negative signed error? Which has the most positive?"
+  },
+  {
+   "id": "q2",
+   "text": "Which method is the best performer for each reaction? Which is the best overall?"
+  },
+  {
+   "id": "q3",
+   "text": "Are there methods that perform badly for these reactions? Look at the relative-error chart: is a 10 kcal/mol error on reaction 5c “worse” than a 2 kcal/mol error on 5a?"
+  },
+  {
+   "id": "q4",
+   "text": "Using the time per SCF cycle, is B3LYP faster than the other functionals and methods?"
+  },
+  {
+   "id": "q5",
+   "text": "Do the -D4-corrected functionals perform better or worse than the uncorrected ones here? Why is D4 not a universal fix?"
+  },
+  {
+   "id": "q6",
+   "text": "Look at the CaO spotlight. Why should a functional's good result on a molecule from its own training set be treated with caution?"
+  },
+  {
+   "id": "q7",
+   "text": "**Looking back at Experiments 3–5** (use the “easy → hard” chart): which method is the best overall performer? Which is the worst? How did your functional-draft pick do?"
+  },
+  {
+   "id": "q8",
+   "text": "Overall, does adding -D4 help? For which reactions?"
+  }
+ ],
+ "explore": [
+  "signed-errors",
+  "relative-errors",
+  "cao-spotlight",
+  "difficulty-ladder",
+  "cost-accuracy"
+ ]
+}

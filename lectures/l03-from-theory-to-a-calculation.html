@@ -31,6 +31,7 @@ ul.task-list li input[type="checkbox"] {
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
+  margin-bottom: 0em;
 }
 .hanging-indent div.csl-entry {
   margin-left:2em;
@@ -777,8 +778,8 @@ Figure&nbsp;1: The workflow of every job in this lab. You prepare the geometry a
 </div>
 <section id="q-chem-and-iqmol" class="level3" data-number="2.1">
 <h3 data-number="2.1" class="anchored" data-anchor-id="q-chem-and-iqmol"><span class="header-section-number">2.1</span> Q-Chem and IQmol</h3>
-<p><strong>Q-Chem</strong> <span class="citation" data-cites="epifanovsky2021">(<a href="#ref-epifanovsky2021" role="doc-biblioref"><span class="nocase">Epifanovsky et al.</span> 2021</a>)</span> is the quantum-chemistry program that actually solves the equations. It reads a plain-text <strong>input file</strong> and writes a plain-text <strong>output file</strong>. You will not install it: it runs on a remote server.</p>
-<p><strong>IQmol</strong> <span class="citation" data-cites="iqmol">(<a href="#ref-iqmol" role="doc-biblioref">Gilbert, n.d.</a>)</span> is the free graphical program you install on your laptop (<a href="../guides/iqmol-setup.html">Guide 1</a>). It does four jobs for you:</p>
+<p><strong>Q-Chem</strong> <span class="citation" data-cites="epifanovsky2021">&nbsp;[<a href="#ref-epifanovsky2021" role="doc-biblioref">1</a>]</span> is the quantum-chemistry program that actually solves the equations. It reads a plain-text <strong>input file</strong> and writes a plain-text <strong>output file</strong>. You will not install it: it runs on a remote server.</p>
+<p><strong>IQmol</strong> <span class="citation" data-cites="iqmol">&nbsp;[<a href="#ref-iqmol" role="doc-biblioref">2</a>]</span> is the free graphical program you install on your laptop (<a href="../guides/iqmol-setup.html">Guide 1</a>). It does four jobs for you:</p>
 <ol type="1">
 <li><strong>Builder and viewer.</strong> It opens <code>.xyz</code> files (<strong>File → Open</strong>) and shows the molecule in 3D. You can also build molecules, though in this lab all geometries are provided.</li>
 <li><strong>Q-Chem setup window.</strong> <strong>Calculation → Q-Chem Setup</strong> opens a window where you choose the job type, method, basis, charge and multiplicity, and which shows the text of the input file it will send. You can also paste a ready-made input there.</li>
@@ -1097,7 +1098,7 @@ Figure&nbsp;2: The reaction of Experiment 1: dissociation of the HCl dimer into 
 </div>
 <section id="the-question" class="level3" data-number="6.1">
 <h3 data-number="6.1" class="anchored" data-anchor-id="the-question"><span class="header-section-number">6.1</span> The question</h3>
-<p>Lecture 2 claimed that larger basis sets give results that converge toward the CBS limit, at a steeply growing cost. Experiment 1 tests that claim on a real reaction energy, for four different methods, with two families of basis sets. The reaction is the dissociation of the HCl dimer, a weakly bound complex held together by noncovalent interactions, from the NCCE30 subset <span class="citation" data-cites="peverati2014">(<a href="#ref-peverati2014" role="doc-biblioref">Peverati and Truhlar 2014</a>)</span> of the Minnesota 2015B database <span class="citation" data-cites="yu2016a">(<a href="#ref-yu2016a" role="doc-biblioref">Yu et al. 2016</a>)</span>. Its reference energy is <strong>2.01 kcal/mol</strong>. Weakly bound complexes are a demanding test for basis sets: the interaction energy is small, so even small basis-set errors are large in relative terms.</p>
+<p>Lecture 2 claimed that larger basis sets give results that converge toward the CBS limit, at a steeply growing cost. Experiment 1 tests that claim on a real reaction energy, for four different methods, with two families of basis sets. The reaction is the dissociation of the HCl dimer, a weakly bound complex held together by noncovalent interactions, from the NCCE30 subset <span class="citation" data-cites="peverati2014">&nbsp;[<a href="#ref-peverati2014" role="doc-biblioref">3</a>]</span> of the Minnesota 2015B database <span class="citation" data-cites="yu2016a">&nbsp;[<a href="#ref-yu2016a" role="doc-biblioref">4</a>]</span>. Its reference energy is <strong>2.01 kcal/mol</strong>. Weakly bound complexes are a demanding test for basis sets: the interaction energy is small, so even small basis-set errors are large in relative terms.</p>
 </section>
 <section id="what-you-will-run" class="level3" data-number="6.2">
 <h3 data-number="6.2" class="anchored" data-anchor-id="what-you-will-run"><span class="header-section-number">6.2</span> What you will run</h3>
@@ -1222,33 +1223,33 @@ Table&nbsp;4: The Experiment 1 design. Each method/basis pair gives one reaction
 <h2 data-number="10" class="anchored" data-anchor-id="further-reading"><span class="header-section-number">10</span> Further reading</h2>
 <ul>
 <li>The lab guides: <a href="../guides/first-job.html">Guide 2</a> (first job), <a href="../guides/reading-output.html">Guide 3</a> (reading output) and <a href="../guides/units-and-errors.html">Guide 5</a> (units and errors).</li>
-<li><a href="../experiments/ex01-basis-sets.html">Experiment 1</a> and its references, in particular the comparison of basis-set families for DFT by Witte, Neaton and Head-Gordon <span class="citation" data-cites="witte2016">(<a href="#ref-witte2016" role="doc-biblioref">Witte et al. 2016</a>)</span>.</li>
-<li>E. Epifanovsky et al., the Q-Chem 5 overview <span class="citation" data-cites="epifanovsky2021">(<a href="#ref-epifanovsky2021" role="doc-biblioref"><span class="nocase">Epifanovsky et al.</span> 2021</a>)</span>, for what the program can do beyond this lab.</li>
-<li>P. Morgante and R. Peverati, “The devil in the details” <span class="citation" data-cites="morgante2020">(<a href="#ref-morgante2020" role="doc-biblioref">Morgante and Peverati 2020</a>)</span>: a tutorial review of often-overlooked practical aspects of DFT calculations, several of which this lab explores one by one.</li>
+<li><a href="../experiments/ex01-basis-sets.html">Experiment 1</a> and its references, in particular the comparison of basis-set families for DFT by Witte, Neaton and Head-Gordon <span class="citation" data-cites="witte2016">&nbsp;[<a href="#ref-witte2016" role="doc-biblioref">5</a>]</span>.</li>
+<li>E. Epifanovsky et al., the Q-Chem 5 overview <span class="citation" data-cites="epifanovsky2021">&nbsp;[<a href="#ref-epifanovsky2021" role="doc-biblioref">1</a>]</span>, for what the program can do beyond this lab.</li>
+<li>P. Morgante and R. Peverati, “The devil in the details” <span class="citation" data-cites="morgante2020">&nbsp;[<a href="#ref-morgante2020" role="doc-biblioref">6</a>]</span>: a tutorial review of often-overlooked practical aspects of DFT calculations, several of which this lab explores one by one.</li>
 </ul>
 
 
 
 </section>
 
-<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body" data-entry-spacing="0" role="list">
 <div id="ref-epifanovsky2021" class="csl-entry" role="listitem">
-<span class="nocase">Epifanovsky, E. et al.</span> 2021. <span>“Software for the Frontiers of Quantum Chemistry: An Overview of Developments in the <span>Q-Chem</span> 5 Package.”</span> <em>J. Chem. Phys.</em> 155: 084801.
+<div class="csl-left-margin">[1] </div><div class="csl-right-inline"><span class="nocase">E. Epifanovsky et al.</span>, Software for the frontiers of quantum chemistry: An overview of developments in the <span>Q-Chem</span> 5 package, J. Chem. Phys. <strong>155</strong>, 084801 (2021).</div>
 </div>
 <div id="ref-iqmol" class="csl-entry" role="listitem">
-Gilbert, A. T. B. n.d. <em><span>IQmol</span> Molecular Viewer</em>. <a href="http://iqmol.org" class="uri">Http://iqmol.org</a>.
-</div>
-<div id="ref-morgante2020" class="csl-entry" role="listitem">
-Morgante, P., and R. Peverati. 2020. <span>“The Devil in the Details: A Tutorial Review on Some Undervalued Aspects of Density Functional Theory Calculations.”</span> <em>Int. J. Quantum Chem.</em> 120: e26332.
+<div class="csl-left-margin">[2] </div><div class="csl-right-inline">A. T. B. Gilbert, <span>IQmol</span> molecular viewer, (n.d.).</div>
 </div>
 <div id="ref-peverati2014" class="csl-entry" role="listitem">
-Peverati, R., and D. G. Truhlar. 2014. <em>Philos. Trans. R. Soc. A</em> 372: 20120476.
-</div>
-<div id="ref-witte2016" class="csl-entry" role="listitem">
-Witte, J., J. B. Neaton, and M. Head-Gordon. 2016. <em>J. Chem. Phys.</em> 144: 194306.
+<div class="csl-left-margin">[3] </div><div class="csl-right-inline">R. Peverati and D. G. Truhlar, Philos. Trans. R. Soc. A <strong>372</strong>, 20120476 (2014).</div>
 </div>
 <div id="ref-yu2016a" class="csl-entry" role="listitem">
-Yu, H. S., X. He, S. L. Li, and D. G. Truhlar. 2016. <em>Chem. Sci.</em> 7: 5032–51.
+<div class="csl-left-margin">[4] </div><div class="csl-right-inline">H. S. Yu, X. He, S. L. Li, and D. G. Truhlar, Chem. Sci. <strong>7</strong>, 5032 (2016).</div>
+</div>
+<div id="ref-witte2016" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[5] </div><div class="csl-right-inline">J. Witte, J. B. Neaton, and M. Head-Gordon, J. Chem. Phys. <strong>144</strong>, 194306 (2016).</div>
+</div>
+<div id="ref-morgante2020" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[6] </div><div class="csl-right-inline">P. Morgante and R. Peverati, The devil in the details: A tutorial review on some undervalued aspects of density functional theory calculations, Int. J. Quantum Chem. <strong>120</strong>, e26332 (2020).</div>
 </div>
 </div></section></div></main> <!-- /main -->
 <!-- Peverati lab logo at the top right of the navbar (light and dark versions). -->

@@ -1,0 +1,1294 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.11.9">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="description" content="Design, run and report the calculation of a Pd–ligand bond dissociation energy.">
+
+<title>Experiment 10: Final Review – Computational Chemistry Lab</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../experiments/ex09-experiment-vs-theory.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-447e42e69aaa9833c0ba1b986f430b20.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-56996c7b5257095e64120a8d6d543cad.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-9953095112a8816cde90456e6de52415.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-56996c7b5257095e64120a8d6d543cad.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<script src="https://cdn.jsdelivr.net/npm/3dmol@2.4.2/build/3Dmol-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-sidebar floating nav-fixed quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          toggle.setAttribute("aria-checked", alternate ? "true" : "false");
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455).
+    // Not run on load: stylesheets are set before first paint there, and
+    // scrolling would undo the scroll to a URL fragment (#14973).
+    // The one pixel nudge keeps the reader where they were.
+    const refreshSafariScrollbar = () => {
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        const scrollY = window.scrollY;
+        window.scrollTo(0, scrollY > 0 ? scrollY - 1 : 1);
+        setTimeout(() => {
+          window.scrollTo(0, scrollY);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      refreshSafariScrollbar();
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark" aria-label="Site">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Computational Chemistry Lab</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-guides" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Guides</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-guides">    
+        <li>
+    <a class="dropdown-item" href="../guides/iqmol-setup.html">
+ <span class="dropdown-text">Install IQmol and connect to Q-Chem</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../guides/first-job.html">
+ <span class="dropdown-text">Your first Q-Chem job</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../guides/reading-output.html">
+ <span class="dropdown-text">Reading a Q-Chem output</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../guides/shared-machines.html">
+ <span class="dropdown-text">Working on a shared machine</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../guides/units-and-errors.html">
+ <span class="dropdown-text">Units, reaction energies and errors</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-lectures" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Lectures</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-lectures">    
+        <li>
+    <a class="dropdown-item" href="../lectures/index.html">
+ <span class="dropdown-text">All lectures</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l01-molecular-schrodinger.html">
+ <span class="dropdown-text">1 · The molecular Schrödinger equation</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l02-basis-sets.html">
+ <span class="dropdown-text">2 · Basis sets</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l03-from-theory-to-a-calculation.html">
+ <span class="dropdown-text">3 · From theory to a calculation</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l04-hartree-fock.html">
+ <span class="dropdown-text">4 · Hartree–Fock and the SCF</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l05-density-functional-theory.html">
+ <span class="dropdown-text">5 · Density functional theory</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l06-jacobs-ladder.html">
+ <span class="dropdown-text">6 · Jacob’s ladder</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l07-benchmarking.html">
+ <span class="dropdown-text">7 · How we test a functional</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l08-dispersion.html">
+ <span class="dropdown-text">8 · Dispersion</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l09-difficult-cases.html">
+ <span class="dropdown-text">9 · Difficult cases for DFT</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l10-error-cancellation.html">
+ <span class="dropdown-text">10 · Basis-set vs functional error</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l11-integration-grids.html">
+ <span class="dropdown-text">11 · Integration grids</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l12-scf-stability.html">
+ <span class="dropdown-text">12 · SCF stability and transition metals</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l13-theory-vs-experiment.html">
+ <span class="dropdown-text">13 · Theory vs experiment</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l14-choosing-a-method.html">
+ <span class="dropdown-text">14 · Choosing a method</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l15-wrap-up.html">
+ <span class="dropdown-text">15 · What we learned</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-experiments" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Experiments</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-experiments">    
+        <li>
+    <a class="dropdown-item" href="../experiments/ex01-basis-sets.html">
+ <span class="dropdown-text">Experiment 1: Basis Set Incompleteness Error</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex02-jacobs-ladder.html">
+ <span class="dropdown-text">Experiment 2: Jacob’s Ladder</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex03-organic-a.html">
+ <span class="dropdown-text">Experiment 3: Applying DFT to Organic Chemistry – Part A</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex04-organic-b.html">
+ <span class="dropdown-text">Experiment 4: Applying DFT to Organic Chemistry – Part B</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex05-difficult-cases.html">
+ <span class="dropdown-text">Experiment 5: Difficult Cases for DFT</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex06-b3lyp-631gs.html">
+ <span class="dropdown-text">Experiment 6: Why is the B3LYP/6-31G* Level of Theory so Successful?</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex07-grids.html">
+ <span class="dropdown-text">Experiment 7: Integration Grids</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex08-stability.html">
+ <span class="dropdown-text">Experiment 8: Stability Analysis and Transition Metals</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex09-experiment-vs-theory.html">
+ <span class="dropdown-text">Experiment 9: Comparison with Experimental Results</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex10-final-review.html">
+ <span class="dropdown-text">Experiment 10: Final Review</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="../class-results.html"> 
+<span class="menu-text">Class results</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <button type="button" role="switch" aria-checked="false" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode" aria-label="Toggle dark mode"><i class="bi"></i></button>
+</div>
+            <div id="quarto-search" class="" title="Search"></div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav" aria-label="Toolbar">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../experiments/ex10-final-review.html">Experiment 10: Final Review</a></li></ol></nav>
+        <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto" aria-label="Section">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../experiments/ex01-basis-sets.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Experiment 1: Basis Set Incompleteness Error</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../experiments/ex02-jacobs-ladder.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Experiment 2: Jacob’s Ladder</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../experiments/ex03-organic-a.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Experiment 3: Applying DFT to Organic Chemistry – Part A</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../experiments/ex04-organic-b.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Experiment 4: Applying DFT to Organic Chemistry – Part B</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../experiments/ex05-difficult-cases.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Experiment 5: Difficult Cases for DFT</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../experiments/ex06-b3lyp-631gs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Experiment 6: Why is the B3LYP/6-31G* Level of Theory so Successful?</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../experiments/ex07-grids.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Experiment 7: Integration Grids</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../experiments/ex08-stability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Experiment 8: Stability Analysis and Transition Metals</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../experiments/ex09-experiment-vs-theory.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Experiment 9: Comparison with Experimental Results</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../experiments/ex10-final-review.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Experiment 10: Final Review</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" aria-labelledby="toc-title" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#warm-up" id="toc-warm-up" class="nav-link active" data-scroll-target="#warm-up">Warm-up</a></li>
+  <li><a href="#the-request" id="toc-the-request" class="nav-link" data-scroll-target="#the-request">The request</a></li>
+  <li><a href="#the-molecules" id="toc-the-molecules" class="nav-link" data-scroll-target="#the-molecules">The molecules</a></li>
+  <li><a href="#predict-first" id="toc-predict-first" class="nav-link" data-scroll-target="#predict-first">Predict first</a></li>
+  <li><a href="#your-method-card" id="toc-your-method-card" class="nav-link" data-scroll-target="#your-method-card">Your method card</a></li>
+  <li><a href="#enter-your-results" id="toc-enter-your-results" class="nav-link" data-scroll-target="#enter-your-results">Enter your results</a></li>
+  <li><a href="#explore-your-data" id="toc-explore-your-data" class="nav-link" data-scroll-target="#explore-your-data">Explore your data</a></li>
+  <li><a href="#your-report" id="toc-your-report" class="nav-link" data-scroll-target="#your-report">Your report</a></li>
+  <li><a href="#submit" id="toc-submit" class="nav-link" data-scroll-target="#submit">Submit</a></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="ex10-final-review.docx"><i class="bi bi-file-word"></i>MS Word</a></li><li><a href="ex10-final-review.pdf"><i class="bi bi-file-pdf"></i>PDF handout</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content" tabindex="-1">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Experiment 10: Final Review</h1>
+<p class="subtitle lead">You are the consultant</p>
+</div>
+
+<div>
+  <div class="description">
+    Design, run and report the calculation of a Pd–ligand bond dissociation energy.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div data-lab-exp="ex10" hidden="">
+
+</div>
+<div class="callout callout-style-simple callout-tip no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p><strong>At a glance.</strong> Three species, and every choice is yours. <strong>You will show</strong> that you can choose and justify a method, set up the calculations properly, and report the results the way a computational paper would.</p>
+</div>
+</div>
+</div>
+<section id="warm-up" class="level2">
+<h2 class="anchored" data-anchor-id="warm-up">Warm-up</h2>
+<div data-lab="quiz">
+<p><em>Loading the concept check…</em></p>
+</div>
+</section>
+<section id="the-request" class="level2">
+<h2 class="anchored" data-anchor-id="the-request">The request</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../images/ex10-pd-complex.jpeg" class="img-fluid figure-img" alt="Pd(PH3)2(hexatriene) dissociating into Pd(PH3)2 and hexatriene" width="560"></p>
+<figcaption>Dissociation of the diphosphinohexatrienepalladium(0) complex. Carbon is black, phosphorus orange, hydrogen white and palladium light blue; dotted lines are dative bonds.</figcaption>
+</figure>
+</div>
+<p>Imagine that a colleague in your department is studying this palladium complex (the structures come from the PdBE2 subset <span class="citation" data-cites="averkiev2010">(<a href="#ref-averkiev2010" role="doc-biblioref">Averkiev et al. 2010</a>)</span> of the Minnesota 2015B database <span class="citation" data-cites="yu2016a">(<a href="#ref-yu2016a" role="doc-biblioref">Yu, He, Li, et al. 2016</a>)</span>) and asks you to calculate the bond dissociation energy of the reaction above. You are in charge of setting up the calculations.</p>
+<p>Choose the functional and basis set based on:</p>
+<ul>
+<li>the published literature, for instance these recent benchmarks <span class="citation" data-cites="goerigk2017 mardirossian2017 yu2015 yu2016 yu2016a mehta2018 peverati2014 chan2019 chan2019a dohm2018">(<a href="#ref-goerigk2017" role="doc-biblioref">Goerigk et al. 2017</a>; <a href="#ref-mardirossian2017" role="doc-biblioref">Mardirossian and Head-Gordon 2017</a>; <a href="#ref-yu2015" role="doc-biblioref">Yu et al. 2015</a>; <a href="#ref-yu2016" role="doc-biblioref">Yu, He, and Truhlar 2016</a>; <a href="#ref-yu2016a" role="doc-biblioref">Yu, He, Li, et al. 2016</a>; <a href="#ref-mehta2018" role="doc-biblioref">Mehta et al. 2018</a>; <a href="#ref-peverati2014" role="doc-biblioref">Peverati and Truhlar 2014</a>; <a href="#ref-chan2019" role="doc-biblioref">Chan et al. 2019</a>; <a href="#ref-chan2019a" role="doc-biblioref">Chan 2019</a>; <a href="#ref-dohm2018" role="doc-biblioref">Dohm et al. 2018</a>)</span>;</li>
+<li>the functionals available in Q-Chem;</li>
+<li>what you learned in Experiments 1–9: basis-set convergence, dispersion, grids, stability analysis.</li>
+</ul>
+<p>Remember that every calculation is a compromise between accuracy and computational cost, and the free server stops jobs after <strong>10 minutes</strong>. Pd needs an effective core potential (<code>ECP = def2-ECP</code> with the def2 basis sets).</p>
+</section>
+<section id="the-molecules" class="level2">
+<h2 class="anchored" data-anchor-id="the-molecules">The molecules</h2>
+<div data-lab="molecules">
+<p><em>Loading…</em></p>
+</div>
+</section>
+<section id="predict-first" class="level2">
+<h2 class="anchored" data-anchor-id="predict-first">Predict first</h2>
+<div data-lab="predict">
+<p><em>Loading…</em></p>
+</div>
+</section>
+<section id="your-method-card" class="level2">
+<h2 class="anchored" data-anchor-id="your-method-card">Your method card</h2>
+<p>Choose every setting and write down <em>why</em>. The card warns you about common pitfalls (double-counting dispersion, grid-sensitive functionals) and estimates whether each job fits in the free server’s 10-minute limit. It then gives you the three Q-Chem inputs for your choice.</p>
+<div data-lab="methodcard">
+<p><em>Loading the method card…</em></p>
+</div>
+</section>
+<section id="enter-your-results" class="level2">
+<h2 class="anchored" data-anchor-id="enter-your-results">Enter your results</h2>
+<p>Record the three total energies, SCF cycles and wall times from your outputs, then your bond dissociation energy ΔE = E(Pd(PH₃)₂) + E(C₆H₈) − E(complex).</p>
+<div data-lab="results">
+<p><em>Loading the results table…</em></p>
+</div>
+</section>
+<section id="explore-your-data" class="level2">
+<h2 class="anchored" data-anchor-id="explore-your-data">Explore your data</h2>
+<div data-lab="explore">
+<p><em>Loading…</em></p>
+</div>
+</section>
+<section id="your-report" class="level2">
+<h2 class="anchored" data-anchor-id="your-report">Your report</h2>
+<p>Write a short report (<strong>about 300 words</strong>) that:</p>
+<ol type="1">
+<li>has a title;</li>
+<li>states the method you chose and <strong>why</strong>, citing the literature;</li>
+<li>describes the computational setup completely (program, functional, basis set, ECP, grid, stability analysis, convergence criteria), enough for someone else to reproduce your numbers;</li>
+<li>presents your results and compares them with the reference value of <strong>16.20 kcal/mol</strong>;</li>
+<li>ends with an appropriate reference section.</li>
+</ol>
+<div data-lab="questions">
+<p><em>Loading the report editor…</em></p>
+</div>
+<div class="callout callout-style-simple callout-note">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p><strong>Peer review.</strong> Your instructor may ask you to review two classmates’ reports on Canvas with a short rubric: is the method justified, is the setup reproducible, is the comparison with the reference honest?</p>
+</div>
+</div>
+</div>
+</section>
+<section id="submit" class="level2">
+<h2 class="anchored" data-anchor-id="submit">Submit</h2>
+<div data-lab="submit">
+<p><em>Loading…</em></p>
+</div>
+<script type="module" src="../components/lab.js"></script>
+
+
+
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-averkiev2010" class="csl-entry" role="listitem">
+Averkiev, B. B., Y. Zhao, and D. G. J. Truhlar. 2010. <em>Mol. Catal. A: Chem.</em> 324: 80–88.
+</div>
+<div id="ref-chan2019a" class="csl-entry" role="listitem">
+Chan, B. J. 2019. <em>Phys. Chem. A</em> 123: 5781–88.
+</div>
+<div id="ref-chan2019" class="csl-entry" role="listitem">
+Chan, B., P. M. W. Gill, and M. J. Kimura. 2019. <em>Chem. Theory Comput.</em> 15: 3610–22.
+</div>
+<div id="ref-dohm2018" class="csl-entry" role="listitem">
+Dohm, S., A. Hansen, M. Steinmetz, S. Grimme, and M. P. J. Checinski. 2018. <em>Chem. Theory Comput.</em> 14: 2596–608.
+</div>
+<div id="ref-goerigk2017" class="csl-entry" role="listitem">
+Goerigk, L., A. Hansen, C. Bauer, S. Ehrlich, A. Najibi, and S. Grimme. 2017. <em>Phys. Chem. Chem. Phys.</em> 19: 32184–215.
+</div>
+<div id="ref-mardirossian2017" class="csl-entry" role="listitem">
+Mardirossian, N., and M. Head-Gordon. 2017. <em>Mol. Phys.</em> 115: 2315–72.
+</div>
+<div id="ref-mehta2018" class="csl-entry" role="listitem">
+Mehta, N., M. Casanova-Páez, and L. Goerigk. 2018. <em>Phys. Chem. Chem. Phys.</em> 20: 23175–94.
+</div>
+<div id="ref-peverati2014" class="csl-entry" role="listitem">
+Peverati, R., and D. G. Truhlar. 2014. <em>Philos. Trans. R. Soc. A</em> 372: 20120476.
+</div>
+<div id="ref-yu2016a" class="csl-entry" role="listitem">
+Yu, H. S., X. He, S. L. Li, and D. G. Truhlar. 2016. <em>Chem. Sci.</em> 7: 5032–51.
+</div>
+<div id="ref-yu2016" class="csl-entry" role="listitem">
+Yu, H. S., X. He, and D. G. J. Truhlar. 2016. <em>Chem. Theory Comput.</em> 12: 1280–93.
+</div>
+<div id="ref-yu2015" class="csl-entry" role="listitem">
+Yu, H. S., W. Zhang, P. Verma, X. He, and D. G. Truhlar. 2015. <em>Phys. Chem. Chem. Phys.</em> 17: 12146–60.
+</div>
+</div></section></div></main> <!-- /main -->
+<!-- Peverati lab logo at the top right of the navbar (light and dark versions). -->
+<script>
+(function () {
+  var css = document.querySelector('link[href$="styles.css"]');
+  var root = css ? css.getAttribute("href").replace(/styles\.css$/, "") : "";
+  var nav = document.querySelector("#quarto-header nav.navbar .navbar-container") ||
+            document.querySelector("#quarto-header nav.navbar .container-fluid");
+  if (!nav) return;
+  var a = document.createElement("a");
+  a.className = "lab-logo";
+  a.href = "https://peverati.github.io";
+  a.title = "Peverati research group";
+  // Both versions are inserted; CSS shows the one that matches the light/dark theme.
+  a.innerHTML =
+    '<img class="logo-for-light" src="' + root + 'images/logo-light.png" alt="Peverati research group logo">' +
+    '<img class="logo-for-dark" src="' + root + 'images/logo-dark.png" alt="Peverati research group logo">';
+  nav.appendChild(a);
+})();
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const toggle = window.document.createElement('button');
+      toggle.type = "button";
+      toggle.setAttribute("role", "switch");
+      toggle.setAttribute("aria-checked", "false");
+      toggle.classList.add('top-right');
+      toggle.classList.add('quarto-color-scheme-toggle');
+      toggle.setAttribute("aria-label", "Toggle dark mode");
+      toggle.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      toggle.appendChild(i);
+      // Put the toggle in a landmark of its own, so that landmark navigation
+      // can reach it.
+      //
+      // The container is always a fresh direct child of body, and the toggle is
+      // never moved into page furniture that the theme or the author controls.
+      // The toggle is positioned against the page, so any ancestor that
+      // establishes a containing block captures it: a positioned element or a
+      // grid for position: absolute, and transform, filter, will-change or
+      // contain for position: fixed. A direct child of body has none of these
+      // to inherit, and the shift when one appears is silent and visual.
+      //
+      // ARIA says a document should have at most one banner, and axe reports a
+      // duplicate whether or not the banners carry distinct labels. So use a
+      // header when the page has no banner yet, and a named region otherwise.
+      //
+      // A header is a banner wherever it sits, unless it is inside sectioning
+      // content, so this cannot just look at the children of body: a custom
+      // page layout wraps the title block header in a plain div. An explicit
+      // role="banner" always counts.
+      const sectioning = 'article, aside, main, nav, section, [role="article"], [role="complementary"], [role="main"], [role="navigation"], [role="region"]';
+      const hasBanner = Array.from(
+        window.document.querySelectorAll('header:not([role]), [role="banner"]')
+      ).some(function(el) {
+        return el.hasAttribute("role") || el.closest(sectioning) === null;
+      });
+      const container = window.document.createElement(hasBanner ? "div" : "header");
+      if (hasBanner) {
+        container.setAttribute("role", "region");
+        container.setAttribute("aria-label", "Toggle dark mode");
+      }
+      container.classList.add('quarto-color-scheme-toggle-container');
+      container.appendChild(toggle);
+      window.document.body.appendChild(container);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+          if (!link.classList.contains('no-external-icon')) {
+          }
+        }
+      }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          // Each band is positioned against its own containing block, which is
+          // not the offsetParent of the lines, so place it from client rects.
+          const placeBand = (band, firstEl, lastEl, codeBlock) => {
+            const container = band.offsetParent;
+            if (container === null) {
+              return;
+            }
+            const containerRect = container.getBoundingClientRect();
+            // Reveal.js scales slides with a transform, so convert client
+            // pixels back to the CSS pixels of the container.
+            const scale = containerRect.height / container.offsetHeight || 1;
+            const firstRect = firstEl.getBoundingClientRect();
+            const lastRect = lastEl.getBoundingClientRect();
+            const top = (firstRect.top - containerRect.top) / scale - container.clientTop + container.scrollTop;
+            const height = (lastRect.bottom - firstRect.top) / scale;
+            band.style.top = top - 2 + "px";
+            band.style.height = height + 4 + "px";
+            if (codeBlock) {
+              // Without the copy button wrapper, the containing block is wider
+              // than the code block, so span the code block explicitly.
+              const blockRect = codeBlock.getBoundingClientRect();
+              band.style.left = (blockRect.left - containerRect.left) / scale - container.clientLeft + container.scrollLeft + "px";
+              band.style.width = blockRect.width / scale + "px";
+            }
+          };
+          if (lineIds.length > 0) {
+            const el = window.document.getElementById(lineIds[0]);
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const parent = el.parentElement.parentElement;
+            // cook up a div (if necessary) and position it
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            placeBand(div, el, lastEl, parent.closest("div.sourceCode") || parent);
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            placeBand(gutterDiv, el, lastEl);
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+  <script type="application/javascript">
+  window.quartoScrollableRegionsLabels = {"code":"Scrollable code","output":"Scrollable output"};
+  </script>
+<nav class="page-navigation" aria-label="Page">
+  <div class="nav-page nav-page-previous">
+      <a href="../experiments/ex09-experiment-vs-theory.html" class="pagination-link" aria-label="Experiment 9: Comparison with Experimental Results">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Experiment 9: Comparison with Experimental Results</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Advanced Physical Chemistry · Florida Institute of Technology</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>Experiments adapted from Morgante &amp; Peverati, <em>Int. J. Quantum Chem.</em> <strong>2020</strong></p>
+</div>
+  </div>
+</footer>
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

@@ -31,6 +31,7 @@ ul.task-list li input[type="checkbox"] {
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
+  margin-bottom: 0em;
 }
 .hanging-indent div.csl-entry {
   margin-left:2em;
@@ -758,7 +759,7 @@ window.Quarto = {
 </section>
 <section id="def2-or-cc-pvnz" class="level3" data-number="1.1.3">
 <h3 data-number="1.1.3" class="anchored" data-anchor-id="def2-or-cc-pvnz"><span class="header-section-number">1.1.3</span> def2 or cc-pVnZ?</h3>
-<p>The two families were built for different purposes. The Dunning correlation-consistent sets, cc-pV<em>n</em>Z <span class="citation" data-cites="dunning1989">(<a href="#ref-dunning1989" role="doc-biblioref">Dunning 1989</a>)</span>, were designed so that the <strong>correlation energy</strong> of wave-function methods (MP2, CCSD(T)) converges smoothly with <em>n</em>. Each step adds a full shell of polarization functions chosen for correlation. The Karlsruhe def2 sets <span class="citation" data-cites="weigend2005">(<a href="#ref-weigend2005" role="doc-biblioref">Weigend and Ahlrichs 2005</a>)</span> were optimized mostly at the Hartree–Fock and DFT level, with the goal of a balanced error across the whole periodic table. Head-Gordon and co-workers found the def2 family to be the most cost-effective for DFT <span class="citation" data-cites="witte2016">(<a href="#ref-witte2016" role="doc-biblioref">Witte et al. 2016</a>)</span>.</p>
+<p>The two families were built for different purposes. The Dunning correlation-consistent sets, cc-pV<em>n</em>Z <span class="citation" data-cites="dunning1989">&nbsp;[<a href="#ref-dunning1989" role="doc-biblioref">1</a>]</span>, were designed so that the <strong>correlation energy</strong> of wave-function methods (MP2, CCSD(T)) converges smoothly with <em>n</em>. Each step adds a full shell of polarization functions chosen for correlation. The Karlsruhe def2 sets <span class="citation" data-cites="weigend2005">&nbsp;[<a href="#ref-weigend2005" role="doc-biblioref">2</a>]</span> were optimized mostly at the Hartree–Fock and DFT level, with the goal of a balanced error across the whole periodic table. Head-Gordon and co-workers found the def2 family to be the most cost-effective for DFT <span class="citation" data-cites="witte2016">&nbsp;[<a href="#ref-witte2016" role="doc-biblioref">3</a>]</span>.</p>
 <p>What you probably saw is that, at the same ζ, the two families give errors of similar size, with def2 often a bit better for the functionals at double- and triple-ζ. The differences shrink at quadruple-ζ, where both are close to the CBS limit. Note also that “triple-ζ” does not mean “the same number of functions”: look at the number of basis functions you recorded for each set. Comparing basis sets by name alone is risky, and we will see this again in Experiment 6.</p>
 </section>
 <section id="the-cost-measured-exponents" class="level3" data-number="1.1.4">
@@ -896,7 +897,7 @@ Table&nbsp;1: The methods of Experiments 3–5. “Fitted” means the functiona
 <section id="why-functionals-must-be-tested" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="why-functionals-must-be-tested"><span class="header-section-number">2.1</span> Why functionals must be tested</h2>
 <p>The exact exchange–correlation functional exists, but nobody knows its form. Every functional you use is an approximation, and unlike wave-function methods (HF → MP2 → CCSD → CCSD(T) → …), there is no systematic path that guarantees improvement. Climbing Jacob’s ladder <em>usually</em> helps, but a meta-GGA is not guaranteed to beat every GGA on every problem.</p>
-<p>So we test. A functional is judged by how well it reproduces trusted reference values for many chemical problems. This is called <strong>benchmarking</strong>, and it is how the whole field decides which functionals to recommend <span class="citation" data-cites="goerigk2017 mardirossian2017 goerigk2019">(<a href="#ref-goerigk2017" role="doc-biblioref">Goerigk et al. 2017</a>; <a href="#ref-mardirossian2017" role="doc-biblioref">Mardirossian and Head-Gordon 2017</a>; <a href="#ref-goerigk2019" role="doc-biblioref">Goerigk and Mehta 2019</a>)</span>. In Experiments 3–5 you will do a small benchmark yourself.</p>
+<p>So we test. A functional is judged by how well it reproduces trusted reference values for many chemical problems. This is called <strong>benchmarking</strong>, and it is how the whole field decides which functionals to recommend <span class="citation" data-cites="goerigk2017 mardirossian2017 goerigk2019">&nbsp;[<a href="#ref-goerigk2017" role="doc-biblioref">4</a>–<a href="#ref-goerigk2019" role="doc-biblioref">6</a>]</span>. In Experiments 3–5 you will do a small benchmark yourself.</p>
 </section>
 <section id="reference-values" class="level2" data-number="2.2">
 <h2 data-number="2.2" class="anchored" data-anchor-id="reference-values"><span class="header-section-number">2.2</span> Reference values</h2>
@@ -913,16 +914,16 @@ Table&nbsp;1: The methods of Experiments 3–5. “Fitted” means the functiona
 </section>
 <section id="high-level-theory-ccsdtcbs" class="level3" data-number="2.2.2">
 <h3 data-number="2.2.2" class="anchored" data-anchor-id="high-level-theory-ccsdtcbs"><span class="header-section-number">2.2.2</span> High-level theory: CCSD(T)/CBS</h3>
-<p>The alternative is to compute the reference with a method far more accurate than DFT, at the same geometries. The workhorse is <strong>CCSD(T)</strong>, coupled cluster with single and double excitations and a perturbative estimate of triple excitations <span class="citation" data-cites="raghavachari1989">(<a href="#ref-raghavachari1989" role="doc-biblioref">Raghavachari et al. 1989</a>)</span>. It is called the “gold standard” of quantum chemistry because, for molecules dominated by a single electron configuration, it reproduces experiment to a few tenths of a kcal/mol. Its cost scales as N⁷, so it is affordable only for small molecules.</p>
+<p>The alternative is to compute the reference with a method far more accurate than DFT, at the same geometries. The workhorse is <strong>CCSD(T)</strong>, coupled cluster with single and double excitations and a perturbative estimate of triple excitations <span class="citation" data-cites="raghavachari1989">&nbsp;[<a href="#ref-raghavachari1989" role="doc-biblioref">7</a>]</span>. It is called the “gold standard” of quantum chemistry because, for molecules dominated by a single electron configuration, it reproduces experiment to a few tenths of a kcal/mol. Its cost scales as N⁷, so it is affordable only for small molecules.</p>
 <p>CCSD(T) also needs a very large basis set, because the correlation energy converges slowly with the basis. The trick is to compute the energy with two or three basis sets of increasing cardinal number <em>n</em> (e.g., cc-pVTZ and cc-pVQZ) and <strong>extrapolate</strong> to the complete-basis-set (CBS) limit. A common form for the correlation energy is</p>
 <p><span id="eq-cbs"><span class="math display">\[
 E_\text{corr}(n) = E_\text{corr}^\text{CBS} + \frac{A}{n^3},
 \tag{3}\]</span></span></p>
-<p>where A is fitted from two values of <em>n</em> <span class="citation" data-cites="helgaker1997">(<a href="#ref-helgaker1997" role="doc-biblioref">Helgaker et al. 1997</a>)</span>. With two points, <a href="#eq-cbs" class="quarto-xref">Equation&nbsp;3</a> can be solved for the limit:</p>
+<p>where A is fitted from two values of <em>n</em> <span class="citation" data-cites="helgaker1997">&nbsp;[<a href="#ref-helgaker1997" role="doc-biblioref">8</a>]</span>. With two points, <a href="#eq-cbs" class="quarto-xref">Equation&nbsp;3</a> can be solved for the limit:</p>
 <p><span id="eq-cbs2"><span class="math display">\[
 E_\text{corr}^\text{CBS} = \frac{n^3 E_\text{corr}(n) - (n-1)^3 E_\text{corr}(n-1)}{n^3 - (n-1)^3}.
 \tag{4}\]</span></span></p>
-<p>The HF part converges much faster and is usually taken from the largest basis or extrapolated exponentially. The combination is written <strong>CCSD(T)/CBS</strong>. For the most demanding thermochemistry, composite protocols such as W4 add even higher excitations and small corrections, reaching uncertainties around 0.1–0.2 kcal/mol; the W4-17 database used for reaction 5d was built this way <span class="citation" data-cites="karton2017">(<a href="#ref-karton2017" role="doc-biblioref">Karton et al. 2017</a>)</span>.</p>
+<p>The HF part converges much faster and is usually taken from the largest basis or extrapolated exponentially. The combination is written <strong>CCSD(T)/CBS</strong>. For the most demanding thermochemistry, composite protocols such as W4 add even higher excitations and small corrections, reaching uncertainties around 0.1–0.2 kcal/mol; the W4-17 database used for reaction 5d was built this way <span class="citation" data-cites="karton2017">&nbsp;[<a href="#ref-karton2017" role="doc-biblioref">9</a>]</span>.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -948,7 +949,7 @@ E_\text{corr}^\text{CBS} = \frac{64(-0.28500) - 27(-0.27500)}{64 - 27} = \frac{-
 <p>A single reaction says little about a functional. A <strong>benchmark database</strong> collects hundreds or thousands of reference values, grouped in <strong>subsets</strong> by chemical type. Three families of databases matter for this course.</p>
 <section id="gmtkn55" class="level3" data-number="2.3.1">
 <h3 data-number="2.3.1" class="anchored" data-anchor-id="gmtkn55"><span class="header-section-number">2.3.1</span> GMTKN55</h3>
-<p>GMTKN55 (General Main-group Thermochemistry, Kinetics and Noncovalent interactions, 55 subsets) was published by Goerigk, Grimme and co-workers in 2017 <span class="citation" data-cites="goerigk2017">(<a href="#ref-goerigk2017" role="doc-biblioref">Goerigk et al. 2017</a>)</span>. It contains about 1500 relative energies, organized in five categories:</p>
+<p>GMTKN55 (General Main-group Thermochemistry, Kinetics and Noncovalent interactions, 55 subsets) was published by Goerigk, Grimme and co-workers in 2017 <span class="citation" data-cites="goerigk2017">&nbsp;[<a href="#ref-goerigk2017" role="doc-biblioref">4</a>]</span>. It contains about 1500 relative energies, organized in five categories:</p>
 <ol type="1">
 <li>basic properties and reaction energies of small systems (atomization energies, ionization potentials, proton affinities, …);</li>
 <li>reaction energies of larger systems and isomerizations;</li>
@@ -965,11 +966,11 @@ E_\text{corr}^\text{CBS} = \frac{64(-0.28500) - 27(-0.27500)}{64 - 27} = \frac{-
 </section>
 <section id="mgcdb84" class="level3" data-number="2.3.2">
 <h3 data-number="2.3.2" class="anchored" data-anchor-id="mgcdb84"><span class="header-section-number">2.3.2</span> MGCDB84</h3>
-<p>MGCDB84 (Main-Group Chemistry DataBase, 84 subsets), assembled by Mardirossian and Head-Gordon <span class="citation" data-cites="mardirossian2017">(<a href="#ref-mardirossian2017" role="doc-biblioref">Mardirossian and Head-Gordon 2017</a>)</span>, contains close to 5000 data points. It grew out of the data used to develop the ωB97X-V, B97M-V and ωB97M-V functionals, and the same paper uses it to evaluate 200 functionals. Its categories distinguish “easy” from “difficult” problems: noncovalent dimers and clusters, isomerization energies, thermochemistry and barrier heights, each split into easy and difficult groups. The AlkIsomer11 and S66 subsets of Experiment 4 come from it.</p>
+<p>MGCDB84 (Main-Group Chemistry DataBase, 84 subsets), assembled by Mardirossian and Head-Gordon <span class="citation" data-cites="mardirossian2017">&nbsp;[<a href="#ref-mardirossian2017" role="doc-biblioref">5</a>]</span>, contains close to 5000 data points. It grew out of the data used to develop the ωB97X-V, B97M-V and ωB97M-V functionals, and the same paper uses it to evaluate 200 functionals. Its categories distinguish “easy” from “difficult” problems: noncovalent dimers and clusters, isomerization energies, thermochemistry and barrier heights, each split into easy and difficult groups. The AlkIsomer11 and S66 subsets of Experiment 4 come from it.</p>
 </section>
 <section id="the-minnesota-databases" class="level3" data-number="2.3.3">
 <h3 data-number="2.3.3" class="anchored" data-anchor-id="the-minnesota-databases"><span class="header-section-number">2.3.3</span> The Minnesota databases</h3>
-<p>Truhlar’s group has built a long series of databases to develop and test the Minnesota functionals (M06, M11, MN15 and others). The latest, Minnesota Database 2015B, was used to parametrize MN15 <span class="citation" data-cites="yu2016a peverati2014">(<a href="#ref-yu2016a" role="doc-biblioref">Yu et al. 2016</a>; <a href="#ref-peverati2014" role="doc-biblioref">Peverati and Truhlar 2014</a>)</span>. It includes many inorganic and transition-metal systems, and multireference cases. Reactions 5b (CaO) and 5c (H₂SO₄) come from it, and Experiment 1 came from its NCCE30 subset.</p>
+<p>Truhlar’s group has built a long series of databases to develop and test the Minnesota functionals (M06, M11, MN15 and others). The latest, Minnesota Database 2015B, was used to parametrize MN15 <span class="citation" data-cites="yu2016a peverati2014">&nbsp;[<a href="#ref-yu2016a" role="doc-biblioref">10</a>,<a href="#ref-peverati2014" role="doc-biblioref">11</a>]</span>. It includes many inorganic and transition-metal systems, and multireference cases. Reactions 5b (CaO) and 5c (H₂SO₄) come from it, and Experiment 1 came from its NCCE30 subset.</p>
 </section>
 <section id="training-sets-and-test-sets" class="level3" data-number="2.3.4">
 <h3 data-number="2.3.4" class="anchored" data-anchor-id="training-sets-and-test-sets"><span class="header-section-number">2.3.4</span> Training sets and test sets</h3>
@@ -1099,7 +1100,7 @@ E_\text{corr}^\text{CBS} = \frac{64(-0.28500) - 27(-0.27500)}{64 - 27} = \frac{-
 \frac{K_\text{comp}}{K_\text{true}} = e^{\delta/RT} = e^{1.000/0.5925} = e^{1.688} \approx 5.4 .
 \tag{10}\]</span></span></p>
 <p>So a 1 kcal/mol error means a factor of about 5 in K or in a rate. That is often good enough to tell which product dominates. A 3 kcal/mol error means a factor of e<sup>5.06</sup> ≈ 160, which is often not.</p>
-<p>For reference: on GMTKN55, the best hybrid and double-hybrid functionals reach a WTMAD-2 of a few kcal/mol, and the best functionals have MAEs well below 1 kcal/mol for easy noncovalent and conformational data, but several kcal/mol for difficult thermochemistry <span class="citation" data-cites="goerigk2017 mardirossian2017">(<a href="#ref-goerigk2017" role="doc-biblioref">Goerigk et al. 2017</a>; <a href="#ref-mardirossian2017" role="doc-biblioref">Mardirossian and Head-Gordon 2017</a>)</span>. Chemical accuracy is not reached uniformly by any functional.</p>
+<p>For reference: on GMTKN55, the best hybrid and double-hybrid functionals reach a WTMAD-2 of a few kcal/mol, and the best functionals have MAEs well below 1 kcal/mol for easy noncovalent and conformational data, but several kcal/mol for difficult thermochemistry <span class="citation" data-cites="goerigk2017 mardirossian2017">&nbsp;[<a href="#ref-goerigk2017" role="doc-biblioref">4</a>,<a href="#ref-mardirossian2017" role="doc-biblioref">5</a>]</span>. Chemical accuracy is not reached uniformly by any functional.</p>
 </section>
 <section id="why-a-single-number-never-tells-the-whole-story" class="level2" data-number="2.6">
 <h2 data-number="2.6" class="anchored" data-anchor-id="why-a-single-number-never-tells-the-whole-story"><span class="header-section-number">2.6</span> Why a single number never tells the whole story</h2>
@@ -1120,7 +1121,7 @@ E_\text{corr}^\text{CBS} = \frac{64(-0.28500) - 27(-0.27500)}{64 - 27} = \frac{-
 <h2 data-number="3.1" class="anchored" data-anchor-id="the-goal"><span class="header-section-number">3.1</span> The goal</h2>
 <p><a href="../experiments/ex03-organic-a.html">Experiment 3</a> is your first benchmark. You will test 16 methods on four reactions that appear in every organic chemistry textbook:</p>
 <table class="table-striped caption-top table">
-<caption>Reactions of Experiment 3. Data from the BHROT27, BUT14DIOL and FH51 subsets of GMTKN55 <span class="citation" data-cites="goerigk2017">(<a href="#ref-goerigk2017" role="doc-biblioref">Goerigk et al. 2017</a>)</span>.</caption>
+<caption>Reactions of Experiment 3. Data from the BHROT27, BUT14DIOL and FH51 subsets of GMTKN55 <span class="citation" data-cites="goerigk2017">&nbsp;[<a href="#ref-goerigk2017" role="doc-biblioref">4</a>]</span>.</caption>
 <colgroup>
 <col style="width: 30%">
 <col style="width: 30%">
@@ -1224,10 +1225,10 @@ E_\text{corr}^\text{CBS} = \frac{64(-0.28500) - 27(-0.27500)}{64 - 27} = \frac{-
 <section id="further-reading" class="level2" data-number="3.8">
 <h2 data-number="3.8" class="anchored" data-anchor-id="further-reading"><span class="header-section-number">3.8</span> Further reading</h2>
 <ul>
-<li>L. Goerigk et al., “A look at the density functional theory zoo with the advanced GMTKN55 database” <span class="citation" data-cites="goerigk2017">(<a href="#ref-goerigk2017" role="doc-biblioref">Goerigk et al. 2017</a>)</span>. The database, its categories and WTMAD-2, with a ranking of more than 200 methods.</li>
-<li>N. Mardirossian and M. Head-Gordon, “Thirty years of density functional theory in computational chemistry” <span class="citation" data-cites="mardirossian2017">(<a href="#ref-mardirossian2017" role="doc-biblioref">Mardirossian and Head-Gordon 2017</a>)</span>. MGCDB84, and a review of 200 functionals.</li>
-<li>L. Goerigk and N. Mehta, “A trip to the density functional theory zoo” <span class="citation" data-cites="goerigk2019">(<a href="#ref-goerigk2019" role="doc-biblioref">Goerigk and Mehta 2019</a>)</span>. A readable guide to choosing functionals.</li>
-<li>P. Morgante and R. Peverati, “The devil in the details” <span class="citation" data-cites="morgante2020">(<a href="#ref-morgante2020" role="doc-biblioref">Morgante and Peverati 2020</a>)</span>. The tutorial review on which this lab is based.</li>
+<li>L. Goerigk et al., “A look at the density functional theory zoo with the advanced GMTKN55 database” <span class="citation" data-cites="goerigk2017">&nbsp;[<a href="#ref-goerigk2017" role="doc-biblioref">4</a>]</span>. The database, its categories and WTMAD-2, with a ranking of more than 200 methods.</li>
+<li>N. Mardirossian and M. Head-Gordon, “Thirty years of density functional theory in computational chemistry” <span class="citation" data-cites="mardirossian2017">&nbsp;[<a href="#ref-mardirossian2017" role="doc-biblioref">5</a>]</span>. MGCDB84, and a review of 200 functionals.</li>
+<li>L. Goerigk and N. Mehta, “A trip to the density functional theory zoo” <span class="citation" data-cites="goerigk2019">&nbsp;[<a href="#ref-goerigk2019" role="doc-biblioref">6</a>]</span>. A readable guide to choosing functionals.</li>
+<li>P. Morgante and R. Peverati, “The devil in the details” <span class="citation" data-cites="morgante2020">&nbsp;[<a href="#ref-morgante2020" role="doc-biblioref">12</a>]</span>. The tutorial review on which this lab is based.</li>
 <li>The course guide on <a href="../guides/units-and-errors.html">units and errors</a>.</li>
 </ul>
 
@@ -1236,42 +1237,42 @@ E_\text{corr}^\text{CBS} = \frac{64(-0.28500) - 27(-0.27500)}{64 - 27} = \frac{-
 </section>
 </section>
 
-<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body" data-entry-spacing="0" role="list">
 <div id="ref-dunning1989" class="csl-entry" role="listitem">
-Dunning, T. H., Jr. 1989. <em>J. Chem. Phys.</em> 90: 1007–23.
-</div>
-<div id="ref-goerigk2017" class="csl-entry" role="listitem">
-Goerigk, L., A. Hansen, C. Bauer, S. Ehrlich, A. Najibi, and S. Grimme. 2017. <em>Phys. Chem. Chem. Phys.</em> 19: 32184–215.
-</div>
-<div id="ref-goerigk2019" class="csl-entry" role="listitem">
-Goerigk, L., and N. Mehta. 2019. <em>Aust. J. Chem.</em> 72: 563–73.
-</div>
-<div id="ref-helgaker1997" class="csl-entry" role="listitem">
-Helgaker, T., W. Klopper, H. Koch, and J. Noga. 1997. <span>“Basis-Set Convergence of Correlated Calculations on Water.”</span> <em>J. Chem. Phys.</em> 106: 9639–46. <a href="https://doi.org/10.1063/1.473863">https://doi.org/10.1063/1.473863</a>.
-</div>
-<div id="ref-karton2017" class="csl-entry" role="listitem">
-Karton, A., N. Sylvetsky, and J. M. L. Martin. 2017. <em>J. Comput. Chem.</em> 38: 2063–75.
-</div>
-<div id="ref-mardirossian2017" class="csl-entry" role="listitem">
-Mardirossian, N., and M. Head-Gordon. 2017. <em>Mol. Phys.</em> 115: 2315–72.
-</div>
-<div id="ref-morgante2020" class="csl-entry" role="listitem">
-Morgante, P., and R. Peverati. 2020. <span>“The Devil in the Details: A Tutorial Review on Some Undervalued Aspects of Density Functional Theory Calculations.”</span> <em>Int. J. Quantum Chem.</em> 120: e26332.
-</div>
-<div id="ref-peverati2014" class="csl-entry" role="listitem">
-Peverati, R., and D. G. Truhlar. 2014. <em>Philos. Trans. R. Soc. A</em> 372: 20120476.
-</div>
-<div id="ref-raghavachari1989" class="csl-entry" role="listitem">
-Raghavachari, K., G. W. Trucks, J. A. Pople, and M. Head-Gordon. 1989. <span>“A Fifth-Order Perturbation Comparison of Electron Correlation Theories.”</span> <em>Chem. Phys. Lett.</em> 157: 479–83. <a href="https://doi.org/10.1016/S0009-2614(89)87395-6">https://doi.org/10.1016/S0009-2614(89)87395-6</a>.
+<div class="csl-left-margin">[1] </div><div class="csl-right-inline">T. H. Dunning Jr., J. Chem. Phys. <strong>90</strong>, 1007 (1989).</div>
 </div>
 <div id="ref-weigend2005" class="csl-entry" role="listitem">
-Weigend, F., and R. Ahlrichs. 2005. <em>Phys. Chem. Chem. Phys.</em> 7: 3297–305.
+<div class="csl-left-margin">[2] </div><div class="csl-right-inline">F. Weigend and R. Ahlrichs, Phys. Chem. Chem. Phys. <strong>7</strong>, 3297 (2005).</div>
 </div>
 <div id="ref-witte2016" class="csl-entry" role="listitem">
-Witte, J., J. B. Neaton, and M. Head-Gordon. 2016. <em>J. Chem. Phys.</em> 144: 194306.
+<div class="csl-left-margin">[3] </div><div class="csl-right-inline">J. Witte, J. B. Neaton, and M. Head-Gordon, J. Chem. Phys. <strong>144</strong>, 194306 (2016).</div>
+</div>
+<div id="ref-goerigk2017" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[4] </div><div class="csl-right-inline">L. Goerigk, A. Hansen, C. Bauer, S. Ehrlich, A. Najibi, and S. Grimme, Phys. Chem. Chem. Phys. <strong>19</strong>, 32184 (2017).</div>
+</div>
+<div id="ref-mardirossian2017" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[5] </div><div class="csl-right-inline">N. Mardirossian and M. Head-Gordon, Mol. Phys. <strong>115</strong>, 2315 (2017).</div>
+</div>
+<div id="ref-goerigk2019" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[6] </div><div class="csl-right-inline">L. Goerigk and N. Mehta, Aust. J. Chem. <strong>72</strong>, 563 (2019).</div>
+</div>
+<div id="ref-raghavachari1989" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[7] </div><div class="csl-right-inline">K. Raghavachari, G. W. Trucks, J. A. Pople, and M. Head-Gordon, <a href="https://doi.org/10.1016/S0009-2614(89)87395-6">A fifth-order perturbation comparison of electron correlation theories</a>, Chem. Phys. Lett. <strong>157</strong>, 479 (1989).</div>
+</div>
+<div id="ref-helgaker1997" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[8] </div><div class="csl-right-inline">T. Helgaker, W. Klopper, H. Koch, and J. Noga, <a href="https://doi.org/10.1063/1.473863">Basis-set convergence of correlated calculations on water</a>, J. Chem. Phys. <strong>106</strong>, 9639 (1997).</div>
+</div>
+<div id="ref-karton2017" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[9] </div><div class="csl-right-inline">A. Karton, N. Sylvetsky, and J. M. L. Martin, J. Comput. Chem. <strong>38</strong>, 2063 (2017).</div>
 </div>
 <div id="ref-yu2016a" class="csl-entry" role="listitem">
-Yu, H. S., X. He, S. L. Li, and D. G. Truhlar. 2016. <em>Chem. Sci.</em> 7: 5032–51.
+<div class="csl-left-margin">[10] </div><div class="csl-right-inline">H. S. Yu, X. He, S. L. Li, and D. G. Truhlar, Chem. Sci. <strong>7</strong>, 5032 (2016).</div>
+</div>
+<div id="ref-peverati2014" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[11] </div><div class="csl-right-inline">R. Peverati and D. G. Truhlar, Philos. Trans. R. Soc. A <strong>372</strong>, 20120476 (2014).</div>
+</div>
+<div id="ref-morgante2020" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[12] </div><div class="csl-right-inline">P. Morgante and R. Peverati, The devil in the details: A tutorial review on some undervalued aspects of density functional theory calculations, Int. J. Quantum Chem. <strong>120</strong>, e26332 (2020).</div>
 </div>
 </div></section></div></main> <!-- /main -->
 <!-- Peverati lab logo at the top right of the navbar (light and dark versions). -->
