@@ -1,5 +1,6 @@
 project:
   type: website
+  pre-render: tools/clean_site_slides.py
   output-dir: _site
   resources:
     - data/**

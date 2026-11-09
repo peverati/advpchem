@@ -6,7 +6,8 @@
 #   sh tools/render_slides.sh            # all decks
 #   sh tools/render_slides.sh l02        # only decks whose name starts with l02
 #
-# Run from the lab-site folder. Run it AFTER `quarto render`, which empties _site.
+# Run from the lab-site folder, AFTER `quarto render`: every site build (and
+# `quarto publish`) deletes _site/slides so the decks are never published.
 set -e
 cd "$(dirname "$0")/.."
 pattern="${1:-l}"
