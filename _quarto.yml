@@ -152,6 +152,10 @@ colab-base: "https://colab.research.google.com/github/peverati/advpchem/blob/mai
 
 format:
   html:
+    # Numeric citations, e.g. [1, 2] (IEEE style); hovering shows the reference.
+    # (HTML only: the Typst PDFs already use numeric citations.)
+    csl: aps.csl
+    citations-hover: true
     theme:
       light: cosmo
       dark: darkly

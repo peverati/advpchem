@@ -4,6 +4,7 @@ format:
   html: default
   docx:
     toc: false
+    csl: ../aps.csl
   typst:
     papersize: us-letter
     margin:

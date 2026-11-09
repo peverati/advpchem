@@ -47,6 +47,7 @@ Course website for the ten DFT experiments of **Advanced Physical Chemistry (CHM
 
 ## Conventions
 
+- Citations: write `[@key]`; the site shows numbers like [1,2] or [5–9] (American Physical Society style, `aps.csl`, set for HTML in `_quarto.yml` and for Word in `experiments/_metadata.yml`), with hover popups. The Typst PDFs use Typst's own numeric style.
 - Colors come from CSS variables in `styles.css`. Quarto's dark theme keeps Bootstrap's light `--bs-tertiary-bg` / `--bs-border-color`, so use `--lab-subtle-bg` and `--lab-border` instead.
 - Every page must work at phone width (375 px) without horizontal scrolling. Wrap wide tables in `.table-responsive`.
 - Student drafts live only in the student's browser `localStorage` (`advpchem:exNN`). Never add anything that sends data to a server.
