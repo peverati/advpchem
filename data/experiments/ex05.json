@@ -192,11 +192,11 @@
    "disp": "none"
   },
   {
-   "id": "B97M-rV",
-   "label": "B97M-rV",
+   "id": "B97M-V",
+   "label": "B97M-V",
    "rung": "meta-GGA",
    "rem": {
-    "METHOD": "B97M-rV"
+    "METHOD": "B97M-V"
    },
    "disp": "VV10 (nonlocal)"
   },
@@ -378,7 +378,7 @@
     "PBE",
     "PBE-D4",
     "SCAN",
-    "B97M-rV",
+    "B97M-V",
     "B3LYP",
     "B3LYP-D4",
     "B3PW91",
@@ -403,7 +403,7 @@
     "PBE",
     "PBE-D4",
     "SCAN",
-    "B97M-rV",
+    "B97M-V",
     "B3LYP",
     "B3LYP-D4",
     "B3PW91",

@@ -7,7 +7,7 @@ description: "Four textbook reactions computed with 15 density functionals and H
 <div data-lab-exp="ex03" hidden></div>
 
 ::: {.callout-tip appearance="simple" icon=false}
-**At a glance.** 8 molecules × 16 methods = **128 short jobs** with the def2-TZVP basis. Plan to submit them in batches (see [working on a shared machine](../guides/shared-machines.qmd)). **You will learn** how methods on different rungs of Jacob's ladder perform for "easy" organic reactions, what dispersion corrections do, and what each functional costs.
+**At a glance.** 8 molecules × 16 methods = **128 jobs** with the def2-TZVP basis, from a few seconds to about 3 minutes each (the diol and pentene with hybrid meta-GGAs are the slowest). Plan to submit them in batches (see [working on a shared machine](../guides/shared-machines.qmd)). **You will learn** how methods on different rungs of Jacob's ladder perform for "easy" organic reactions, what dispersion corrections do, and what each functional costs.
 :::
 
 ## Warm-up
@@ -26,7 +26,7 @@ The methods are:
 
 - **LSDA:** SPW92 [@slater1951; @perdew1992; @perdew2018]
 - **GGA:** BP86 [@becke1988; @perdew1986; @perdew1986a], BLYP [@becke1988; @lee1988], PBE [@perdew1996] and PBE-D4 [@perdew1996; @caldeweyher2017; @caldeweyher2019]
-- **meta-GGA:** SCAN [@sun2015] and B97M-rV [@mardirossian2015; @mardirossian2017rv]
+- **meta-GGA:** SCAN [@sun2015] and B97M-V [@mardirossian2015; @vydrov2010]
 - **hybrid GGA:** B3LYP [@vosko1980; @becke1988; @lee1988; @becke1993; @stephens1994], B3LYP-D4 [@caldeweyher2017; @caldeweyher2019], B3PW91 [@perdew1992; @perdew2018; @becke1988; @becke1993; @perdew1992a] and PBE0 [@adamo1999; @ernzerhof1999]
 - **hybrid meta-GGA:** M06-2X [@zhao2008], M11 [@peverati2011], MN15 [@yu2016a] and ωB97M-V [@vydrov2010; @mardirossian2016a]
 - **Hartree–Fock** [@hartree1928; @hartree1928a; @fock1930; @slater1930]

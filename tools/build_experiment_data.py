@@ -11,7 +11,7 @@ def save(e):
     (D / f"{e['id']}.json").write_text(json.dumps(e, indent=1, ensure_ascii=False) + "\n")
 
 # How each Experiment 3-5 method treats dispersion (for the Ex4 dimer chart).
-DISP = {"PBE-D4": "D4", "B3LYP-D4": "D4", "B97M-rV": "VV10 (nonlocal)", "wB97M-V": "VV10 (nonlocal)",
+DISP = {"PBE-D4": "D4", "B3LYP-D4": "D4", "B97M-V": "VV10 (nonlocal)", "wB97M-V": "VV10 (nonlocal)",
         "M06-2X": "fitted (Minnesota)", "M11": "fitted (Minnesota)", "MN15": "fitted (Minnesota)"}
 ex3 = load("ex03")
 METHODS = [dict(m, disp=DISP.get(m["id"], "none")) for m in ex3["methods"]]
@@ -155,7 +155,7 @@ e["methods"] = [
     {"id": "M11", "label": "M11", "rung": "hybrid meta-GGA", "rem": {"METHOD": "M11"}},
     {"id": "wB97M-V", "label": "ωB97M-V", "rung": "hybrid meta-GGA", "rem": {"METHOD": "wB97M-V"}},
 ]
-e["bases"] = [{"id": f"SG-{g}", "label": f"SG-{g}", "zeta": 4, "rem": {"BASIS": "def2-QZVP", "XC_GRID": str(g)}} for g in (1, 2, 3)]
+e["bases"] = [{"id": f"SG-{g}", "label": f"SG-{g}", "zeta": 3, "rem": {"BASIS": "def2-TZVP", "XC_GRID": str(g)}} for g in (1, 2, 3)]
 e.update(fields=["energy", "scf", "time"], auto_delta=True, explore_table=False, condition_label="Functional / grid")
 e["quiz"] = [
     {"q": "What is the integration grid used for in Kohn–Sham DFT?", "options": ["To place the basis functions", "To evaluate the exchange–correlation energy numerically, as a weighted sum over points in space", "To optimize the geometry", "To compute the Hartree–Fock exchange"], "answer": 1,

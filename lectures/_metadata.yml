@@ -1,0 +1,16 @@
+# Lecture handouts: the students' textbook. Each page also renders a PDF.
+format:
+  html: default
+  typst:
+    papersize: us-letter
+    margin:
+      x: 2cm
+      y: 2cm
+    toc: true
+    section-numbering: "1.1"
+
+format-links:
+  - format: typst
+    text: PDF handout
+
+number-sections: true

@@ -1,0 +1,303 @@
+---
+title: "Lecture 3 · From theory to a calculation"
+subtitle: "IQmol, Q-Chem and Experiment 1"
+author: "Roberto Peverati"
+institute: "Advanced Physical Chemistry · Florida Institute of Technology"
+---
+
+# Recap
+
+## Decode the model chemistry
+
+Method / basis set. What does each part approximate?
+
+| Model chemistry | Method | Basis |
+|---|---|---|
+| HF/cc-pVTZ | Hartree–Fock | Dunning triple-ζ |
+| B3LYP/def2-SVP | hybrid functional | Karlsruhe double-ζ |
+| ωB97M-V/def2-QZVP | range-separated hybrid meta-GGA | Karlsruhe quadruple-ζ |
+
+. . .
+
+You will know all of these methods by the end of Lecture 6.
+
+## Think–pair–share
+
+::: {.callout-note}
+## Question (2 min)
+Which model chemistry should be closest to the **exact** answer for a given method: def2-SVP, def2-TZVP or def2-QZVP? Which costs most?
+:::
+
+. . .
+
+QZVP is closest to the CBS limit and costs the most. TZVP is the usual compromise.
+
+# The tools
+
+## The workflow
+
+```{mermaid}
+%%| fig-alt: "Workflow: build or open a molecule in IQmol, set up the Q-Chem job, submit to the free server, the server runs Q-Chem, the output file comes back, you read the numbers."
+%%{init: {'themeVariables': {'fontSize': '28px'}}}%%
+flowchart LR
+  A["Open<br/>.xyz"] --> B["Set up<br/>job"]
+  B --> C["Free<br/>server"]
+  C --> D["Output<br/>file"]
+  D --> E["Read<br/>numbers"]
+```
+
+- **IQmol**: builder, viewer, job setup, **Job Monitor**
+- **Q-Chem**: the program that does the quantum chemistry
+
+## Anatomy of a Q-Chem input
+
+```text
+$molecule
+0 1
+Cl     1.86082400    -0.06541100    -0.00006800
+H      1.75394100     1.21098100     0.00034100
+$end
+
+$rem
+   JOBTYPE              SP
+   METHOD               HF
+   BASIS                def2-SVP
+   SCF_CONVERGENCE      8
+$end
+```
+
+## What each line means
+
+:::: {.columns}
+::: {.column width="50%"}
+**`$molecule`**
+
+- Line 1: **charge** and **multiplicity** (2S+1)
+- Then: element and x, y, z in Å
+:::
+::: {.column width="50%"}
+**`$rem`**
+
+- `JOBTYPE SP`: single-point energy
+- `METHOD`: HF or the functional
+- `BASIS`: the basis set
+- `SCF_CONVERGENCE 8`: energy change below 10⁻⁸
+:::
+::::
+
+::: {.small .muted}
+In this lab, line 2 of every .xyz file is "charge multiplicity".
+:::
+
+## Multiplicity basics
+
+| Multiplicity | Unpaired electrons | Example |
+|---|---|---|
+| 1 (singlet) | 0 | HCl, H₂O |
+| 2 (doublet) | 1 | H atom, radicals |
+| 3 (triplet) | 2 | O atom, O₂ |
+
+. . .
+
+Wrong multiplicity: a **perfectly converged, perfectly wrong** energy.
+
+## The website helps
+
+- Every experiment page has an **input generator** with a copy button
+- A **job checklist** to track what you've run
+- **Download all inputs**
+
+Guides: `iqmol-setup`, `first-job`, `reading-output`, `shared-machines`, `units-and-errors`.
+
+Name jobs systematically, e.g. `ex01_hf_def2-svp_hcl`. You will run hundreds.
+
+# Live demo
+
+## Live demo, step 1 · Open the molecule
+
+HCl with HF/def2-SVP, following Guide 2. Later we change **only** `BASIS`.
+
+**File → Open**, choose `37_HCl_NCCE30.xyz`. Drag to rotate, scroll to zoom.
+
+```text
+2
+0 1
+Cl    1.86  -0.06  0.00
+H     1.75   1.21  0.00
+```
+
+::: {.small .muted}
+Source: guides/first-job.qmd
+:::
+
+## Step 2 · Q-Chem setup
+
+Open **Calculation → Q-Chem Setup**.
+
+| Field | Value |
+|---|---|
+| Calculation | Energy (single point) |
+| Method | HF |
+| Basis | def2-SVP |
+| Charge / Multiplicity | 0 / 1 |
+
+## [Screenshot: IQmol Q-Chem setup window]
+
+::: {.callout-warning}
+Placeholder. Insert a screenshot of the Q-Chem setup window (method, basis, charge/multiplicity, server menu) after testing the current IQmol version.
+:::
+
+## Step 3 · Submit and watch
+
+- Choose the free Q-Chem server in the **Server** menu
+- Name the job; click **Submit**
+- The **Job Monitor** shows *queued → running → finished*
+
+## [Screenshot: IQmol Job Monitor]
+
+::: {.callout-warning}
+Placeholder. Insert a screenshot of the Job Monitor with a finished job.
+:::
+
+## Change only the basis
+
+Edit one line and resubmit:
+
+```text
+   BASIS                def2-TZVP
+```
+
+. . .
+
+::: {.callout-note}
+## Predict
+Will the total energy go up or down? Will the job take longer?
+:::
+
+. . .
+
+Lower (variational principle), and longer (more functions).
+
+# Reading the output
+
+## Four numbers per job
+
+| You need | Search for |
+|---|---|
+| Total energy (Eh) | `Total energy in the final basis set` |
+| SCF cycles | `Convergence criterion met` |
+| Wall time (s) | `Total job time` |
+| Basis functions $K$ | `basis functions` |
+
+For HCl HF/def2-SVP the energy is close to **−460 Eh**.
+
+## Did it work?
+
+- Last line: *Thank you very much for using Q-Chem*
+- "Convergence criterion met" appears
+- Charge, multiplicity, method and basis echoed correctly at the top
+- Use **wall** time, not CPU time
+
+::: takeaway
+Always use the **Total** energy, with **all** its digits.
+:::
+
+# Reaction energies
+
+## From total energies to ΔE
+
+$$
+\Delta E=\sum_i \nu_i E_i\qquad \nu_i>0\ \text{products},\ \ \nu_i<0\ \text{reactants}
+$$
+
+Convert: $1\ E_\mathrm{h}=627.5095$ kcal/mol. Error: $\varepsilon=\Delta E_\mathrm{comp}-\Delta E_\mathrm{ref}$ (signed; positive = overestimate).
+
+. . .
+
+For (HCl)₂ → 2 HCl:
+
+$$
+\Delta E=(+2)\,E(\mathrm{HCl})+(-1)\,E\big((\mathrm{HCl})_2\big)
+$$
+
+## Think–pair–share
+
+::: {.callout-note}
+## Question (2 min)
+Why must you keep **all** digits of the total energies? What happens if you round to 4 decimals?
+:::
+
+. . .
+
+Total energies are hundreds of $E_\mathrm{h}$; reaction energies are thousandths. Rounding to 4 decimals can introduce errors of up to **0.03 kcal/mol**, and rounding differently on each species is worse.
+
+# Experiment 1
+
+## Experiment 1: the question
+
+**How large does a basis set need to be?**
+
+:::: {.columns}
+::: {.column width="45%"}
+![](../images/ex01-reaction.jpeg){fig-alt="The HCl dimer dissociates into two HCl molecules."}
+:::
+::: {.column width="55%"}
+$$
+(\mathrm{HCl})_2\to2\,\mathrm{HCl}
+$$
+
+From the NCCE30 subset. Reference: **2.01 kcal/mol**.
+:::
+::::
+
+## The design
+
+- **4 methods**: HF, PBE, B3LYP, ωB97M-V
+- **6 basis sets**: def2-SVP, def2-TZVP, def2-QZVP, cc-pVDZ, cc-pVTZ, cc-pVQZ
+- 2 molecules × 4 × 6 = **48 jobs**
+- All short, well within the 10-minute limit
+
+## What you will see
+
+1. **Error versus ζ** for each method
+2. **Two families**: Ahlrichs def2 and Dunning cc
+3. **Timing** versus number of basis functions $K$, and the fitted exponent
+
+::: takeaway
+Record, for every job: energy, SCF cycles, wall time, $K$.
+:::
+
+## Predict first
+
+The website asks four prediction questions **before** you see any data:
+
+- def2 family: how does the ωB97M-V error change from double- to quadruple-ζ?
+- ...and the HF error?
+- Which family gives smaller errors at the same ζ?
+- Which method is closest to the reference with def2-QZVP?
+
+Your predictions are **locked** once submitted. Commit to a reason.
+
+## How to work and submit
+
+1. Read the Experiment 1 page; do the warm-up
+2. Lock predictions
+3. Run the 48 jobs; enter results; compute ΔE with signed ν
+4. Answer the questions
+5. Download your **JSON file** and upload it through the **Microsoft Form** with your **Florida Tech email**
+
+## Before next class
+
+- Run the first jobs (start with HCl, def2-SVP)
+- Keep **all** output files, one folder per experiment
+- Ask for help early; the server is busiest before deadlines
+
+**Lecture 4:** Hartree–Fock and the SCF. We fix the Hamiltonian's approximation.
+
+## References
+
+::: {.small}
+- Course guides: iqmol-setup, first-job, reading-output, shared-machines, units-and-errors
+- Experiment 1 page (website)
+- Weigend & Ahlrichs 2005; Dunning 1989 (see Lecture 2)
+:::

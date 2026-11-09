@@ -1,0 +1,17 @@
+# Lecture slides (Quarto revealjs). Not in the website render list yet:
+# render one deck with  quarto render slides/l01-molecular-schrodinger.qmd
+format:
+  revealjs:
+    theme: [default, slides.scss]
+    slide-number: true
+    chalkboard: false
+    preview-links: auto
+    html-math-method: mathjax
+    transition: none
+    width: 1280
+    height: 720
+    margin: 0.06
+    footer: "CHM 5111 · Advanced Physical Chemistry · Florida Institute of Technology"
+    logo: ../images/logo-light.png
+    toc: false
+    code-copy: false

@@ -12,8 +12,8 @@ Download `37_HCl_NCCE30.xyz` from the molecule gallery of [Experiment 1](../expe
 ```text
 2                      ← number of atoms
 0 1                    ← charge and spin multiplicity
-Cl    1.86  -0.06  0.00   ← element and x, y, z in Ångström
-H     1.75   1.21  0.00
+Cl    0.00   0.00   0.00   ← element and x, y, z in Ångström
+H     0.00   0.00   1.28
 ```
 
 ::: {.callout-note}
@@ -42,8 +42,8 @@ Open **Calculation → Q-Chem Setup**. You have two equivalent options.
 ```text
 $molecule
 0 1
-Cl     1.86082400    -0.06541100    -0.00006800
-H      1.75394100     1.21098100     0.00034100
+Cl     0.00000000     0.00000000     0.00000000
+H      0.00000000     0.00000000     1.27907000
 $end
 
 $rem

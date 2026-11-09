@@ -5,17 +5,21 @@ project:
     - data/**
     - components/**
     - notebooks/**
+    - downloads/**
     - images/logo-light.png
     - images/logo-dark.png
   render:
     - "*.qmd"
     - "guides/*.qmd"
     - "experiments/*.qmd"
+    - "lectures/*.qmd"
     - "!README.md"
+    - "!slides/"
+    - "!instructor/"
 
 website:
   title: "Computational Chemistry Lab"
-  description: "Ten hands-on DFT experiments for Advanced Physical Chemistry at Florida Tech."
+  description: "Ten hands-on DFT experiments for Advanced Physical Chemistry at the Florida Institute of Technology."
   site-url: ""
   page-navigation: true
   back-to-top-navigation: true
@@ -31,6 +35,40 @@ website:
           - guides/reading-output.qmd
           - guides/shared-machines.qmd
           - guides/units-and-errors.qmd
+      - text: "Lectures"
+        menu:
+          - href: lectures/index.qmd
+            text: "All lectures"
+          - href: lectures/l01-molecular-schrodinger.qmd
+            text: "1 · The molecular Schrödinger equation"
+          - href: lectures/l02-basis-sets.qmd
+            text: "2 · Basis sets"
+          - href: lectures/l03-from-theory-to-a-calculation.qmd
+            text: "3 · From theory to a calculation"
+          - href: lectures/l04-hartree-fock.qmd
+            text: "4 · Hartree–Fock and the SCF"
+          - href: lectures/l05-density-functional-theory.qmd
+            text: "5 · Density functional theory"
+          - href: lectures/l06-jacobs-ladder.qmd
+            text: "6 · Jacob's ladder"
+          - href: lectures/l07-benchmarking.qmd
+            text: "7 · How we test a functional"
+          - href: lectures/l08-dispersion.qmd
+            text: "8 · Dispersion"
+          - href: lectures/l09-difficult-cases.qmd
+            text: "9 · Difficult cases for DFT"
+          - href: lectures/l10-error-cancellation.qmd
+            text: "10 · Basis-set vs functional error"
+          - href: lectures/l11-integration-grids.qmd
+            text: "11 · Integration grids"
+          - href: lectures/l12-scf-stability.qmd
+            text: "12 · SCF stability and transition metals"
+          - href: lectures/l13-theory-vs-experiment.qmd
+            text: "13 · Theory vs experiment"
+          - href: lectures/l14-choosing-a-method.qmd
+            text: "14 · Choosing a method"
+          - href: lectures/l15-wrap-up.qmd
+            text: "15 · What we learned"
       - text: "Experiments"
         menu:
           - experiments/ex01-basis-sets.qmd
@@ -53,6 +91,24 @@ website:
         - guides/reading-output.qmd
         - guides/shared-machines.qmd
         - guides/units-and-errors.qmd
+    - title: "Lectures"
+      contents:
+        - lectures/index.qmd
+        - lectures/l01-molecular-schrodinger.qmd
+        - lectures/l02-basis-sets.qmd
+        - lectures/l03-from-theory-to-a-calculation.qmd
+        - lectures/l04-hartree-fock.qmd
+        - lectures/l05-density-functional-theory.qmd
+        - lectures/l06-jacobs-ladder.qmd
+        - lectures/l07-benchmarking.qmd
+        - lectures/l08-dispersion.qmd
+        - lectures/l09-difficult-cases.qmd
+        - lectures/l10-error-cancellation.qmd
+        - lectures/l11-integration-grids.qmd
+        - lectures/l12-scf-stability.qmd
+        - lectures/l13-theory-vs-experiment.qmd
+        - lectures/l14-choosing-a-method.qmd
+        - lectures/l15-wrap-up.qmd
     - title: "Experiments"
       contents:
         - experiments/ex01-basis-sets.qmd
@@ -66,7 +122,7 @@ website:
         - experiments/ex09-experiment-vs-theory.qmd
         - experiments/ex10-final-review.qmd
   page-footer:
-    left: "Advanced Physical Chemistry · Florida Tech"
+    left: "Advanced Physical Chemistry · Florida Institute of Technology"
     right: "Experiments adapted from Morgante & Peverati, *Int. J. Quantum Chem.* **2020**"
 
 bibliography: references.bib

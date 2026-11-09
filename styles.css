@@ -214,6 +214,11 @@ td.is-outlier .res-input { border-color: var(--lab-warn); background: var(--lab-
 .na-cell { color: var(--bs-secondary-color); text-align: center; opacity: 0.6; }
 .computed-cell { white-space: nowrap; }
 .res-import { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin: 0 0 10px; }
+.csv-import { border: 1px dashed var(--lab-border); border-radius: 8px; padding: 10px 12px; margin: 0 0 12px; background: var(--lab-subtle-bg); }
+.csv-import .res-import { margin-bottom: 6px; }
+.csv-details summary { cursor: pointer; }
+.csv-paste { width: 100%; max-width: 100%; font-family: var(--bs-font-monospace); font-size: 0.78rem; margin-top: 6px; }
+.csv-status:not(:empty) { margin-top: 8px; }
 
 /* ---------- explorers ---------- */
 .lab-reveal { margin-top: 8px; border: 1px dashed var(--lab-border); border-radius: 8px; padding: 6px 10px; }
@@ -298,3 +303,6 @@ mark.hl { background: var(--lab-warn-bg); color: inherit; padding: 0 2px; border
 @media print {
   .lab-widget { display: none !important; }
 }
+
+/* Long display equations scroll inside their own box on narrow screens. */
+mjx-container[display="true"] { display: block; max-width: 100%; overflow-x: auto; overflow-y: hidden; }

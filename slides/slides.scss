@@ -1,0 +1,13 @@
+/*-- scss:defaults --*/
+$presentation-heading-color: #00205b;
+$link-color: #0a5bb5;
+$presentation-font-size-root: 34px;
+$presentation-heading-font-weight: 600;
+
+/*-- scss:rules --*/
+.reveal .slide-logo { max-height: 48px !important; }
+.reveal .callout { font-size: 0.85em; }
+.reveal .small { font-size: 0.7em; }
+.reveal .muted { color: #6c757d; }
+.reveal table { font-size: 0.75em; }
+.reveal .takeaway { border-left: 6px solid #00205b; padding: 0.3em 0.8em; background: #f2f5fa; }

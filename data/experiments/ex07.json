@@ -560,27 +560,27 @@
   {
    "id": "SG-1",
    "label": "SG-1",
-   "zeta": 4,
+   "zeta": 3,
    "rem": {
-    "BASIS": "def2-QZVP",
+    "BASIS": "def2-TZVP",
     "XC_GRID": "1"
    }
   },
   {
    "id": "SG-2",
    "label": "SG-2",
-   "zeta": 4,
+   "zeta": 3,
    "rem": {
-    "BASIS": "def2-QZVP",
+    "BASIS": "def2-TZVP",
     "XC_GRID": "2"
    }
   },
   {
    "id": "SG-3",
    "label": "SG-3",
-   "zeta": 4,
+   "zeta": 3,
    "rem": {
-    "BASIS": "def2-QZVP",
+    "BASIS": "def2-TZVP",
     "XC_GRID": "3"
    }
   }
@@ -591,6 +591,10 @@
   "time"
  ],
  "auto_delta": true,
+ "csv_import": {
+  "script": "downloads/extract_ex07.py",
+  "file": "ex07_results.csv"
+ },
  "explore_table": false,
  "condition_label": "Functional / grid",
  "quiz": [

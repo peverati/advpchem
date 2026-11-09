@@ -7,7 +7,7 @@ description: "Four more textbook reactions, where dispersion and changes in bond
 <div data-lab-exp="ex04" hidden></div>
 
 ::: {.callout-tip appearance="simple" icon=false}
-**At a glance.** 10 molecules × 16 methods = **160 jobs** with def2-TZVP. **You will learn** when error cancellation stops helping, and what dispersion corrections (-D4) and nonlocal correlation (VV10) actually fix.
+**At a glance.** 10 molecules × 16 methods = **160 jobs** with def2-TZVP. Most take seconds; the two hexanes with hybrid functionals take up to about 5 minutes each. **You will learn** when error cancellation stops helping, and what dispersion corrections (-D4) and nonlocal correlation (VV10) actually fix.
 :::
 
 ## Warm-up
@@ -29,7 +29,7 @@ In this experiment you will deal with four more organic reactions commonly found
 
 These structures come from the DARC [@goerigk2017; @goerigk2010; @johnson2008] and ADIM6 [@goerigk2017; @grimme2010] subsets of the GMTKN55 database [@goerigk2017], and from the AlkIsomer11 [@curtiss1997; @karton2009] and S66 [@rezac2011; @rezac2011a] subsets of the MGCDB84 database [@mardirossian2017].
 
-As in Experiment 3, use SPW92, BP86, BLYP, PBE, PBE-D4, SCAN, B97M-rV, B3LYP, B3LYP-D4, B3PW91, PBE0, M06-2X, M11, MN15, ωB97M-V and Hartree–Fock (references in [Experiment 3](ex03-organic-a.qmd)), all with the **def2-TZVP** basis set [@weigend2005]. For each functional, compute the reaction energies and the errors with respect to the reference.
+As in Experiment 3, use SPW92, BP86, BLYP, PBE, PBE-D4, SCAN, B97M-V, B3LYP, B3LYP-D4, B3PW91, PBE0, M06-2X, M11, MN15, ωB97M-V and Hartree–Fock (references in [Experiment 3](ex03-organic-a.qmd)), all with the **def2-TZVP** basis set [@weigend2005]. For each functional, compute the reaction energies and the errors with respect to the reference.
 
 ::: {.callout-note}
 For the dimers (4c, 4d) the reaction is *monomers → dimer*, so a negative ΔE means the dimer is bound. In 4d the two methanol monomers have slightly different geometries (they are cut from the dimer), so compute both.

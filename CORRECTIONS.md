@@ -41,7 +41,7 @@ The four open questions were settled by the instructor in November 2026.
 
 **Ex3**
 - Timing table header said "Total time" but the question asks for time per SCF cycle; the site now computes time per cycle.
-- B97M-rV now cites the rVV10 paper.
+- B97M-rV → **B97M-V** in Experiments 3–5 (decided after Fall 2026: students run B97M-V, which IQmol offers and Experiment 8 already uses).
 
 **Ex4**
 - Text said "isomerization of **neohexane to hexane**"; figure and data say **n-hexane → neohexane** (ΔE = –2.49, branched isomer more stable). Text fixed.
@@ -50,7 +50,7 @@ The four open questions were settled by the instructor in November 2026.
 
 **Ex5**
 - "-D3 correction for B3LYP and PBE" → "-D4".
-- "The B97M-V and ωB97M-V approximations include VV10" → B97M-rV and ωB97M-V (B97M-rV is the one used in Ex3–5).
+- "The B97M-V and ωB97M-V approximations include VV10" is kept as written: B97M-V is the method used in Ex3–5.
 - "-D4 corrections for the Minnesota functionals have been proposed [Goerigk 2011, 2015, 2017]": those papers are D3-era, so the sentence now says "dispersion corrections" without a version.
 - H₂SO₄ subset **DC9 → SMAE3**, to match the geometry files (confirmed: DC9 was a typo).
 - Reaction 5d is written explicitly as 2 O₃ → 3 O₂ (matches the figure and the −67.60 kcal/mol value).
@@ -66,6 +66,7 @@ The four open questions were settled by the instructor in November 2026.
 - Title "Integration Grids 1" → "Integration Grids" (there is no part 2).
 - No geometries were provided; generated the 31 Ar₂ structures (3.0–6.0 Å) plus the Ar atom.
 - Missing period; added the explicit Q-Chem grid keywords.
+- Basis set **def2-QZVP → def2-TZVP**. In Fall 2026 the SG-2 jobs took 5–7 minutes with def2-QZVP and the SG-3 jobs often hit the free server's 10-minute limit. The grid comparison, which is the point of the experiment, is unchanged; the interaction energies carry a little more basis-set superposition error.
 
 **Ex8**
 - "second derivatives of the wave function" → second derivatives of the **energy** with respect to orbital rotations (electronic Hessian).

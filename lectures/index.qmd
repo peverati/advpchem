@@ -1,0 +1,46 @@
+---
+title: "Lectures"
+subtitle: "The textbook for the lab: one chapter per class"
+description: "Study notes for the fifteen classes of the computational lab, from the Schrödinger equation to choosing a method."
+format: html
+number-sections: false
+format-links: false
+---
+
+Each chapter covers one class in more detail than the lecture can. Read the
+chapter before (or right after) the class. Each one ends with key points and
+study questions, and has a printable PDF version under *Other Formats*.
+
+The first six classes build the theory. Classes 1–3 approximate the **wave
+function** (basis sets) and come before Experiment 1. Classes 4–6 approximate the
+**Hamiltonian** (Hartree–Fock and density functional theory) and come before
+Experiment 2. From Class 7 on, each class looks back at the experiment you just
+finished and prepares the next one.
+
+::: {.callout-note}
+## Debrief sections
+From Class 7 on, the first part of each chapter discusses the results of the previous
+experiment. Read it **after** you submit that experiment. Your predictions are
+more useful if they're your own.
+:::
+
+| Class | Chapter | Comes before |
+|---:|---|---|
+| 1 | [The molecular Schrödinger equation](l01-molecular-schrodinger.qmd) | [Experiment 1](../experiments/ex01-basis-sets.qmd) |
+| 2 | [Approximating the wave function: basis sets](l02-basis-sets.qmd) | Experiment 1 |
+| 3 | [From theory to a calculation: IQmol, Q-Chem and Experiment 1](l03-from-theory-to-a-calculation.qmd) | Experiment 1 |
+| 4 | [Approximating the Hamiltonian I: Hartree–Fock and the SCF](l04-hartree-fock.qmd) | [Experiment 2](../experiments/ex02-jacobs-ladder.qmd) |
+| 5 | [Approximating the Hamiltonian II: density functional theory](l05-density-functional-theory.qmd) | Experiment 2 |
+| 6 | [Approximating the Hamiltonian III: Jacob's ladder](l06-jacobs-ladder.qmd) | Experiment 2 |
+| 7 | [How we test a functional](l07-benchmarking.qmd) | [Experiment 3](../experiments/ex03-organic-a.qmd) |
+| 8 | [Dispersion and noncovalent interactions](l08-dispersion.qmd) | [Experiment 4](../experiments/ex04-organic-b.qmd) |
+| 9 | [Why some reactions are hard for DFT](l09-difficult-cases.qmd) | [Experiment 5](../experiments/ex05-difficult-cases.qmd) |
+| 10 | [Basis-set error vs functional error](l10-error-cancellation.qmd) | [Experiment 6](../experiments/ex06-b3lyp-631gs.qmd) |
+| 11 | [Numerical integration grids](l11-integration-grids.qmd) | [Experiment 7](../experiments/ex07-grids.qmd) |
+| 12 | [SCF stability, open shells and transition metals](l12-scf-stability.qmd) | [Experiment 8](../experiments/ex08-stability.qmd) |
+| 13 | [From electronic energies to experiment](l13-theory-vs-experiment.qmd) | [Experiment 9](../experiments/ex09-experiment-vs-theory.qmd) |
+| 14 | [Choosing, running and reporting a method](l14-choosing-a-method.qmd) | [Experiment 10](../experiments/ex10-final-review.qmd) |
+| 15 | [What we learned](l15-wrap-up.qmd) | — |
+
+For the quantum mechanics behind Classes 1–5, see also the
+[Live Textbook of Physical Chemistry 2](https://peverati.github.io/pchem2/).

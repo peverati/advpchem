@@ -81,7 +81,7 @@ file. Experiment-specific pieces:
 | 4 | D4 on/off pairs, dispersion-coloured dimer chart | method `disp` |
 | 5 | relative errors, CaO training-set spotlight, easy→hard chart across Exps 3–5 | `spotlight` |
 | 6 | three fixed reactions (4a, 4b, 5b), MAE by basis, "spot the anomaly", basis-size counter, import of def2-TZVP results from Exps 4–5 | `import`, reaction `group` |
-| 7 | grid explorer, Ar₂ curves, wiggle report, timing by grid | grids as `bases` with `XC_GRID`, `auto_delta` |
+| 7 | grid explorer, Ar₂ curves, wiggle report, timing by grid, output-extraction script + CSV import | grids as `bases` with `XC_GRID`, `auto_delta`, `csv_import` |
 | 8 | stability landscape, energy lowering by stability analysis | runs as `bases` with `INTERNAL_STABILITY`; explicit `conditions` limit each functional to the atoms that converge |
 | 9 | grouped errors, relative errors, NIST theory-vs-experiment panel | explicit `conditions` (B3LYP/6-31G* for tBuOH only) |
 | 10 | method card with cost check and input generator, result card, report editor | `custom` method |
@@ -92,8 +92,8 @@ script would overwrite your edits).
 
 ## Still to verify with a real IQmol job
 
-The Q-Chem keywords used by the input generator (`DFT_D D4`, `METHOD B97M-rV`,
-`METHOD SPW92`, `ECP def2-ECP`, `XC_GRID`, `INTERNAL_STABILITY`, `METHOD MN15-L`,
+The Q-Chem keywords used by the input generator (`DFT_D D4`, `METHOD SPW92`, `ECP def2-ECP`, `XC_GRID`, `INTERNAL_STABILITY`, `METHOD MN15-L`,
 `BASIS pc-1`) on the version of Q-Chem behind the free server, the timing of the
 largest jobs against the 10-minute limit (Ex6, Ex9, Ex10), and the IQmol menu names
-in `guides/` (then add screenshots).
+in `guides/` (then add screenshots). Also run `downloads/extract_ex07.py` on a folder of real Ex7 outputs
+from IQmol to confirm it finds and reads them (it was tested only on fake outputs).

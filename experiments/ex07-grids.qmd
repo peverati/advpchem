@@ -7,7 +7,7 @@ description: "How the numerical integration grid affects DFT results, studied on
 <div data-lab-exp="ex07" hidden></div>
 
 ::: {.callout-tip appearance="simple" icon=false}
-**At a glance.** 31 Ar₂ distances plus the Ar atom, five functionals, three grids, all with def2-QZVP: **480 jobs** of a few seconds each. Plan your submissions. **You will learn** what the integration grid is, why meta-GGAs are sensitive to it, and how to choose a grid you can trust.
+**At a glance.** 31 Ar₂ distances plus the Ar atom, five functionals, three grids, all with def2-TZVP: **480 jobs**. SG-1 jobs take seconds, SG-2 and SG-3 jobs a few minutes each, so plan your submissions. **You will learn** what the integration grid is, why meta-GGAs are sensitive to it, and how to choose a grid you can trust.
 :::
 
 ## Warm-up
@@ -42,7 +42,7 @@ $$
 | 3.9 | –0.27 | 5.0 | –0.08 | 6.0 | –0.02 |
 | 4.0 | –0.25 | | | | |
 
-Use the functionals B3LYP [@vosko1980; @becke1988; @lee1988; @becke1993; @stephens1994], M06-L [@zhao2006a], M11 [@peverati2011], M11-L [@peverati2012a] and ωB97M-V [@vydrov2010; @mardirossian2016a], and feel free to add others. Use the **def2-QZVP** basis set [@weigend2005] for all calculations, and try the grids **SG-1**, **SG-2** and **SG-3** (Q-Chem keyword `XC_GRID` = 1, 2 or 3). You can also specify a grid explicitly: `XC_GRID 000099000590` means (99,590).
+Use the functionals B3LYP [@vosko1980; @becke1988; @lee1988; @becke1993; @stephens1994], M06-L [@zhao2006a], M11 [@peverati2011], M11-L [@peverati2012a] and ωB97M-V [@vydrov2010; @mardirossian2016a], and feel free to add others. Use the **def2-TZVP** basis set [@weigend2005] for all calculations, and try the grids **SG-1**, **SG-2** and **SG-3** (Q-Chem keyword `XC_GRID` = 1, 2 or 3).
 
 Present your results as a dissociation curve like the one in @fig-vsxc, which shows the VSXC functional [@voorhis1998; @voorhis2008]. Before plotting, collect the data in a table like @tbl-vsxc.
 
@@ -84,15 +84,86 @@ Present your results as a dissociation curve like the one in @fig-vsxc, which sh
 
 ## Run the calculations
 
-This is the largest set of jobs of the course (5 functionals × 3 grids × 32 structures), but each one takes seconds. Work one functional and one grid at a time, and check the first curve before running the rest. Your instructor may split the functionals across the class.
+This is the largest set of jobs of the course (5 functionals × 3 grids × 32 structures). SG-1 jobs take seconds, but the finer grids cost much more: expect a few minutes per job with SG-2 and SG-3. Work one functional and one grid at a time, and check the first curve before running the rest. Your instructor may split the functionals across the class.
 
 ::: {data-lab="run"}
 *Loading the job list…*
 :::
 
+## Collect your results with a script {#sec-extract}
+
+Reading 480 output files by hand is slow, and it's easy to make mistakes. A small Python script does it for you: [**⬇ extract_ex07.py**](../downloads/extract_ex07.py){download="extract_ex07.py"}. The same file works on macOS, Windows and Linux.
+
+It reads every Q-Chem output file in a folder, including subfolders. It identifies each job **from what Q-Chem echoed in the output** (functional, `XC_GRID`, basis set and Ar–Ar distance), so your file names don't matter. From each output it takes the total energy, the number of SCF cycles and the wall time, and writes them all to **`ex07_results.csv`** in the same folder. It only *reads* your outputs and never changes them.
+
+**Before you start:** put all your Experiment 7 output files in one folder. Subfolders, such as one per grid, are fine.
+
+::: {.panel-tabset}
+
+## macOS
+
+1. Open **Terminal** (⌘-Space, type *Terminal*, Return).
+2. Type `python3 --version` and press Return.
+   - If you see `Python 3.8` or newer, you're ready.
+   - If a window offers to install the *command line developer tools*, click **Install**, wait a few minutes, then try again.
+3. Type `python3` followed by a **space**. Drag `extract_ex07.py` from Finder into the Terminal window, type another space, then drag your **outputs folder** into the window. The line now looks like this:
+
+   ```text
+   python3 /Users/you/Downloads/extract_ex07.py /Users/you/Documents/Ex7\ outputs
+   ```
+4. Press **Return**.
+
+## Windows
+
+1. If you don't have Python, install it from [python.org/downloads](https://www.python.org/downloads/). On the first screen of the installer, tick **"Add python.exe to PATH"**.
+2. Open **PowerShell** (Start menu, type *PowerShell*, Enter).
+3. Type `py --version` and press Enter. You should see `Python 3.8` or newer. If PowerShell says `py` is not recognized, use `python` instead of `py` in the next step.
+4. Type `py` followed by a **space**. Drag `extract_ex07.py` from File Explorer into the window, type another space, then drag your **outputs folder** into the window. The line now looks like this:
+
+   ```text
+   py C:\Users\you\Downloads\extract_ex07.py "C:\Users\you\Documents\Ex7 outputs"
+   ```
+5. Press **Enter**.
+
+Shortcut: if Python came from python.org, you can also **double-click** `extract_ex07.py`. A window opens and asks for the folder. Drag the folder into it and press Enter.
+
+## No Python (Colab)
+
+If you can't install Python on your computer, use Google Colab in the browser:
+
+1. Zip your outputs folder (right-click → *Compress* on a Mac, *Send to → Compressed (zipped) folder* on Windows).
+2. Open [colab.research.google.com](https://colab.research.google.com), create a new notebook, and upload the zip and `extract_ex07.py` with the folder icon on the left.
+3. Run this in a cell. Replace `outputs.zip` with your zip's name.
+
+   ```text
+   !unzip -q outputs.zip -d outputs
+   !python extract_ex07.py outputs
+   ```
+4. Download `outputs/ex07_results.csv` from the file panel (right-click → *Download*).
+
+:::
+
+### Read the report: don't skip this step
+
+The script prints a table with the number of usable jobs for each functional and grid. You need **32 in every cell, 480 in total**. Then it lists:
+
+- **Missing jobs**: run them.
+- **Problems**: jobs that crashed or hit the 10-minute limit, SCF cycles that didn't converge, a wrong basis set, or a missing `XC_GRID` (Q-Chem's default grid depends on the version and the functional, so it doesn't count as SG-1, SG-2 or SG-3). The script **does not take any energy from these files**. Fix the input, rerun the job, and run the script again.
+- **Jobs found more than once**: the script uses the most recent good run. If it says the energies differ, find out why before you trust either one.
+- **Not recognized**: other Q-Chem outputs in the folder (for example from another experiment). These are ignored.
+
+You can run the script as often as you like. Each run rereads every output and rewrites the CSV.
+
+::: {.callout-warning}
+## Use the script carefully
+- **Check its work.** Open two or three output files, say one per grid, and compare the total energy, SCF cycles and wall time with the table below ([Guide 3](../guides/reading-output.qmd) shows where to find them). The script is a tool; the numbers you submit are your responsibility.
+- **Don't edit the CSV and save it from Excel.** Depending on your settings, Excel can round the energies or change commas into semicolons. You can *look at* it in Excel, but close it without saving, and import the file exactly as the script wrote it.
+- **Keep your output files.** The CSV is a summary, not a replacement for them.
+:::
+
 ## Enter your results
 
-Record the **total energy**, **SCF cycles** and **wall time** of every job. The page computes all interaction energies ΔE(r) = E(Ar₂) − 2 E(Ar) for you and draws the curves as soon as one is complete. Pasting a column from a spreadsheet is the fastest way in.
+Record the **total energy**, **SCF cycles** and **wall time** of every job. The quickest way is **⬆ Import CSV** below: choose `ex07_results.csv` and all three tabs fill in at once. If any cell already holds a different number, the page asks before replacing it. You can also type the values, or paste a column copied from a spreadsheet. The page computes all interaction energies ΔE(r) = E(Ar₂) − 2 E(Ar) for you and draws the curves as soon as one is complete.
 
 ::: {data-lab="results"}
 *Loading the results table…*
