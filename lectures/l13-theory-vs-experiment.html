@@ -1,0 +1,1806 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.11.9">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="description" content="What stability analysis did for Fe and Ru⁺, how to turn an electronic energy into something comparable with an experimental enthalpy, and a briefing for Experiment 9.">
+
+<title>Class 13 · From electronic energies to experiment – Computational Chemistry Lab</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../lectures/l14-choosing-a-method.html" rel="next">
+<link href="../lectures/l12-scf-stability.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-447e42e69aaa9833c0ba1b986f430b20.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-56996c7b5257095e64120a8d6d543cad.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-9953095112a8816cde90456e6de52415.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-56996c7b5257095e64120a8d6d543cad.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<script src="https://cdn.jsdelivr.net/npm/3dmol@2.4.2/build/3Dmol-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-sidebar floating nav-fixed quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          toggle.setAttribute("aria-checked", alternate ? "true" : "false");
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455).
+    // Not run on load: stylesheets are set before first paint there, and
+    // scrolling would undo the scroll to a URL fragment (#14973).
+    // The one pixel nudge keeps the reader where they were.
+    const refreshSafariScrollbar = () => {
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        const scrollY = window.scrollY;
+        window.scrollTo(0, scrollY > 0 ? scrollY - 1 : 1);
+        setTimeout(() => {
+          window.scrollTo(0, scrollY);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      refreshSafariScrollbar();
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark" aria-label="Site">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Computational Chemistry Lab</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-guides" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Guides</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-guides">    
+        <li>
+    <a class="dropdown-item" href="../guides/iqmol-setup.html">
+ <span class="dropdown-text">Install IQmol and connect to Q-Chem</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../guides/first-job.html">
+ <span class="dropdown-text">Your first Q-Chem job</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../guides/reading-output.html">
+ <span class="dropdown-text">Reading a Q-Chem output</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../guides/shared-machines.html">
+ <span class="dropdown-text">Working on a shared machine</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../guides/units-and-errors.html">
+ <span class="dropdown-text">Units, reaction energies and errors</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-lectures" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Lectures</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-lectures">    
+        <li>
+    <a class="dropdown-item" href="../lectures/index.html">
+ <span class="dropdown-text">All lectures</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l01-molecular-schrodinger.html">
+ <span class="dropdown-text">1 · The molecular Schrödinger equation</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l02-basis-sets.html">
+ <span class="dropdown-text">2 · Basis sets</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l03-from-theory-to-a-calculation.html">
+ <span class="dropdown-text">3 · From theory to a calculation</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l04-hartree-fock.html">
+ <span class="dropdown-text">4 · Hartree–Fock and the SCF</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l05-density-functional-theory.html">
+ <span class="dropdown-text">5 · Density functional theory</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l06-jacobs-ladder.html">
+ <span class="dropdown-text">6 · Jacob’s ladder</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l07-benchmarking.html">
+ <span class="dropdown-text">7 · How we test a functional</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l08-dispersion.html">
+ <span class="dropdown-text">8 · Dispersion</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l09-difficult-cases.html">
+ <span class="dropdown-text">9 · Difficult cases for DFT</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l10-error-cancellation.html">
+ <span class="dropdown-text">10 · Basis-set vs functional error</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l11-integration-grids.html">
+ <span class="dropdown-text">11 · Integration grids</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l12-scf-stability.html">
+ <span class="dropdown-text">12 · SCF stability and transition metals</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l13-theory-vs-experiment.html">
+ <span class="dropdown-text">13 · Theory vs experiment</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l14-choosing-a-method.html">
+ <span class="dropdown-text">14 · Choosing a method</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l15-wrap-up.html">
+ <span class="dropdown-text">15 · What we learned</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-experiments" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Experiments</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-experiments">    
+        <li>
+    <a class="dropdown-item" href="../experiments/ex01-basis-sets.html">
+ <span class="dropdown-text">Experiment 1: Basis Set Incompleteness Error</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex02-jacobs-ladder.html">
+ <span class="dropdown-text">Experiment 2: Jacob’s Ladder</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex03-organic-a.html">
+ <span class="dropdown-text">Experiment 3: Applying DFT to Organic Chemistry – Part A</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex04-organic-b.html">
+ <span class="dropdown-text">Experiment 4: Applying DFT to Organic Chemistry – Part B</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex05-difficult-cases.html">
+ <span class="dropdown-text">Experiment 5: Difficult Cases for DFT</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex06-b3lyp-631gs.html">
+ <span class="dropdown-text">Experiment 6: Why is the B3LYP/6-31G* Level of Theory so Successful?</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex07-grids.html">
+ <span class="dropdown-text">Experiment 7: Integration Grids</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex08-stability.html">
+ <span class="dropdown-text">Experiment 8: Stability Analysis and Transition Metals</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex09-experiment-vs-theory.html">
+ <span class="dropdown-text">Experiment 9: Comparison with Experimental Results</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex10-final-review.html">
+ <span class="dropdown-text">Experiment 10: Final Review</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="../class-results.html"> 
+<span class="menu-text">Class results</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <button type="button" role="switch" aria-checked="false" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode" aria-label="Toggle dark mode"><i class="bi"></i></button>
+</div>
+            <div id="quarto-search" class="" title="Search"></div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav" aria-label="Toolbar">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../lectures/l13-theory-vs-experiment.html">Class 13 · From electronic energies to experiment</a></li></ol></nav>
+        <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto" aria-label="Section">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lectures</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l01-molecular-schrodinger.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 1 · The molecular Schrödinger equation</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l02-basis-sets.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 2 · Approximating the wave function: basis sets</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l03-from-theory-to-a-calculation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 3 · From theory to a calculation: IQmol, Q-Chem and Experiment 1</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l04-hartree-fock.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 4 · Approximating the Hamiltonian I: Hartree–Fock and the SCF</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l05-density-functional-theory.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 5 · Approximating the Hamiltonian II: density functional theory</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l06-jacobs-ladder.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 6 · Approximating the Hamiltonian III: Jacob’s ladder</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l07-benchmarking.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 7 · How we test a functional</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l08-dispersion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 8 · Dispersion and noncovalent interactions</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l09-difficult-cases.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 9 · Why some reactions are hard for DFT</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l10-error-cancellation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 10 · Basis-set error vs functional error</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l11-integration-grids.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 11 · Numerical integration grids</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l12-scf-stability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 12 · SCF stability, open shells and transition metals</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l13-theory-vs-experiment.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Class 13 · From electronic energies to experiment</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l14-choosing-a-method.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 14 · Choosing, running and reporting a method</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l15-wrap-up.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 15 · What we learned</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" aria-labelledby="toc-title" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#part-1-looking-back-at-experiment-8" id="toc-part-1-looking-back-at-experiment-8" class="nav-link active" data-scroll-target="#part-1-looking-back-at-experiment-8"><span class="header-section-number">1</span> Part 1 · Looking back at Experiment 8</a>
+  <ul class="collapse">
+  <li><a href="#how-much-did-stability-analysis-change" id="toc-how-much-did-stability-analysis-change" class="nav-link" data-scroll-target="#how-much-did-stability-analysis-change"><span class="header-section-number">1.1</span> How much did stability analysis change?</a></li>
+  <li><a href="#stable-is-not-the-same-as-accurate" id="toc-stable-is-not-the-same-as-accurate" class="nav-link" data-scroll-target="#stable-is-not-the-same-as-accurate"><span class="header-section-number">1.2</span> Stable is not the same as accurate</a></li>
+  <li><a href="#why-several-functionals-were-removed" id="toc-why-several-functionals-were-removed" class="nav-link" data-scroll-target="#why-several-functionals-were-removed"><span class="header-section-number">1.3</span> Why several functionals were removed</a></li>
+  <li><a href="#spin-state-energetics-are-a-hard-benchmark" id="toc-spin-state-energetics-are-a-hard-benchmark" class="nav-link" data-scroll-target="#spin-state-energetics-are-a-hard-benchmark"><span class="header-section-number">1.4</span> Spin-state energetics are a hard benchmark</a></li>
+  </ul></li>
+  <li><a href="#part-2-from-electronic-energies-to-experiment" id="toc-part-2-from-electronic-energies-to-experiment" class="nav-link" data-scroll-target="#part-2-from-electronic-energies-to-experiment"><span class="header-section-number">2</span> Part 2 · From electronic energies to experiment</a>
+  <ul class="collapse">
+  <li><a href="#what-a-single-point-energy-is" id="toc-what-a-single-point-energy-is" class="nav-link" data-scroll-target="#what-a-single-point-energy-is"><span class="header-section-number">2.1</span> What a single-point energy is</a></li>
+  <li><a href="#zero-point-energy-and-harmonic-frequencies" id="toc-zero-point-energy-and-harmonic-frequencies" class="nav-link" data-scroll-target="#zero-point-energy-and-harmonic-frequencies"><span class="header-section-number">2.2</span> Zero-point energy and harmonic frequencies</a></li>
+  <li><a href="#sec-thermal" id="toc-sec-thermal" class="nav-link" data-scroll-target="#sec-thermal"><span class="header-section-number">2.3</span> Thermal corrections from statistical mechanics</a></li>
+  <li><a href="#entropy-and-gibbs-energy" id="toc-entropy-and-gibbs-energy" class="nav-link" data-scroll-target="#entropy-and-gibbs-energy"><span class="header-section-number">2.4</span> Entropy and Gibbs energy</a></li>
+  <li><a href="#spinorbit-coupling-in-atoms" id="toc-spinorbit-coupling-in-atoms" class="nav-link" data-scroll-target="#spinorbit-coupling-in-atoms"><span class="header-section-number">2.5</span> Spin–orbit coupling in atoms</a></li>
+  <li><a href="#atomization-energies-and-enthalpies-of-formation" id="toc-atomization-energies-and-enthalpies-of-formation" class="nav-link" data-scroll-target="#atomization-energies-and-enthalpies-of-formation"><span class="header-section-number">2.6</span> Atomization energies and enthalpies of formation</a></li>
+  <li><a href="#experimental-uncertainty" id="toc-experimental-uncertainty" class="nav-link" data-scroll-target="#experimental-uncertainty"><span class="header-section-number">2.7</span> Experimental uncertainty</a></li>
+  <li><a href="#the-nist-chemistry-webbook" id="toc-the-nist-chemistry-webbook" class="nav-link" data-scroll-target="#the-nist-chemistry-webbook"><span class="header-section-number">2.8</span> The NIST Chemistry WebBook</a></li>
+  </ul></li>
+  <li><a href="#experiment-9-briefing" id="toc-experiment-9-briefing" class="nav-link" data-scroll-target="#experiment-9-briefing"><span class="header-section-number">3</span> Experiment 9 briefing</a>
+  <ul class="collapse">
+  <li><a href="#goal" id="toc-goal" class="nav-link" data-scroll-target="#goal"><span class="header-section-number">3.1</span> Goal</a></li>
+  <li><a href="#the-reactions" id="toc-the-reactions" class="nav-link" data-scroll-target="#the-reactions"><span class="header-section-number">3.2</span> The reactions</a></li>
+  <li><a href="#methods-and-settings" id="toc-methods-and-settings" class="nav-link" data-scroll-target="#methods-and-settings"><span class="header-section-number">3.3</span> Methods and settings</a></li>
+  <li><a href="#pitfalls" id="toc-pitfalls" class="nav-link" data-scroll-target="#pitfalls"><span class="header-section-number">3.4</span> Pitfalls</a></li>
+  <li><a href="#the-nist-exercise" id="toc-the-nist-exercise" class="nav-link" data-scroll-target="#the-nist-exercise"><span class="header-section-number">3.5</span> The NIST exercise</a></li>
+  <li><a href="#key-points" id="toc-key-points" class="nav-link" data-scroll-target="#key-points"><span class="header-section-number">3.6</span> Key points</a></li>
+  <li><a href="#study-questions" id="toc-study-questions" class="nav-link" data-scroll-target="#study-questions"><span class="header-section-number">3.7</span> Study questions</a></li>
+  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading"><span class="header-section-number">3.8</span> Further reading</a></li>
+  </ul></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="l13-theory-vs-experiment.pdf"><i class="bi bi-file-pdf"></i>PDF handout</a></li><li><a href="l13-theory-vs-experiment.pdf"><i class="bi bi-file-pdf"></i>Typst</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content" tabindex="-1">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Class 13 · From electronic energies to experiment</h1>
+<p class="subtitle lead">Debrief of Experiment 8 and introduction to Experiment 9</p>
+</div>
+
+<div>
+  <div class="description">
+    What stability analysis did for Fe and Ru⁺, how to turn an electronic energy into something comparable with an experimental enthalpy, and a briefing for Experiment 9.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Learning goals
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>After this class you should be able to:</p>
+<ul>
+<li>explain what stability analysis changed in Experiment 8, and why a stable solution can still be inaccurate;</li>
+<li>distinguish <span class="math inline">\(\Delta E_\mathrm{el}\)</span>, <span class="math inline">\(\Delta E_0\)</span>, <span class="math inline">\(\Delta H_{298}\)</span> and <span class="math inline">\(\Delta G_{298}\)</span>, and say which one a Q-Chem single-point energy gives you;</li>
+<li>compute a zero-point energy and the thermal corrections of an ideal gas from harmonic frequencies;</li>
+<li>explain the difference between <span class="math inline">\(D_e\)</span> and <span class="math inline">\(D_0\)</span>;</li>
+<li>compute a spin–orbit correction for an atom from its energy levels;</li>
+<li>explain why an atomization energy can’t be compared directly with an enthalpy of formation, and connect the two with NIST data;</li>
+<li>plan Experiment 9.</li>
+</ul>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p><strong>This class may take two meetings.</strong> If it does, the natural split point is after <a href="#sec-thermal" class="quarto-xref">Section&nbsp;2.3</a>: the first meeting covers the Experiment 8 debrief and the thermal corrections, the second covers spin–orbit coupling, atomization energies, experimental data and the Experiment 9 briefing.</p>
+</div>
+</div>
+</div>
+<section id="part-1-looking-back-at-experiment-8" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Part 1 · Looking back at Experiment 8</h1>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Read this after you submit Experiment 8
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This part discusses the trends you most likely saw in <a href="../experiments/ex08-stability.html">Experiment 8</a>. Your own numbers may differ. Focus on the reasons.</p>
+</div>
+</div>
+<section id="how-much-did-stability-analysis-change" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="how-much-did-stability-analysis-change"><span class="header-section-number">1.1</span> How much did stability analysis change?</h2>
+<p>Start with the <strong>energy-lowering table</strong>: E(with stability analysis) − E(without), for each functional and state. The typical picture is lopsided. For most functional/state pairs the number is 0.00: the first SCF solution was already stable. For one or two pairs it is large and negative, often tens of kcal/mol. In those cases the first SCF had landed on an unstable solution, typically a wrong occupation of the d orbitals, and the stability analysis found a much lower one. Hybrid functionals are often more prone to this: exact exchange makes the energy more sensitive to how the d electrons are arranged, which creates more competing solutions.</p>
+<p>What happens to the excitation energy depends on <em>which</em> state was unstable. If only the ground state is lowered, the gap grows. If only the excited state is lowered, the gap shrinks. If both are lowered by different amounts, it can go either way. That is why you must check every species of a reaction, not just the one that “looks” difficult.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Common mistake: an energy that went up
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If any number in your table was positive by more than a few hundredths of a kcal/mol, the two runs did not use the same settings (a different basis, a missing ECP, a different multiplicity). A stability analysis can’t raise the energy.</p>
+</div>
+</div>
+</section>
+<section id="stable-is-not-the-same-as-accurate" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="stable-is-not-the-same-as-accurate"><span class="header-section-number">1.2</span> Stable is not the same as accurate</h2>
+<p>Now look at the error chart. After stability analysis, every solution is a true minimum, but the errors that remain are probably still large, particularly for Fe, where errors of 10 kcal/mol or more are common. Stability analysis fixes a <em>numerical</em> problem: it makes sure you found the lowest solution of the equations you set up. It can’t fix the <em>functional’s</em> error.</p>
+<p>For Fe, the excitation changes the configuration from 3d⁶4s² to 3d⁷4s¹: one electron moves from 4s to 3d. Approximate functionals are known to be biased in how they treat a localized d electron compared with a diffuse s electron, mostly through self-interaction error (<a href="../lectures/l09-difficult-cases.html">Class 9</a>). Many semilocal functionals make the 3d⁷4s¹ states too low, so they underestimate this excitation. Ru⁺ is a different case, and you probably saw smaller errors there for some functionals. One atom and one functional rarely tell the whole story.</p>
+</section>
+<section id="why-several-functionals-were-removed" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="why-several-functionals-were-removed"><span class="header-section-number">1.3</span> Why several functionals were removed</h2>
+<p>SPW92, B3LYP, SCAN, ωB97M-V and Hartree–Fock were taken out of Experiment 8 because their SCF calculations on these atoms often did not converge on the IQmol server. Near-degenerate d orbitals make the SCF oscillate between occupations. Better initial guesses, damping, level shifting or direct-minimization algorithms (Q-Chem’s <code>SCF_ALGORITHM</code> options) often help, but they take experience. The lesson: for transition metals, expect convergence problems, always run a stability analysis, and get help from someone who has done it before <span class="citation" data-cites="cao2019">(<a href="#ref-cao2019" role="doc-biblioref">Cao and Ryde 2019</a>)</span>.</p>
+</section>
+<section id="spin-state-energetics-are-a-hard-benchmark" class="level2" data-number="1.4">
+<h2 data-number="1.4" class="anchored" data-anchor-id="spin-state-energetics-are-a-hard-benchmark"><span class="header-section-number">1.4</span> Spin-state energetics are a hard benchmark</h2>
+<p>The reference values you used came from atomic spectroscopy. They are among the most accurate numbers in this course, and still most functionals miss them by many kcal/mol. When a paper reports a spin-state gap or a metal–ligand bond energy computed with one functional, ask which functional, why, and whether anyone checked it against data for similar systems. That question returns in <a href="../lectures/l14-choosing-a-method.html">Class 14</a>.</p>
+<p>The reference values also raise a question we have avoided so far. An experiment measures an atom’s energy levels, a molecule’s heat of reaction, or a bond enthalpy at room temperature. Our calculations give an electronic energy at fixed nuclei. How are the two related? That is the subject of the rest of this class.</p>
+</section>
+</section>
+<section id="part-2-from-electronic-energies-to-experiment" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Part 2 · From electronic energies to experiment</h1>
+<section id="what-a-single-point-energy-is" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="what-a-single-point-energy-is"><span class="header-section-number">2.1</span> What a single-point energy is</h2>
+<p>The “total energy” in a Q-Chem output is the electronic energy at fixed nuclei plus the nuclear repulsion (<a href="../lectures/l01-molecular-schrodinger.html">Class 1</a>):</p>
+<p><span class="math display">\[
+E_\mathrm{el}(\mathbf{R}) = \langle \Psi_\mathrm{el} | \hat H_\mathrm{el} | \Psi_\mathrm{el} \rangle + V_\mathrm{nn}(\mathbf{R}).
+\]</span></p>
+<p>It is the potential energy surface at one point <span class="math inline">\(\mathbf{R}\)</span>: no nuclear motion, no temperature. Every reaction energy you have computed in this course is</p>
+<p><span class="math display">\[
+\Delta E_\mathrm{el} = \sum_i \nu_i\, E_{\mathrm{el},i},
+\]</span></p>
+<p>with signed stoichiometric coefficients. The benchmark references in Experiments 1–8 are values of this same quantity, derived from high-level calculations or from experiment after removing all the effects below. That is why you could compare directly.</p>
+<p>An experiment never measures <span class="math inline">\(\Delta E_\mathrm{el}\)</span>. Real molecules vibrate even at 0 K, and at room temperature they also translate, rotate and populate excited vibrational levels. Experiments report one of these:</p>
+<div id="tbl-energies" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-energies-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;1: The energies a “reaction energy” can mean.
+</figcaption>
+<div aria-describedby="tbl-energies-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Quantity</th>
+<th>What it includes</th>
+<th>Typical source</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(\Delta E_\mathrm{el}\)</span></td>
+<td>electronic energy only, nuclei fixed at the minima</td>
+<td>calculations; benchmark databases</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\Delta E_0\)</span> (or <span class="math inline">\(D_0\)</span>)</td>
+<td><span class="math inline">\(\Delta E_\mathrm{el}\)</span> + zero-point vibrational energy</td>
+<td>spectroscopy (dissociation limits)</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\Delta H_T\)</span></td>
+<td><span class="math inline">\(\Delta E_0\)</span> + thermal energy at temperature <span class="math inline">\(T\)</span> + <span class="math inline">\(\Delta(pV)\)</span></td>
+<td>calorimetry, thermochemical tables</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\Delta G_T\)</span></td>
+<td><span class="math inline">\(\Delta H_T - T\Delta S_T\)</span></td>
+<td>equilibrium constants, electrochemistry</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+</section>
+<section id="zero-point-energy-and-harmonic-frequencies" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="zero-point-energy-and-harmonic-frequencies"><span class="header-section-number">2.2</span> Zero-point energy and harmonic frequencies</h2>
+<p>Near a minimum, the potential energy surface is approximately quadratic in the nuclear displacements. Diagonalizing the mass-weighted matrix of second derivatives of <span class="math inline">\(E_\mathrm{el}\)</span> with respect to the nuclear coordinates (the <em>nuclear</em> Hessian, not the electronic one of <a href="../lectures/l12-scf-stability.html">Class 12</a>) gives <span class="math inline">\(3N_\mathrm{atoms} - 6\)</span> normal modes for a nonlinear molecule (<span class="math inline">\(3N_\mathrm{atoms} - 5\)</span> for a linear one), each with a harmonic wavenumber <span class="math inline">\(\tilde\nu_k\)</span>. In Q-Chem this is <code>JOBTYPE FREQ</code>. It is only meaningful at a stationary point optimized with the same method and basis set. At a minimum all frequencies are real. An imaginary frequency marks a saddle point (or, if it is small, possibly grid noise; see <a href="../lectures/l11-integration-grids.html">Class 11</a>).</p>
+<p>A quantum harmonic oscillator can’t be at rest: its lowest level has energy <span class="math inline">\(\tfrac{1}{2}hc\tilde\nu\)</span>. The <strong>zero-point vibrational energy</strong> of a molecule is the sum over modes,</p>
+<p><span class="math display">\[
+\mathrm{ZPE} = \frac{1}{2} \sum_k h c\,\tilde\nu_k .
+\]</span></p>
+<p>Atoms have no vibrations and no ZPE. A molecule always has some, so breaking bonds always <em>releases</em> zero-point energy, and</p>
+<p><span class="math display">\[
+\Delta E_0 = \Delta E_\mathrm{el} + \sum_i \nu_i\,\mathrm{ZPE}_i .
+\]</span></p>
+<p>For a diatomic, the <strong>equilibrium dissociation energy</strong> <span class="math inline">\(D_e\)</span> is measured from the bottom of the well, and the <strong>spectroscopic dissociation energy</strong> <span class="math inline">\(D_0\)</span> from the lowest vibrational level:</p>
+<p><span class="math display">\[
+D_0 = D_e - \mathrm{ZPE}.
+\]</span></p>
+<p>Harmonic frequencies from DFT are usually a few percent too high, partly because of anharmonicity and partly because of the functional, so they are often multiplied by an empirical scale factor. Anharmonicity lowers the real ZPE a little below the harmonic value.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Worked example: <span class="math inline">\(D_e\)</span> and <span class="math inline">\(D_0\)</span> of H₂
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Spectroscopy gives, for H₂, the harmonic wavenumber <span class="math inline">\(\omega_e = 4401.2\)</span> cm⁻¹ and the anharmonicity constant <span class="math inline">\(\omega_e x_e = 121.3\)</span> cm⁻¹. The zero-point level of an anharmonic diatomic is <span class="math inline">\(\tfrac{1}{2}\omega_e - \tfrac{1}{4}\omega_e x_e\)</span>:</p>
+<p><span class="math display">\[
+\mathrm{ZPE} = 2200.6 - 30.3 = 2170.3\ \text{cm}^{-1}.
+\]</span></p>
+<p>With 1 cm⁻¹ = 0.0028591 kcal/mol, <span class="math inline">\(\mathrm{ZPE} = 6.21\)</span> kcal/mol. The measured <span class="math inline">\(D_0\)</span> is 36118 cm⁻¹ = 103.27 kcal/mol, so</p>
+<p><span class="math display">\[
+D_e = D_0 + \mathrm{ZPE} = 103.27 + 6.21 = 109.48\ \text{kcal/mol},
+\]</span></p>
+<p>which matches the W4-11 reference you will use in Experiment 9 (109.5 kcal/mol). As a check from first principles: the exact nonrelativistic energy of H₂ at its equilibrium bond length is −1.17448 <span class="math inline">\(E_h\)</span>, and each H atom has exactly −0.5 <span class="math inline">\(E_h\)</span>. Then <span class="math inline">\(D_e = 2(-0.5) - (-1.17448) = 0.17448\ E_h\)</span>, and <span class="math inline">\(0.17448 \times 627.5095 = 109.49\)</span> kcal/mol.</p>
+</div>
+</div>
+</section>
+<section id="sec-thermal" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="sec-thermal"><span class="header-section-number">2.3</span> Thermal corrections from statistical mechanics</h2>
+<p>At temperature <span class="math inline">\(T\)</span> molecules also carry thermal energy. For an ideal gas, statistical mechanics splits the molecular partition function into independent factors,</p>
+<p><span class="math display">\[
+q = q_\mathrm{trans}\, q_\mathrm{rot}\, q_\mathrm{vib}\, q_\mathrm{elec},
+\]</span></p>
+<p>and each factor gives a contribution to the internal energy <span class="math inline">\(U\)</span> and the entropy <span class="math inline">\(S\)</span>. With the rigid-rotor, harmonic-oscillator model, the molar thermal energies above the zero-point level are:</p>
+<p><span class="math display">\[
+\begin{aligned}
+E_\mathrm{trans} &amp;= \tfrac{3}{2}RT, \\
+E_\mathrm{rot} &amp;= RT \ \text{(linear)}, \qquad \tfrac{3}{2}RT \ \text{(nonlinear)}, \\
+E_\mathrm{vib} &amp;= R \sum_k \frac{\theta_k}{e^{\theta_k/T} - 1}, \qquad \theta_k = \frac{hc\tilde\nu_k}{k_\mathrm{B}}, \\
+E_\mathrm{elec} &amp;\approx 0 \ \text{(unless low-lying excited states exist)}.
+\end{aligned}
+\]</span></p>
+<p>For one mole of ideal gas <span class="math inline">\(H = U + pV = U + RT\)</span>, so the enthalpy at temperature <span class="math inline">\(T\)</span> is</p>
+<p><span class="math display">\[
+H_T = E_\mathrm{el} + \mathrm{ZPE} + E_\mathrm{trans} + E_\mathrm{rot} + E_\mathrm{vib} + RT .
+\]</span></p>
+<p>At 298.15 K, <span class="math inline">\(RT = 0.5925\)</span> kcal/mol. An atom has only translation: <span class="math inline">\(H_{298} - H_0 = \tfrac{5}{2}RT = 1.48\)</span> kcal/mol. A diatomic adds rotation, <span class="math inline">\(\tfrac{7}{2}RT = 2.07\)</span> kcal/mol, plus a vibrational term that is negligible when <span class="math inline">\(\tilde\nu\)</span> is large. <a href="#fig-vib" class="quarto-xref">Figure&nbsp;1</a> shows why: a stiff mode is “frozen” at room temperature, and only modes below a few hundred cm⁻¹ contribute much.</p>
+<div id="fig-vib" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Two plots against wavenumber from 0 to 4000 inverse centimeters. Left: zero-point energy rises linearly to about 5.7 kcal/mol. Right: thermal vibrational energy falls from about 0.55 kcal/mol at low wavenumber toward zero above 1500, below the dashed classical limit RT = 0.59.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-vib-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/l13-vib-energy.png" class="img-fluid figure-img" style="width:100.0%" alt="Two plots against wavenumber from 0 to 4000 inverse centimeters. Left: zero-point energy rises linearly to about 5.7 kcal/mol. Right: thermal vibrational energy falls from about 0.55 kcal/mol at low wavenumber toward zero above 1500, below the dashed classical limit RT = 0.59.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-vib-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: (a) Zero-point energy and (b) thermal vibrational energy at 298 K of a single harmonic mode, as functions of its wavenumber. The ZPE grows linearly; the thermal energy is close to the classical value <span class="math inline">\(RT\)</span> only for very soft modes and nearly zero above about 1500 cm⁻¹. Exact harmonic-oscillator formulas.
+</figcaption>
+</figure>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Worked example: <span class="math inline">\(\Delta H_{298}\)</span> for H₂ → 2 H
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Products: two H atoms, each <span class="math inline">\(\tfrac{5}{2}RT\)</span>. Reactant: H₂, <span class="math inline">\(\tfrac{7}{2}RT\)</span> (its vibration, 4401 cm⁻¹, contributes nothing at 298 K). The thermal part of the reaction enthalpy is</p>
+<p><span class="math display">\[
+2 \times \tfrac{5}{2}RT - \tfrac{7}{2}RT = \tfrac{3}{2}RT = 1.5 \times 0.5925 = 0.89\ \text{kcal/mol}.
+\]</span></p>
+<p>So <span class="math inline">\(\Delta H_{298} = D_0 + 0.89 = 103.27 + 0.89 = 104.16\)</span> kcal/mol. The NIST WebBook gives <span class="math inline">\(\Delta_f H^\circ_{298}(\mathrm{H}, g) = 217.998\)</span> kJ/mol = 52.10 kcal/mol, and <span class="math inline">\(\Delta_f H^\circ(\mathrm{H_2}) = 0\)</span>, so the experimental <span class="math inline">\(\Delta H_{298} = 2 \times 52.10 = 104.20\)</span> kcal/mol. The small difference comes from treating H₂’s rotation classically.</p>
+</div>
+</div>
+<p><a href="#fig-levels" class="quarto-xref">Figure&nbsp;2</a> puts the three numbers side by side. For H₂ the ZPE is the biggest correction, about 6 kcal/mol, and the thermal correction is under 1 kcal/mol. For molecules with many hydrogen atoms the ZPE becomes large: tens of kcal/mol for the atomization of methane.</p>
+<div id="fig-levels" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Level diagram for H2 to 2 H with three arrows: De = 109.5 kcal/mol from the bottom of the well, D0 = 103.3 from the zero-point level, and Delta H 298 = 104.2 including thermal energy.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-levels-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/l13-h2-levels.png" class="img-fluid figure-img" style="width:85.0%" alt="Level diagram for H2 to 2 H with three arrows: De = 109.5 kcal/mol from the bottom of the well, D0 = 103.3 from the zero-point level, and Delta H 298 = 104.2 including thermal energy.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-levels-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Three “bond energies” of H₂, to scale: the electronic <span class="math inline">\(D_e\)</span> (what a single-point calculation gives), the spectroscopic <span class="math inline">\(D_0\)</span> (after removing the zero-point energy) and the reaction enthalpy at 298 K. Literature values; schematic layout.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="entropy-and-gibbs-energy" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="entropy-and-gibbs-energy"><span class="header-section-number">2.4</span> Entropy and Gibbs energy</h2>
+<p>The same partition functions give the entropy. Translation dominates, and it depends on the number of particles: breaking one molecule into two fragments gains a lot of translational entropy, about 30 cal mol⁻¹ K⁻¹ or more. At 298 K, <span class="math inline">\(T\Delta S\)</span> for a dissociation is typically 8–12 kcal/mol, so <span class="math inline">\(\Delta G\)</span> is much smaller than <span class="math inline">\(\Delta H\)</span>. Vibrational entropy comes mostly from soft modes, and the harmonic model treats very soft modes (internal rotations, floppy ligands) poorly. That makes computed entropies and Gibbs energies more uncertain than enthalpies. In this course we compare energies and enthalpies only.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Common mistakes with thermochemistry
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong>Frequencies at a non-optimized geometry.</strong> The harmonic analysis assumes a stationary point of the same method. The geometries in our experiments come from benchmark databases, not from your functional, so we don’t compute frequencies on them.</li>
+<li><strong>Mixing levels.</strong> ZPE and thermal corrections are often computed with a cheaper method than the electronic energy. That’s fine, but say so.</li>
+<li><strong>Comparing <span class="math inline">\(\Delta E_\mathrm{el}\)</span> with <span class="math inline">\(\Delta H_{298}\)</span>.</strong> For bond breaking the difference is several kcal/mol, larger than the chemical accuracy you are aiming for.</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="spinorbit-coupling-in-atoms" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="spinorbit-coupling-in-atoms"><span class="header-section-number">2.5</span> Spin–orbit coupling in atoms</h2>
+<p>Standard DFT, as used in this course, is nonrelativistic for the light atoms and scalar-relativistic for the heavy ones (Class 12). It ignores <strong>spin–orbit coupling</strong>, the interaction of the electron spin with its orbital motion. In an atom with orbital angular momentum <span class="math inline">\(L &gt; 0\)</span> and spin <span class="math inline">\(S &gt; 0\)</span>, spin–orbit coupling splits the term into levels with total angular momentum <span class="math inline">\(J = |L - S|, \dots, L + S\)</span>. A nonrelativistic calculation gives, approximately, the energy of the term <em>averaged</em> over all its levels. The real ground level lies below that average.</p>
+<p>The <strong>spin–orbit correction</strong> is the difference between the lowest level and the degeneracy-weighted average:</p>
+<p><span class="math display">\[
+\Delta E_\mathrm{SO} = E_{J,\mathrm{lowest}} - \frac{\sum_J (2J+1)\,E_J}{\sum_J (2J+1)} .
+\]</span></p>
+<p>It is always negative (or zero). Atoms in S states (H, N) have <span class="math inline">\(L = 0\)</span> and no first-order correction. Closed-shell molecules have none either. Open-shell atoms such as C, O, Cl and Fe do.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Worked example: the spin–orbit correction of the oxygen atom
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The ground term of O is ³P, with levels <span class="math inline">\(J = 2\)</span> at 0 cm⁻¹, <span class="math inline">\(J = 1\)</span> at 158.3 cm⁻¹ and <span class="math inline">\(J = 0\)</span> at 227.0 cm⁻¹. The weighted average is</p>
+<p><span class="math display">\[
+\bar E = \frac{5(0) + 3(158.3) + 1(227.0)}{5 + 3 + 1} = \frac{701.9}{9} = 78.0\ \text{cm}^{-1}.
+\]</span></p>
+<p>So <span class="math inline">\(\Delta E_\mathrm{SO} = 0 - 78.0 = -78.0\)</span> cm⁻¹ = <span class="math inline">\(-78.0 \times 0.0028591 = -0.22\)</span> kcal/mol. The same calculation for Cl (²P, <span class="math inline">\(J = 3/2\)</span> at 0 and <span class="math inline">\(J = 1/2\)</span> at 882.4 cm⁻¹) gives <span class="math inline">\(-\,2(882.4)/6 = -294.1\)</span> cm⁻¹ = −0.84 kcal/mol. For C it is −0.08 kcal/mol, and for Fe (⁵D, five levels up to 978 cm⁻¹) about −1.2 kcal/mol.</p>
+</div>
+</div>
+<p>Because the computed atoms are too high by <span class="math inline">\(|\Delta E_\mathrm{SO}|\)</span>, a computed atomization energy without spin–orbit coupling is too <em>large</em> by the sum of the atomic corrections. For O₃ → 3 O, that is 3 × 0.22 = 0.66 kcal/mol. Benchmark references such as W4-11 report values with spin–orbit effects removed <span class="citation" data-cites="karton2011">(<a href="#ref-karton2011" role="doc-biblioref">Karton et al. 2011</a>)</span>, so you can compare with them directly. An experimental number needs this correction first. For heavier atoms the correction grows quickly: for iodine it is several kcal/mol.</p>
+</section>
+<section id="atomization-energies-and-enthalpies-of-formation" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="atomization-energies-and-enthalpies-of-formation"><span class="header-section-number">2.6</span> Atomization energies and enthalpies of formation</h2>
+<p>The <strong>total atomization energy</strong> (TAE) of a molecule is the energy to separate it into ground-state atoms in the gas phase. For methane, CH₄ → C + 4 H. The <strong>standard enthalpy of formation</strong> <span class="math inline">\(\Delta_f H^\circ\)</span> is the enthalpy of forming the molecule from its <em>elements in their standard states</em> at 298.15 K and 1 bar: for methane, C(graphite) + 2 H₂(g) → CH₄(g).</p>
+<p>The two are not the same reaction. Graphite and H₂ gas are not atoms. To connect them you need the enthalpies of formation of the gas-phase atoms, which are themselves experimental numbers:</p>
+<p><span class="math display">\[
+\Delta H_{298}(\text{atomization of M}) = \sum_\text{atoms} \Delta_f H^\circ(\text{atom}, g) - \Delta_f H^\circ(\mathrm{M}, g).
+\]</span></p>
+<p>Then, to reach the electronic TAE that a calculation gives, you must remove the thermal enthalpies, add back the ZPE, and remove the spin–orbit corrections.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Worked example: from NIST to the atomization energy of methane
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>From the NIST WebBook <span class="citation" data-cites="nistwebbook">(<a href="#ref-nistwebbook" role="doc-biblioref">Linstrom and Mallard, n.d.</a>)</span>, in kJ/mol: <span class="math inline">\(\Delta_f H^\circ(\mathrm{C}, g) = 716.68\)</span>, <span class="math inline">\(\Delta_f H^\circ(\mathrm{H}, g) = 217.998\)</span> and <span class="math inline">\(\Delta_f H^\circ(\mathrm{CH_4}, g) = -74.87\)</span>. In kcal/mol (÷ 4.184): 171.29, 52.10 and −17.89. Then</p>
+<p><span class="math display">\[
+\Delta H_{298} = 171.29 + 4(52.10) - (-17.89) = 397.6\ \text{kcal/mol}.
+\]</span></p>
+<p>The W4-11 electronic reference used in Experiment 9 is 420.4 kcal/mol. The 22.8 kcal/mol between them is mostly the zero-point energy of methane (about 27.7 kcal/mol), partly offset by the thermal enthalpies (about +5 kcal/mol in favor of the five atoms) and carbon’s small spin–orbit correction (0.08 kcal/mol). Comparing a computed <span class="math inline">\(\Delta E_\mathrm{el}\)</span> with 397.6 would make any functional look about 23 kcal/mol wrong.</p>
+</div>
+</div>
+</section>
+<section id="experimental-uncertainty" class="level2" data-number="2.7">
+<h2 data-number="2.7" class="anchored" data-anchor-id="experimental-uncertainty"><span class="header-section-number">2.7</span> Experimental uncertainty</h2>
+<p>Experimental numbers come with error bars, and they matter. The enthalpy of formation of the H atom is known to ±0.006 kJ/mol. Values for small organic molecules are typically good to a few tenths of a kJ/mol. Gas-phase data for transition-metal compounds can be uncertain by several kcal/mol, comparable to the errors of a good functional. When you combine several values, uncertainties add in quadrature for independent errors:</p>
+<p><span class="math display">\[
+\sigma_{\Delta H} = \sqrt{\sum_i \nu_i^2\, \sigma_i^2}.
+\]</span></p>
+<p>If the experimental uncertainty is ±3 kcal/mol, a functional that agrees to within 1 kcal/mol is not “better” than one that is off by 2. Both are within the error bar. Before declaring a winner, check the experiment’s uncertainty.</p>
+</section>
+<section id="the-nist-chemistry-webbook" class="level2" data-number="2.8">
+<h2 data-number="2.8" class="anchored" data-anchor-id="the-nist-chemistry-webbook"><span class="header-section-number">2.8</span> The NIST Chemistry WebBook</h2>
+<p>The <a href="https://webbook.nist.gov/chemistry/">NIST Chemistry WebBook</a> <span class="citation" data-cites="nistwebbook">(<a href="#ref-nistwebbook" role="doc-biblioref">Linstrom and Mallard, n.d.</a>)</span> is the standard free source of gas-phase thermochemistry. To use it:</p>
+<ol type="1">
+<li>Search by <strong>formula</strong> (e.g.&nbsp;<code>FeCl</code>) or name, and choose the right species (check the structure and the phase).</li>
+<li>Open <strong>Gas phase thermochemistry data</strong>. Read <span class="math inline">\(\Delta_f H^\circ_\mathrm{gas}\)</span>, its <strong>units</strong> (usually kJ/mol) and its <strong>uncertainty</strong>.</li>
+<li>Note the <strong>reference</strong> for the value. Several measurements may be listed; prefer a recent evaluated compilation and say which you used.</li>
+<li>For atoms, search the element and take the gas-phase value (for example H, C, O, Cl, Fe).</li>
+<li>Convert with 1 kcal/mol = 4.184 kJ/mol, and use signed stoichiometric coefficients.</li>
+</ol>
+</section>
+</section>
+<section id="experiment-9-briefing" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Experiment 9 briefing</h1>
+<section id="goal" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="goal"><span class="header-section-number">3.1</span> Goal</h2>
+<p><a href="../experiments/ex09-experiment-vs-theory.html">Experiment 9</a> tests five methods on two bond dissociations and five atomization energies, all reactions that break molecules into radicals or atoms, and asks you to compare one of them with experimental data from NIST.</p>
+</section>
+<section id="the-reactions" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="the-reactions"><span class="header-section-number">3.2</span> The reactions</h2>
+<div id="tbl-ex09" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-ex09-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;2: Reactions and reference values of Experiment 9. The bond dissociations come from the Minnesota 2015B database <span class="citation" data-cites="yu2016a">(<a href="#ref-yu2016a" role="doc-biblioref">Yu et al. 2016</a>)</span>; the atomization energies from W4-11 <span class="citation" data-cites="karton2011">(<a href="#ref-karton2011" role="doc-biblioref">Karton et al. 2011</a>)</span> in GMTKN55 <span class="citation" data-cites="goerigk2017">(<a href="#ref-goerigk2017" role="doc-biblioref">Goerigk et al. 2017</a>)</span>.
+</figcaption>
+<div aria-describedby="tbl-ex09-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 23%">
+<col style="width: 23%">
+<col style="width: 30%">
+<col style="width: 23%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Label</th>
+<th>Reaction</th>
+<th style="text-align: right;">Reference <span class="math inline">\(\Delta E_\mathrm{el}\)</span> (kcal/mol)</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>9a</td>
+<td>(CH₃)₃C–OH → (CH₃)₃C· + ·OH</td>
+<td style="text-align: right;">115.02</td>
+<td>SR-MGN-BE107</td>
+</tr>
+<tr class="even">
+<td>9b</td>
+<td>FeCl → Fe + Cl</td>
+<td style="text-align: right;">78.5</td>
+<td>SR-TM-BE17</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>H₂ → 2 H</td>
+<td style="text-align: right;">109.5</td>
+<td>W4-11</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>CH₄ → C + 4 H</td>
+<td style="text-align: right;">420.4</td>
+<td>W4-11</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>NH₃ → N + 3 H</td>
+<td style="text-align: right;">298.0</td>
+<td>W4-11</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>H₂O → O + 2 H</td>
+<td style="text-align: right;">233.0</td>
+<td>W4-11</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>O₃ → 3 O</td>
+<td style="text-align: right;">147.4</td>
+<td>W4-11</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>All reference values are electronic energies (<span class="math inline">\(D_e\)</span>-like), so you compare your <span class="math inline">\(\Delta E_\mathrm{el}\)</span> with them directly. The exception is the NIST exercise for FeCl, where you do the opposite: start from experiment and see how far it is from the electronic reference.</p>
+<p><strong>Multiplicities to get right:</strong> H, OH, <em>tert</em>-butyl and Cl are doublets; C and O are triplets; N is a quartet; Fe is a quintet; FeCl is a sextet; all closed-shell molecules are singlets. The geometry files have them on line 2.</p>
+</section>
+<section id="methods-and-settings" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="methods-and-settings"><span class="header-section-number">3.3</span> Methods and settings</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Setting</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Methods</td>
+<td>MN15-L, MN15, B3LYP, PBE, HF</td>
+</tr>
+<tr class="even">
+<td>Basis set</td>
+<td>def2-TZVP (def2-QZVP would not fit the 10-minute limit for <em>tert</em>-butanol)</td>
+</tr>
+<tr class="odd">
+<td>Grid</td>
+<td>(99,590): <code>XC_GRID 000099000590</code></td>
+</tr>
+<tr class="even">
+<td>Stability</td>
+<td><code>INTERNAL_STABILITY TRUE</code> on every job</td>
+</tr>
+<tr class="odd">
+<td>Extra</td>
+<td>B3LYP/6-31G* for the three species of reaction 9a only</td>
+</tr>
+<tr class="even">
+<td>Jobs</td>
+<td>15 species × 5 methods + 3 = <strong>78</strong></td>
+</tr>
+</tbody>
+</table>
+<p>The website’s inputs already contain the grid and the stability keyword. Everything you learned in Classes 11 and 12 is switched on.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Worked example: signs in an atomization reaction
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For CH₄ → C + 4 H, the coefficients are ν(CH₄) = −1, ν(C) = +1, ν(H) = +4:</p>
+<p><span class="math display">\[
+\Delta E = E(\mathrm{C}) + 4\,E(\mathrm{H}) - E(\mathrm{CH_4}).
+\]</span></p>
+<p>With total energies in <span class="math inline">\(E_h\)</span>, multiply the result by 627.5095. Forgetting the 4 in front of <span class="math inline">\(E(\mathrm{H})\)</span> is the most common error in this experiment. It gives a “reaction energy” off by three hydrogen atoms, about 3 × 0.5 <span class="math inline">\(E_h\)</span> ≈ 940 kcal/mol. A number that far from the reference should stop you immediately.</p>
+</div>
+</div>
+</section>
+<section id="pitfalls" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="pitfalls"><span class="header-section-number">3.4</span> Pitfalls</h2>
+<ul>
+<li><strong>Big numbers, small relative errors.</strong> An error of 4 kcal/mol is 1% of methane’s atomization energy but 3.6% of H₂’s. The <strong>relative errors</strong> chart puts them on the same footing; look at both.</li>
+<li><strong>The H atom is used many times.</strong> An error in <span class="math inline">\(E(\mathrm{H})\)</span> is multiplied by 4 in CH₄ → C + 4 H. Check that every H-atom job used the right method.</li>
+<li><strong>Radicals and atoms.</strong> Every product in this experiment is open-shell. Check ⟨S²⟩ in each output (Class 12).</li>
+<li><strong>Time.</strong> <em>tert</em>-Butanol with def2-TZVP, (99,590) and stability analysis is the largest job. If MN15 or MN15-L is slow, start those first.</li>
+</ul>
+</section>
+<section id="the-nist-exercise" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="the-nist-exercise"><span class="header-section-number">3.5</span> The NIST exercise</h2>
+<p>The <strong>Theory meets experiment</strong> panel asks for <span class="math inline">\(\Delta_f H^\circ\)</span> of FeCl(g), Fe(g) and Cl(g) from the NIST WebBook. It computes the experimental bond enthalpy at 298 K and compares it with the electronic reference of 78.5 kcal/mol. Your job is to explain the difference with the corrections of this class: ZPE (small for a heavy diatomic with a low frequency), thermal enthalpy, spin–orbit coupling in the Fe and Cl atoms and in FeCl itself, and the experimental uncertainty. Estimate each one if you can.</p>
+<p>Before you run anything, think back to Class 9 and make your predictions: which methods include electron correlation, which reactions have no error cancellation between reactants and products, and which basis-set behavior from Experiment 6 might return for <em>tert</em>-butanol?</p>
+</section>
+<section id="key-points" class="level2" data-number="3.6">
+<h2 data-number="3.6" class="anchored" data-anchor-id="key-points"><span class="header-section-number">3.6</span> Key points</h2>
+<ul>
+<li>Stability analysis changes nothing for most species and a lot for a few. Check every species; a stable solution can still have a large functional error.</li>
+<li>Transition-metal SCF calculations often fail to converge. Expect it, and use stability analysis.</li>
+<li>A single-point calculation gives <span class="math inline">\(\Delta E_\mathrm{el}\)</span>. Experiments give <span class="math inline">\(D_0\)</span>, <span class="math inline">\(\Delta H_T\)</span> or <span class="math inline">\(\Delta G_T\)</span>.</li>
+<li><span class="math inline">\(\Delta E_0 = \Delta E_\mathrm{el} + \Delta\mathrm{ZPE}\)</span>, with ZPE = ½ Σ <span class="math inline">\(hc\tilde\nu_k\)</span> from harmonic frequencies at an optimized geometry. <span class="math inline">\(D_0 = D_e - \mathrm{ZPE}\)</span>.</li>
+<li>Thermal enthalpy at 298 K: <span class="math inline">\(\tfrac{3}{2}RT\)</span> translation, <span class="math inline">\(RT\)</span> or <span class="math inline">\(\tfrac{3}{2}RT\)</span> rotation, a vibrational term from soft modes, and <span class="math inline">\(RT\)</span> for <span class="math inline">\(pV\)</span>.</li>
+<li>Open-shell atoms with <span class="math inline">\(L &gt; 0\)</span> need a spin–orbit correction (O: −0.22, Cl: −0.84 kcal/mol). Without it, computed atomization energies are too large.</li>
+<li>An atomization energy is not an enthalpy of formation. Connect them through the enthalpies of formation of the gas-phase atoms.</li>
+<li>Always check the experimental uncertainty before ranking methods.</li>
+</ul>
+</section>
+<section id="study-questions" class="level2" data-number="3.7">
+<h2 data-number="3.7" class="anchored" data-anchor-id="study-questions"><span class="header-section-number">3.7</span> Study questions</h2>
+<ol type="1">
+<li>In Experiment 8, the stability analysis lowered the excited state of one atom by 40 kcal/mol and its ground state by 25 kcal/mol. By how much and in which direction did the excitation energy change?</li>
+<li>Give two reasons why a stable SCF solution can still give a large error for an atomic excitation energy.</li>
+<li>Order <span class="math inline">\(\Delta E_\mathrm{el}\)</span>, <span class="math inline">\(\Delta E_0\)</span> and <span class="math inline">\(\Delta H_{298}\)</span> for the dissociation of H₂, from largest to smallest, and explain the order.</li>
+<li>The harmonic wavenumber of HCl is about 2990 cm⁻¹. Estimate its ZPE in kcal/mol, neglecting anharmonicity.</li>
+<li>Show that the thermal part of <span class="math inline">\(\Delta H_{298}\)</span> for a diatomic AB → A + B is about <span class="math inline">\(\tfrac{3}{2}RT\)</span> when the vibrational frequency is high. What changes if the frequency is 300 cm⁻¹?</li>
+<li>Why do atoms in S states (H, N) need no spin–orbit correction? Why does the correction make computed atomization energies too large?</li>
+<li>The F atom has a ²P term with levels at 0 (<span class="math inline">\(J = 3/2\)</span>) and 404.1 cm⁻¹ (<span class="math inline">\(J = 1/2\)</span>). Compute its spin–orbit correction in kcal/mol.</li>
+<li>Explain why you can’t compare a computed atomization energy of water with <span class="math inline">\(\Delta_f H^\circ(\mathrm{H_2O}, g)\)</span>. List the data you need to connect them.</li>
+<li>A functional gives a bond energy within 1.5 kcal/mol of an experimental value with an uncertainty of ±3 kcal/mol. Another gives 2.5 kcal/mol. Can you say one is better?</li>
+<li>Why is <span class="math inline">\(\Delta G\)</span> for a dissociation reaction much smaller than <span class="math inline">\(\Delta H\)</span> at room temperature?</li>
+</ol>
+</section>
+<section id="further-reading" class="level2" data-number="3.8">
+<h2 data-number="3.8" class="anchored" data-anchor-id="further-reading"><span class="header-section-number">3.8</span> Further reading</h2>
+<ul>
+<li>C. J. Cramer and D. G. Truhlar, “Density functional theory for transition metals and transition metal chemistry” <span class="citation" data-cites="cramer2009">(<a href="#ref-cramer2009" role="doc-biblioref">Cramer and Truhlar 2009</a>)</span>: spin states, multireference character and practical advice.</li>
+<li>W. Zhang, D. G. Truhlar and M. Tang, and X. Xu et al., on comparing computed and experimental bond energies of transition-metal compounds <span class="citation" data-cites="zhang2013 xu2015">(<a href="#ref-zhang2013" role="doc-biblioref">Zhang et al. 2013</a>; <a href="#ref-xu2015" role="doc-biblioref">Xu et al. 2015</a>)</span>.</li>
+<li>A. Karton, S. Daon and J. M. L. Martin, the W4-11 dataset <span class="citation" data-cites="karton2011">(<a href="#ref-karton2011" role="doc-biblioref">Karton et al. 2011</a>)</span>: how electronic reference values are built from experiment and high-level theory.</li>
+<li>L. A. Curtiss et al.&nbsp;on the G2 test set <span class="citation" data-cites="curtiss1997">(<a href="#ref-curtiss1997" role="doc-biblioref">Curtiss et al. 1997</a>)</span>: a standard source for spin–orbit and thermal corrections in thermochemistry.</li>
+<li>W. Koch and M. C. Holthausen, <em>A Chemist’s Guide to Density Functional Theory</em> <span class="citation" data-cites="koch2001">(<a href="#ref-koch2001" role="doc-biblioref">Koch and Holthausen 2001</a>)</span>, the chapters on thermochemistry and harmonic frequencies.</li>
+<li>The NIST Chemistry WebBook <span class="citation" data-cites="nistwebbook">(<a href="#ref-nistwebbook" role="doc-biblioref">Linstrom and Mallard, n.d.</a>)</span>.</li>
+<li>For a review of statistical thermodynamics, see the <a href="https://peverati.github.io/pchem2/">P-Chem 2 textbook</a>.</li>
+</ul>
+
+
+
+</section>
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-cao2019" class="csl-entry" role="listitem">
+Cao, L., and U. Ryde. 2019. <em>Phys. Chem. Chem. Phys.</em> 21: 2480–88.
+</div>
+<div id="ref-cramer2009" class="csl-entry" role="listitem">
+Cramer, C. J., and D. G. Truhlar. 2009. <em>Phys. Chem. Chem. Phys.</em> 11: 10757–816.
+</div>
+<div id="ref-curtiss1997" class="csl-entry" role="listitem">
+Curtiss, L. A., K. Raghavachari, P. C. Redfern, and J. A. J. Pople. 1997. <em>Chem. Phys.</em> 106: 1063–79.
+</div>
+<div id="ref-goerigk2017" class="csl-entry" role="listitem">
+Goerigk, L., A. Hansen, C. Bauer, S. Ehrlich, A. Najibi, and S. Grimme. 2017. <em>Phys. Chem. Chem. Phys.</em> 19: 32184–215.
+</div>
+<div id="ref-karton2011" class="csl-entry" role="listitem">
+Karton, A., S. Daon, and J. M. L. Martin. 2011. <em>Chem. Phys. Lett.</em> 510: 165–78.
+</div>
+<div id="ref-koch2001" class="csl-entry" role="listitem">
+Koch, W., and M. C. Holthausen. 2001. <em>A Chemist’s Guide to Density Functional Theory</em>. 2nd ed. Wiley-VCH.
+</div>
+<div id="ref-nistwebbook" class="csl-entry" role="listitem">
+Linstrom, P. J., and W. G. Mallard. n.d. <em><span>NIST</span> Chemistry <span>WebBook</span>, <span>NIST</span> Standard Reference Database Number 69</em>. <a href="https://webbook.nist.gov/chemistry/" class="uri">Https://webbook.nist.gov/chemistry/</a>; National Institute of Standards; Technology. <a href="https://doi.org/10.18434/T4D303">https://doi.org/10.18434/T4D303</a>.
+</div>
+<div id="ref-xu2015" class="csl-entry" role="listitem">
+Xu, X., W. Zhang, M. Tang, and D. G. J. Truhlar. 2015. <em>Chem. Theory Comput.</em> 11: 2036–52.
+</div>
+<div id="ref-yu2016a" class="csl-entry" role="listitem">
+Yu, H. S., X. He, S. L. Li, and D. G. Truhlar. 2016. <em>Chem. Sci.</em> 7: 5032–51.
+</div>
+<div id="ref-zhang2013" class="csl-entry" role="listitem">
+Zhang, W., D. G. Truhlar, and M. J. Tang. 2013. <em>Chem. Theory Comput.</em> 9: 3965–77.
+</div>
+</div></section></div></main> <!-- /main -->
+<!-- Peverati lab logo at the top right of the navbar (light and dark versions). -->
+<script>
+(function () {
+  var css = document.querySelector('link[href$="styles.css"]');
+  var root = css ? css.getAttribute("href").replace(/styles\.css$/, "") : "";
+  var nav = document.querySelector("#quarto-header nav.navbar .navbar-container") ||
+            document.querySelector("#quarto-header nav.navbar .container-fluid");
+  if (!nav) return;
+  var a = document.createElement("a");
+  a.className = "lab-logo";
+  a.href = "https://peverati.github.io";
+  a.title = "Peverati research group";
+  // Both versions are inserted; CSS shows the one that matches the light/dark theme.
+  a.innerHTML =
+    '<img class="logo-for-light" src="' + root + 'images/logo-light.png" alt="Peverati research group logo">' +
+    '<img class="logo-for-dark" src="' + root + 'images/logo-dark.png" alt="Peverati research group logo">';
+  nav.appendChild(a);
+})();
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const toggle = window.document.createElement('button');
+      toggle.type = "button";
+      toggle.setAttribute("role", "switch");
+      toggle.setAttribute("aria-checked", "false");
+      toggle.classList.add('top-right');
+      toggle.classList.add('quarto-color-scheme-toggle');
+      toggle.setAttribute("aria-label", "Toggle dark mode");
+      toggle.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      toggle.appendChild(i);
+      // Put the toggle in a landmark of its own, so that landmark navigation
+      // can reach it.
+      //
+      // The container is always a fresh direct child of body, and the toggle is
+      // never moved into page furniture that the theme or the author controls.
+      // The toggle is positioned against the page, so any ancestor that
+      // establishes a containing block captures it: a positioned element or a
+      // grid for position: absolute, and transform, filter, will-change or
+      // contain for position: fixed. A direct child of body has none of these
+      // to inherit, and the shift when one appears is silent and visual.
+      //
+      // ARIA says a document should have at most one banner, and axe reports a
+      // duplicate whether or not the banners carry distinct labels. So use a
+      // header when the page has no banner yet, and a named region otherwise.
+      //
+      // A header is a banner wherever it sits, unless it is inside sectioning
+      // content, so this cannot just look at the children of body: a custom
+      // page layout wraps the title block header in a plain div. An explicit
+      // role="banner" always counts.
+      const sectioning = 'article, aside, main, nav, section, [role="article"], [role="complementary"], [role="main"], [role="navigation"], [role="region"]';
+      const hasBanner = Array.from(
+        window.document.querySelectorAll('header:not([role]), [role="banner"]')
+      ).some(function(el) {
+        return el.hasAttribute("role") || el.closest(sectioning) === null;
+      });
+      const container = window.document.createElement(hasBanner ? "div" : "header");
+      if (hasBanner) {
+        container.setAttribute("role", "region");
+        container.setAttribute("aria-label", "Toggle dark mode");
+      }
+      container.classList.add('quarto-color-scheme-toggle-container');
+      container.appendChild(toggle);
+      window.document.body.appendChild(container);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/peverati\.github\.io\/advpchem\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+          if (!link.classList.contains('no-external-icon')) {
+          }
+        }
+      }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          // Each band is positioned against its own containing block, which is
+          // not the offsetParent of the lines, so place it from client rects.
+          const placeBand = (band, firstEl, lastEl, codeBlock) => {
+            const container = band.offsetParent;
+            if (container === null) {
+              return;
+            }
+            const containerRect = container.getBoundingClientRect();
+            // Reveal.js scales slides with a transform, so convert client
+            // pixels back to the CSS pixels of the container.
+            const scale = containerRect.height / container.offsetHeight || 1;
+            const firstRect = firstEl.getBoundingClientRect();
+            const lastRect = lastEl.getBoundingClientRect();
+            const top = (firstRect.top - containerRect.top) / scale - container.clientTop + container.scrollTop;
+            const height = (lastRect.bottom - firstRect.top) / scale;
+            band.style.top = top - 2 + "px";
+            band.style.height = height + 4 + "px";
+            if (codeBlock) {
+              // Without the copy button wrapper, the containing block is wider
+              // than the code block, so span the code block explicitly.
+              const blockRect = codeBlock.getBoundingClientRect();
+              band.style.left = (blockRect.left - containerRect.left) / scale - container.clientLeft + container.scrollLeft + "px";
+              band.style.width = blockRect.width / scale + "px";
+            }
+          };
+          if (lineIds.length > 0) {
+            const el = window.document.getElementById(lineIds[0]);
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const parent = el.parentElement.parentElement;
+            // cook up a div (if necessary) and position it
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            placeBand(div, el, lastEl, parent.closest("div.sourceCode") || parent);
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            placeBand(gutterDiv, el, lastEl);
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+  <script type="application/javascript">
+  window.quartoScrollableRegionsLabels = {"code":"Scrollable code","output":"Scrollable output"};
+  </script>
+<nav class="page-navigation" aria-label="Page">
+  <div class="nav-page nav-page-previous">
+      <a href="../lectures/l12-scf-stability.html" class="pagination-link" aria-label="Class 12 · SCF stability, open shells and transition metals">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Class 12 · SCF stability, open shells and transition metals</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../lectures/l14-choosing-a-method.html" class="pagination-link" aria-label="Class 14 · Choosing, running and reporting a method">
+        <span class="nav-page-text">Class 14 · Choosing, running and reporting a method</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Advanced Physical Chemistry · Florida Institute of Technology</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>Experiments adapted from Morgante &amp; Peverati, <em>Int. J. Quantum Chem.</em> <strong>2020</strong></p>
+</div>
+  </div>
+</footer>
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

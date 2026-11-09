@@ -1,0 +1,1812 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.11.9">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="description" content="The Hohenberg–Kohn theorems, the Kohn–Sham equations, the exchange–correlation energy, and the local spin-density approximation.">
+
+<title>Class 5 · Approximating the Hamiltonian II: density functional theory – Computational Chemistry Lab</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../lectures/l06-jacobs-ladder.html" rel="next">
+<link href="../lectures/l04-hartree-fock.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-447e42e69aaa9833c0ba1b986f430b20.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-56996c7b5257095e64120a8d6d543cad.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-9953095112a8816cde90456e6de52415.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-56996c7b5257095e64120a8d6d543cad.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<script src="https://cdn.jsdelivr.net/npm/3dmol@2.4.2/build/3Dmol-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-sidebar floating nav-fixed quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          toggle.setAttribute("aria-checked", alternate ? "true" : "false");
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455).
+    // Not run on load: stylesheets are set before first paint there, and
+    // scrolling would undo the scroll to a URL fragment (#14973).
+    // The one pixel nudge keeps the reader where they were.
+    const refreshSafariScrollbar = () => {
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        const scrollY = window.scrollY;
+        window.scrollTo(0, scrollY > 0 ? scrollY - 1 : 1);
+        setTimeout(() => {
+          window.scrollTo(0, scrollY);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      refreshSafariScrollbar();
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark" aria-label="Site">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Computational Chemistry Lab</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-guides" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Guides</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-guides">    
+        <li>
+    <a class="dropdown-item" href="../guides/iqmol-setup.html">
+ <span class="dropdown-text">Install IQmol and connect to Q-Chem</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../guides/first-job.html">
+ <span class="dropdown-text">Your first Q-Chem job</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../guides/reading-output.html">
+ <span class="dropdown-text">Reading a Q-Chem output</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../guides/shared-machines.html">
+ <span class="dropdown-text">Working on a shared machine</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../guides/units-and-errors.html">
+ <span class="dropdown-text">Units, reaction energies and errors</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-lectures" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Lectures</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-lectures">    
+        <li>
+    <a class="dropdown-item" href="../lectures/index.html">
+ <span class="dropdown-text">All lectures</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l01-molecular-schrodinger.html">
+ <span class="dropdown-text">1 · The molecular Schrödinger equation</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l02-basis-sets.html">
+ <span class="dropdown-text">2 · Basis sets</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l03-from-theory-to-a-calculation.html">
+ <span class="dropdown-text">3 · From theory to a calculation</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l04-hartree-fock.html">
+ <span class="dropdown-text">4 · Hartree–Fock and the SCF</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l05-density-functional-theory.html">
+ <span class="dropdown-text">5 · Density functional theory</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l06-jacobs-ladder.html">
+ <span class="dropdown-text">6 · Jacob’s ladder</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l07-benchmarking.html">
+ <span class="dropdown-text">7 · How we test a functional</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l08-dispersion.html">
+ <span class="dropdown-text">8 · Dispersion</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l09-difficult-cases.html">
+ <span class="dropdown-text">9 · Difficult cases for DFT</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l10-error-cancellation.html">
+ <span class="dropdown-text">10 · Basis-set vs functional error</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l11-integration-grids.html">
+ <span class="dropdown-text">11 · Integration grids</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l12-scf-stability.html">
+ <span class="dropdown-text">12 · SCF stability and transition metals</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l13-theory-vs-experiment.html">
+ <span class="dropdown-text">13 · Theory vs experiment</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l14-choosing-a-method.html">
+ <span class="dropdown-text">14 · Choosing a method</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l15-wrap-up.html">
+ <span class="dropdown-text">15 · What we learned</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-experiments" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Experiments</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-experiments">    
+        <li>
+    <a class="dropdown-item" href="../experiments/ex01-basis-sets.html">
+ <span class="dropdown-text">Experiment 1: Basis Set Incompleteness Error</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex02-jacobs-ladder.html">
+ <span class="dropdown-text">Experiment 2: Jacob’s Ladder</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex03-organic-a.html">
+ <span class="dropdown-text">Experiment 3: Applying DFT to Organic Chemistry – Part A</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex04-organic-b.html">
+ <span class="dropdown-text">Experiment 4: Applying DFT to Organic Chemistry – Part B</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex05-difficult-cases.html">
+ <span class="dropdown-text">Experiment 5: Difficult Cases for DFT</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex06-b3lyp-631gs.html">
+ <span class="dropdown-text">Experiment 6: Why is the B3LYP/6-31G* Level of Theory so Successful?</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex07-grids.html">
+ <span class="dropdown-text">Experiment 7: Integration Grids</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex08-stability.html">
+ <span class="dropdown-text">Experiment 8: Stability Analysis and Transition Metals</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex09-experiment-vs-theory.html">
+ <span class="dropdown-text">Experiment 9: Comparison with Experimental Results</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex10-final-review.html">
+ <span class="dropdown-text">Experiment 10: Final Review</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="../class-results.html"> 
+<span class="menu-text">Class results</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <button type="button" role="switch" aria-checked="false" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode" aria-label="Toggle dark mode"><i class="bi"></i></button>
+</div>
+            <div id="quarto-search" class="" title="Search"></div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav" aria-label="Toolbar">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../lectures/l05-density-functional-theory.html">Class 5 · Approximating the Hamiltonian II: density functional theory</a></li></ol></nav>
+        <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto" aria-label="Section">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lectures</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l01-molecular-schrodinger.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 1 · The molecular Schrödinger equation</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l02-basis-sets.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 2 · Approximating the wave function: basis sets</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l03-from-theory-to-a-calculation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 3 · From theory to a calculation: IQmol, Q-Chem and Experiment 1</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l04-hartree-fock.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 4 · Approximating the Hamiltonian I: Hartree–Fock and the SCF</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l05-density-functional-theory.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Class 5 · Approximating the Hamiltonian II: density functional theory</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l06-jacobs-ladder.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 6 · Approximating the Hamiltonian III: Jacob’s ladder</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l07-benchmarking.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 7 · How we test a functional</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l08-dispersion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 8 · Dispersion and noncovalent interactions</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l09-difficult-cases.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 9 · Why some reactions are hard for DFT</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l10-error-cancellation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 10 · Basis-set error vs functional error</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l11-integration-grids.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 11 · Numerical integration grids</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l12-scf-stability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 12 · SCF stability, open shells and transition metals</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l13-theory-vs-experiment.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 13 · From electronic energies to experiment</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l14-choosing-a-method.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 14 · Choosing, running and reporting a method</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l15-wrap-up.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 15 · What we learned</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" aria-labelledby="toc-title" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#why-look-beyond-the-wave-function" id="toc-why-look-beyond-the-wave-function" class="nav-link active" data-scroll-target="#why-look-beyond-the-wave-function"><span class="header-section-number">1</span> Why look beyond the wave function?</a></li>
+  <li><a href="#the-electron-density" id="toc-the-electron-density" class="nav-link" data-scroll-target="#the-electron-density"><span class="header-section-number">2</span> The electron density</a>
+  <ul class="collapse">
+  <li><a href="#definition-and-properties" id="toc-definition-and-properties" class="nav-link" data-scroll-target="#definition-and-properties"><span class="header-section-number">2.1</span> Definition and properties</a></li>
+  <li><a href="#the-cusp-argument-a-hint-that-the-density-is-enough" id="toc-the-cusp-argument-a-hint-that-the-density-is-enough" class="nav-link" data-scroll-target="#the-cusp-argument-a-hint-that-the-density-is-enough"><span class="header-section-number">2.2</span> The cusp argument: a hint that the density is enough</a></li>
+  </ul></li>
+  <li><a href="#the-hohenbergkohn-theorems" id="toc-the-hohenbergkohn-theorems" class="nav-link" data-scroll-target="#the-hohenbergkohn-theorems"><span class="header-section-number">3</span> The Hohenberg–Kohn theorems</a></li>
+  <li><a href="#a-cautionary-tale-thomasfermi-theory" id="toc-a-cautionary-tale-thomasfermi-theory" class="nav-link" data-scroll-target="#a-cautionary-tale-thomasfermi-theory"><span class="header-section-number">4</span> A cautionary tale: Thomas–Fermi theory</a></li>
+  <li><a href="#the-kohnsham-scheme" id="toc-the-kohnsham-scheme" class="nav-link" data-scroll-target="#the-kohnsham-scheme"><span class="header-section-number">5</span> The Kohn–Sham scheme</a>
+  <ul class="collapse">
+  <li><a href="#a-fictitious-system-with-the-real-density" id="toc-a-fictitious-system-with-the-real-density" class="nav-link" data-scroll-target="#a-fictitious-system-with-the-real-density"><span class="header-section-number">5.1</span> A fictitious system with the real density</a></li>
+  <li><a href="#the-kohnsham-energy-decomposition" id="toc-the-kohnsham-energy-decomposition" class="nav-link" data-scroll-target="#the-kohnsham-energy-decomposition"><span class="header-section-number">5.2</span> The Kohn–Sham energy decomposition</a></li>
+  <li><a href="#the-kohnsham-equations" id="toc-the-kohnsham-equations" class="nav-link" data-scroll-target="#the-kohnsham-equations"><span class="header-section-number">5.3</span> The Kohn–Sham equations</a></li>
+  </ul></li>
+  <li><a href="#the-first-approximation-the-local-spin-density-approximation" id="toc-the-first-approximation-the-local-spin-density-approximation" class="nav-link" data-scroll-target="#the-first-approximation-the-local-spin-density-approximation"><span class="header-section-number">6</span> The first approximation: the local spin-density approximation</a>
+  <ul class="collapse">
+  <li><a href="#the-uniform-electron-gas" id="toc-the-uniform-electron-gas" class="nav-link" data-scroll-target="#the-uniform-electron-gas"><span class="header-section-number">6.1</span> The uniform electron gas</a></li>
+  <li><a href="#lsda-exchange" id="toc-lsda-exchange" class="nav-link" data-scroll-target="#lsda-exchange"><span class="header-section-number">6.2</span> LSDA exchange</a></li>
+  <li><a href="#lsda-correlation" id="toc-lsda-correlation" class="nav-link" data-scroll-target="#lsda-correlation"><span class="header-section-number">6.3</span> LSDA correlation</a></li>
+  <li><a href="#what-lsda-gets-right-and-what-it-gets-wrong" id="toc-what-lsda-gets-right-and-what-it-gets-wrong" class="nav-link" data-scroll-target="#what-lsda-gets-right-and-what-it-gets-wrong"><span class="header-section-number">6.4</span> What LSDA gets right, and what it gets wrong</a></li>
+  </ul></li>
+  <li><a href="#how-a-dft-program-evaluates-e_xc-the-integration-grid" id="toc-how-a-dft-program-evaluates-e_xc-the-integration-grid" class="nav-link" data-scroll-target="#how-a-dft-program-evaluates-e_xc-the-integration-grid"><span class="header-section-number">7</span> How a DFT program evaluates <span class="math inline">\(E_{xc}\)</span>: the integration grid</a></li>
+  <li><a href="#sec-errors" id="toc-sec-errors" class="nav-link" data-scroll-target="#sec-errors"><span class="header-section-number">8</span> Known errors of approximate functionals</a></li>
+  <li><a href="#key-points" id="toc-key-points" class="nav-link" data-scroll-target="#key-points">Key points</a></li>
+  <li><a href="#study-questions" id="toc-study-questions" class="nav-link" data-scroll-target="#study-questions">Study questions</a></li>
+  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading">Further reading</a></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="l05-density-functional-theory.pdf"><i class="bi bi-file-pdf"></i>PDF handout</a></li><li><a href="l05-density-functional-theory.pdf"><i class="bi bi-file-pdf"></i>Typst</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content" tabindex="-1">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Class 5 · Approximating the Hamiltonian II: density functional theory</h1>
+<p class="subtitle lead">Why the electron density is enough, the Kohn–Sham trick, and the first approximation</p>
+</div>
+
+<div>
+  <div class="description">
+    The Hohenberg–Kohn theorems, the Kohn–Sham equations, the exchange–correlation energy, and the local spin-density approximation.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Learning goals
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>After studying this chapter you should be able to:</p>
+<ul>
+<li>define the electron density <span class="math inline">\(\rho(\mathbf{r})\)</span>, state its main properties, and explain why it is a much simpler object than the wave function;</li>
+<li>state the two <strong>Hohenberg–Kohn theorems</strong> and explain what they do and do not promise;</li>
+<li>explain why <strong>Thomas–Fermi</strong> theory, which uses only the density, fails for chemistry;</li>
+<li>describe the <strong>Kohn–Sham</strong> scheme: the non-interacting reference system, the energy decomposition <span class="math inline">\(E = T_s + E_{ne} + J + E_{xc}\)</span>, and the Kohn–Sham equations;</li>
+<li>explain what is inside the <strong>exchange–correlation energy</strong> <span class="math inline">\(E_{xc}\)</span> and why everything hard about DFT is in that one term;</li>
+<li>write the <strong>LSDA</strong> exchange energy and explain where LSDA correlation comes from;</li>
+<li>list what LSDA gets right and wrong, and name the three main error types of approximate functionals.</li>
+</ul>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Review from P-Chem 2 and from Class 4
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>The probability density <span class="math inline">\(|\Psi|^2\)</span> and the Born interpretation: <a href="https://peverati.github.io/pchem2/Postulates.html#postulate-1-the-wave-function-postulate">Postulate 1</a>.</li>
+<li>Radial distribution functions of the hydrogen atom: <a href="https://peverati.github.io/pchem2/Hydrogen.html#the-radial-wave-functions">The hydrogen atom, §5.1</a>. The density of the 1s orbital, <span class="math inline">\(\rho(r) = e^{-2r}/\pi\)</span>, is used in a worked example below.</li>
+<li>The variational method: <a href="https://peverati.github.io/pchem2/Atoms.html#variational-method">Many-electron atoms, §10.2.1</a>.</li>
+<li>From <a href="../lectures/l04-hartree-fock.html">Class 4</a>: the Fock operator, Coulomb and exchange, self-interaction, the SCF loop, and the definition of the correlation energy.</li>
+</ul>
+</div>
+</div>
+<section id="why-look-beyond-the-wave-function" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="why-look-beyond-the-wave-function"><span class="header-section-number">1</span> Why look beyond the wave function?</h2>
+<p>The many-electron wave function <span class="math inline">\(\Psi(\mathbf{x}_1, \ldots, \mathbf{x}_N)\)</span> depends on <span class="math inline">\(3N\)</span> spatial coordinates (plus <span class="math inline">\(N\)</span> spin coordinates). For benzene, with 42 electrons, that is a function of 126 variables. Suppose you wanted to store it on a coarse grid of only 10 points per coordinate: you would need <span class="math inline">\(10^{126}\)</span> numbers, far more than the number of atoms in the observable universe. Walter Kohn called this growth the “exponential wall” of wave-function methods <span class="citation" data-cites="kohn1999">(<a href="#ref-kohn1999" role="doc-biblioref">Kohn 1999</a>)</span>.</p>
+<p>Correlated wave-function methods avoid storing <span class="math inline">\(\Psi\)</span> on a grid, but they pay in a different currency: computer time. As you saw in <a href="../lectures/l04-hartree-fock.html">Class 4</a>, MP2 scales as <span class="math inline">\(N^5\)</span> and CCSD(T) as <span class="math inline">\(N^7\)</span> with system size. CCSD(T) on a molecule with 30 heavy atoms is a major undertaking, and on the 50–100 atoms of a typical catalyst or drug molecule it is out of reach for routine work.</p>
+<p>Yet most questions in chemistry are about one simple function: where the electrons are. The <strong>electron density</strong> <span class="math inline">\(\rho(\mathbf{r})\)</span> depends on only <strong>three</strong> coordinates, whatever the number of electrons. Density functional theory (DFT) is the theory that says this function is enough, in principle, to get the exact ground-state energy. In practice it is the method behind most of the quantum chemistry done today, and the method of almost every experiment in this course.</p>
+</section>
+<section id="the-electron-density" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="the-electron-density"><span class="header-section-number">2</span> The electron density</h2>
+<section id="definition-and-properties" class="level3" data-number="2.1">
+<h3 data-number="2.1" class="anchored" data-anchor-id="definition-and-properties"><span class="header-section-number">2.1</span> Definition and properties</h3>
+<p>The electron density is the probability of finding <em>any</em> electron at point <span class="math inline">\(\mathbf{r}\)</span>, with any spin, whatever the other electrons are doing:</p>
+<p><span id="eq-rho"><span class="math display">\[
+\rho(\mathbf{r}_1) = N \int \cdots \int \left|\Psi(\mathbf{x}_1, \mathbf{x}_2, \ldots, \mathbf{x}_N)\right|^2 d\omega_1\, d\mathbf{x}_2 \cdots d\mathbf{x}_N.
+\tag{1}\]</span></span></p>
+<p>We integrate <span class="math inline">\(|\Psi|^2\)</span> over the spin of electron 1 and over all coordinates of the other <span class="math inline">\(N-1\)</span> electrons. The factor <span class="math inline">\(N\)</span> appears because the electrons are indistinguishable: any of them could be the one at <span class="math inline">\(\mathbf{r}_1\)</span>. Its main properties are:</p>
+<ul>
+<li><strong>It integrates to the number of electrons</strong>: <span class="math inline">\(\int \rho(\mathbf{r})\,d\mathbf{r} = N\)</span>.</li>
+<li><strong>It is positive</strong> everywhere and decays to zero far from the molecule. The decay is exponential, <span class="math inline">\(\rho \propto e^{-2\sqrt{2I}\,r}\)</span>, where <span class="math inline">\(I\)</span> is the first ionization energy (in atomic units).</li>
+<li><strong>It has cusps at the nuclei.</strong> At each nucleus the density has a sharp peak whose slope is fixed by the nuclear charge (Kato’s cusp condition). So the density “knows” where the nuclei are and what their charges are.</li>
+<li><strong>It is an observable.</strong> X-ray diffraction measures the electron density of crystals, and electron-density maps are how crystallographers see molecules.</li>
+<li>For a single determinant (Hartree–Fock or Kohn–Sham), it is simply the sum of the occupied orbital densities: <span class="math inline">\(\rho(\mathbf{r}) = \sum_{i}^{\mathrm{occ}}|\varphi_i(\mathbf{r})|^2\)</span> (over spin orbitals).</li>
+</ul>
+<p>For open-shell systems we also use the <strong>spin densities</strong> <span class="math inline">\(\rho_\alpha(\mathbf{r})\)</span> and <span class="math inline">\(\rho_\beta(\mathbf{r})\)</span>, with <span class="math inline">\(\rho = \rho_\alpha + \rho_\beta\)</span>. Their difference, the spin density <span class="math inline">\(\rho_\alpha - \rho_\beta\)</span>, shows where the unpaired electrons are.</p>
+</section>
+<section id="the-cusp-argument-a-hint-that-the-density-is-enough" class="level3" data-number="2.2">
+<h3 data-number="2.2" class="anchored" data-anchor-id="the-cusp-argument-a-hint-that-the-density-is-enough"><span class="header-section-number">2.2</span> The cusp argument: a hint that the density is enough</h3>
+<p>Here is an informal argument, due to E. Bright Wilson, that the density should contain everything. From <span class="math inline">\(\rho\)</span> you can read off <span class="math inline">\(N\)</span> (integrate it), the positions of the nuclei (the cusps), and their charges (the slope at each cusp). But <span class="math inline">\(N\)</span>, the nuclear positions and the nuclear charges are all you need to write the electronic Hamiltonian (Class 1). With the Hamiltonian you can, in principle, solve for <span class="math inline">\(\Psi\)</span> and everything else. So the ground-state density determines the ground-state wave function. The argument works only for Coulomb potentials. The general proof came in 1964.</p>
+</section>
+</section>
+<section id="the-hohenbergkohn-theorems" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="the-hohenbergkohn-theorems"><span class="header-section-number">3</span> The Hohenberg–Kohn theorems</h2>
+<p>In the electronic Hamiltonian, the only part that depends on the molecule is the attraction to the nuclei. We collect it in the <strong>external potential</strong> <span class="math inline">\(v_{\mathrm{ext}}(\mathbf{r}) = -\sum_A Z_A/|\mathbf{r} - \mathbf{R}_A|\)</span>. The kinetic energy <span class="math inline">\(\hat T\)</span> and the electron–electron repulsion <span class="math inline">\(\hat V_{ee}\)</span> are the same for every molecule with <span class="math inline">\(N\)</span> electrons. In 1964 Pierre Hohenberg and Walter Kohn proved two theorems about this situation <span class="citation" data-cites="hohenberg1964">(<a href="#ref-hohenberg1964" role="doc-biblioref">Hohenberg and Kohn 1964</a>)</span>.</p>
+<p><strong>First theorem (existence).</strong> <em>The ground-state density determines the external potential, up to an additive constant.</em> Since <span class="math inline">\(v_{\mathrm{ext}}\)</span> and <span class="math inline">\(N\)</span> fix the Hamiltonian, the density determines the Hamiltonian, and therefore the ground-state wave function, the energy, and every other ground-state property.</p>
+<p>The proof is short. Suppose two different external potentials <span class="math inline">\(v\)</span> and <span class="math inline">\(v'\)</span> (with Hamiltonians <span class="math inline">\(\hat H\)</span> and <span class="math inline">\(\hat H'\)</span>, and nondegenerate ground states <span class="math inline">\(\Psi\)</span> and <span class="math inline">\(\Psi'\)</span>) gave the same ground-state density <span class="math inline">\(\rho\)</span>. Use <span class="math inline">\(\Psi'\)</span> as a trial function for <span class="math inline">\(\hat H\)</span>. By the variational principle,</p>
+<p><span class="math display">\[
+E_0 &lt; \langle\Psi'|\hat H|\Psi'\rangle = \langle\Psi'|\hat H'|\Psi'\rangle + \langle\Psi'|\hat H - \hat H'|\Psi'\rangle = E_0' + \int \left[v(\mathbf{r}) - v'(\mathbf{r})\right]\rho(\mathbf{r})\,d\mathbf{r}.
+\]</span></p>
+<p>Swapping the roles of the two systems gives <span class="math inline">\(E_0' &lt; E_0 + \int [v' - v]\rho\,d\mathbf{r}\)</span>. Adding the two inequalities gives <span class="math inline">\(E_0 + E_0' &lt; E_0' + E_0\)</span>, which is impossible. So two different potentials cannot give the same ground-state density.</p>
+<p><strong>Second theorem (variational principle).</strong> The ground-state energy is a <strong>functional</strong> of the density,</p>
+<p><span id="eq-hk"><span class="math display">\[
+E_v[\rho] = F[\rho] + \int v_{\mathrm{ext}}(\mathbf{r})\,\rho(\mathbf{r})\,d\mathbf{r},
+\tag{2}\]</span></span></p>
+<p>and it is minimized by the exact ground-state density. For any trial density <span class="math inline">\(\tilde\rho\)</span> that is positive and integrates to <span class="math inline">\(N\)</span> (with some technical conditions), <span class="math inline">\(E_v[\tilde\rho] \ge E_0\)</span>.</p>
+<p>A <em>functional</em> is a rule that takes a whole function and returns a number, just as <span class="math inline">\(E[\Psi] = \langle\Psi|\hat H|\Psi\rangle\)</span> takes a wave function and returns an energy. We write functionals with square brackets.</p>
+<p>The term <span class="math inline">\(F[\rho] = T[\rho] + V_{ee}[\rho]\)</span> is the <strong>universal functional</strong>: the kinetic and electron–electron energy of the electrons. “Universal” means it is the same for every atom, molecule or solid. Only <span class="math inline">\(v_{\mathrm{ext}}\)</span> changes from one system to another. Levy later gave a cleaner definition that removes most of the technical conditions: <span class="math inline">\(F[\rho]\)</span> is the lowest value of <span class="math inline">\(\langle\Psi|\hat T + \hat V_{ee}|\Psi\rangle\)</span> over all wave functions that give the density <span class="math inline">\(\rho\)</span> <span class="citation" data-cites="levy1979">(<a href="#ref-levy1979" role="doc-biblioref">Levy 1979</a>)</span>.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>What the theorems do not say
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The Hohenberg–Kohn theorems are existence proofs. They say that <span class="math inline">\(F[\rho]\)</span> exists, not what it is. Nobody knows the exact <span class="math inline">\(F[\rho]\)</span>, and it is very likely that nobody ever will, in a form that is cheap to evaluate. All of practical DFT is about approximating it. The theorems are about the <strong>ground state</strong>: excited states need extensions (time-dependent DFT), which we do not cover. And “DFT is exact” is true only for the exact functional. Every calculation you will run uses an approximation.</p>
+</div>
+</div>
+</section>
+<section id="a-cautionary-tale-thomasfermi-theory" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="a-cautionary-tale-thomasfermi-theory"><span class="header-section-number">4</span> A cautionary tale: Thomas–Fermi theory</h2>
+<p>The idea of using only the density is older than the theorems. In 1927, Thomas <span class="citation" data-cites="thomas1927">(<a href="#ref-thomas1927" role="doc-biblioref">Thomas 1927</a>)</span> and Fermi <span class="citation" data-cites="fermi1927">(<a href="#ref-fermi1927" role="doc-biblioref">Fermi 1927</a>)</span> wrote the energy of an atom as a functional of the density alone. They took the electrostatic terms exactly,</p>
+<p><span id="eq-classical"><span class="math display">\[
+E_{ne}[\rho] = \int v_{\mathrm{ext}}(\mathbf{r})\,\rho(\mathbf{r})\,d\mathbf{r}, \qquad J[\rho] = \frac{1}{2}\iint \frac{\rho(\mathbf{r})\,\rho(\mathbf{r}')}{|\mathbf{r} - \mathbf{r}'|}\,d\mathbf{r}\,d\mathbf{r}',
+\tag{3}\]</span></span></p>
+<p>and approximated the kinetic energy by that of a <strong>uniform electron gas</strong> (electrons in a box with a uniform positive background) evaluated at the local density:</p>
+<p><span class="math display">\[
+T_{\mathrm{TF}}[\rho] = C_F \int \rho(\mathbf{r})^{5/3}\,d\mathbf{r}, \qquad C_F = \frac{3}{10}\left(3\pi^2\right)^{2/3} \approx 2.871.
+\]</span></p>
+<p><span class="math inline">\(J[\rho]\)</span> is the <strong>Hartree energy</strong>: the classical self-repulsion of the charge cloud <span class="math inline">\(\rho\)</span>. It is the same as <span class="math inline">\(\frac{1}{2}\sum_{ij}J_{ij}\)</span> of Class 4, including the unphysical <span class="math inline">\(i = j\)</span> terms. Dirac soon added an exchange term of the same local form <span class="citation" data-cites="dirac1930">(<a href="#ref-dirac1930" role="doc-biblioref">Dirac 1930</a>)</span>, which we will meet again below.</p>
+<p>Thomas–Fermi theory gives rough total energies of heavy atoms, but it fails for chemistry in a spectacular way: it has no shell structure (the density decreases smoothly from the nucleus, with no K, L, M shells), and Teller proved in 1962 that <strong>no molecule is bound</strong> in Thomas–Fermi theory <span class="citation" data-cites="teller1962">(<a href="#ref-teller1962" role="doc-biblioref">Teller 1962</a>)</span>. Any molecule is always higher in energy than its separated atoms. The culprit is the kinetic energy. It is the largest energy term after the nuclear attraction, and the local formula above misses most of the subtle changes in kinetic energy that make chemical bonds. Orbital-free kinetic-energy functionals are still an active research topic, but they are not accurate enough for chemistry.</p>
+<p>The lesson for what follows: <strong>do not approximate the kinetic energy with a simple density functional.</strong></p>
+</section>
+<section id="the-kohnsham-scheme" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="the-kohnsham-scheme"><span class="header-section-number">5</span> The Kohn–Sham scheme</h2>
+<section id="a-fictitious-system-with-the-real-density" class="level3" data-number="5.1">
+<h3 data-number="5.1" class="anchored" data-anchor-id="a-fictitious-system-with-the-real-density"><span class="header-section-number">5.1</span> A fictitious system with the real density</h3>
+<p>In 1965, Kohn and Lu Jeu Sham found a way around the kinetic-energy problem <span class="citation" data-cites="kohn1965">(<a href="#ref-kohn1965" role="doc-biblioref">Kohn and Sham 1965</a>)</span>. The idea is to bring orbitals back, but only as a tool.</p>
+<p>Imagine a fictitious system of <span class="math inline">\(N\)</span> <strong>non-interacting</strong> electrons moving in some effective local potential <span class="math inline">\(v_s(\mathbf{r})\)</span>, chosen so that the density of this fictitious system is exactly equal to the density of the real, interacting molecule (<a href="#fig-ks" class="quarto-xref">Figure&nbsp;1</a>). A system of non-interacting electrons is easy: its exact wave function is a single Slater determinant of orbitals <span class="math inline">\(\varphi_i\)</span>, each obeying a one-electron Schrödinger equation. And its kinetic energy can be computed <strong>exactly</strong> from the orbitals:</p>
+<p><span id="eq-ts"><span class="math display">\[
+T_s[\rho] = \sum_{i=1}^{N}\left\langle\varphi_i\left|-\frac{1}{2}\nabla^2\right|\varphi_i\right\rangle.
+\tag{4}\]</span></span></p>
+<p><span class="math inline">\(T_s\)</span> is not the true kinetic energy <span class="math inline">\(T\)</span> of the interacting electrons, but it is close: typically it accounts for all but about 1% of it. It also contains the shell structure that Thomas–Fermi theory misses, because it is computed from orbitals.</p>
+<div id="fig-ks" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Two boxes connected by a double arrow labeled 'same rho(r)'. Left box: real molecule, N interacting electrons, Hamiltonian T plus V_ne plus V_ee, many-electron wave function. Right box: Kohn–Sham system, N non-interacting electrons in an effective potential v_s, one determinant of orbitals. Caption below: everything the KS system gets wrong is put into E_xc.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-ks-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/l05-kohn-sham-mapping.png" class="img-fluid figure-img" style="width:90.0%" alt="Two boxes connected by a double arrow labeled 'same rho(r)'. Left box: real molecule, N interacting electrons, Hamiltonian T plus V_ne plus V_ee, many-electron wave function. Right box: Kohn–Sham system, N non-interacting electrons in an effective potential v_s, one determinant of orbitals. Caption below: everything the KS system gets wrong is put into E_xc.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ks-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: The Kohn–Sham idea. The real, interacting molecule and a fictitious system of non-interacting electrons are linked by one requirement: they have the same electron density. The fictitious system is easy to solve (one Slater determinant). Everything it gets wrong compared with the real system is put into the exchange–correlation energy.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="the-kohnsham-energy-decomposition" class="level3" data-number="5.2">
+<h3 data-number="5.2" class="anchored" data-anchor-id="the-kohnsham-energy-decomposition"><span class="header-section-number">5.2</span> The Kohn–Sham energy decomposition</h3>
+<p>Kohn and Sham then rewrote the exact energy functional (<a href="#eq-hk" class="quarto-xref">Equation&nbsp;2</a>) by separating out the pieces we know how to compute:</p>
+<p><span id="eq-ks-energy"><span class="math display">\[
+E[\rho] = T_s[\rho] + \int v_{\mathrm{ext}}(\mathbf{r})\,\rho(\mathbf{r})\,d\mathbf{r} + J[\rho] + E_{xc}[\rho].
+\tag{5}\]</span></span></p>
+<p>The four terms are:</p>
+<div id="tbl-ks" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-ks-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;1: The Kohn–Sham energy decomposition. Only the last term must be approximated.
+</figcaption>
+<div aria-describedby="tbl-ks-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Term</th>
+<th>Name</th>
+<th>What it is</th>
+<th>Known exactly?</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(T_s[\rho]\)</span></td>
+<td>non-interacting kinetic energy</td>
+<td><a href="#eq-ts" class="quarto-xref">Equation&nbsp;4</a>, from the KS orbitals</td>
+<td>yes</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(E_{ne}[\rho] = \int v_{\mathrm{ext}}\rho\)</span></td>
+<td>electron–nuclear attraction</td>
+<td>classical attraction of <span class="math inline">\(\rho\)</span> to the nuclei</td>
+<td>yes</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(J[\rho]\)</span></td>
+<td>Hartree (Coulomb) energy</td>
+<td>classical self-repulsion of <span class="math inline">\(\rho\)</span> (<a href="#eq-classical" class="quarto-xref">Equation&nbsp;3</a>)</td>
+<td>yes</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(E_{xc}[\rho]\)</span></td>
+<td>exchange–correlation energy</td>
+<td>everything else</td>
+<td><strong>no</strong></td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>The <strong>exchange–correlation energy</strong> is <em>defined</em> as whatever is needed to make <a href="#eq-ks-energy" class="quarto-xref">Equation&nbsp;5</a> exact. Comparing with <span class="math inline">\(F[\rho] = T[\rho] + V_{ee}[\rho]\)</span>:</p>
+<p><span id="eq-exc"><span class="math display">\[
+E_{xc}[\rho] = \Big(T[\rho] - T_s[\rho]\Big) + \Big(V_{ee}[\rho] - J[\rho]\Big).
+\tag{6}\]</span></span></p>
+<p>So <span class="math inline">\(E_{xc}\)</span> collects three things:</p>
+<ol type="1">
+<li><strong>Exchange</strong>: the Pauli-principle correction to the classical repulsion (the <span class="math inline">\(-K\)</span> terms of Hartree–Fock), including the cancellation of the self-interaction contained in <span class="math inline">\(J[\rho]\)</span>.</li>
+<li><strong>Correlation</strong>: the extra lowering of the repulsion because electrons avoid each other dynamically.</li>
+<li><strong>The kinetic correlation energy</strong> <span class="math inline">\(T - T_s\)</span>: the difference between the true kinetic energy of interacting electrons and that of the non-interacting reference.</li>
+</ol>
+<p>It is customary to split <span class="math inline">\(E_{xc} = E_x + E_c\)</span>. The <strong>exchange</strong> part is defined as the Hartree–Fock-like exchange energy evaluated with the Kohn–Sham orbitals; everything else is <strong>correlation</strong>. Exchange is by far the larger piece. For the helium atom, <span class="math inline">\(E_x \approx -1.03\)</span> Eh and <span class="math inline">\(E_c \approx -0.042\)</span> Eh. For the hydrogen atom, with a single electron, <span class="math inline">\(E_x = -J = -0.3125\)</span> Eh and <span class="math inline">\(E_c = 0\)</span> exactly. Although it is a modest fraction of the total energy (about 10% for the neon atom, and less for heavier atoms), <span class="math inline">\(E_{xc}\)</span> is the “glue” that holds molecules together. Without it, as in Hartree’s original method, chemical bonding is very poorly described.</p>
+</section>
+<section id="the-kohnsham-equations" class="level3" data-number="5.3">
+<h3 data-number="5.3" class="anchored" data-anchor-id="the-kohnsham-equations"><span class="header-section-number">5.3</span> The Kohn–Sham equations</h3>
+<p>Minimizing <a href="#eq-ks-energy" class="quarto-xref">Equation&nbsp;5</a> with respect to the orbitals, under the constraint that they stay orthonormal, gives the <strong>Kohn–Sham equations</strong>:</p>
+<p><span id="eq-ks"><span class="math display">\[
+\left[-\frac{1}{2}\nabla^2 + v_{\mathrm{ext}}(\mathbf{r}) + v_J(\mathbf{r}) + v_{xc}(\mathbf{r})\right]\varphi_i(\mathbf{r}) = \varepsilon_i\,\varphi_i(\mathbf{r}).
+\tag{7}\]</span></span></p>
+<p>The operator in brackets is the <strong>Kohn–Sham operator</strong>. Its potential <span class="math inline">\(v_s = v_{\mathrm{ext}} + v_J + v_{xc}\)</span> has three parts:</p>
+<ul>
+<li><span class="math inline">\(v_{\mathrm{ext}}\)</span>, the attraction to the nuclei;</li>
+<li>the <strong>Hartree potential</strong> <span class="math inline">\(v_J(\mathbf{r}) = \int \rho(\mathbf{r}')/|\mathbf{r} - \mathbf{r}'|\,d\mathbf{r}'\)</span>, the electrostatic potential of the whole electron cloud (the same as <span class="math inline">\(\sum_j \hat J_j\)</span> in Hartree–Fock);</li>
+<li>the <strong>exchange–correlation potential</strong> <span class="math inline">\(v_{xc}(\mathbf{r}) = \delta E_{xc}/\delta\rho(\mathbf{r})\)</span>, the functional derivative of <span class="math inline">\(E_{xc}\)</span>. For the approximations of this chapter, it is simply a function of <span class="math inline">\(\mathbf{r}\)</span> computed from the density at (and near) that point.</li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>What is a functional derivative?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For an ordinary function <span class="math inline">\(f(x)\)</span>, the derivative tells you how much <span class="math inline">\(f\)</span> changes when you change <span class="math inline">\(x\)</span> a little. For a functional <span class="math inline">\(E[\rho]\)</span>, the <strong>functional derivative</strong> <span class="math inline">\(\delta E/\delta\rho(\mathbf{r})\)</span> tells you how much <span class="math inline">\(E\)</span> changes when you add a tiny bit of density at the point <span class="math inline">\(\mathbf{r}\)</span>. It is therefore itself a function of <span class="math inline">\(\mathbf{r}\)</span>: a potential. For a functional of the simple local form <span class="math inline">\(E[\rho] = \int g(\rho(\mathbf{r}))\,d\mathbf{r}\)</span>, the functional derivative is just the ordinary derivative of the integrand, <span class="math inline">\(\delta E/\delta\rho(\mathbf{r}) = g'(\rho(\mathbf{r}))\)</span>. For example, the LDA exchange energy introduced below, <span class="math inline">\(E_x = -C_x\int\rho^{4/3}\,d\mathbf{r}\)</span>, gives the exchange potential <span class="math inline">\(v_x(\mathbf{r}) = -\tfrac{4}{3}C_x\,\rho(\mathbf{r})^{1/3}\)</span>. The Hartree energy <span class="math inline">\(J[\rho]\)</span> gives the Hartree potential <span class="math inline">\(v_J\)</span> in the same way. This is how every term of the energy produces a term of the Kohn–Sham potential.</p>
+</div>
+</div>
+<p>Compare <a href="#eq-ks" class="quarto-xref">Equation&nbsp;7</a> with the Hartree–Fock equations of <a href="../lectures/l04-hartree-fock.html">Class 4</a>:</p>
+<div id="tbl-hf-ks" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-hf-ks-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;2: Hartree–Fock and Kohn–Sham side by side.
+</figcaption>
+<div aria-describedby="tbl-hf-ks-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th>Hartree–Fock</th>
+<th>Kohn–Sham DFT</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Wave function</td>
+<td>one Slater determinant, an approximation to <span class="math inline">\(\Psi\)</span></td>
+<td>one Slater determinant of a fictitious system; only its density is “real”</td>
+</tr>
+<tr class="even">
+<td>One-electron operator</td>
+<td><span class="math inline">\(\hat h + \sum_j(\hat J_j - \hat K_j)\)</span></td>
+<td><span class="math inline">\(\hat h + v_J + v_{xc}\)</span></td>
+</tr>
+<tr class="odd">
+<td>Exchange</td>
+<td>exact, nonlocal (<span class="math inline">\(\hat K\)</span>)</td>
+<td>approximate, inside the local <span class="math inline">\(v_{xc}\)</span></td>
+</tr>
+<tr class="even">
+<td>Correlation</td>
+<td>none</td>
+<td>approximate, inside <span class="math inline">\(v_{xc}\)</span></td>
+</tr>
+<tr class="odd">
+<td>Exact if…</td>
+<td>never (misses <span class="math inline">\(E_{\mathrm{corr}}\)</span>)</td>
+<td>the exact <span class="math inline">\(E_{xc}\)</span> were known</td>
+</tr>
+<tr class="even">
+<td>Equations in a basis</td>
+<td><span class="math inline">\(\mathbf{FC} = \mathbf{SC}\boldsymbol\varepsilon\)</span></td>
+<td><span class="math inline">\(\mathbf{FC} = \mathbf{SC}\boldsymbol\varepsilon\)</span>, with <span class="math inline">\(F_{\mu\nu} = H^{\mathrm{core}}_{\mu\nu} + J_{\mu\nu} + V^{xc}_{\mu\nu}\)</span></td>
+</tr>
+<tr class="odd">
+<td>Solved by</td>
+<td>SCF loop</td>
+<td>the <strong>same</strong> SCF loop</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>The two methods share almost all of their machinery. Kohn–Sham DFT expands the orbitals in the same basis sets, builds a Fock-like matrix, and solves the same generalized eigenvalue problem by the same SCF loop, with the same DIIS acceleration. That is why the SCF table of a DFT job in Q-Chem looks exactly like that of an HF job: cycle number, energy, DIIS error, and “Convergence criterion met” at the end. Everything you learned about convergence in <a href="../lectures/l04-hartree-fock.html">Class 4</a> applies unchanged.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Common mistake: adding up orbital energies
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>As in Hartree–Fock, the Kohn–Sham total energy is <strong>not</strong> the sum of the occupied orbital energies. Each <span class="math inline">\(\varepsilon_i\)</span> contains the full Hartree potential and the full exchange–correlation potential felt by electron <span class="math inline">\(i\)</span>. Summing them counts the electron–electron repulsion twice, and it uses <span class="math inline">\(\int v_{xc}\rho\)</span> in place of <span class="math inline">\(E_{xc}\)</span>, which are different numbers. Programs therefore compute the energy from <a href="#eq-ks-energy" class="quarto-xref">Equation&nbsp;5</a> directly, with the density of the last SCF cycle. The number to use in your reaction energies is always the total energy printed at the end of the SCF (“Total energy in the final basis set”, see the <a href="../guides/reading-output.html">guide on reading the output</a>).</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>The one sentence to remember
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Kohn–Sham DFT is <strong>exact in principle</strong>: with the exact exchange–correlation functional, it would give the exact ground-state energy and density with the cost of a mean-field calculation. All the difficulty, and all the variety among the hundreds of functionals you will meet, is in <strong>approximating <span class="math inline">\(E_{xc}[\rho]\)</span></strong>.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>What do the Kohn–Sham orbitals mean?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Strictly speaking, the KS orbitals and their energies belong to the fictitious non-interacting system. Only the density, and the total energy, are guaranteed to be physical. In practice, KS orbitals look very similar to Hartree–Fock orbitals, and chemists use them in the same way (MO diagrams, HOMO–LUMO pictures in IQmol). For the exact functional, <span class="math inline">\(-\varepsilon_{\mathrm{HOMO}}\)</span> equals the first ionization energy exactly. With the approximate functionals of this chapter and the next, <span class="math inline">\(-\varepsilon_{\mathrm{HOMO}}\)</span> is usually several eV <em>smaller</em> than the ionization energy, so Koopmans-style estimates work worse in DFT than in HF. The reason is the self-interaction error discussed in <a href="#sec-errors" class="quarto-xref">Section&nbsp;8</a>.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="the-first-approximation-the-local-spin-density-approximation" class="level2" data-number="6">
+<h2 data-number="6" class="anchored" data-anchor-id="the-first-approximation-the-local-spin-density-approximation"><span class="header-section-number">6</span> The first approximation: the local spin-density approximation</h2>
+<section id="the-uniform-electron-gas" class="level3" data-number="6.1">
+<h3 data-number="6.1" class="anchored" data-anchor-id="the-uniform-electron-gas"><span class="header-section-number">6.1</span> The uniform electron gas</h3>
+<p>To use Kohn–Sham DFT we need an approximate <span class="math inline">\(E_{xc}[\rho]\)</span>. The first and simplest approximation, already proposed by Kohn and Sham in 1965, uses the one system for which the exchange–correlation energy is accurately known: the <strong>uniform electron gas</strong> (also called <em>jellium</em>). It is an infinite system of electrons with constant density <span class="math inline">\(\rho\)</span>, neutralized by a uniform positive background. Its exchange–correlation energy per electron, <span class="math inline">\(\varepsilon_{xc}^{\mathrm{unif}}(\rho)\)</span>, depends only on the value of <span class="math inline">\(\rho\)</span>.</p>
+<p>The <strong>local density approximation</strong> (LDA) treats every small volume element of a molecule as if it were a piece of uniform gas with the local density <span class="math inline">\(\rho(\mathbf{r})\)</span>, and adds up the contributions:</p>
+<p><span id="eq-lda"><span class="math display">\[
+E_{xc}^{\mathrm{LDA}}[\rho] = \int \rho(\mathbf{r})\,\varepsilon_{xc}^{\mathrm{unif}}\big(\rho(\mathbf{r})\big)\,d\mathbf{r}.
+\tag{8}\]</span></span></p>
+<p>For molecules we always use the spin-resolved version, the <strong>local spin-density approximation</strong> (LSDA), in which <span class="math inline">\(\varepsilon_{xc}^{\mathrm{unif}}\)</span> depends on both spin densities <span class="math inline">\(\rho_\alpha\)</span> and <span class="math inline">\(\rho_\beta\)</span>. LSDA is the first rung of Jacob’s ladder (<a href="../lectures/l06-jacobs-ladder.html">Class 6</a>).</p>
+</section>
+<section id="lsda-exchange" class="level3" data-number="6.2">
+<h3 data-number="6.2" class="anchored" data-anchor-id="lsda-exchange"><span class="header-section-number">6.2</span> LSDA exchange</h3>
+<p>For the uniform gas, the exchange energy can be computed analytically from plane-wave orbitals (Dirac, 1930 <span class="citation" data-cites="dirac1930">(<a href="#ref-dirac1930" role="doc-biblioref">Dirac 1930</a>)</span>). The result is</p>
+<p><span id="eq-ldax"><span class="math display">\[
+E_x^{\mathrm{LDA}}[\rho] = -C_x\int\rho(\mathbf{r})^{4/3}\,d\mathbf{r}, \qquad C_x = \frac{3}{4}\left(\frac{3}{\pi}\right)^{1/3} \approx 0.7386.
+\tag{9}\]</span></span></p>
+<p>In spin-polarized form, exchange acts only between same-spin electrons, and each spin contributes separately:</p>
+<p><span id="eq-lsdax"><span class="math display">\[
+E_x^{\mathrm{LSDA}}[\rho_\alpha,\rho_\beta] = -\frac{3}{2}\left(\frac{3}{4\pi}\right)^{1/3}\sum_{\sigma=\alpha,\beta}\int\rho_\sigma(\mathbf{r})^{4/3}\,d\mathbf{r}.
+\tag{10}\]</span></span></p>
+<p>For a closed shell (<span class="math inline">\(\rho_\alpha = \rho_\beta = \rho/2\)</span>), <a href="#eq-lsdax" class="quarto-xref">Equation&nbsp;10</a> reduces to <a href="#eq-ldax" class="quarto-xref">Equation&nbsp;9</a>. Notice the power <span class="math inline">\(4/3\)</span>. You can check it by dimensional analysis: an energy in atomic units has dimension 1/length, a density 1/length³, and <span class="math inline">\(\rho^{4/3}\,d\mathbf{r}\)</span> has dimension <span class="math inline">\((1/\text{length})^4 \times \text{length}^3 = 1/\text{length}\)</span>.</p>
+<p>In 1951 Slater arrived at the same <span class="math inline">\(\rho^{4/3}\)</span> form independently, by approximating the Hartree–Fock exchange potential <span class="citation" data-cites="slater1951">(<a href="#ref-slater1951" role="doc-biblioref">Slater 1951</a>)</span>. His constant was <span class="math inline">\(3/2\)</span> times larger. Programs later introduced the <span class="math inline">\(X\alpha\)</span> method, with an adjustable prefactor <span class="math inline">\(\alpha\)</span>: Slater’s value is <span class="math inline">\(\alpha = 1\)</span>, and the uniform-gas (Kohn–Sham) value is <span class="math inline">\(\alpha = 2/3\)</span>. Today, “Slater exchange” in a functional name (the “S” in SVWN or SPW92) means <a href="#eq-lsdax" class="quarto-xref">Equation&nbsp;10</a> with the uniform-gas constant.</p>
+</section>
+<section id="lsda-correlation" class="level3" data-number="6.3">
+<h3 data-number="6.3" class="anchored" data-anchor-id="lsda-correlation"><span class="header-section-number">6.3</span> LSDA correlation</h3>
+<p>The correlation energy of the uniform gas has no closed form. It is known analytically only in the limits of very high and very low density. In 1980, Ceperley and Alder computed it accurately at intermediate densities with quantum Monte Carlo simulations <span class="citation" data-cites="ceperley1980">(<a href="#ref-ceperley1980" role="doc-biblioref">Ceperley and Alder 1980</a>)</span>. Others then fitted analytic formulas that reproduce the Monte Carlo numbers and the known limits, as functions of the <strong>Wigner–Seitz radius</strong> <span class="math inline">\(r_s = (3/4\pi\rho)^{1/3}\)</span> (the radius of a sphere that contains, on average, one electron) and of the spin polarization <span class="math inline">\(\zeta = (\rho_\alpha - \rho_\beta)/\rho\)</span>. The two parametrizations you will see are:</p>
+<ul>
+<li><strong>VWN</strong> (Vosko, Wilk and Nusair, 1980) <span class="citation" data-cites="vosko1980">(<a href="#ref-vosko1980" role="doc-biblioref">Vosko et al. 1980</a>)</span>, which comes in several variants (the paper gives more than one fit). Different programs use different VWN variants inside the same named functional, which is one reason why “the same” functional can give slightly different energies in different codes.</li>
+<li><strong>PW92</strong> (Perdew and Wang, 1992) <span class="citation" data-cites="perdew1992">(<a href="#ref-perdew1992" role="doc-biblioref">Perdew and Wang 1992</a>)</span>, a later and more careful fit.</li>
+</ul>
+<p>In this course, LSDA means <strong>SPW92</strong>: Slater exchange plus PW92 correlation. Its close relative SVWN5 (Slater plus VWN correlation, form V) gives very similar results. Both are “pure” LSDA: they use nothing but the local spin densities.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Worked example: LSDA for the hydrogen atom
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The hydrogen atom is a good test because we know the exact answer. Its exact density is <span class="math inline">\(\rho(r) = e^{-2r}/\pi\)</span>, fully spin polarized (<span class="math inline">\(\rho_\alpha = \rho\)</span>, <span class="math inline">\(\rho_\beta = 0\)</span>). The exact energy terms are <span class="math inline">\(T = 0.5\)</span>, <span class="math inline">\(E_{ne} = -1\)</span> Eh and, since there is only one electron, <span class="math inline">\(V_{ee} = 0\)</span>. In Kohn–Sham language, <span class="math inline">\(J[\rho] = 5/16 = 0.3125\)</span> Eh, so the exact <span class="math inline">\(E_{xc}\)</span> must be <span class="math inline">\(-0.3125\)</span> Eh: <span class="math inline">\(E_x = -0.3125\)</span> Eh cancels the self-repulsion exactly, and <span class="math inline">\(E_c = 0\)</span>.</p>
+<p>Evaluate the LSDA terms with the exact density (computed with the script in <code>images/src/l04_l06_figures.py</code>):</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th></th>
+<th style="text-align: right;">Exact</th>
+<th style="text-align: right;">LSDA (SPW92)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(E_x\)</span> (Eh)</td>
+<td style="text-align: right;"><span class="math inline">\(-0.3125\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(-0.268\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(E_c\)</span> (Eh)</td>
+<td style="text-align: right;"><span class="math inline">\(0\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(-0.022\)</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(J + E_{xc}\)</span> (Eh)</td>
+<td style="text-align: right;"><span class="math inline">\(0\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(+0.022\)</span></td>
+</tr>
+<tr class="even">
+<td>Total energy (Eh)</td>
+<td style="text-align: right;"><span class="math inline">\(-0.500\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(-0.478\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>LSDA exchange recovers only 86% of the exchange energy needed to cancel the self-repulsion, and LSDA correlation adds a spurious correlation energy to a system with one electron. The net result is an electron that repels itself by 0.022 Eh (14 kcal/mol). This is the <strong>self-interaction error</strong> in its simplest form. In Hartree–Fock this error is exactly zero (<a href="../lectures/l04-hartree-fock.html">Class 4</a>).</p>
+</div>
+</div>
+</section>
+<section id="what-lsda-gets-right-and-what-it-gets-wrong" class="level3" data-number="6.4">
+<h3 data-number="6.4" class="anchored" data-anchor-id="what-lsda-gets-right-and-what-it-gets-wrong"><span class="header-section-number">6.4</span> What LSDA gets right, and what it gets wrong</h3>
+<p>It is surprising that a model built on a uniform gas works at all for molecules, where the density varies by orders of magnitude between the nuclei and the tails. It works better than it should, for a deep reason: the exchange–correlation <em>hole</em> of the uniform gas obeys the same exact sum rules as the true hole (it contains exactly one electron, removed from around each electron), and the energy depends only on a spherical average of the hole. Errors in exchange and in correlation also partly cancel.</p>
+<p><strong>What LSDA does well:</strong></p>
+<ul>
+<li><strong>Geometries</strong>: bond lengths are usually within a few hundredths of an ångström (often slightly too short), and bond angles are good.</li>
+<li><strong>Vibrational frequencies</strong> of reasonable quality, and good properties of simple metals and many solids, which is why LSDA was the workhorse of solid-state physics for decades.</li>
+</ul>
+<p><strong>What LSDA does badly:</strong></p>
+<ul>
+<li><strong>Overbinding.</strong> Atomization energies are much too large, typically by tens of kcal/mol for small molecules, and the error grows with molecular size. Bond energies, hydrogen bonds and weak complexes are all too strong.</li>
+<li><strong>Barrier heights</strong> are too low, often far too low.</li>
+<li><strong>Ionization energies from orbital energies</strong> are much too small, and anions are often not bound.</li>
+</ul>
+<p>These errors are the reason LSDA was never popular in chemistry. Chemists started to use DFT only after the gradient corrections of the late 1980s and the hybrids of 1993 (the subject of <a href="../lectures/l06-jacobs-ladder.html">Class 6</a>). In <a href="../experiments/ex03-organic-a.html">Experiment 3</a> you will compute SPW92 alongside fifteen other methods and see where it stands.</p>
+</section>
+</section>
+<section id="how-a-dft-program-evaluates-e_xc-the-integration-grid" class="level2" data-number="7">
+<h2 data-number="7" class="anchored" data-anchor-id="how-a-dft-program-evaluates-e_xc-the-integration-grid"><span class="header-section-number">7</span> How a DFT program evaluates <span class="math inline">\(E_{xc}\)</span>: the integration grid</h2>
+<p>In Hartree–Fock, every integral in the energy is a product of Gaussian basis functions that can be done analytically. In DFT, the terms <span class="math inline">\(T_s\)</span>, <span class="math inline">\(E_{ne}\)</span> and <span class="math inline">\(J\)</span> are computed in the same way. But <span class="math inline">\(E_{xc}\)</span> is not. Integrals like <span class="math inline">\(\int\rho^{4/3}\,d\mathbf{r}\)</span>, and the more complicated ones of the next chapter, have <strong>no analytic solution</strong> for a density built from Gaussians. Programs compute them numerically, as a weighted sum over a <strong>grid of points</strong> placed around each atom:</p>
+<p><span class="math display">\[
+E_{xc} \approx \sum_{k} w_k\, \rho(\mathbf{r}_k)\,\varepsilon_{xc}\big(\rho(\mathbf{r}_k), \ldots\big).
+\]</span></p>
+<p>The grid is an extra approximation that Hartree–Fock does not have. A grid that is too coarse gives energies with numerical noise, which can be larger than you expect. You will meet grids in detail in <a href="../lectures/l11-integration-grids.html">Class 11</a> and test them in <a href="../experiments/ex07-grids.html">Experiment 7</a>. For now, remember that the grid is the second reason, after the choice of <span class="math inline">\(E_{xc}\)</span>, why two DFT calculations with “the same” functional and basis can disagree.</p>
+<p>One more preview. Nothing forces <span class="math inline">\(E_{xc}\)</span> to be a pure density functional. <strong>Hybrid functionals</strong> replace part of the approximate exchange by exact (Hartree–Fock) exchange, computed from the Kohn–Sham orbitals with the <span class="math inline">\(\hat K\)</span> operator of <a href="../lectures/l04-hartree-fock.html">Class 4</a>. This partly cures the self-interaction error. Hybrids are the fourth rung of Jacob’s ladder, in <a href="../lectures/l06-jacobs-ladder.html">Class 6</a>.</p>
+</section>
+<section id="sec-errors" class="level2" data-number="8">
+<h2 data-number="8" class="anchored" data-anchor-id="sec-errors"><span class="header-section-number">8</span> Known errors of approximate functionals</h2>
+<p>Every functional you will use in this course is an approximation, and approximations fail in characteristic ways. Three of them are worth knowing by name from the start. Each returns in later classes, with experiments designed to expose it.</p>
+<p><strong>1. Self-interaction and delocalization error.</strong> In approximate functionals, the approximate <span class="math inline">\(E_x\)</span> does not exactly cancel the self-repulsion contained in <span class="math inline">\(J[\rho]\)</span> (as in the hydrogen atom above). Perdew and Zunger made this precise in 1981 and proposed a correction <span class="citation" data-cites="perdew1981">(<a href="#ref-perdew1981" role="doc-biblioref">Perdew and Zunger 1981</a>)</span>. Because an electron that repels itself prefers to be spread out, approximate functionals systematically over-stabilize <strong>delocalized</strong> charge. This is called <strong>delocalization error</strong> <span class="citation" data-cites="cohen2012">(<a href="#ref-cohen2012" role="doc-biblioref">Cohen et al. 2012</a>)</span>. Its symptoms are striking. In stretched H₂⁺, a one-electron system, LSDA and GGAs predict an energy far too low, with the electron shared between two distant protons. Reaction barriers come out too low, because transition states have stretched, delocalized bonds. Charge-transfer complexes are overbound, and orbital energies are too high. Mixing in Hartree–Fock exchange, which has no self-interaction, reduces this error (<a href="../lectures/l06-jacobs-ladder.html">Class 6</a>). It returns in <a href="../lectures/l09-difficult-cases.html">Class 9</a>.</p>
+<p><strong>2. Missing long-range dispersion.</strong> LSDA depends only on the density at each point. GGAs and meta-GGAs (<a href="../lectures/l06-jacobs-ladder.html">Class 6</a>) also look at its derivatives at that point, but still only locally. Dispersion, however, is a correlation between density fluctuations at two points that can be far apart, on two molecules whose densities do not overlap. A local or semilocal functional cannot see it: as two argon atoms are pulled apart, the energy of any such functional approaches the separated-atom value too quickly. The functional may give some spurious binding where the densities overlap (LSDA often does), but for the wrong reason. Dispersion must be added, by an empirical correction like <strong>-D4</strong> <span class="citation" data-cites="caldeweyher2017 caldeweyher2019">(<a href="#ref-caldeweyher2017" role="doc-biblioref">Caldeweyher et al. 2017</a>, <a href="#ref-caldeweyher2019" role="doc-biblioref">2019</a>)</span> or by a nonlocal correlation functional (VV10) <span class="citation" data-cites="vydrov2010">(<a href="#ref-vydrov2010" role="doc-biblioref">Vydrov and Van Voorhis 2010</a>)</span>. This is the subject of <a href="../lectures/l08-dispersion.html">Class 8</a> and <a href="../experiments/ex04-organic-b.html">Experiment 4</a>.</p>
+<p><strong>3. Static correlation.</strong> The Kohn–Sham reference is a single determinant. When the true wave function needs two or more determinants with similar weights (stretched bonds, diradicals, ozone, many transition-metal compounds), approximate functionals struggle. In principle the exact <span class="math inline">\(E_{xc}\)</span> would handle it. In practice, approximate functionals do it badly or not at all, and often the unrestricted calculation breaks spin symmetry, just as UHF does for stretched H₂ (<a href="../lectures/l04-hartree-fock.html">Class 4</a>). Static correlation and self-interaction are related, and they pull in opposite directions: adding Hartree–Fock exchange reduces self-interaction error but makes static-correlation problems worse. This tension is one reason why no single functional is best for everything. It returns in <a href="../lectures/l09-difficult-cases.html">Class 9</a> and <a href="../lectures/l12-scf-stability.html">Class 12</a>.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Common mistake: “DFT includes correlation, so it is always better than HF”
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Approximate DFT includes <em>approximate</em> exchange and correlation. For most chemistry it is far better than HF. But it can also be worse, and in ways that HF is not: HF has no self-interaction error, so for some properties dominated by that error (for example, the dissociation of one-electron bonds) HF is qualitatively right and LSDA or GGA functionals are qualitatively wrong. Always ask which errors your problem is sensitive to.</p>
+</div>
+</div>
+</section>
+<section id="key-points" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="key-points">Key points</h2>
+<ul>
+<li>The electron density <span class="math inline">\(\rho(\mathbf{r})\)</span> depends on 3 coordinates, while the wave function depends on <span class="math inline">\(3N\)</span>. It integrates to <span class="math inline">\(N\)</span>, has cusps at the nuclei, and is measurable.</li>
+<li><strong>Hohenberg–Kohn (1964)</strong>: the ground-state density determines the external potential and therefore everything; the energy is a functional of the density, minimized by the true density. The theorems prove existence but do not give the functional.</li>
+<li><strong>Thomas–Fermi</strong> theory approximates the kinetic energy as a local density functional and binds no molecules. Lesson: don’t approximate <span class="math inline">\(T\)</span> that way.</li>
+<li><strong>Kohn–Sham (1965)</strong>: a fictitious non-interacting system with the same density. Its kinetic energy <span class="math inline">\(T_s\)</span> is computed exactly from orbitals. <span class="math inline">\(E[\rho] = T_s + E_{ne} + J + E_{xc}\)</span>.</li>
+<li><span class="math inline">\(E_{xc}\)</span> contains exchange, correlation, and the kinetic correction <span class="math inline">\(T - T_s\)</span>. It is the only unknown term, and <strong>KS-DFT would be exact with the exact <span class="math inline">\(E_{xc}\)</span></strong>.</li>
+<li>The KS equations look like the HF equations, with the exchange operator replaced by a local potential <span class="math inline">\(v_{xc}\)</span>. They are solved by the <strong>same SCF machinery</strong>, and the output looks the same.</li>
+<li><strong>LSDA</strong> takes <span class="math inline">\(E_{xc}\)</span> from the uniform electron gas: exchange <span class="math inline">\(\propto\rho^{4/3}\)</span> (Dirac/Slater), correlation from quantum Monte Carlo data fitted by VWN or PW92. SPW92 is the LSDA of this course.</li>
+<li>LSDA gives good geometries but <strong>overbinds</strong>: atomization energies far too large, barriers too low.</li>
+<li><span class="math inline">\(E_{xc}\)</span> is evaluated numerically on a <strong>grid</strong> (<a href="../lectures/l11-integration-grids.html">Class 11</a>).</li>
+<li>Three error types to remember: <strong>self-interaction/delocalization error</strong>, <strong>missing dispersion</strong>, and <strong>static correlation</strong>.</li>
+</ul>
+</section>
+<section id="study-questions" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="study-questions">Study questions</h2>
+<ol type="1">
+<li>How many spatial coordinates does the wave function of a water molecule depend on? And its electron density? Why does this matter for the cost of a calculation?</li>
+<li>State the first Hohenberg–Kohn theorem in your own words. Then reproduce the proof by contradiction for a nondegenerate ground state.</li>
+<li>What is a functional? Give two examples from this chapter or from Class 4, and say what each takes as input and what it returns.</li>
+<li>Thomas–Fermi theory and Kohn–Sham DFT both write the energy as a functional of the density. What is the key difference that makes Kohn–Sham useful for chemistry while Thomas–Fermi binds no molecules?</li>
+<li>Write the Kohn–Sham energy decomposition, name each term, and say which terms are computed exactly. List the three physical effects collected in <span class="math inline">\(E_{xc}\)</span>.</li>
+<li>Compare the Hartree–Fock and Kohn–Sham one-electron operators term by term. Which term is nonlocal in HF and local in LSDA?</li>
+<li>Show that <a href="#eq-lsdax" class="quarto-xref">Equation&nbsp;10</a> reduces to <a href="#eq-ldax" class="quarto-xref">Equation&nbsp;9</a> for a closed-shell density. Then use dimensional analysis to explain why exchange in the LDA must scale as <span class="math inline">\(\rho^{4/3}\)</span>.</li>
+<li>For the hydrogen atom, the exact exchange–correlation energy must equal <span class="math inline">\(-J[\rho]\)</span>. Explain why, and use the worked-example numbers to compute the self-interaction error of LSDA in kcal/mol.</li>
+<li>A DFT calculation and an HF calculation on the same molecule with the same basis set both print an SCF table. Name two numerical approximations that are present in the DFT job but absent from the HF job.</li>
+<li>Name the three main error types of approximate functionals. For each, give one chemical situation where you would expect it to matter.</li>
+</ol>
+</section>
+<section id="further-reading" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="further-reading">Further reading</h2>
+<ul>
+<li><span class="citation" data-cites="koch2001">Koch and Holthausen (<a href="#ref-koch2001" role="doc-biblioref">2001</a>)</span>, chapters 3–6: the standard introduction to DFT for chemists, from Hohenberg–Kohn to the LSDA and beyond. Written for exactly the audience of this course.</li>
+<li><span class="citation" data-cites="kohn1999">Kohn (<a href="#ref-kohn1999" role="doc-biblioref">1999</a>)</span>: Walter Kohn’s Nobel lecture, an elegant and readable account of why the density is enough.</li>
+<li><span class="citation" data-cites="burke2012">Burke (<a href="#ref-burke2012" role="doc-biblioref">2012</a>)</span>: a short perspective on what DFT is, what it is not, and where approximations come from.</li>
+<li><span class="citation" data-cites="parr1989">Parr and Yang (<a href="#ref-parr1989" role="doc-biblioref">1989</a>)</span>: the classic, more mathematical textbook.</li>
+<li><span class="citation" data-cites="cohen2012">Cohen et al. (<a href="#ref-cohen2012" role="doc-biblioref">2012</a>)</span>: a review of the main errors of approximate functionals (self-interaction, delocalization, static correlation), for after Class 9.</li>
+<li><span class="citation" data-cites="peverati2014">Peverati and Truhlar (<a href="#ref-peverati2014" role="doc-biblioref">2014</a>)</span> and <span class="citation" data-cites="mardirossian2017">Mardirossian and Head-Gordon (<a href="#ref-mardirossian2017" role="doc-biblioref">2017</a>)</span>: reviews of modern functionals, useful for <a href="../experiments/ex02-jacobs-ladder.html">Experiment 2</a>.</li>
+</ul>
+
+
+
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-burke2012" class="csl-entry" role="listitem">
+Burke, K. 2012. <span>“Perspective on Density Functional Theory.”</span> <em>J. Chem. Phys.</em> 136: 150901. <a href="https://doi.org/10.1063/1.4704546">https://doi.org/10.1063/1.4704546</a>.
+</div>
+<div id="ref-caldeweyher2017" class="csl-entry" role="listitem">
+Caldeweyher, E., C. Bannwarth, and S. Grimme. 2017. <em>J. Chem. Phys.</em> 147: 034112.
+</div>
+<div id="ref-caldeweyher2019" class="csl-entry" role="listitem">
+Caldeweyher, E., S. Ehlert, A. Hansen, et al. 2019. <em>Chem. Phys.</em> 150: 154122.
+</div>
+<div id="ref-ceperley1980" class="csl-entry" role="listitem">
+Ceperley, D. M., and B. J. Alder. 1980. <span>“Ground State of the Electron Gas by a Stochastic Method.”</span> <em>Phys. Rev. Lett.</em> 45: 566–69. <a href="https://doi.org/10.1103/PhysRevLett.45.566">https://doi.org/10.1103/PhysRevLett.45.566</a>.
+</div>
+<div id="ref-cohen2012" class="csl-entry" role="listitem">
+Cohen, A. J., P. Mori-Sánchez, and W. Yang. 2012. <em>Chem. Rev.</em> 112: 289–320.
+</div>
+<div id="ref-dirac1930" class="csl-entry" role="listitem">
+Dirac, P. A. M. 1930. <span>“Note on Exchange Phenomena in the <span>Thomas</span> Atom.”</span> <em>Math. Proc. Cambridge Philos. Soc.</em> 26: 376–85. <a href="https://doi.org/10.1017/S0305004100016108">https://doi.org/10.1017/S0305004100016108</a>.
+</div>
+<div id="ref-fermi1927" class="csl-entry" role="listitem">
+Fermi, E. 1927. <span>“Un Metodo Statistico Per La Determinazione Di Alcune Propriet<span>à</span> Dell’atomo.”</span> <em>Rend. Accad. Naz. Lincei</em> 6: 602–7.
+</div>
+<div id="ref-hohenberg1964" class="csl-entry" role="listitem">
+Hohenberg, P., and W. Kohn. 1964. <em>Phys. Rev.</em> 136: B864–71.
+</div>
+<div id="ref-koch2001" class="csl-entry" role="listitem">
+Koch, W., and M. C. Holthausen. 2001. <em>A Chemist’s Guide to Density Functional Theory</em>. 2nd ed. Wiley-VCH.
+</div>
+<div id="ref-kohn1999" class="csl-entry" role="listitem">
+Kohn, W. 1999. <span>“Nobel <span>Lecture</span>: Electronic Structure of Matter—Wave Functions and Density Functionals.”</span> <em>Rev. Mod. Phys.</em> 71: 1253–66. <a href="https://doi.org/10.1103/RevModPhys.71.1253">https://doi.org/10.1103/RevModPhys.71.1253</a>.
+</div>
+<div id="ref-kohn1965" class="csl-entry" role="listitem">
+Kohn, W., and L. Sham. 1965. <em>Phys. Rev.</em> 140: A1133–38.
+</div>
+<div id="ref-levy1979" class="csl-entry" role="listitem">
+Levy, M. 1979. <span>“Universal Variational Functionals of Electron Densities, First-Order Density Matrices, and Natural Spin-Orbitals and Solution of the <span class="math inline">\(v\)</span>-Representability Problem.”</span> <em>Proc. Natl. Acad. Sci. USA</em> 76: 6062–65. <a href="https://doi.org/10.1073/pnas.76.12.6062">https://doi.org/10.1073/pnas.76.12.6062</a>.
+</div>
+<div id="ref-mardirossian2017" class="csl-entry" role="listitem">
+Mardirossian, N., and M. Head-Gordon. 2017. <em>Mol. Phys.</em> 115: 2315–72.
+</div>
+<div id="ref-parr1989" class="csl-entry" role="listitem">
+Parr, R. G., and W. Yang. 1989. <em>Density-Functional Theory of Atoms and Molecules</em>. Oxford University Press.
+</div>
+<div id="ref-perdew1992" class="csl-entry" role="listitem">
+Perdew, J. P., and Y. Wang. 1992. <em>Phys. Rev. B</em> 45: 13244–49.
+</div>
+<div id="ref-perdew1981" class="csl-entry" role="listitem">
+Perdew, J. P., and A. Zunger. 1981. <span>“Self-Interaction Correction to Density-Functional Approximations for Many-Electron Systems.”</span> <em>Phys. Rev. B</em> 23: 5048–79. <a href="https://doi.org/10.1103/PhysRevB.23.5048">https://doi.org/10.1103/PhysRevB.23.5048</a>.
+</div>
+<div id="ref-peverati2014" class="csl-entry" role="listitem">
+Peverati, R., and D. G. Truhlar. 2014. <em>Philos. Trans. R. Soc. A</em> 372: 20120476.
+</div>
+<div id="ref-slater1951" class="csl-entry" role="listitem">
+Slater, J. C. 1951. <em>Phys. Rev.</em> 81: 385–90.
+</div>
+<div id="ref-teller1962" class="csl-entry" role="listitem">
+Teller, E. 1962. <span>“On the Stability of Molecules in the <span>Thomas–Fermi</span> Theory.”</span> <em>Rev. Mod. Phys.</em> 34: 627–31. <a href="https://doi.org/10.1103/RevModPhys.34.627">https://doi.org/10.1103/RevModPhys.34.627</a>.
+</div>
+<div id="ref-thomas1927" class="csl-entry" role="listitem">
+Thomas, L. H. 1927. <span>“The Calculation of Atomic Fields.”</span> <em>Math. Proc. Cambridge Philos. Soc.</em> 23: 542–48. <a href="https://doi.org/10.1017/S0305004100011683">https://doi.org/10.1017/S0305004100011683</a>.
+</div>
+<div id="ref-vosko1980" class="csl-entry" role="listitem">
+Vosko, S. H., L. Wilk, and M. Nusair. 1980. <em>Can. J. Phys.</em> 58: 1200–1211.
+</div>
+<div id="ref-vydrov2010" class="csl-entry" role="listitem">
+Vydrov, O. A., and T. J. Van Voorhis. 2010. <em>Chem. Phys.</em> 133: 244103.
+</div>
+</div></section></div></main> <!-- /main -->
+<!-- Peverati lab logo at the top right of the navbar (light and dark versions). -->
+<script>
+(function () {
+  var css = document.querySelector('link[href$="styles.css"]');
+  var root = css ? css.getAttribute("href").replace(/styles\.css$/, "") : "";
+  var nav = document.querySelector("#quarto-header nav.navbar .navbar-container") ||
+            document.querySelector("#quarto-header nav.navbar .container-fluid");
+  if (!nav) return;
+  var a = document.createElement("a");
+  a.className = "lab-logo";
+  a.href = "https://peverati.github.io";
+  a.title = "Peverati research group";
+  // Both versions are inserted; CSS shows the one that matches the light/dark theme.
+  a.innerHTML =
+    '<img class="logo-for-light" src="' + root + 'images/logo-light.png" alt="Peverati research group logo">' +
+    '<img class="logo-for-dark" src="' + root + 'images/logo-dark.png" alt="Peverati research group logo">';
+  nav.appendChild(a);
+})();
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const toggle = window.document.createElement('button');
+      toggle.type = "button";
+      toggle.setAttribute("role", "switch");
+      toggle.setAttribute("aria-checked", "false");
+      toggle.classList.add('top-right');
+      toggle.classList.add('quarto-color-scheme-toggle');
+      toggle.setAttribute("aria-label", "Toggle dark mode");
+      toggle.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      toggle.appendChild(i);
+      // Put the toggle in a landmark of its own, so that landmark navigation
+      // can reach it.
+      //
+      // The container is always a fresh direct child of body, and the toggle is
+      // never moved into page furniture that the theme or the author controls.
+      // The toggle is positioned against the page, so any ancestor that
+      // establishes a containing block captures it: a positioned element or a
+      // grid for position: absolute, and transform, filter, will-change or
+      // contain for position: fixed. A direct child of body has none of these
+      // to inherit, and the shift when one appears is silent and visual.
+      //
+      // ARIA says a document should have at most one banner, and axe reports a
+      // duplicate whether or not the banners carry distinct labels. So use a
+      // header when the page has no banner yet, and a named region otherwise.
+      //
+      // A header is a banner wherever it sits, unless it is inside sectioning
+      // content, so this cannot just look at the children of body: a custom
+      // page layout wraps the title block header in a plain div. An explicit
+      // role="banner" always counts.
+      const sectioning = 'article, aside, main, nav, section, [role="article"], [role="complementary"], [role="main"], [role="navigation"], [role="region"]';
+      const hasBanner = Array.from(
+        window.document.querySelectorAll('header:not([role]), [role="banner"]')
+      ).some(function(el) {
+        return el.hasAttribute("role") || el.closest(sectioning) === null;
+      });
+      const container = window.document.createElement(hasBanner ? "div" : "header");
+      if (hasBanner) {
+        container.setAttribute("role", "region");
+        container.setAttribute("aria-label", "Toggle dark mode");
+      }
+      container.classList.add('quarto-color-scheme-toggle-container');
+      container.appendChild(toggle);
+      window.document.body.appendChild(container);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/peverati\.github\.io\/advpchem\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+          if (!link.classList.contains('no-external-icon')) {
+          }
+        }
+      }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          // Each band is positioned against its own containing block, which is
+          // not the offsetParent of the lines, so place it from client rects.
+          const placeBand = (band, firstEl, lastEl, codeBlock) => {
+            const container = band.offsetParent;
+            if (container === null) {
+              return;
+            }
+            const containerRect = container.getBoundingClientRect();
+            // Reveal.js scales slides with a transform, so convert client
+            // pixels back to the CSS pixels of the container.
+            const scale = containerRect.height / container.offsetHeight || 1;
+            const firstRect = firstEl.getBoundingClientRect();
+            const lastRect = lastEl.getBoundingClientRect();
+            const top = (firstRect.top - containerRect.top) / scale - container.clientTop + container.scrollTop;
+            const height = (lastRect.bottom - firstRect.top) / scale;
+            band.style.top = top - 2 + "px";
+            band.style.height = height + 4 + "px";
+            if (codeBlock) {
+              // Without the copy button wrapper, the containing block is wider
+              // than the code block, so span the code block explicitly.
+              const blockRect = codeBlock.getBoundingClientRect();
+              band.style.left = (blockRect.left - containerRect.left) / scale - container.clientLeft + container.scrollLeft + "px";
+              band.style.width = blockRect.width / scale + "px";
+            }
+          };
+          if (lineIds.length > 0) {
+            const el = window.document.getElementById(lineIds[0]);
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const parent = el.parentElement.parentElement;
+            // cook up a div (if necessary) and position it
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            placeBand(div, el, lastEl, parent.closest("div.sourceCode") || parent);
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            placeBand(gutterDiv, el, lastEl);
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+  <script type="application/javascript">
+  window.quartoScrollableRegionsLabels = {"code":"Scrollable code","output":"Scrollable output"};
+  </script>
+<nav class="page-navigation" aria-label="Page">
+  <div class="nav-page nav-page-previous">
+      <a href="../lectures/l04-hartree-fock.html" class="pagination-link" aria-label="Class 4 · Approximating the Hamiltonian I: Hartree–Fock and the SCF">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Class 4 · Approximating the Hamiltonian I: Hartree–Fock and the SCF</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../lectures/l06-jacobs-ladder.html" class="pagination-link" aria-label="Class 6 · Approximating the Hamiltonian III: Jacob's ladder">
+        <span class="nav-page-text">Class 6 · Approximating the Hamiltonian III: Jacob’s ladder</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Advanced Physical Chemistry · Florida Institute of Technology</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>Experiments adapted from Morgante &amp; Peverati, <em>Int. J. Quantum Chem.</em> <strong>2020</strong></p>
+</div>
+  </div>
+</footer>
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

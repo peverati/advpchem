@@ -1,0 +1,324 @@
+{
+ "id": "ex06",
+ "number": 6,
+ "title": "Why is the B3LYP/6-31G* Level of Theory so Successful?",
+ "geometry_dir": "ex03",
+ "rem_common": {
+  "JOBTYPE": "SP",
+  "SCF_CONVERGENCE": "8"
+ },
+ "species": [
+  {
+   "id": "ethene",
+   "label": "ethene",
+   "file": "DARC_ethene.xyz",
+   "charge": 0,
+   "mult": 1,
+   "dir": "ex04"
+  },
+  {
+   "id": "butadiene",
+   "label": "butadiene",
+   "file": "DARC_butadiene.xyz",
+   "charge": 0,
+   "mult": 1,
+   "dir": "ex04"
+  },
+  {
+   "id": "cyclohexene",
+   "label": "cyclohexene",
+   "file": "DARC_P1.xyz",
+   "charge": 0,
+   "mult": 1,
+   "dir": "ex04"
+  },
+  {
+   "id": "hexane",
+   "label": "n-hexane",
+   "file": "16_hexane_Alk44.xyz",
+   "charge": 0,
+   "mult": 1,
+   "dir": "ex04"
+  },
+  {
+   "id": "neohexane",
+   "label": "neohexane",
+   "file": "25_neohexane_Alk44.xyz",
+   "charge": 0,
+   "mult": 1,
+   "dir": "ex04"
+  },
+  {
+   "id": "cao",
+   "label": "CaO",
+   "file": "02_CaO_MR-MGM-BE4.xyz",
+   "charge": 0,
+   "mult": 1,
+   "dir": "ex05"
+  },
+  {
+   "id": "ca",
+   "label": "Ca atom",
+   "file": "01_Ca_MR-MGM-BE4.xyz",
+   "charge": 0,
+   "mult": 1,
+   "dir": "ex05"
+  },
+  {
+   "id": "o_mgm",
+   "label": "O atom (triplet)",
+   "file": "10_O_MR-MGM-BE4.xyz",
+   "charge": 0,
+   "mult": 3,
+   "dir": "ex05"
+  }
+ ],
+ "reactions": [
+  {
+   "id": "4a",
+   "label": "4a  ethene + butadiene → cyclohexene",
+   "nu": {
+    "ethene": -1,
+    "butadiene": -1,
+    "cyclohexene": 1
+   },
+   "ref": -45.4,
+   "group": "4a · Diels–Alder"
+  },
+  {
+   "id": "4b",
+   "label": "4b  n-hexane → neohexane",
+   "nu": {
+    "hexane": -1,
+    "neohexane": 1
+   },
+   "ref": -2.49,
+   "group": "4b · alkane isomerization"
+  },
+  {
+   "id": "5b",
+   "label": "5b  CaO → Ca + O",
+   "nu": {
+    "cao": -1,
+    "ca": 1,
+    "o_mgm": 1
+   },
+   "ref": 96.15,
+   "group": "5b · CaO dissociation"
+  }
+ ],
+ "methods": [
+  {
+   "id": "B3LYP",
+   "label": "B3LYP",
+   "rung": "hybrid GGA",
+   "rem": {
+    "METHOD": "B3LYP"
+   },
+   "disp": "none"
+  },
+  {
+   "id": "B3LYP-D4",
+   "label": "B3LYP-D4",
+   "rung": "hybrid GGA",
+   "rem": {
+    "METHOD": "B3LYP",
+    "DFT_D": "D4"
+   },
+   "disp": "D4"
+  }
+ ],
+ "bases": [
+  {
+   "id": "6-31G*",
+   "family": "Pople",
+   "zeta": 2
+  },
+  {
+   "id": "def2-SVP",
+   "family": "Ahlrichs def2",
+   "zeta": 2
+  },
+  {
+   "id": "cc-pVDZ",
+   "family": "Dunning cc",
+   "zeta": 2
+  },
+  {
+   "id": "pc-1",
+   "family": "Jensen pc",
+   "zeta": 2
+  },
+  {
+   "id": "def2-TZVP",
+   "family": "Ahlrichs def2",
+   "zeta": 3
+  }
+ ],
+ "fields": [
+  "energy",
+  "nbf"
+ ],
+ "condition_label": "Method / basis",
+ "anomaly": {
+  "reference": "def2-TZVP"
+ },
+ "import": {
+  "from": [
+   "ex04",
+   "ex05"
+  ],
+  "conditions": [
+   "B3LYP|def2-TZVP",
+   "B3LYP-D4|def2-TZVP"
+  ],
+  "label": "⬇ Import my def2-TZVP energies from Experiments 4 and 5"
+ },
+ "quiz": [
+  {
+   "q": "What does the * in 6-31G* mean?",
+   "options": [
+    "Diffuse functions on all atoms",
+    "d-type polarization functions on the non-hydrogen atoms",
+    "An extra s function on hydrogen",
+    "It is a triple-ζ basis"
+   ],
+   "answer": 1,
+   "explain": "6-31G* (also written 6-31G(d)) adds one set of d functions to every non-hydrogen atom, letting the electron density polarize in bonds."
+  },
+  {
+   "q": "6-31G*, def2-SVP, cc-pVDZ and pc-1 are all…",
+   "options": [
+    "triple-ζ basis sets",
+    "polarized double-ζ basis sets",
+    "minimal basis sets",
+    "basis sets with diffuse functions"
+   ],
+   "answer": 1,
+   "explain": "All four use two functions per valence orbital plus polarization functions, but they were optimized in different ways, so their sizes and behavior differ."
+  },
+  {
+   "q": "If a small basis gives a *smaller* error than a large basis with the same functional, the most likely explanation is…",
+   "options": [
+    "the small basis is more accurate",
+    "a fortuitous cancellation between the basis-set error and the functional's own error",
+    "the large basis set is broken",
+    "the reference values are wrong"
+   ],
+   "answer": 1,
+   "explain": "The basis-set error and the functional error have different origins. When they happen to have opposite signs they cancel, which is luck, not accuracy, and it won't transfer to other problems."
+  }
+ ],
+ "predictions": [
+  {
+   "id": "gain",
+   "prompt": "For which reaction will **B3LYP/6-31G*** beat B3LYP/def2-TZVP by the **widest margin**?",
+   "options": [
+    "4a · Diels–Alder",
+    "4b · alkane isomerization",
+    "5b · CaO dissociation"
+   ],
+   "check": {
+    "type": "biggest_gain",
+    "method": "B3LYP",
+    "small": "6-31G*",
+    "large": "def2-TZVP"
+   }
+  },
+  {
+   "id": "cao",
+   "prompt": "For **CaO → Ca + O**, B3LYP/6-31G* will be…",
+   "options": [
+    "closer to the reference than def2-TZVP",
+    "about as good",
+    "much worse than def2-TZVP"
+   ],
+   "check": {
+    "type": "compare_abs",
+    "reaction": "5b",
+    "a": "B3LYP|6-31G*",
+    "b": "B3LYP|def2-TZVP",
+    "tol": 1.0,
+    "labels": [
+     "closer to the reference than def2-TZVP",
+     "much worse than def2-TZVP",
+     "about as good"
+    ]
+   }
+  },
+  {
+   "id": "best_dz",
+   "prompt": "Which double-ζ basis will give **B3LYP** the smallest error over the three reactions?",
+   "options": [
+    "6-31G*",
+    "def2-SVP",
+    "cc-pVDZ",
+    "pc-1"
+   ],
+   "check": {
+    "type": "best_basis",
+    "method": "B3LYP",
+    "bases": [
+     "6-31G*",
+     "def2-SVP",
+     "cc-pVDZ",
+     "pc-1"
+    ]
+   }
+  },
+  {
+   "id": "d4",
+   "prompt": "With the double-ζ basis sets, adding -D4 to B3LYP will…",
+   "options": [
+    "help",
+    "barely matter",
+    "hurt"
+   ],
+   "check": {
+    "type": "pair",
+    "a": "B3LYP",
+    "b": "B3LYP-D4",
+    "bases": [
+     "6-31G*",
+     "def2-SVP",
+     "cc-pVDZ",
+     "pc-1"
+    ],
+    "tol": 0.2,
+    "labels": [
+     "help",
+     "barely matter",
+     "hurt"
+    ]
+   }
+  }
+ ],
+ "questions": [
+  {
+   "id": "q1",
+   "text": "How many basis functions does **cyclohexene** (the Diels–Alder product) have with each basis set? Are all “double-ζ” sets the same size? (Use the basis-size table.)"
+  },
+  {
+   "id": "q2",
+   "text": "For each of the three reactions, which basis set gives B3LYP the smallest absolute error? Which is best overall?"
+  },
+  {
+   "id": "q3",
+   "text": "What happens with **B3LYP-D4** and the small basis sets? Do the results improve for all three reactions?"
+  },
+  {
+   "id": "q4",
+   "text": "Optional: run the three reactions with **ωB97M-V/6-31G\\*** and compare with your ωB97M-V/def2-TZVP results from Experiments 4 and 5. Does the modern functional benefit from the small basis the way B3LYP does?"
+  },
+  {
+   "id": "q5",
+   "text": "Compare B3LYP/def2-TZVP with B3LYP/6-31G* for each reaction. Which cells did you flag in “Spot the anomaly”, which were real, and why should a small basis that “wins” worry you more than one that loses?"
+  }
+ ],
+ "explore": [
+  "basis-mae",
+  "anomaly-spotter",
+  "nbf-counter"
+ ],
+ "nbf_species": "cyclohexene"
+}

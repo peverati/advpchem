@@ -1,0 +1,1867 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.11.9">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="description" content="The molecular Hamiltonian, atomic units, the Born–Oppenheimer approximation, many-electron wave functions and the variational principle.">
+
+<title>Class 1 · The molecular Schrödinger equation – Computational Chemistry Lab</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../lectures/l02-basis-sets.html" rel="next">
+<link href="../lectures/index.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-447e42e69aaa9833c0ba1b986f430b20.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-56996c7b5257095e64120a8d6d543cad.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-9953095112a8816cde90456e6de52415.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-56996c7b5257095e64120a8d6d543cad.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<script src="https://cdn.jsdelivr.net/npm/3dmol@2.4.2/build/3Dmol-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-sidebar floating nav-fixed quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          toggle.setAttribute("aria-checked", alternate ? "true" : "false");
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455).
+    // Not run on load: stylesheets are set before first paint there, and
+    // scrolling would undo the scroll to a URL fragment (#14973).
+    // The one pixel nudge keeps the reader where they were.
+    const refreshSafariScrollbar = () => {
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        const scrollY = window.scrollY;
+        window.scrollTo(0, scrollY > 0 ? scrollY - 1 : 1);
+        setTimeout(() => {
+          window.scrollTo(0, scrollY);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      refreshSafariScrollbar();
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark" aria-label="Site">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Computational Chemistry Lab</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-guides" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Guides</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-guides">    
+        <li>
+    <a class="dropdown-item" href="../guides/iqmol-setup.html">
+ <span class="dropdown-text">Install IQmol and connect to Q-Chem</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../guides/first-job.html">
+ <span class="dropdown-text">Your first Q-Chem job</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../guides/reading-output.html">
+ <span class="dropdown-text">Reading a Q-Chem output</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../guides/shared-machines.html">
+ <span class="dropdown-text">Working on a shared machine</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../guides/units-and-errors.html">
+ <span class="dropdown-text">Units, reaction energies and errors</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-lectures" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Lectures</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-lectures">    
+        <li>
+    <a class="dropdown-item" href="../lectures/index.html">
+ <span class="dropdown-text">All lectures</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l01-molecular-schrodinger.html">
+ <span class="dropdown-text">1 · The molecular Schrödinger equation</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l02-basis-sets.html">
+ <span class="dropdown-text">2 · Basis sets</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l03-from-theory-to-a-calculation.html">
+ <span class="dropdown-text">3 · From theory to a calculation</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l04-hartree-fock.html">
+ <span class="dropdown-text">4 · Hartree–Fock and the SCF</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l05-density-functional-theory.html">
+ <span class="dropdown-text">5 · Density functional theory</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l06-jacobs-ladder.html">
+ <span class="dropdown-text">6 · Jacob’s ladder</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l07-benchmarking.html">
+ <span class="dropdown-text">7 · How we test a functional</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l08-dispersion.html">
+ <span class="dropdown-text">8 · Dispersion</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l09-difficult-cases.html">
+ <span class="dropdown-text">9 · Difficult cases for DFT</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l10-error-cancellation.html">
+ <span class="dropdown-text">10 · Basis-set vs functional error</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l11-integration-grids.html">
+ <span class="dropdown-text">11 · Integration grids</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l12-scf-stability.html">
+ <span class="dropdown-text">12 · SCF stability and transition metals</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l13-theory-vs-experiment.html">
+ <span class="dropdown-text">13 · Theory vs experiment</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l14-choosing-a-method.html">
+ <span class="dropdown-text">14 · Choosing a method</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l15-wrap-up.html">
+ <span class="dropdown-text">15 · What we learned</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-experiments" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Experiments</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-experiments">    
+        <li>
+    <a class="dropdown-item" href="../experiments/ex01-basis-sets.html">
+ <span class="dropdown-text">Experiment 1: Basis Set Incompleteness Error</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex02-jacobs-ladder.html">
+ <span class="dropdown-text">Experiment 2: Jacob’s Ladder</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex03-organic-a.html">
+ <span class="dropdown-text">Experiment 3: Applying DFT to Organic Chemistry – Part A</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex04-organic-b.html">
+ <span class="dropdown-text">Experiment 4: Applying DFT to Organic Chemistry – Part B</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex05-difficult-cases.html">
+ <span class="dropdown-text">Experiment 5: Difficult Cases for DFT</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex06-b3lyp-631gs.html">
+ <span class="dropdown-text">Experiment 6: Why is the B3LYP/6-31G* Level of Theory so Successful?</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex07-grids.html">
+ <span class="dropdown-text">Experiment 7: Integration Grids</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex08-stability.html">
+ <span class="dropdown-text">Experiment 8: Stability Analysis and Transition Metals</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex09-experiment-vs-theory.html">
+ <span class="dropdown-text">Experiment 9: Comparison with Experimental Results</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex10-final-review.html">
+ <span class="dropdown-text">Experiment 10: Final Review</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="../class-results.html"> 
+<span class="menu-text">Class results</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <button type="button" role="switch" aria-checked="false" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode" aria-label="Toggle dark mode"><i class="bi"></i></button>
+</div>
+            <div id="quarto-search" class="" title="Search"></div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav" aria-label="Toolbar">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../lectures/l01-molecular-schrodinger.html">Class 1 · The molecular Schrödinger equation</a></li></ol></nav>
+        <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto" aria-label="Section">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lectures</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l01-molecular-schrodinger.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Class 1 · The molecular Schrödinger equation</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l02-basis-sets.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 2 · Approximating the wave function: basis sets</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l03-from-theory-to-a-calculation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 3 · From theory to a calculation: IQmol, Q-Chem and Experiment 1</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l04-hartree-fock.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 4 · Approximating the Hamiltonian I: Hartree–Fock and the SCF</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l05-density-functional-theory.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 5 · Approximating the Hamiltonian II: density functional theory</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l06-jacobs-ladder.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 6 · Approximating the Hamiltonian III: Jacob’s ladder</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l07-benchmarking.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 7 · How we test a functional</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l08-dispersion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 8 · Dispersion and noncovalent interactions</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l09-difficult-cases.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 9 · Why some reactions are hard for DFT</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l10-error-cancellation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 10 · Basis-set error vs functional error</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l11-integration-grids.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 11 · Numerical integration grids</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l12-scf-stability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 12 · SCF stability, open shells and transition metals</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l13-theory-vs-experiment.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 13 · From electronic energies to experiment</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l14-choosing-a-method.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 14 · Choosing, running and reporting a method</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l15-wrap-up.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 15 · What we learned</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" aria-labelledby="toc-title" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#why-compute" id="toc-why-compute" class="nav-link active" data-scroll-target="#why-compute"><span class="header-section-number">1</span> Why compute?</a>
+  <ul class="collapse">
+  <li><a href="#the-course-roadmap" id="toc-the-course-roadmap" class="nav-link" data-scroll-target="#the-course-roadmap"><span class="header-section-number">1.1</span> The course roadmap</a></li>
+  </ul></li>
+  <li><a href="#review-the-schrödinger-equation-and-the-hydrogen-atom" id="toc-review-the-schrödinger-equation-and-the-hydrogen-atom" class="nav-link" data-scroll-target="#review-the-schrödinger-equation-and-the-hydrogen-atom"><span class="header-section-number">2</span> Review: the Schrödinger equation and the hydrogen atom</a>
+  <ul class="collapse">
+  <li><a href="#operators-eigenfunctions-eigenvalues" id="toc-operators-eigenfunctions-eigenvalues" class="nav-link" data-scroll-target="#operators-eigenfunctions-eigenvalues"><span class="header-section-number">2.1</span> Operators, eigenfunctions, eigenvalues</a></li>
+  <li><a href="#the-hydrogen-atom-the-one-exactly-solvable-atom" id="toc-the-hydrogen-atom-the-one-exactly-solvable-atom" class="nav-link" data-scroll-target="#the-hydrogen-atom-the-one-exactly-solvable-atom"><span class="header-section-number">2.2</span> The hydrogen atom: the one exactly solvable atom</a></li>
+  </ul></li>
+  <li><a href="#the-molecular-hamiltonian" id="toc-the-molecular-hamiltonian" class="nav-link" data-scroll-target="#the-molecular-hamiltonian"><span class="header-section-number">3</span> The molecular Hamiltonian</a>
+  <ul class="collapse">
+  <li><a href="#five-terms" id="toc-five-terms" class="nav-link" data-scroll-target="#five-terms"><span class="header-section-number">3.1</span> Five terms</a></li>
+  <li><a href="#sec-units" id="toc-sec-units" class="nav-link" data-scroll-target="#sec-units"><span class="header-section-number">3.2</span> Atomic units</a></li>
+  </ul></li>
+  <li><a href="#the-bornoppenheimer-approximation" id="toc-the-bornoppenheimer-approximation" class="nav-link" data-scroll-target="#the-bornoppenheimer-approximation"><span class="header-section-number">4</span> The Born–Oppenheimer approximation</a>
+  <ul class="collapse">
+  <li><a href="#clamped-nuclei" id="toc-clamped-nuclei" class="nav-link" data-scroll-target="#clamped-nuclei"><span class="header-section-number">4.1</span> Clamped nuclei</a></li>
+  <li><a href="#the-potential-energy-surface" id="toc-the-potential-energy-surface" class="nav-link" data-scroll-target="#the-potential-energy-surface"><span class="header-section-number">4.2</span> The potential energy surface</a></li>
+  <li><a href="#what-total-energy-means-in-a-q-chem-output" id="toc-what-total-energy-means-in-a-q-chem-output" class="nav-link" data-scroll-target="#what-total-energy-means-in-a-q-chem-output"><span class="header-section-number">4.3</span> What “total energy” means in a Q-Chem output</a></li>
+  </ul></li>
+  <li><a href="#many-electrons" id="toc-many-electrons" class="nav-link" data-scroll-target="#many-electrons"><span class="header-section-number">5</span> Many electrons</a>
+  <ul class="collapse">
+  <li><a href="#why-we-cannot-solve-it" id="toc-why-we-cannot-solve-it" class="nav-link" data-scroll-target="#why-we-cannot-solve-it"><span class="header-section-number">5.1</span> Why we cannot solve it</a></li>
+  <li><a href="#spin-and-the-pauli-principle" id="toc-spin-and-the-pauli-principle" class="nav-link" data-scroll-target="#spin-and-the-pauli-principle"><span class="header-section-number">5.2</span> Spin and the Pauli principle</a></li>
+  <li><a href="#orbitals-and-the-slater-determinant" id="toc-orbitals-and-the-slater-determinant" class="nav-link" data-scroll-target="#orbitals-and-the-slater-determinant"><span class="header-section-number">5.3</span> Orbitals and the Slater determinant</a></li>
+  <li><a href="#the-variational-principle" id="toc-the-variational-principle" class="nav-link" data-scroll-target="#the-variational-principle"><span class="header-section-number">5.4</span> The variational principle</a></li>
+  </ul></li>
+  <li><a href="#the-two-approximations-of-every-calculation" id="toc-the-two-approximations-of-every-calculation" class="nav-link" data-scroll-target="#the-two-approximations-of-every-calculation"><span class="header-section-number">6</span> The two approximations of every calculation</a></li>
+  <li><a href="#key-points" id="toc-key-points" class="nav-link" data-scroll-target="#key-points"><span class="header-section-number">7</span> Key points</a></li>
+  <li><a href="#study-questions" id="toc-study-questions" class="nav-link" data-scroll-target="#study-questions"><span class="header-section-number">8</span> Study questions</a></li>
+  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading"><span class="header-section-number">9</span> Further reading</a></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="l01-molecular-schrodinger.pdf"><i class="bi bi-file-pdf"></i>PDF handout</a></li><li><a href="l01-molecular-schrodinger.pdf"><i class="bi bi-file-pdf"></i>Typst</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content" tabindex="-1">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Class 1 · The molecular Schrödinger equation</h1>
+<p class="subtitle lead">What we compute, what we cannot compute exactly, and the two approximations behind every calculation</p>
+</div>
+
+<div>
+  <div class="description">
+    The molecular Hamiltonian, atomic units, the Born–Oppenheimer approximation, many-electron wave functions and the variational principle.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Learning goals
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>After studying this chapter you should be able to:</p>
+<ul>
+<li>say what a computational chemist actually predicts, and how the ten experiments of this lab fit together;</li>
+<li>write the molecular Hamiltonian term by term, in SI and in atomic units, and convert between hartree, kcal/mol, kJ/mol and eV;</li>
+<li>explain the Born–Oppenheimer approximation and what the “total energy” printed by Q-Chem contains (and what it does not);</li>
+<li>explain why the Schrödinger equation cannot be solved exactly for any system with two or more electrons;</li>
+<li>build a Slater determinant and explain why it is antisymmetric;</li>
+<li>state the variational principle and use it to judge which of two energies is “better”;</li>
+<li>explain what “approximating Ψ” and “approximating Ĥ” mean, and decode a model chemistry such as B3LYP/def2-TZVP.</li>
+</ul>
+</div>
+</div>
+<div class="callout callout-style-simple callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Review from P-Chem 2
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This chapter builds on the <a href="https://peverati.github.io/pchem2/">Live Textbook of Physical Chemistry 2</a>. If any of the following feels rusty, reread it first:</p>
+<ul>
+<li><a href="https://peverati.github.io/pchem2/Schrodinger.html#the-time-independent-schrödinger-equation">The time-independent Schrödinger equation</a> (chapter 3)</li>
+<li><a href="https://peverati.github.io/pchem2/Operators.html#eigenfunctions-and-eigenvalues">Operators, eigenfunctions and eigenvalues</a> and <a href="https://peverati.github.io/pchem2/Operators.html#hamiltonian-operator">the Hamiltonian operator</a> (chapter 6)</li>
+<li><a href="https://peverati.github.io/pchem2/Hydrogen.html#the-radial-wave-functions">The hydrogen atom: radial wave functions</a> (chapter 5)</li>
+<li><a href="https://peverati.github.io/pchem2/Spin.html">Spin</a> and <a href="https://peverati.github.io/pchem2/Postulates.html#postulate-6-pauli-exclusion-principle">Postulate 6: the Pauli exclusion principle</a> (chapters 7–8)</li>
+<li><a href="https://peverati.github.io/pchem2/Atoms.html#many-electron-wave-functions">Many-electron wave functions</a> and <a href="https://peverati.github.io/pchem2/Atoms.html#variational-method">the variational method</a> (chapter 10)</li>
+<li><a href="https://peverati.github.io/pchem2/Molecules.html#the-molecular-hamiltonian">The molecular Hamiltonian</a> and <a href="https://peverati.github.io/pchem2/Molecules.html#the-born-oppenheimer-approximation">the Born–Oppenheimer approximation</a> (chapter 11)</li>
+</ul>
+</div>
+</div>
+<section id="why-compute" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="why-compute"><span class="header-section-number">1</span> Why compute?</h2>
+<p>Quantum chemistry programs such as Q-Chem <span class="citation" data-cites="epifanovsky2021">(<a href="#ref-epifanovsky2021" role="doc-biblioref"><span class="nocase">Epifanovsky et al.</span> 2021</a>)</span> solve, approximately, one equation: the Schrödinger equation for the electrons of a molecule. From its solution we get an <strong>energy</strong> for a given arrangement of atoms. Almost everything a computational chemist predicts is built from such energies:</p>
+<ul>
+<li><strong>Reaction energies.</strong> Compute the energy of every reactant and product, then combine them with the stoichiometric coefficients. Is the reaction uphill or downhill, and by how much?</li>
+<li><strong>Barrier heights.</strong> Compute the energy of a transition state and compare it with the reactants. The barrier controls the rate.</li>
+<li><strong>Structures.</strong> Move the atoms until the energy is as low as possible. The result is a predicted equilibrium geometry, with bond lengths and angles.</li>
+<li><strong>Spectroscopic and thermodynamic properties.</strong> The curvature of the energy around a minimum gives vibrational frequencies; from those, statistical mechanics gives zero-point energies, enthalpies and free energies.</li>
+<li><strong>Noncovalent interactions.</strong> How strongly do two molecules stick together? This needs very accurate energy <em>differences</em>, often of only one or two kcal/mol.</li>
+</ul>
+<p>The energies involved are tiny compared with the total energies the program prints. A water molecule has a total energy of about −76 hartree, which is about −48,000 kcal/mol. A typical reaction energy is a few to a few tens of kcal/mol, and a hydrogen bond is a few kcal/mol. In this lab you will constantly subtract large numbers to get small ones. That is why the accuracy of each calculation matters so much, and why you must keep all the digits.</p>
+<section id="the-course-roadmap" class="level3" data-number="1.1">
+<h3 data-number="1.1" class="anchored" data-anchor-id="the-course-roadmap"><span class="header-section-number">1.1</span> The course roadmap</h3>
+<p>This lab has ten experiments. Each one isolates one source of error or one practical decision:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Exp.</th>
+<th>Topic</th>
+<th>What it teaches</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="../experiments/ex01-basis-sets.html">1</a></td>
+<td>Basis-set incompleteness</td>
+<td>how big a basis set must be</td>
+</tr>
+<tr class="even">
+<td><a href="../experiments/ex02-jacobs-ladder.html">2</a></td>
+<td>Jacob’s ladder</td>
+<td>how density functionals are classified</td>
+</tr>
+<tr class="odd">
+<td><a href="../experiments/ex03-organic-a.html">3</a>, <a href="../experiments/ex04-organic-b.html">4</a></td>
+<td>Organic chemistry, parts A and B</td>
+<td>how functionals perform on “easy” and dispersion-bound reactions</td>
+</tr>
+<tr class="even">
+<td><a href="../experiments/ex05-difficult-cases.html">5</a></td>
+<td>Difficult cases</td>
+<td>where approximate functionals break down</td>
+</tr>
+<tr class="odd">
+<td><a href="../experiments/ex06-b3lyp-631gs.html">6</a></td>
+<td>B3LYP/6-31G*</td>
+<td>error cancellation between basis and method</td>
+</tr>
+<tr class="even">
+<td><a href="../experiments/ex07-grids.html">7</a></td>
+<td>Integration grids</td>
+<td>numerical noise in DFT</td>
+</tr>
+<tr class="odd">
+<td><a href="../experiments/ex08-stability.html">8</a></td>
+<td>Stability analysis</td>
+<td>whether the SCF found the right solution</td>
+</tr>
+<tr class="even">
+<td><a href="../experiments/ex09-experiment-vs-theory.html">9</a></td>
+<td>Theory vs experiment</td>
+<td>from electronic energies to measured quantities</td>
+</tr>
+<tr class="odd">
+<td><a href="../experiments/ex10-final-review.html">10</a></td>
+<td>Final review</td>
+<td>choosing and defending a method yourself</td>
+</tr>
+</tbody>
+</table>
+<p>Behind all ten sits a single idea, which this chapter develops: <strong>every practical calculation makes two approximations.</strong> We approximate the <em>wave function</em> Ψ by expanding it in a finite set of functions (the basis set, <a href="../lectures/l02-basis-sets.html">Class 2</a> and Experiment 1). And we approximate the <em>Hamiltonian</em> Ĥ, or more precisely the way electrons interact, by choosing a method such as Hartree–Fock or a density functional (Classes 4–6 and Experiments 2–5). Most of the semester is about understanding the errors these two approximations introduce, and how they can add up or cancel.</p>
+</section>
+</section>
+<section id="review-the-schrödinger-equation-and-the-hydrogen-atom" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="review-the-schrödinger-equation-and-the-hydrogen-atom"><span class="header-section-number">2</span> Review: the Schrödinger equation and the hydrogen atom</h2>
+<section id="operators-eigenfunctions-eigenvalues" class="level3" data-number="2.1">
+<h3 data-number="2.1" class="anchored" data-anchor-id="operators-eigenfunctions-eigenvalues"><span class="header-section-number">2.1</span> Operators, eigenfunctions, eigenvalues</h3>
+<p>The time-independent Schrödinger equation (TISE) <span class="citation" data-cites="schrodinger1926">(<a href="#ref-schrodinger1926" role="doc-biblioref">Schrödinger 1926</a>)</span> is an eigenvalue equation:</p>
+<p><span id="eq-tise"><span class="math display">\[
+\hat{H}\Psi = E\Psi .
+\tag{1}\]</span></span></p>
+<p>Here <span class="math inline">\(\hat{H}\)</span> is the <strong>Hamiltonian operator</strong>, the operator associated with the total energy. An operator acts on a function and returns another function. When the result is the <em>same</em> function multiplied by a number, the function is an <strong>eigenfunction</strong> of the operator and the number is the <strong>eigenvalue</strong>. <a href="#eq-tise" class="quarto-xref">Equation&nbsp;1</a> says that the allowed stationary states of a system are the eigenfunctions <span class="math inline">\(\Psi\)</span> of <span class="math inline">\(\hat{H}\)</span>, and the allowed energies are its eigenvalues <span class="math inline">\(E\)</span>.</p>
+<p>Three facts from P-Chem 2 matter for everything that follows:</p>
+<ol type="1">
+<li>The Hamiltonian is a <strong>Hermitian</strong> operator, so its eigenvalues are real and its eigenfunctions can be chosen orthonormal: <span class="math inline">\(\int \Psi_i^* \Psi_j \, d\tau = \delta_{ij}\)</span>.</li>
+<li>The Hamiltonian is a sum of a <strong>kinetic</strong> part and a <strong>potential</strong> part, <span class="math inline">\(\hat{H} = \hat{T} + \hat{V}\)</span>. For one particle of mass <span class="math inline">\(m\)</span>, <span class="math inline">\(\hat{T} = -\frac{\hbar^2}{2m}\nabla^2\)</span>, and <span class="math inline">\(\hat{V}\)</span> simply multiplies the wave function by the potential energy <span class="math inline">\(V(\mathbf{r})\)</span>.</li>
+<li>For any normalized function <span class="math inline">\(\Psi\)</span>, the <strong>expectation value</strong> of the energy is <span class="math inline">\(\langle E \rangle = \int \Psi^* \hat{H} \Psi \, d\tau\)</span>. If <span class="math inline">\(\Psi\)</span> is an eigenfunction, <span class="math inline">\(\langle E \rangle\)</span> equals its eigenvalue exactly.</li>
+</ol>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Notation in this course
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The P-Chem 2 textbook writes kinetic-energy operators as <span class="math inline">\(\hat{K}\)</span> and uses <span class="math inline">\(\chi\)</span> for spin orbitals. In these handouts we follow the convention of most quantum-chemistry programs and papers: <span class="math inline">\(\hat{T}\)</span> for kinetic energy, <span class="math inline">\(\Psi\)</span> for the many-electron wave function, <span class="math inline">\(\phi_i\)</span> (or <span class="math inline">\(\psi_i\)</span>) for orbitals, and <span class="math inline">\(\chi_\mu\)</span> for <strong>basis functions</strong> (from <a href="../lectures/l02-basis-sets.html">Class 2</a> on). Bold symbols such as <span class="math inline">\(\mathbf{r}\)</span> are vectors.</p>
+</div>
+</div>
+</section>
+<section id="the-hydrogen-atom-the-one-exactly-solvable-atom" class="level3" data-number="2.2">
+<h3 data-number="2.2" class="anchored" data-anchor-id="the-hydrogen-atom-the-one-exactly-solvable-atom"><span class="header-section-number">2.2</span> The hydrogen atom: the one exactly solvable atom</h3>
+<p>The hydrogen atom has one electron moving in the Coulomb field of one proton. Its Schrödinger equation can be solved exactly. In atomic units (<a href="#sec-units" class="quarto-xref">Section&nbsp;3.2</a>) the energies are</p>
+<p><span id="eq-hydrogen"><span class="math display">\[
+E_n = -\frac{1}{2n^2}\ E_\text{h}, \qquad n = 1, 2, 3, \dots
+\tag{2}\]</span></span></p>
+<p>so the ground state lies at exactly <span class="math inline">\(-0.5\ E_\text{h}\)</span>. The eigenfunctions factor into a radial part and an angular part,</p>
+<p><span class="math display">\[
+\psi_{n\ell m_\ell}(r,\theta,\varphi) = R_{n\ell}(r)\, Y_\ell^{m_\ell}(\theta,\varphi),
+\]</span></p>
+<p>labeled by three quantum numbers: the principal quantum number <span class="math inline">\(n = 1, 2, \dots\)</span>; the angular-momentum quantum number <span class="math inline">\(\ell = 0, \dots, n-1\)</span> (s, p, d, f, …); and the magnetic quantum number <span class="math inline">\(m_\ell = -\ell, \dots, +\ell\)</span>. The radial function <span class="math inline">\(R_{n\ell}\)</span> has <span class="math inline">\(n - \ell - 1\)</span> <strong>radial nodes</strong>, and the angular part has <span class="math inline">\(\ell\)</span> angular nodes. <a href="#fig-hydrogen" class="quarto-xref">Figure&nbsp;1</a> shows the first six radial functions and the corresponding radial probability densities.</p>
+<div id="fig-hydrogen" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Two panels. Left: hydrogen radial functions 1s, 2s, 2p, 3s, 3p and 3d versus r in bohr; s functions are nonzero at r = 0 and 2s and 3s cross zero at their radial nodes. Right: radial probability densities r squared R squared, with the 1s peak at 1 bohr and the n = 2 and n = 3 functions peaking farther out.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-hydrogen-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/l01-hydrogen-radial.png" class="img-fluid figure-img" alt="Two panels. Left: hydrogen radial functions 1s, 2s, 2p, 3s, 3p and 3d versus r in bohr; s functions are nonzero at r = 0 and 2s and 3s cross zero at their radial nodes. Right: radial probability densities r squared R squared, with the 1s peak at 1 bohr and the n = 2 and n = 3 functions peaking farther out.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-hydrogen-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Hydrogen-atom radial functions <span class="math inline">\(R_{n\ell}(r)\)</span> (a) and radial probability densities <span class="math inline">\(r^2R_{n\ell}^2(r)\)</span> (b), in atomic units. The 2s function has one radial node, 3s has two, 3p has one; 2p and 3d have none (<span class="math inline">\(n-\ell-1=0\)</span>). Note two features that will matter in Class 2: s functions have a sharp, finite <strong>cusp</strong> at the nucleus, and every function decays <strong>exponentially</strong>, as <span class="math inline">\(e^{-r/n}\)</span>, at large <span class="math inline">\(r\)</span>.
+</figcaption>
+</figure>
+</div>
+<p>The hydrogen orbitals are <strong>one-electron wave functions</strong>. That idea is the seed of everything we do: for many-electron systems we will build approximate wave functions out of one-electron functions (orbitals), and we will build the orbitals themselves out of simpler functions that look like the hydrogen solutions near each nucleus. Two properties of <span class="math inline">\(\psi_{1s} \propto e^{-r}\)</span> are worth noticing now, because Gaussian basis functions will get both of them wrong (<a href="../lectures/l02-basis-sets.html">Class 2</a>):</p>
+<ul>
+<li><strong>The cusp.</strong> At <span class="math inline">\(r = 0\)</span> the 1s function has a finite value and a sharp corner: its slope is <span class="math inline">\(d\psi/dr = -Z\psi(0)\)</span>, not zero. This is not an accident of hydrogen; it is required of any exact wave function wherever an electron meets a nucleus <span class="citation" data-cites="kato1957">(<a href="#ref-kato1957" role="doc-biblioref">Kato 1957</a>)</span>.</li>
+<li><strong>The exponential tail.</strong> Far from the nucleus, bound wave functions decay as <span class="math inline">\(e^{-\sqrt{2I}\,r}\)</span>, where <span class="math inline">\(I\)</span> is the ionization energy in hartree. For hydrogen, <span class="math inline">\(I = 0.5\ E_\text{h}\)</span> and the decay is <span class="math inline">\(e^{-r}\)</span>.</li>
+</ul>
+</section>
+</section>
+<section id="the-molecular-hamiltonian" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="the-molecular-hamiltonian"><span class="header-section-number">3</span> The molecular Hamiltonian</h2>
+<section id="five-terms" class="level3" data-number="3.1">
+<h3 data-number="3.1" class="anchored" data-anchor-id="five-terms"><span class="header-section-number">3.1</span> Five terms</h3>
+<p>A molecule is a collection of <span class="math inline">\(M\)</span> nuclei (charges <span class="math inline">\(Z_A\)</span>, masses <span class="math inline">\(M_A\)</span>, positions <span class="math inline">\(\mathbf{R}_A\)</span>) and <span class="math inline">\(N\)</span> electrons (mass <span class="math inline">\(m_e\)</span>, charge <span class="math inline">\(-e\)</span>, positions <span class="math inline">\(\mathbf{r}_i\)</span>). Its nonrelativistic Hamiltonian has five terms:</p>
+<p><span id="eq-molham"><span class="math display">\[
+\hat{H} = \hat{T}_n + \hat{T}_e + \hat{V}_{ne} + \hat{V}_{ee} + \hat{V}_{nn} .
+\tag{3}\]</span></span></p>
+<p>In SI units, each term reads</p>
+<p><span id="eq-terms"><span class="math display">\[
+\begin{aligned}
+\hat{T}_n &amp;= -\sum_{A=1}^{M} \frac{\hbar^2}{2M_A}\nabla_A^2 &amp;&amp;\text{kinetic energy of the nuclei}\\
+\hat{T}_e &amp;= -\sum_{i=1}^{N} \frac{\hbar^2}{2m_e}\nabla_i^2 &amp;&amp;\text{kinetic energy of the electrons}\\
+\hat{V}_{ne} &amp;= -\sum_{i=1}^{N}\sum_{A=1}^{M} \frac{Z_A e^2}{4\pi\varepsilon_0\,|\mathbf{r}_i - \mathbf{R}_A|} &amp;&amp;\text{nucleus–electron attraction}\\
+\hat{V}_{ee} &amp;= \sum_{i=1}^{N}\sum_{j&gt;i}^{N} \frac{e^2}{4\pi\varepsilon_0\,|\mathbf{r}_i - \mathbf{r}_j|} &amp;&amp;\text{electron–electron repulsion}\\
+\hat{V}_{nn} &amp;= \sum_{A=1}^{M}\sum_{B&gt;A}^{M} \frac{Z_A Z_B e^2}{4\pi\varepsilon_0\,|\mathbf{R}_A - \mathbf{R}_B|} &amp;&amp;\text{nucleus–nucleus repulsion}
+\end{aligned}
+\tag{4}\]</span></span></p>
+<p>The two attraction/repulsion sums over pairs use <span class="math inline">\(j &gt; i\)</span> and <span class="math inline">\(B &gt; A\)</span> so that each pair is counted once. The P-Chem 2 textbook writes the same five terms in <a href="https://peverati.github.io/pchem2/Molecules.html#the-molecular-hamiltonian">§11.1</a>, with <span class="math inline">\(\hat{K}\)</span> for kinetic energy.</p>
+<p>This Hamiltonian is called “exact”, but it already leaves out some physics: relativistic effects (important for core electrons of heavy atoms) and spin–orbit coupling. For the light molecules in most of this lab they are small. For heavy elements (Experiment 8 has ruthenium; Experiment 10 has palladium) the def2 basis sets include relativistic effects through <em>effective core potentials</em>, which you will meet in <a href="../lectures/l02-basis-sets.html">Class 2</a>.</p>
+</section>
+<section id="sec-units" class="level3" data-number="3.2">
+<h3 data-number="3.2" class="anchored" data-anchor-id="sec-units"><span class="header-section-number">3.2</span> Atomic units</h3>
+<p>All the constants in <a href="#eq-terms" class="quarto-xref">Equation&nbsp;4</a> are a nuisance. Quantum chemistry therefore works in <strong>atomic units</strong>, in which</p>
+<p><span class="math display">\[
+\hbar = m_e = e = 4\pi\varepsilon_0 = 1 .
+\]</span></p>
+<p>With this choice the Hamiltonian becomes much cleaner:</p>
+<p><span id="eq-molham-au"><span class="math display">\[
+\hat{H} = -\sum_{A}\frac{1}{2M_A}\nabla_A^2 - \sum_{i}\frac{1}{2}\nabla_i^2 - \sum_{i}\sum_{A}\frac{Z_A}{r_{iA}} + \sum_{i}\sum_{j&gt;i}\frac{1}{r_{ij}} + \sum_{A}\sum_{B&gt;A}\frac{Z_A Z_B}{R_{AB}} ,
+\tag{5}\]</span></span></p>
+<p>where <span class="math inline">\(r_{iA} = |\mathbf{r}_i - \mathbf{R}_A|\)</span>, <span class="math inline">\(r_{ij} = |\mathbf{r}_i - \mathbf{r}_j|\)</span>, <span class="math inline">\(R_{AB} = |\mathbf{R}_A - \mathbf{R}_B|\)</span>, and the nuclear masses <span class="math inline">\(M_A\)</span> are now in units of the electron mass (about 1836 for a proton).</p>
+<p>The unit of length is the <strong>bohr</strong> (<span class="math inline">\(a_0\)</span>), the most probable distance of the 1s electron from the proton in hydrogen. The unit of energy is the <strong>hartree</strong> (<span class="math inline">\(E_\text{h}\)</span>), twice the ionization energy of hydrogen. These are the units of every number Q-Chem prints internally, so you need the conversions at your fingertips:</p>
+<div id="tbl-units" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-units-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;1: Atomic units used in this course. In this lab, total energies are always reported in hartree and reaction energies in kcal/mol, with 1 <span class="math inline">\(E_\text{h}\)</span> = 627.5095 kcal/mol.
+</figcaption>
+<div aria-describedby="tbl-units-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Quantity</th>
+<th>Atomic unit</th>
+<th>Conversion</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>length</td>
+<td>1 bohr (<span class="math inline">\(a_0\)</span>)</td>
+<td>0.529177 Å</td>
+</tr>
+<tr class="even">
+<td>energy</td>
+<td>1 hartree (<span class="math inline">\(E_\text{h}\)</span>)</td>
+<td>627.5095 kcal/mol</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td></td>
+<td>2625.50 kJ/mol</td>
+</tr>
+<tr class="even">
+<td></td>
+<td></td>
+<td>27.2114 eV</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td></td>
+<td>219,474.6 cm⁻¹</td>
+</tr>
+<tr class="even">
+<td>mass</td>
+<td><span class="math inline">\(m_e\)</span></td>
+<td>1/1822.89 of an atomic mass unit</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Worked example: units
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>(a)</strong> The ground-state energy of hydrogen is <span class="math inline">\(-0.5\ E_\text{h}\)</span>. In other units: <span class="math inline">\(-0.5 \times 627.5095 = -313.75\)</span> kcal/mol, <span class="math inline">\(-0.5 \times 27.2114 = -13.606\)</span> eV, which is the familiar 13.6 eV ionization energy.</p>
+<p><strong>(b)</strong> Experiment 1 studies the dissociation of the HCl dimer, with a reference energy of 2.01 kcal/mol. In hartree, that is <span class="math inline">\(2.01 / 627.5095 = 0.003203\ E_\text{h}\)</span>. The total energy of one HCl molecule is about <span class="math inline">\(-460\ E_\text{h}\)</span>. The quantity you want is therefore about one part in <span class="math inline">\(10^5\)</span> of the numbers you subtract. Rounding each total energy to 4 decimals introduces up to <span class="math inline">\(0.00005\ E_\text{h}\)</span> per energy. In <span class="math inline">\(\Delta E = 2E(\text{HCl}) - E(\text{dimer})\)</span> the worst case is <span class="math inline">\(3 \times 0.00005 = 0.00015\ E_\text{h}\)</span>, or 0.09 kcal/mol: almost 5% of the answer.</p>
+<p><strong>(c)</strong> The bond length of HCl in the Experiment 1 geometry file is 1.27907 Å. In bohr: <span class="math inline">\(1.27907 / 0.529177 = 2.41709\ a_0\)</span>.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="the-bornoppenheimer-approximation" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="the-bornoppenheimer-approximation"><span class="header-section-number">4</span> The Born–Oppenheimer approximation</h2>
+<section id="clamped-nuclei" class="level3" data-number="4.1">
+<h3 data-number="4.1" class="anchored" data-anchor-id="clamped-nuclei"><span class="header-section-number">4.1</span> Clamped nuclei</h3>
+<p><a href="#eq-molham-au" class="quarto-xref">Equation&nbsp;5</a> still describes all particles at once. Even for H₂ (two nuclei, two electrons) it is a problem in 12 coordinates. The first and most important simplification uses the fact that nuclei are heavy: a proton is 1836 times heavier than an electron, and a ³⁵Cl nucleus about 64,000 times. For the same kinetic energy, nuclei move far more slowly. To the electrons, the nuclei look almost frozen; to the nuclei, the electrons adjust instantly to wherever the nuclei are.</p>
+<p>The <strong>Born–Oppenheimer approximation</strong> <span class="citation" data-cites="born1927">(<a href="#ref-born1927" role="doc-biblioref">Born and Oppenheimer 1927</a>)</span> makes this precise. We fix (“clamp”) the nuclei at positions <span class="math inline">\(\mathbf{R}\)</span>, drop the nuclear kinetic energy <span class="math inline">\(\hat{T}_n\)</span>, and solve for the electrons alone. The <strong>electronic Hamiltonian</strong> is</p>
+<p><span id="eq-hel"><span class="math display">\[
+\hat{H}_\text{el} = -\sum_{i}\frac{1}{2}\nabla_i^2 - \sum_{i}\sum_{A}\frac{Z_A}{r_{iA}} + \sum_{i}\sum_{j&gt;i}\frac{1}{r_{ij}} ,
+\tag{6}\]</span></span></p>
+<p>and the <strong>electronic Schrödinger equation</strong> is</p>
+<p><span id="eq-electronic"><span class="math display">\[
+\hat{H}_\text{el}\,\Psi_\text{el}(\mathbf{r};\mathbf{R}) = E_\text{el}(\mathbf{R})\,\Psi_\text{el}(\mathbf{r};\mathbf{R}) .
+\tag{7}\]</span></span></p>
+<p>The semicolon means that the electronic wave function depends on the electron coordinates <span class="math inline">\(\mathbf{r}\)</span> as variables and on the nuclear positions <span class="math inline">\(\mathbf{R}\)</span> only as <strong>parameters</strong>: change the geometry, and you get a different equation to solve. With the nuclei fixed, <span class="math inline">\(V_{nn}\)</span> is just a number, and we add it at the end.</p>
+</section>
+<section id="the-potential-energy-surface" class="level3" data-number="4.2">
+<h3 data-number="4.2" class="anchored" data-anchor-id="the-potential-energy-surface"><span class="header-section-number">4.2</span> The potential energy surface</h3>
+<p>The sum</p>
+<p><span id="eq-pes"><span class="math display">\[
+U(\mathbf{R}) = E_\text{el}(\mathbf{R}) + V_{nn}(\mathbf{R})
+\tag{8}\]</span></span></p>
+<p>is the <strong>potential energy surface</strong> (PES): the energy the nuclei feel as they move. Its minima are stable structures, its first-order saddle points are transition states, and its curvature at a minimum gives the vibrational frequencies. Every concept of a “molecular structure” lives on this surface, and it exists <em>only because of</em> the Born–Oppenheimer approximation.</p>
+<p><a href="#fig-h2-pes" class="quarto-xref">Figure&nbsp;2</a> shows the PES of H₂ (a single coordinate, the bond length), split into its two pieces. The electronic energy alone is attractive at all distances; it is the nuclear repulsion that turns it into a curve with a minimum.</p>
+<div id="fig-h2-pes" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Energy in hartree versus H–H distance in bohr. The total energy curve has a minimum of about −1.174 hartree near 1.40 bohr and approaches −1 hartree at large distance. The electronic energy curve lies below and rises monotonically toward −1 hartree. The nuclear repulsion 1/R decreases monotonically.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-h2-pes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/l01-h2-pes.png" class="img-fluid figure-img" alt="Energy in hartree versus H–H distance in bohr. The total energy curve has a minimum of about −1.174 hartree near 1.40 bohr and approaches −1 hartree at large distance. The electronic energy curve lies below and rises monotonically toward −1 hartree. The nuclear repulsion 1/R decreases monotonically.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-h2-pes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Potential energy curve of H₂, modeled with a Morse function using experimental constants (<span class="math inline">\(D_e\)</span> = 4.75 eV, <span class="math inline">\(R_e\)</span> = 0.741 Å, <span class="math inline">\(\tilde{\nu}_e\)</span> = 4401 cm⁻¹), in atomic units. The total energy <span class="math inline">\(U(R)\)</span> (solid) is the sum of the electronic energy <span class="math inline">\(E_\text{el}(R)\)</span> (dashed) and the nuclear repulsion <span class="math inline">\(V_{nn} = 1/R\)</span> (dotted, shifted down by 1 <span class="math inline">\(E_\text{h}\)</span> to fit on the same axes). At large <span class="math inline">\(R\)</span> the curve approaches the energy of two separate H atoms, <span class="math inline">\(2 \times (-0.5) = -1\ E_\text{h}\)</span>.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="what-total-energy-means-in-a-q-chem-output" class="level3" data-number="4.3">
+<h3 data-number="4.3" class="anchored" data-anchor-id="what-total-energy-means-in-a-q-chem-output"><span class="header-section-number">4.3</span> What “total energy” means in a Q-Chem output</h3>
+<p>When Q-Chem prints</p>
+<pre class="text"><code> Total energy in the final basis set =     -460.xxxxxxxxxx</code></pre>
+<p>that number is <span class="math inline">\(U(\mathbf{R})\)</span> of <a href="#eq-pes" class="quarto-xref">Equation&nbsp;8</a>, computed <em>at the one geometry you gave in the input</em>: the electronic energy plus the nuclear repulsion. It is the energy of a motionless molecule. In particular, it does <strong>not</strong> contain:</p>
+<ul>
+<li>the <strong>zero-point vibrational energy</strong> (ZPE): even at 0 K, a molecule vibrates, and that costs energy;</li>
+<li><strong>thermal energy</strong> at room temperature (translation, rotation, populated vibrational levels);</li>
+<li><strong>entropy</strong>, so it is not a free energy.</li>
+</ul>
+<p>The reaction energies you compute in Experiments 1–8 are therefore <em>electronic</em> reaction energies, <span class="math inline">\(\Delta E_\text{el}\)</span>, and they are compared with reference values of the same kind. Comparing with experiment requires the corrections listed above; that is the subject of Class 13 and Experiment 9.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Worked example: nuclear repulsion of HCl
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For HCl at <span class="math inline">\(R = 2.41709\ a_0\)</span> (from the previous worked example), <span class="math inline">\(V_{nn} = Z_\text{Cl} Z_\text{H}/R = 17 \times 1 / 2.41709 = 7.0332\ E_\text{h}\)</span>. That is a large positive number, about 4,400 kcal/mol. The total energy is about <span class="math inline">\(-460\ E_\text{h}\)</span>, so the electronic energy is about <span class="math inline">\(-467\ E_\text{h}\)</span>. You never need to add <span class="math inline">\(V_{nn}\)</span> yourself: the “total energy” already includes it. Q-Chem also prints the nuclear repulsion energy separately near the top of the output, which is a quick check that the geometry was read correctly.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Common mistake
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“Total energy” in a quantum-chemistry output does <em>not</em> mean “energy including everything”. It means the electronic energy plus nuclear repulsion at a fixed geometry. Never compare it directly with an experimental enthalpy.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="many-electrons" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="many-electrons"><span class="header-section-number">5</span> Many electrons</h2>
+<section id="why-we-cannot-solve-it" class="level3" data-number="5.1">
+<h3 data-number="5.1" class="anchored" data-anchor-id="why-we-cannot-solve-it"><span class="header-section-number">5.1</span> Why we cannot solve it</h3>
+<p>For a one-electron system, such as H or He⁺ or H₂⁺, the electronic Schrödinger equation can be solved exactly (analytically for atoms, numerically to any precision for H₂⁺). With two or more electrons the term</p>
+<p><span class="math display">\[
+\hat{V}_{ee} = \sum_{i}\sum_{j&gt;i}\frac{1}{r_{ij}}
+\]</span></p>
+<p><strong>couples</strong> the coordinates of every electron to every other one. The motion of electron 1 depends on where electron 2 is, and vice versa. The equation no longer separates into one-electron problems, and no analytic solution exists. Numerically, the difficulty is the dimension: <span class="math inline">\(\Psi\)</span> is a function of <span class="math inline">\(3N\)</span> spatial coordinates (plus <span class="math inline">\(N\)</span> spin coordinates). A benzene molecule has 42 electrons, so its wave function lives in a 126-dimensional space. Storing it on even a coarse grid of 10 points per coordinate would take <span class="math inline">\(10^{126}\)</span> numbers.</p>
+<p>The helium atom shows how big the effect of <span class="math inline">\(\hat{V}_{ee}\)</span> is:</p>
+<div id="tbl-helium" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-helium-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;2: The helium atom. Ignoring electron repulsion is a disaster; a single determinant of the best orbitals gets most of the energy; the remaining 0.042 <span class="math inline">\(E_\text{h}\)</span> (26 kcal/mol) is the <em>correlation energy</em> of Class 4.
+</figcaption>
+<div aria-describedby="tbl-helium-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Model for He</th>
+<th>Energy (<span class="math inline">\(E_\text{h}\)</span>)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Ignore <span class="math inline">\(\hat{V}_{ee}\)</span> entirely (two independent hydrogen-like electrons with <span class="math inline">\(Z = 2\)</span>)</td>
+<td><span class="math inline">\(2 \times (-Z^2/2) = -4.000\)</span></td>
+</tr>
+<tr class="even">
+<td>Best possible single determinant (Hartree–Fock limit)</td>
+<td><span class="math inline">\(-2.8617\)</span></td>
+</tr>
+<tr class="odd">
+<td>Exact nonrelativistic energy</td>
+<td><span class="math inline">\(-2.9037\)</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>Notice the size of the last difference. The error of the best single-determinant wave function is “only” 1.4% of the total energy, yet 26 kcal/mol is far larger than the reaction energies we care about. This is why approximations to the electron–electron interaction are the heart of quantum chemistry.</p>
+</section>
+<section id="spin-and-the-pauli-principle" class="level3" data-number="5.2">
+<h3 data-number="5.2" class="anchored" data-anchor-id="spin-and-the-pauli-principle"><span class="header-section-number">5.2</span> Spin and the Pauli principle</h3>
+<p>Electrons have spin, an intrinsic angular momentum with two possible projections, <span class="math inline">\(m_s = +\tfrac{1}{2}\)</span> (<span class="math inline">\(\alpha\)</span>, “up”) and <span class="math inline">\(m_s = -\tfrac{1}{2}\)</span> (<span class="math inline">\(\beta\)</span>, “down”). It has no classical analogue and does not appear in the Hamiltonian of <a href="#eq-hel" class="quarto-xref">Equation&nbsp;6</a>, yet it has dramatic consequences through the <strong>Pauli principle</strong>: the wave function of a system of electrons must be <strong>antisymmetric</strong> with respect to the exchange of any two electrons,</p>
+<p><span id="eq-antisym"><span class="math display">\[
+\Psi(\mathbf{x}_1, \mathbf{x}_2, \dots, \mathbf{x}_N) = -\Psi(\mathbf{x}_2, \mathbf{x}_1, \dots, \mathbf{x}_N),
+\tag{9}\]</span></span></p>
+<p>where <span class="math inline">\(\mathbf{x}_i = (\mathbf{r}_i, s_i)\)</span> collects the three spatial coordinates and the spin coordinate of electron <span class="math inline">\(i\)</span>. The familiar “no two electrons in the same state” rule is a consequence of <a href="#eq-antisym" class="quarto-xref">Equation&nbsp;9</a>, not the other way around.</p>
+<p>Spin matters for every calculation you run. The second line of each geometry file in this lab gives the charge and the <strong>spin multiplicity</strong> <span class="math inline">\(2S+1\)</span>, where <span class="math inline">\(S\)</span> is the total spin quantum number. Closed-shell molecules such as HCl have all electrons paired: <span class="math inline">\(S = 0\)</span>, a <strong>singlet</strong> (multiplicity 1). A hydrogen atom has one unpaired electron, <span class="math inline">\(S = \tfrac{1}{2}\)</span>, a <strong>doublet</strong> (2). The ground state of O₂ and of the O atom has two unpaired electrons with parallel spins, <span class="math inline">\(S = 1\)</span>, a <strong>triplet</strong> (3). Get the multiplicity wrong and you compute a different electronic state, with a different energy.</p>
+</section>
+<section id="orbitals-and-the-slater-determinant" class="level3" data-number="5.3">
+<h3 data-number="5.3" class="anchored" data-anchor-id="orbitals-and-the-slater-determinant"><span class="header-section-number">5.3</span> Orbitals and the Slater determinant</h3>
+<p>How do we write down a wave function that is automatically antisymmetric? Start from one-electron functions. A <strong>spatial orbital</strong> <span class="math inline">\(\phi(\mathbf{r})\)</span> times a spin function, <span class="math inline">\(\alpha\)</span> or <span class="math inline">\(\beta\)</span>, is a <strong>spin orbital</strong> <span class="math inline">\(\varphi(\mathbf{x})\)</span>. Each spatial orbital can therefore hold two electrons, one with each spin.</p>
+<p>A simple product of spin orbitals, <span class="math inline">\(\varphi_1(\mathbf{x}_1)\varphi_2(\mathbf{x}_2)\)</span>, is not antisymmetric. The fix, for two electrons, is to subtract the swapped product:</p>
+<p><span id="eq-slater2"><span class="math display">\[
+\Psi(\mathbf{x}_1, \mathbf{x}_2) = \frac{1}{\sqrt{2}}\Big[\varphi_1(\mathbf{x}_1)\varphi_2(\mathbf{x}_2) - \varphi_2(\mathbf{x}_1)\varphi_1(\mathbf{x}_2)\Big]
+= \frac{1}{\sqrt{2}}
+\left|\begin{matrix}
+\varphi_1(\mathbf{x}_1) &amp; \varphi_2(\mathbf{x}_1) \\
+\varphi_1(\mathbf{x}_2) &amp; \varphi_2(\mathbf{x}_2)
+\end{matrix}\right| .
+\tag{10}\]</span></span></p>
+<p>The second form is a determinant, and it generalizes to <span class="math inline">\(N\)</span> electrons. The <strong>Slater determinant</strong> <span class="citation" data-cites="slater1930">(<a href="#ref-slater1930" role="doc-biblioref">Slater 1930</a>)</span> is</p>
+<p><span id="eq-slater"><span class="math display">\[
+\Psi(\mathbf{x}_1, \dots, \mathbf{x}_N) = \frac{1}{\sqrt{N!}}
+\left|\begin{matrix}
+\varphi_1(\mathbf{x}_1) &amp; \varphi_2(\mathbf{x}_1) &amp; \cdots &amp; \varphi_N(\mathbf{x}_1) \\
+\varphi_1(\mathbf{x}_2) &amp; \varphi_2(\mathbf{x}_2) &amp; \cdots &amp; \varphi_N(\mathbf{x}_2) \\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+\varphi_1(\mathbf{x}_N) &amp; \varphi_2(\mathbf{x}_N) &amp; \cdots &amp; \varphi_N(\mathbf{x}_N)
+\end{matrix}\right| .
+\tag{11}\]</span></span></p>
+<p>Rows are electrons, columns are spin orbitals. Two properties of determinants do all the work:</p>
+<ul>
+<li><strong>Swapping two rows changes the sign</strong> of a determinant. Swapping two rows means exchanging two electrons, so <a href="#eq-slater" class="quarto-xref">Equation&nbsp;11</a> obeys <a href="#eq-antisym" class="quarto-xref">Equation&nbsp;9</a> automatically.</li>
+<li><strong>A determinant with two identical columns is zero.</strong> Two electrons in the same spin orbital give <span class="math inline">\(\Psi = 0\)</span>: this is the Pauli exclusion principle.</li>
+</ul>
+<p>The Slater determinant is the <em>simplest</em> antisymmetric wave function we can build from orbitals. It is the wave function of Hartree–Fock theory (Class 4), and the Kohn–Sham determinant of density functional theory (Class 5) has the same form. It is not the exact wave function: a single determinant describes each electron as moving in the <em>average</em> field of the others, and misses the way electrons instantaneously avoid each other. That missing piece is <strong>electron correlation</strong>.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Orbitals are building blocks, not observables
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For one-electron systems, orbitals are exact wave functions. For many-electron systems they are a <em>mathematical device</em> for building an approximate <span class="math inline">\(\Psi\)</span>. This is why the orbital pictures in IQmol are so useful for intuition, and also why you should not over-interpret them: different methods give somewhat different orbitals for the same molecule.</p>
+</div>
+</div>
+</section>
+<section id="the-variational-principle" class="level3" data-number="5.4">
+<h3 data-number="5.4" class="anchored" data-anchor-id="the-variational-principle"><span class="header-section-number">5.4</span> The variational principle</h3>
+<p>We cannot solve <a href="#eq-electronic" class="quarto-xref">Equation&nbsp;7</a> exactly, so how can we tell whether one approximate wave function is better than another? The <strong>variational principle</strong> gives the answer. For any normalized, well-behaved trial function <span class="math inline">\(\Psi_\text{trial}\)</span> that satisfies the right boundary conditions and symmetry,</p>
+<p><span id="eq-variational"><span class="math display">\[
+E[\Psi_\text{trial}] = \int \Psi_\text{trial}^* \hat{H} \Psi_\text{trial}\, d\tau \;\geq\; E_0 ,
+\tag{12}\]</span></span></p>
+<p>where <span class="math inline">\(E_0\)</span> is the exact ground-state energy. Equality holds only if <span class="math inline">\(\Psi_\text{trial}\)</span> is the exact ground state.</p>
+<p>The proof takes three lines. Expand the trial function in the (unknown) exact eigenfunctions, <span class="math inline">\(\Psi_\text{trial} = \sum_k c_k \Psi_k\)</span>, with <span class="math inline">\(\sum_k |c_k|^2 = 1\)</span>. Then <span class="math inline">\(E[\Psi_\text{trial}] = \sum_k |c_k|^2 E_k\)</span>. Since every <span class="math inline">\(E_k \geq E_0\)</span>, the weighted average can never be below <span class="math inline">\(E_0\)</span>.</p>
+<p>The consequences are practical:</p>
+<ol type="1">
+<li><strong>Lower is better.</strong> Among trial wave functions of the same Hamiltonian, the one with the lower energy is closer to the exact ground state (in energy).</li>
+<li><strong>Optimize parameters.</strong> Give the trial function adjustable parameters and minimize the energy with respect to them. The result is the best approximation of that form.</li>
+<li><strong>More flexibility can only help.</strong> If one family of trial functions contains another (for example, a bigger set of basis functions that includes all the functions of a smaller one), the minimum energy of the bigger family is lower or equal.</li>
+</ol>
+<p>Point 3 is the reason basis sets work, as you will see in <a href="../lectures/l02-basis-sets.html">Class 2</a>.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Worked example: the variational principle for helium
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Take as a trial function for He a product of two hydrogen-like 1s orbitals with an adjustable exponent <span class="math inline">\(\zeta\)</span> (an “effective nuclear charge”), <span class="math inline">\(\Psi = \frac{\zeta^3}{\pi} e^{-\zeta r_1} e^{-\zeta r_2}\)</span>, times the singlet spin function. Evaluating <span class="math inline">\(\langle \hat{H} \rangle\)</span> for helium (<span class="math inline">\(Z = 2\)</span>) gives</p>
+<p><span class="math display">\[
+E(\zeta) = \zeta^2 - 2Z\zeta + \tfrac{5}{8}\zeta .
+\]</span></p>
+<p>Setting <span class="math inline">\(dE/d\zeta = 0\)</span> gives <span class="math inline">\(\zeta = Z - \tfrac{5}{16} = 1.6875\)</span> and <span class="math inline">\(E = -\zeta^2 = -2.8477\ E_\text{h}\)</span>. Compare with <a href="#tbl-helium" class="quarto-xref">Table&nbsp;2</a>. The optimized energy is above the exact <span class="math inline">\(-2.9037\ E_\text{h}\)</span>, as the variational principle guarantees, and well below the unscreened <span class="math inline">\(\zeta = 2\)</span> result (<span class="math inline">\(E = 4 - 8 + 1.25 = -2.75\ E_\text{h}\)</span>). The optimized <span class="math inline">\(\zeta &lt; 2\)</span> has a physical meaning: each electron partly <em>screens</em> the nucleus from the other. Adding more flexibility (more parameters) would bring the energy closer to <span class="math inline">\(-2.9037\)</span>.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>When “lower is better” does not apply
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The variational principle compares energies computed <strong>with the same Hamiltonian</strong>. Hartree–Fock and the basis-set expansion are variational, so a bigger basis always gives a lower or equal HF energy. But approximate density functionals (Classes 5–6) use <em>approximate</em> Hamiltonians: a functional that gives a lower total energy is not, for that reason, a better functional. Comparing total energies across methods is meaningless; comparing <strong>reaction energies</strong> with a reliable reference is how methods are judged (Class 7).</p>
+</div>
+</div>
+</section>
+</section>
+<section id="the-two-approximations-of-every-calculation" class="level2" data-number="6">
+<h2 data-number="6" class="anchored" data-anchor-id="the-two-approximations-of-every-calculation"><span class="header-section-number">6</span> The two approximations of every calculation</h2>
+<p>We can now state precisely what any practical electronic-structure calculation does. It makes two approximations, and they are independent of each other.</p>
+<p><strong>Approximation 1: the wave function (the basis set).</strong> The orbitals are unknown functions in three dimensions. A computer cannot store an arbitrary function, so we expand each orbital in a finite set of known functions, the <strong>basis set</strong>. The finite expansion restricts the shapes the orbitals can take, and by the variational principle the energy is too high. As the basis grows, this <strong>basis-set incompleteness error</strong> (BSIE) shrinks toward the <em>complete-basis-set</em> (CBS) limit. This is <a href="../lectures/l02-basis-sets.html">Class 2</a> and <a href="../experiments/ex01-basis-sets.html">Experiment 1</a>.</p>
+<p><strong>Approximation 2: the Hamiltonian (the method).</strong> Even with a complete basis, we cannot handle <span class="math inline">\(\hat{V}_{ee}\)</span> exactly. A <strong>method</strong> decides how to treat it. Hartree–Fock replaces it by an average field (Class 4). Density functional theory replaces the hard part by an approximate <em>exchange–correlation functional</em> (Classes 5–6). Wave-function methods such as MP2 or CCSD(T) add correlation on top of Hartree–Fock, at a much higher cost.</p>
+<p>The pair of choices is called a <strong>model chemistry</strong> or <strong>level of theory</strong>, and it is written <em>method/basis</em>:</p>
+<div id="tbl-model" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-model-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;3: Decoding a model chemistry. You will meet each of these names in Experiment 1.
+</figcaption>
+<div aria-describedby="tbl-model-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Model chemistry</th>
+<th>Method (approximates Ĥ)</th>
+<th>Basis set (approximates Ψ)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>HF/cc-pVTZ</td>
+<td>Hartree–Fock</td>
+<td>Dunning triple-ζ</td>
+</tr>
+<tr class="even">
+<td>B3LYP/def2-SVP</td>
+<td>B3LYP hybrid functional</td>
+<td>Karlsruhe double-ζ</td>
+</tr>
+<tr class="odd">
+<td>ωB97M-V/def2-QZVP</td>
+<td>ωB97M-V range-separated hybrid meta-GGA</td>
+<td>Karlsruhe quadruple-ζ</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>The total error of a computed reaction energy is, roughly, method error + basis-set error (+ smaller numerical errors such as integration grids and SCF convergence). One of the goals of this lab is to learn to keep these errors separate. Experiment 1 holds the method fixed and varies the basis; Experiments 3–5 hold the basis fixed and vary the method; Experiment 6 shows what happens when the two errors cancel each other.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>What comes next
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><a href="../lectures/l02-basis-sets.html">Class 2</a> opens the first approximation: what basis functions look like, why everyone uses Gaussians, and how to read names such as 6-31G*, def2-TZVP and cc-pVQZ. <a href="../lectures/l03-from-theory-to-a-calculation.html">Class 3</a> turns all of this into a real calculation in IQmol and Q-Chem.</p>
+</div>
+</div>
+</section>
+<section id="key-points" class="level2" data-number="7">
+<h2 data-number="7" class="anchored" data-anchor-id="key-points"><span class="header-section-number">7</span> Key points</h2>
+<ul>
+<li>A quantum-chemistry program computes an energy for a fixed arrangement of nuclei. Reaction energies, barriers, structures and frequencies are all built from such energies.</li>
+<li>The molecular Hamiltonian has five terms: <span class="math inline">\(\hat{T}_n\)</span>, <span class="math inline">\(\hat{T}_e\)</span>, <span class="math inline">\(\hat{V}_{ne}\)</span>, <span class="math inline">\(\hat{V}_{ee}\)</span> and <span class="math inline">\(\hat{V}_{nn}\)</span>. In atomic units (<span class="math inline">\(\hbar = m_e = e = 4\pi\varepsilon_0 = 1\)</span>) energies are in hartree and lengths in bohr.</li>
+<li>1 <span class="math inline">\(E_\text{h}\)</span> = 627.5095 kcal/mol = 2625.50 kJ/mol = 27.2114 eV; 1 bohr = 0.529177 Å.</li>
+<li>The Born–Oppenheimer approximation clamps the nuclei and gives the electronic Schrödinger equation; <span class="math inline">\(E_\text{el}(\mathbf{R}) + V_{nn}(\mathbf{R})\)</span> is the potential energy surface.</li>
+<li>Q-Chem’s “total energy” is <span class="math inline">\(E_\text{el} + V_{nn}\)</span> at one fixed geometry: no zero-point energy, no thermal corrections, no entropy.</li>
+<li>The electron–electron repulsion couples all electrons, so no system with two or more electrons can be solved exactly.</li>
+<li>Electrons are fermions: the wave function must be antisymmetric. A Slater determinant of spin orbitals is the simplest antisymmetric wave function and enforces the Pauli principle automatically.</li>
+<li>The variational principle: any trial wave function gives an energy at or above the exact ground-state energy, for the same Hamiltonian. Lower is better, and more flexibility can only lower the energy.</li>
+<li>Every calculation approximates Ψ (the basis set) and Ĥ (the method). A model chemistry is written method/basis.</li>
+</ul>
+</section>
+<section id="study-questions" class="level2" data-number="8">
+<h2 data-number="8" class="anchored" data-anchor-id="study-questions"><span class="header-section-number">8</span> Study questions</h2>
+<ol type="1">
+<li>Write the five terms of the molecular Hamiltonian for the H₂⁺ ion in atomic units. Which term is absent compared with H₂, and why does its absence make H₂⁺ exactly solvable within the Born–Oppenheimer approximation?</li>
+<li>The total energy of a molecule is printed as −76.4 <span class="math inline">\(E_\text{h}\)</span>. Express it in kcal/mol, kJ/mol and eV. Which unit would you use to report a reaction energy in this lab?</li>
+<li>A reaction energy is computed as 0.0158 <span class="math inline">\(E_\text{h}\)</span>. Convert it to kcal/mol. If each of the two total energies used to compute it had been rounded to 3 decimal places, what is the largest error (in kcal/mol) the rounding could introduce?</li>
+<li>Why does the Born–Oppenheimer approximation work so well? Give the mass ratio between a ³⁵Cl nucleus and an electron, and explain why the approximation is expected to be slightly worse for molecules containing hydrogen.</li>
+<li>Compute the nuclear repulsion energy of H₂ at its equilibrium bond length of 0.741 Å, in hartree and in kcal/mol.</li>
+<li>Explain in your own words what the “total energy” in a Q-Chem output contains, and list three contributions that would be needed to compare it with an experimental reaction enthalpy at 298 K.</li>
+<li>Write the Slater determinant for the ground state of the lithium atom (configuration 1s² 2s¹) using spin orbitals <span class="math inline">\(1s\alpha\)</span>, <span class="math inline">\(1s\beta\)</span>, <span class="math inline">\(2s\alpha\)</span>. Show that putting the third electron in <span class="math inline">\(1s\alpha\)</span> instead gives <span class="math inline">\(\Psi = 0\)</span>.</li>
+<li>Give the spin multiplicity of: HCl, the H atom, the Cl atom, the O atom (ground state), O₂ (ground state), and the CH₃ radical.</li>
+<li>Calculation A gives <span class="math inline">\(E = -2.8477\ E_\text{h}\)</span> for He and calculation B gives <span class="math inline">\(-2.8617\ E_\text{h}\)</span>, both with the exact Hamiltonian. Which wave function is better, and how do you know? Could a calculation with the exact Hamiltonian give <span class="math inline">\(-2.95\ E_\text{h}\)</span>?</li>
+<li>Two students compute the total energy of water with two different density functionals and get −76.42 and −76.38 <span class="math inline">\(E_\text{h}\)</span>. One argues the first functional is better “because of the variational principle”. Is the argument correct? Explain.</li>
+</ol>
+</section>
+<section id="further-reading" class="level2" data-number="9">
+<h2 data-number="9" class="anchored" data-anchor-id="further-reading"><span class="header-section-number">9</span> Further reading</h2>
+<ul>
+<li><a href="https://peverati.github.io/pchem2/">The Live Textbook of Physical Chemistry 2</a>, chapters 3, 5–8, 10 and 11, for the review material of this chapter.</li>
+<li>A. Szabo and N. S. Ostlund, <em>Modern Quantum Chemistry</em> <span class="citation" data-cites="szabo1996">(<a href="#ref-szabo1996" role="doc-biblioref">Szabo and Ostlund 1996</a>)</span>, chapters 1–2: the classic, careful introduction to the electronic Hamiltonian, Slater determinants and their algebra.</li>
+<li>T. Helgaker, P. Jørgensen and J. Olsen, <em>Molecular Electronic-Structure Theory</em> <span class="citation" data-cites="helgaker2000">(<a href="#ref-helgaker2000" role="doc-biblioref">Helgaker et al. 2000</a>)</span>: the advanced reference for everything in Classes 1–4.</li>
+<li>W. Koch and M. C. Holthausen, <em>A Chemist’s Guide to Density Functional Theory</em> <span class="citation" data-cites="koch2001">(<a href="#ref-koch2001" role="doc-biblioref">Koch and Holthausen 2001</a>)</span>, chapter 1: a compact review of the many-electron problem from the point of view of DFT users.</li>
+</ul>
+
+
+
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-born1927" class="csl-entry" role="listitem">
+Born, M., and R. Oppenheimer. 1927. <span>“Zur Quantentheorie Der Molekeln.”</span> <em>Ann. Phys.</em> 389: 457–84. <a href="https://doi.org/10.1002/andp.19273892002">https://doi.org/10.1002/andp.19273892002</a>.
+</div>
+<div id="ref-epifanovsky2021" class="csl-entry" role="listitem">
+<span class="nocase">Epifanovsky, E. et al.</span> 2021. <span>“Software for the Frontiers of Quantum Chemistry: An Overview of Developments in the <span>Q-Chem</span> 5 Package.”</span> <em>J. Chem. Phys.</em> 155: 084801.
+</div>
+<div id="ref-helgaker2000" class="csl-entry" role="listitem">
+Helgaker, T., P. Jørgensen, and J. Olsen. 2000. <em>Molecular Electronic-Structure Theory</em>. Wiley.
+</div>
+<div id="ref-kato1957" class="csl-entry" role="listitem">
+Kato, T. 1957. <span>“On the Eigenfunctions of Many-Particle Systems in Quantum Mechanics.”</span> <em>Commun. Pure Appl. Math.</em> 10: 151–77. <a href="https://doi.org/10.1002/cpa.3160100201">https://doi.org/10.1002/cpa.3160100201</a>.
+</div>
+<div id="ref-koch2001" class="csl-entry" role="listitem">
+Koch, W., and M. C. Holthausen. 2001. <em>A Chemist’s Guide to Density Functional Theory</em>. 2nd ed. Wiley-VCH.
+</div>
+<div id="ref-schrodinger1926" class="csl-entry" role="listitem">
+Schrödinger, E. 1926. <span>“Quantisierung Als Eigenwertproblem.”</span> <em>Ann. Phys.</em> 384: 361–76. <a href="https://doi.org/10.1002/andp.19263840404">https://doi.org/10.1002/andp.19263840404</a>.
+</div>
+<div id="ref-slater1930" class="csl-entry" role="listitem">
+Slater, J. C. 1930. <em>Phys. Rev.</em> 35: 210–11.
+</div>
+<div id="ref-szabo1996" class="csl-entry" role="listitem">
+Szabo, A., and N. S. Ostlund. 1996. <em>Modern Quantum Chemistry: Introduction to Advanced Electronic Structure Theory</em>. Dover.
+</div>
+</div></section></div></main> <!-- /main -->
+<!-- Peverati lab logo at the top right of the navbar (light and dark versions). -->
+<script>
+(function () {
+  var css = document.querySelector('link[href$="styles.css"]');
+  var root = css ? css.getAttribute("href").replace(/styles\.css$/, "") : "";
+  var nav = document.querySelector("#quarto-header nav.navbar .navbar-container") ||
+            document.querySelector("#quarto-header nav.navbar .container-fluid");
+  if (!nav) return;
+  var a = document.createElement("a");
+  a.className = "lab-logo";
+  a.href = "https://peverati.github.io";
+  a.title = "Peverati research group";
+  // Both versions are inserted; CSS shows the one that matches the light/dark theme.
+  a.innerHTML =
+    '<img class="logo-for-light" src="' + root + 'images/logo-light.png" alt="Peverati research group logo">' +
+    '<img class="logo-for-dark" src="' + root + 'images/logo-dark.png" alt="Peverati research group logo">';
+  nav.appendChild(a);
+})();
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const toggle = window.document.createElement('button');
+      toggle.type = "button";
+      toggle.setAttribute("role", "switch");
+      toggle.setAttribute("aria-checked", "false");
+      toggle.classList.add('top-right');
+      toggle.classList.add('quarto-color-scheme-toggle');
+      toggle.setAttribute("aria-label", "Toggle dark mode");
+      toggle.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      toggle.appendChild(i);
+      // Put the toggle in a landmark of its own, so that landmark navigation
+      // can reach it.
+      //
+      // The container is always a fresh direct child of body, and the toggle is
+      // never moved into page furniture that the theme or the author controls.
+      // The toggle is positioned against the page, so any ancestor that
+      // establishes a containing block captures it: a positioned element or a
+      // grid for position: absolute, and transform, filter, will-change or
+      // contain for position: fixed. A direct child of body has none of these
+      // to inherit, and the shift when one appears is silent and visual.
+      //
+      // ARIA says a document should have at most one banner, and axe reports a
+      // duplicate whether or not the banners carry distinct labels. So use a
+      // header when the page has no banner yet, and a named region otherwise.
+      //
+      // A header is a banner wherever it sits, unless it is inside sectioning
+      // content, so this cannot just look at the children of body: a custom
+      // page layout wraps the title block header in a plain div. An explicit
+      // role="banner" always counts.
+      const sectioning = 'article, aside, main, nav, section, [role="article"], [role="complementary"], [role="main"], [role="navigation"], [role="region"]';
+      const hasBanner = Array.from(
+        window.document.querySelectorAll('header:not([role]), [role="banner"]')
+      ).some(function(el) {
+        return el.hasAttribute("role") || el.closest(sectioning) === null;
+      });
+      const container = window.document.createElement(hasBanner ? "div" : "header");
+      if (hasBanner) {
+        container.setAttribute("role", "region");
+        container.setAttribute("aria-label", "Toggle dark mode");
+      }
+      container.classList.add('quarto-color-scheme-toggle-container');
+      container.appendChild(toggle);
+      window.document.body.appendChild(container);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/peverati\.github\.io\/advpchem\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+          if (!link.classList.contains('no-external-icon')) {
+          }
+        }
+      }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          // Each band is positioned against its own containing block, which is
+          // not the offsetParent of the lines, so place it from client rects.
+          const placeBand = (band, firstEl, lastEl, codeBlock) => {
+            const container = band.offsetParent;
+            if (container === null) {
+              return;
+            }
+            const containerRect = container.getBoundingClientRect();
+            // Reveal.js scales slides with a transform, so convert client
+            // pixels back to the CSS pixels of the container.
+            const scale = containerRect.height / container.offsetHeight || 1;
+            const firstRect = firstEl.getBoundingClientRect();
+            const lastRect = lastEl.getBoundingClientRect();
+            const top = (firstRect.top - containerRect.top) / scale - container.clientTop + container.scrollTop;
+            const height = (lastRect.bottom - firstRect.top) / scale;
+            band.style.top = top - 2 + "px";
+            band.style.height = height + 4 + "px";
+            if (codeBlock) {
+              // Without the copy button wrapper, the containing block is wider
+              // than the code block, so span the code block explicitly.
+              const blockRect = codeBlock.getBoundingClientRect();
+              band.style.left = (blockRect.left - containerRect.left) / scale - container.clientLeft + container.scrollLeft + "px";
+              band.style.width = blockRect.width / scale + "px";
+            }
+          };
+          if (lineIds.length > 0) {
+            const el = window.document.getElementById(lineIds[0]);
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const parent = el.parentElement.parentElement;
+            // cook up a div (if necessary) and position it
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            placeBand(div, el, lastEl, parent.closest("div.sourceCode") || parent);
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            placeBand(gutterDiv, el, lastEl);
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+  <script type="application/javascript">
+  window.quartoScrollableRegionsLabels = {"code":"Scrollable code","output":"Scrollable output"};
+  </script>
+<nav class="page-navigation" aria-label="Page">
+  <div class="nav-page nav-page-previous">
+      <a href="../lectures/index.html" class="pagination-link" aria-label="Lectures">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Lectures</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../lectures/l02-basis-sets.html" class="pagination-link" aria-label="Class 2 · Approximating the wave function: basis sets">
+        <span class="nav-page-text">Class 2 · Approximating the wave function: basis sets</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Advanced Physical Chemistry · Florida Institute of Technology</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>Experiments adapted from Morgante &amp; Peverati, <em>Int. J. Quantum Chem.</em> <strong>2020</strong></p>
+</div>
+  </div>
+</footer>
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

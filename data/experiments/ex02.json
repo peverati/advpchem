@@ -1,0 +1,35 @@
+{
+  "id": "ex02",
+  "number": 2,
+  "title": "Jacob's Ladder: Where Can I Learn More About DFT and Functionals?",
+  "rungs": ["LSDA", "GGA", "mGGA", "H-GGA", "H-mGGA"],
+  "rung_help": {
+    "LSDA": "local (spin) density only",
+    "GGA": "density + its gradient",
+    "mGGA": "+ kinetic-energy density τ (or the Laplacian), no exact exchange",
+    "H-GGA": "GGA + a fraction of Hartree–Fock exchange",
+    "H-mGGA": "meta-GGA + a fraction of Hartree–Fock exchange"
+  },
+  "ladder": [
+    { "name": "SPW92", "answer": "LSDA", "why": "Slater exchange plus Perdew–Wang 1992 correlation. It depends only on the local spin density." },
+    { "name": "SVWN5", "answer": "LSDA", "why": "Slater exchange plus Vosko–Wilk–Nusair (form V) correlation, again only the local density." },
+    { "name": "BP86", "answer": "GGA", "why": "Becke 88 exchange and Perdew 86 correlation both use the density gradient." },
+    { "name": "BLYP", "answer": "GGA", "why": "Becke 88 exchange plus Lee–Yang–Parr correlation, a pure GGA with no exact exchange." },
+    { "name": "PBE", "answer": "GGA", "why": "The non-empirical Perdew–Burke–Ernzerhof GGA." },
+    { "name": "M06-L", "answer": "mGGA", "why": "A local Minnesota functional that uses the kinetic-energy density τ, with no Hartree–Fock exchange." },
+    { "name": "M11-L", "answer": "mGGA", "why": "A dual-range *local* meta-GGA. Range separation here does not mean exact exchange." },
+    { "name": "MN15-L", "answer": "mGGA", "why": "A local meta-NGA (non-separable gradient approximation). On this simplified ladder it sits on the meta-GGA rung, with no exact exchange." },
+    { "name": "SCAN", "answer": "mGGA", "why": "The “strongly constrained and appropriately normed” meta-GGA, built to satisfy 17 exact constraints." },
+    { "name": "B97M-V", "answer": "mGGA", "why": "A meta-GGA with VV10 nonlocal correlation but no Hartree–Fock exchange." },
+    { "name": "B3LYP", "answer": "H-GGA", "why": "A three-parameter hybrid with 20% Hartree–Fock exchange." },
+    { "name": "B3PW91", "answer": "H-GGA", "why": "Becke’s original three-parameter hybrid (20% HF exchange) with PW91 correlation." },
+    { "name": "M05-2X", "answer": "H-mGGA", "why": "A hybrid meta-GGA with 56% Hartree–Fock exchange." },
+    { "name": "M06", "answer": "H-mGGA", "why": "A hybrid meta-GGA with 27% Hartree–Fock exchange." },
+    { "name": "M06-2X", "answer": "H-mGGA", "why": "A hybrid meta-GGA with 54% Hartree–Fock exchange (“2X” = double the exchange of M06)." },
+    { "name": "M06-HF", "answer": "H-mGGA", "why": "A hybrid meta-GGA with 100% Hartree–Fock exchange." },
+    { "name": "M11", "answer": "H-mGGA", "why": "A range-separated hybrid meta-GGA: 42.8% HF exchange at short range, rising to 100% at long range." },
+    { "name": "MN15", "answer": "H-mGGA", "why": "A hybrid meta-NGA with 44% Hartree–Fock exchange." },
+    { "name": "PBE0", "answer": "H-GGA", "why": "PBE with 25% Hartree–Fock exchange." },
+    { "name": "ωB97M-V", "answer": "H-mGGA", "why": "A range-separated hybrid meta-GGA with VV10 nonlocal correlation." }
+  ]
+}

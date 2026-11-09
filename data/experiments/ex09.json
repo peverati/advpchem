@@ -1,0 +1,445 @@
+{
+ "id": "ex09",
+ "number": 9,
+ "title": "Comparison with Experimental Results",
+ "geometry_dir": "ex09",
+ "rem_common": {
+  "JOBTYPE": "SP",
+  "SCF_CONVERGENCE": "8",
+  "INTERNAL_STABILITY": "TRUE",
+  "XC_GRID": "000099000590"
+ },
+ "species": [
+  {
+   "id": "tbuoh",
+   "label": "tert-butyl alcohol",
+   "file": "107_tBu-OH_SR-MGN-BE107.xyz",
+   "charge": 0,
+   "mult": 1
+  },
+  {
+   "id": "tbu",
+   "label": "tert-butyl radical",
+   "file": "056_CH3_3_C_SR-MGN-BE107.xyz",
+   "charge": 0,
+   "mult": 2
+  },
+  {
+   "id": "oh",
+   "label": "OH radical",
+   "file": "086_OH_SR-MGN-BE107.xyz",
+   "charge": 0,
+   "mult": 2
+  },
+  {
+   "id": "fecl",
+   "label": "FeCl (sextet)",
+   "file": "22_FeCl_SR-TM-BE17.xyz",
+   "charge": 0,
+   "mult": 6
+  },
+  {
+   "id": "fe",
+   "label": "Fe atom (quintet)",
+   "file": "25_Fe_def2_SR-TM-BE17.xyz",
+   "charge": 0,
+   "mult": 5
+  },
+  {
+   "id": "cl",
+   "label": "Cl atom",
+   "file": "08_Cl_SR-TM-BE17.xyz",
+   "charge": 0,
+   "mult": 2
+  },
+  {
+   "id": "h2",
+   "label": "H₂",
+   "file": "W4-11_h2.xyz",
+   "charge": 0,
+   "mult": 1
+  },
+  {
+   "id": "ch4",
+   "label": "CH₄",
+   "file": "W4-11_ch4.xyz",
+   "charge": 0,
+   "mult": 1
+  },
+  {
+   "id": "nh3",
+   "label": "NH₃",
+   "file": "W4-11_nh3.xyz",
+   "charge": 0,
+   "mult": 1
+  },
+  {
+   "id": "h2o",
+   "label": "H₂O",
+   "file": "W4-11_h2o.xyz",
+   "charge": 0,
+   "mult": 1
+  },
+  {
+   "id": "o3",
+   "label": "O₃",
+   "file": "W4-11_o3.xyz",
+   "charge": 0,
+   "mult": 1
+  },
+  {
+   "id": "h",
+   "label": "H atom",
+   "file": "W4-11_h.xyz",
+   "charge": 0,
+   "mult": 2
+  },
+  {
+   "id": "c",
+   "label": "C atom (triplet)",
+   "file": "W4-11_c.xyz",
+   "charge": 0,
+   "mult": 3
+  },
+  {
+   "id": "n",
+   "label": "N atom (quartet)",
+   "file": "W4-11_n.xyz",
+   "charge": 0,
+   "mult": 4
+  },
+  {
+   "id": "o",
+   "label": "O atom (triplet)",
+   "file": "W4-11_o.xyz",
+   "charge": 0,
+   "mult": 3
+  }
+ ],
+ "methods": [
+  {
+   "id": "MN15-L",
+   "label": "MN15-L",
+   "rung": "meta-GGA",
+   "rem": {
+    "METHOD": "MN15-L"
+   }
+  },
+  {
+   "id": "MN15",
+   "label": "MN15",
+   "rung": "hybrid meta-GGA",
+   "rem": {
+    "METHOD": "MN15"
+   }
+  },
+  {
+   "id": "B3LYP",
+   "label": "B3LYP",
+   "rung": "hybrid GGA",
+   "rem": {
+    "METHOD": "B3LYP"
+   }
+  },
+  {
+   "id": "PBE",
+   "label": "PBE",
+   "rung": "GGA",
+   "rem": {
+    "METHOD": "PBE"
+   }
+  },
+  {
+   "id": "HF",
+   "label": "HF",
+   "rung": "Hartree–Fock",
+   "rem": {
+    "METHOD": "HF"
+   }
+  }
+ ],
+ "bases": [
+  {
+   "id": "def2-TZVP",
+   "family": "Ahlrichs def2",
+   "zeta": 3
+  },
+  {
+   "id": "6-31G*",
+   "family": "Pople",
+   "zeta": 2
+  }
+ ],
+ "conditions": [
+  {
+   "method": "MN15-L",
+   "basis": "def2-TZVP"
+  },
+  {
+   "method": "MN15",
+   "basis": "def2-TZVP"
+  },
+  {
+   "method": "B3LYP",
+   "basis": "def2-TZVP"
+  },
+  {
+   "method": "PBE",
+   "basis": "def2-TZVP"
+  },
+  {
+   "method": "HF",
+   "basis": "def2-TZVP"
+  },
+  {
+   "method": "B3LYP",
+   "basis": "6-31G*",
+   "species": [
+    "tbuoh",
+    "tbu",
+    "oh"
+   ]
+  }
+ ],
+ "reactions": [
+  {
+   "id": "tBuOH",
+   "label": "(CH₃)₃C–OH → (CH₃)₃C· + ·OH",
+   "nu": {
+    "tbuoh": -1,
+    "tbu": 1,
+    "oh": 1
+   },
+   "ref": 115.02,
+   "group": "bond dissociation"
+  },
+  {
+   "id": "FeCl",
+   "label": "FeCl → Fe + Cl",
+   "nu": {
+    "fecl": -1,
+    "fe": 1,
+    "cl": 1
+   },
+   "ref": 78.5,
+   "group": "bond dissociation"
+  },
+  {
+   "id": "H2",
+   "label": "H₂ → 2 H",
+   "nu": {
+    "h2": -1,
+    "h": 2
+   },
+   "ref": 109.5,
+   "group": "atomization (W4-11)"
+  },
+  {
+   "id": "CH4",
+   "label": "CH₄ → C + 4 H",
+   "nu": {
+    "ch4": -1,
+    "c": 1,
+    "h": 4
+   },
+   "ref": 420.4,
+   "group": "atomization (W4-11)"
+  },
+  {
+   "id": "NH3",
+   "label": "NH₃ → N + 3 H",
+   "nu": {
+    "nh3": -1,
+    "n": 1,
+    "h": 3
+   },
+   "ref": 298.0,
+   "group": "atomization (W4-11)"
+  },
+  {
+   "id": "H2O",
+   "label": "H₂O → O + 2 H",
+   "nu": {
+    "h2o": -1,
+    "o": 1,
+    "h": 2
+   },
+   "ref": 233.0,
+   "group": "atomization (W4-11)"
+  },
+  {
+   "id": "O3",
+   "label": "O₃ → 3 O",
+   "nu": {
+    "o3": -1,
+    "o": 3
+   },
+   "ref": 147.4,
+   "group": "atomization (W4-11)"
+  }
+ ],
+ "fields": [
+  "energy",
+  "scf",
+  "time"
+ ],
+ "condition_label": "Method / basis",
+ "nist": {
+  "reference": 78.5
+ },
+ "quiz": [
+  {
+   "q": "A total atomization energy is the energy needed to…",
+   "options": [
+    "break one bond",
+    "break a molecule into all of its separate ground-state atoms",
+    "form the molecule from the elements in their standard states",
+    "ionize the molecule"
+   ],
+   "answer": 1,
+   "explain": "For H₂ it is the same as the bond dissociation energy. For CH₄ it is the sum of all four C–H bond energies, so atomization energies are large numbers."
+  },
+  {
+   "q": "Why is Hartree–Fock expected to do badly for atomization energies?",
+   "options": [
+    "It has no electron correlation, and correlation is larger in the molecule than in the separated atoms, so bonds come out too weak",
+    "It is too expensive",
+    "It cannot describe open-shell atoms at all",
+    "It overestimates every bond"
+   ],
+   "answer": 0,
+   "explain": "Bringing electrons together into bonds increases the correlation energy, which HF leaves out entirely. The missing correlation is bigger for the molecule, so HF underbinds."
+  },
+  {
+   "q": "The computed ΔE is an electronic energy at fixed nuclei. An experimental bond enthalpy at 298 K also includes…",
+   "options": [
+    "nothing else; they are the same",
+    "zero-point vibrational energy and thermal energy, plus spin–orbit effects for atoms with orbital angular momentum",
+    "only the basis-set error",
+    "relativistic effects only"
+   ],
+   "answer": 1,
+   "explain": "Going from experiment to the purely electronic value needs several corrections, which is why direct comparisons need care."
+  },
+  {
+   "q": "Which of these species is a radical?",
+   "options": [
+    "*tert*-butyl alcohol",
+    "the OH fragment",
+    "methane",
+    "water"
+   ],
+   "answer": 1,
+   "explain": "Breaking the C–O bond homolytically leaves one unpaired electron on each fragment: two radicals (doublets)."
+  }
+ ],
+ "predictions": [
+  {
+   "id": "hf_at",
+   "prompt": "Hartree–Fock will make the **atomization energies**…",
+   "options": [
+    "too small",
+    "about right",
+    "too large"
+   ],
+   "check": {
+    "type": "errsign",
+    "method": "HF",
+    "basis": "def2-TZVP",
+    "group": "atomization (W4-11)",
+    "tol": 5,
+    "labels": [
+     "too large",
+     "about right",
+     "too small"
+    ]
+   }
+  },
+  {
+   "id": "best_at",
+   "prompt": "Which method will be **best for the atomization energies**?",
+   "options": [
+    "MN15-L",
+    "MN15",
+    "B3LYP",
+    "PBE",
+    "HF"
+   ],
+   "check": {
+    "type": "best",
+    "basis": "def2-TZVP",
+    "group": "atomization (W4-11)"
+   }
+  },
+  {
+   "id": "best_bd",
+   "prompt": "Which method will be **best for the two bond dissociations**?",
+   "options": [
+    "MN15-L",
+    "MN15",
+    "B3LYP",
+    "PBE",
+    "HF"
+   ],
+   "check": {
+    "type": "best",
+    "basis": "def2-TZVP",
+    "group": "bond dissociation"
+   }
+  },
+  {
+   "id": "pople",
+   "prompt": "For the C–O bond of *tert*-butyl alcohol, which will be closer to the reference?",
+   "options": [
+    "B3LYP/6-31G*",
+    "B3LYP/def2-TZVP",
+    "about the same"
+   ],
+   "check": {
+    "type": "compare_abs",
+    "reaction": "tBuOH",
+    "a": "B3LYP|6-31G*",
+    "b": "B3LYP|def2-TZVP",
+    "labels": [
+     "B3LYP/6-31G*",
+     "B3LYP/def2-TZVP",
+     "about the same"
+    ]
+   }
+  }
+ ],
+ "questions": [
+  {
+   "id": "q1",
+   "text": "**tert-Butyl alcohol.** Which functional is the best? Which is the worst? How does HF perform? Are you surprised?"
+  },
+  {
+   "id": "q2",
+   "text": "Compare B3LYP/6-31G* with B3LYP/def2-TZVP for the C–O bond. Do you see an improvement? Where do you think it comes from? (Think back to Experiment 6.)"
+  },
+  {
+   "id": "q3",
+   "text": "**FeCl.** Which functional performs best? How does HF perform?"
+  },
+  {
+   "id": "q4",
+   "text": "Use the NIST panel: what experimental bond enthalpy did you get, how does it differ from the reference electronic energy, and which corrections explain the difference? Can you compare theory and experiment directly?"
+  },
+  {
+   "id": "q5",
+   "text": "**Atomization energies.** Which functional is the best? Which is the worst? What causes the failure of HF?"
+  },
+  {
+   "id": "q6",
+   "text": "Do you see the same trends for bond dissociation and atomization reactions?"
+  },
+  {
+   "id": "q7",
+   "text": "Can you compare an atomization energy directly with a substance's enthalpy of formation? Why or why not?"
+  }
+ ],
+ "explore": [
+  "signed-errors",
+  "relative-errors"
+ ]
+}

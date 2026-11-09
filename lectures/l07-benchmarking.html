@@ -1,0 +1,1855 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.11.9">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="description" content="What the basis-set and Jacob’s-ladder experiments taught us, how density functionals are benchmarked against reference data, and how to read error statistics.">
+
+<title>Class 7 · How we test a functional – Computational Chemistry Lab</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../lectures/l08-dispersion.html" rel="next">
+<link href="../lectures/l06-jacobs-ladder.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-447e42e69aaa9833c0ba1b986f430b20.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-56996c7b5257095e64120a8d6d543cad.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-9953095112a8816cde90456e6de52415.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-56996c7b5257095e64120a8d6d543cad.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<script src="https://cdn.jsdelivr.net/npm/3dmol@2.4.2/build/3Dmol-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-sidebar floating nav-fixed quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          toggle.setAttribute("aria-checked", alternate ? "true" : "false");
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455).
+    // Not run on load: stylesheets are set before first paint there, and
+    // scrolling would undo the scroll to a URL fragment (#14973).
+    // The one pixel nudge keeps the reader where they were.
+    const refreshSafariScrollbar = () => {
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        const scrollY = window.scrollY;
+        window.scrollTo(0, scrollY > 0 ? scrollY - 1 : 1);
+        setTimeout(() => {
+          window.scrollTo(0, scrollY);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      refreshSafariScrollbar();
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark" aria-label="Site">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Computational Chemistry Lab</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-guides" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Guides</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-guides">    
+        <li>
+    <a class="dropdown-item" href="../guides/iqmol-setup.html">
+ <span class="dropdown-text">Install IQmol and connect to Q-Chem</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../guides/first-job.html">
+ <span class="dropdown-text">Your first Q-Chem job</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../guides/reading-output.html">
+ <span class="dropdown-text">Reading a Q-Chem output</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../guides/shared-machines.html">
+ <span class="dropdown-text">Working on a shared machine</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../guides/units-and-errors.html">
+ <span class="dropdown-text">Units, reaction energies and errors</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-lectures" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Lectures</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-lectures">    
+        <li>
+    <a class="dropdown-item" href="../lectures/index.html">
+ <span class="dropdown-text">All lectures</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l01-molecular-schrodinger.html">
+ <span class="dropdown-text">1 · The molecular Schrödinger equation</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l02-basis-sets.html">
+ <span class="dropdown-text">2 · Basis sets</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l03-from-theory-to-a-calculation.html">
+ <span class="dropdown-text">3 · From theory to a calculation</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l04-hartree-fock.html">
+ <span class="dropdown-text">4 · Hartree–Fock and the SCF</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l05-density-functional-theory.html">
+ <span class="dropdown-text">5 · Density functional theory</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l06-jacobs-ladder.html">
+ <span class="dropdown-text">6 · Jacob’s ladder</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l07-benchmarking.html">
+ <span class="dropdown-text">7 · How we test a functional</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l08-dispersion.html">
+ <span class="dropdown-text">8 · Dispersion</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l09-difficult-cases.html">
+ <span class="dropdown-text">9 · Difficult cases for DFT</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l10-error-cancellation.html">
+ <span class="dropdown-text">10 · Basis-set vs functional error</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l11-integration-grids.html">
+ <span class="dropdown-text">11 · Integration grids</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l12-scf-stability.html">
+ <span class="dropdown-text">12 · SCF stability and transition metals</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l13-theory-vs-experiment.html">
+ <span class="dropdown-text">13 · Theory vs experiment</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l14-choosing-a-method.html">
+ <span class="dropdown-text">14 · Choosing a method</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l15-wrap-up.html">
+ <span class="dropdown-text">15 · What we learned</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-experiments" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Experiments</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-experiments">    
+        <li>
+    <a class="dropdown-item" href="../experiments/ex01-basis-sets.html">
+ <span class="dropdown-text">Experiment 1: Basis Set Incompleteness Error</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex02-jacobs-ladder.html">
+ <span class="dropdown-text">Experiment 2: Jacob’s Ladder</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex03-organic-a.html">
+ <span class="dropdown-text">Experiment 3: Applying DFT to Organic Chemistry – Part A</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex04-organic-b.html">
+ <span class="dropdown-text">Experiment 4: Applying DFT to Organic Chemistry – Part B</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex05-difficult-cases.html">
+ <span class="dropdown-text">Experiment 5: Difficult Cases for DFT</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex06-b3lyp-631gs.html">
+ <span class="dropdown-text">Experiment 6: Why is the B3LYP/6-31G* Level of Theory so Successful?</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex07-grids.html">
+ <span class="dropdown-text">Experiment 7: Integration Grids</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex08-stability.html">
+ <span class="dropdown-text">Experiment 8: Stability Analysis and Transition Metals</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex09-experiment-vs-theory.html">
+ <span class="dropdown-text">Experiment 9: Comparison with Experimental Results</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex10-final-review.html">
+ <span class="dropdown-text">Experiment 10: Final Review</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="../class-results.html"> 
+<span class="menu-text">Class results</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <button type="button" role="switch" aria-checked="false" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode" aria-label="Toggle dark mode"><i class="bi"></i></button>
+</div>
+            <div id="quarto-search" class="" title="Search"></div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav" aria-label="Toolbar">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../lectures/l07-benchmarking.html">Class 7 · How we test a functional</a></li></ol></nav>
+        <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto" aria-label="Section">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lectures</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l01-molecular-schrodinger.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 1 · The molecular Schrödinger equation</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l02-basis-sets.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 2 · Approximating the wave function: basis sets</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l03-from-theory-to-a-calculation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 3 · From theory to a calculation: IQmol, Q-Chem and Experiment 1</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l04-hartree-fock.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 4 · Approximating the Hamiltonian I: Hartree–Fock and the SCF</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l05-density-functional-theory.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 5 · Approximating the Hamiltonian II: density functional theory</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l06-jacobs-ladder.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 6 · Approximating the Hamiltonian III: Jacob’s ladder</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l07-benchmarking.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Class 7 · How we test a functional</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l08-dispersion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 8 · Dispersion and noncovalent interactions</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l09-difficult-cases.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 9 · Why some reactions are hard for DFT</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l10-error-cancellation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 10 · Basis-set error vs functional error</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l11-integration-grids.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 11 · Numerical integration grids</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l12-scf-stability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 12 · SCF stability, open shells and transition metals</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l13-theory-vs-experiment.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 13 · From electronic energies to experiment</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l14-choosing-a-method.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 14 · Choosing, running and reporting a method</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l15-wrap-up.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 15 · What we learned</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" aria-labelledby="toc-title" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#part-1-looking-back-at-experiments-1-and-2" id="toc-part-1-looking-back-at-experiments-1-and-2" class="nav-link active" data-scroll-target="#part-1-looking-back-at-experiments-1-and-2"><span class="header-section-number">1</span> Part 1 · Looking back at Experiments 1 and 2</a>
+  <ul class="collapse">
+  <li><a href="#experiment-1-the-basis-set-error" id="toc-experiment-1-the-basis-set-error" class="nav-link" data-scroll-target="#experiment-1-the-basis-set-error"><span class="header-section-number">1.1</span> Experiment 1: the basis-set error</a>
+  <ul class="collapse">
+  <li><a href="#what-you-probably-saw-for-the-density-functionals" id="toc-what-you-probably-saw-for-the-density-functionals" class="nav-link" data-scroll-target="#what-you-probably-saw-for-the-density-functionals"><span class="header-section-number">1.1.1</span> What you probably saw for the density functionals</a></li>
+  <li><a href="#what-you-probably-saw-for-hartreefock" id="toc-what-you-probably-saw-for-hartreefock" class="nav-link" data-scroll-target="#what-you-probably-saw-for-hartreefock"><span class="header-section-number">1.1.2</span> What you probably saw for Hartree–Fock</a></li>
+  <li><a href="#def2-or-cc-pvnz" id="toc-def2-or-cc-pvnz" class="nav-link" data-scroll-target="#def2-or-cc-pvnz"><span class="header-section-number">1.1.3</span> def2 or cc-pVnZ?</a></li>
+  <li><a href="#the-cost-measured-exponents" id="toc-the-cost-measured-exponents" class="nav-link" data-scroll-target="#the-cost-measured-exponents"><span class="header-section-number">1.1.4</span> The cost: measured exponents</a></li>
+  <li><a href="#the-best-compromise" id="toc-the-best-compromise" class="nav-link" data-scroll-target="#the-best-compromise"><span class="header-section-number">1.1.5</span> The best compromise</a></li>
+  </ul></li>
+  <li><a href="#experiment-2-climbing-the-ladder" id="toc-experiment-2-climbing-the-ladder" class="nav-link" data-scroll-target="#experiment-2-climbing-the-ladder"><span class="header-section-number">1.2</span> Experiment 2: climbing the ladder</a></li>
+  </ul></li>
+  <li><a href="#part-2-how-we-test-a-functional" id="toc-part-2-how-we-test-a-functional" class="nav-link" data-scroll-target="#part-2-how-we-test-a-functional"><span class="header-section-number">2</span> Part 2 · How we test a functional</a>
+  <ul class="collapse">
+  <li><a href="#why-functionals-must-be-tested" id="toc-why-functionals-must-be-tested" class="nav-link" data-scroll-target="#why-functionals-must-be-tested"><span class="header-section-number">2.1</span> Why functionals must be tested</a></li>
+  <li><a href="#reference-values" id="toc-reference-values" class="nav-link" data-scroll-target="#reference-values"><span class="header-section-number">2.2</span> Reference values</a>
+  <ul class="collapse">
+  <li><a href="#experiment" id="toc-experiment" class="nav-link" data-scroll-target="#experiment"><span class="header-section-number">2.2.1</span> Experiment</a></li>
+  <li><a href="#high-level-theory-ccsdtcbs" id="toc-high-level-theory-ccsdtcbs" class="nav-link" data-scroll-target="#high-level-theory-ccsdtcbs"><span class="header-section-number">2.2.2</span> High-level theory: CCSD(T)/CBS</a></li>
+  </ul></li>
+  <li><a href="#benchmark-databases" id="toc-benchmark-databases" class="nav-link" data-scroll-target="#benchmark-databases"><span class="header-section-number">2.3</span> Benchmark databases</a>
+  <ul class="collapse">
+  <li><a href="#gmtkn55" id="toc-gmtkn55" class="nav-link" data-scroll-target="#gmtkn55"><span class="header-section-number">2.3.1</span> GMTKN55</a></li>
+  <li><a href="#mgcdb84" id="toc-mgcdb84" class="nav-link" data-scroll-target="#mgcdb84"><span class="header-section-number">2.3.2</span> MGCDB84</a></li>
+  <li><a href="#the-minnesota-databases" id="toc-the-minnesota-databases" class="nav-link" data-scroll-target="#the-minnesota-databases"><span class="header-section-number">2.3.3</span> The Minnesota databases</a></li>
+  <li><a href="#training-sets-and-test-sets" id="toc-training-sets-and-test-sets" class="nav-link" data-scroll-target="#training-sets-and-test-sets"><span class="header-section-number">2.3.4</span> Training sets and test sets</a></li>
+  </ul></li>
+  <li><a href="#error-statistics" id="toc-error-statistics" class="nav-link" data-scroll-target="#error-statistics"><span class="header-section-number">2.4</span> Error statistics</a>
+  <ul class="collapse">
+  <li><a href="#the-signed-error" id="toc-the-signed-error" class="nav-link" data-scroll-target="#the-signed-error"><span class="header-section-number">2.4.1</span> The signed error</a></li>
+  <li><a href="#statistics-over-a-set-of-n-reactions" id="toc-statistics-over-a-set-of-n-reactions" class="nav-link" data-scroll-target="#statistics-over-a-set-of-n-reactions"><span class="header-section-number">2.4.2</span> Statistics over a set of N reactions</a></li>
+  <li><a href="#the-relative-error" id="toc-the-relative-error" class="nav-link" data-scroll-target="#the-relative-error"><span class="header-section-number">2.4.3</span> The relative error</a></li>
+  </ul></li>
+  <li><a href="#chemical-accuracy" id="toc-chemical-accuracy" class="nav-link" data-scroll-target="#chemical-accuracy"><span class="header-section-number">2.5</span> Chemical accuracy</a></li>
+  <li><a href="#why-a-single-number-never-tells-the-whole-story" id="toc-why-a-single-number-never-tells-the-whole-story" class="nav-link" data-scroll-target="#why-a-single-number-never-tells-the-whole-story"><span class="header-section-number">2.6</span> Why a single number never tells the whole story</a></li>
+  </ul></li>
+  <li><a href="#experiment-3-briefing" id="toc-experiment-3-briefing" class="nav-link" data-scroll-target="#experiment-3-briefing"><span class="header-section-number">3</span> Experiment 3 briefing</a>
+  <ul class="collapse">
+  <li><a href="#the-goal" id="toc-the-goal" class="nav-link" data-scroll-target="#the-goal"><span class="header-section-number">3.1</span> The goal</a></li>
+  <li><a href="#methods-and-jobs" id="toc-methods-and-jobs" class="nav-link" data-scroll-target="#methods-and-jobs"><span class="header-section-number">3.2</span> Methods and jobs</a></li>
+  <li><a href="#why-these-reactions-are-easy" id="toc-why-these-reactions-are-easy" class="nav-link" data-scroll-target="#why-these-reactions-are-easy"><span class="header-section-number">3.3</span> Why these reactions are “easy”</a></li>
+  <li><a href="#cost-per-scf-cycle" id="toc-cost-per-scf-cycle" class="nav-link" data-scroll-target="#cost-per-scf-cycle"><span class="header-section-number">3.4</span> Cost per SCF cycle</a></li>
+  <li><a href="#what-to-watch-out-for" id="toc-what-to-watch-out-for" class="nav-link" data-scroll-target="#what-to-watch-out-for"><span class="header-section-number">3.5</span> What to watch out for</a></li>
+  <li><a href="#key-points" id="toc-key-points" class="nav-link" data-scroll-target="#key-points"><span class="header-section-number">3.6</span> Key points</a></li>
+  <li><a href="#study-questions" id="toc-study-questions" class="nav-link" data-scroll-target="#study-questions"><span class="header-section-number">3.7</span> Study questions</a></li>
+  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading"><span class="header-section-number">3.8</span> Further reading</a></li>
+  </ul></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="l07-benchmarking.pdf"><i class="bi bi-file-pdf"></i>PDF handout</a></li><li><a href="l07-benchmarking.pdf"><i class="bi bi-file-pdf"></i>Typst</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content" tabindex="-1">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Class 7 · How we test a functional</h1>
+<p class="subtitle lead">Debrief of Experiments 1–2 and introduction to Experiment 3</p>
+</div>
+
+<div>
+  <div class="description">
+    What the basis-set and Jacob’s-ladder experiments taught us, how density functionals are benchmarked against reference data, and how to read error statistics.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Learning goals
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>After this class you should be able to:</p>
+<ul>
+<li>explain why the error of a DFT calculation on (HCl)₂ shrinks as the basis grows, and why the Hartree–Fock error does not;</li>
+<li>explain why the measured cost exponent of a calculation is smaller than the formal N⁴;</li>
+<li>place any of the 16 methods of Experiments 3–5 on Jacob’s ladder;</li>
+<li>describe how a benchmark database is built, where its reference values come from, and what “CCSD(T)/CBS” means;</li>
+<li>compute and interpret the signed error, mean signed error (MSE), mean absolute error (MAE), maximum error and relative error;</li>
+<li>say what “chemical accuracy” means and why a single statistic never tells the whole story;</li>
+<li>start Experiment 3 knowing what to run, what to record and what to look for.</li>
+</ul>
+</div>
+</div>
+<p>This class has two parts. Part 1 looks back at the first two experiments. Part 2 introduces the tools we use from now on to judge a method: benchmark databases and error statistics. It ends with the briefing for <a href="../experiments/ex03-organic-a.html">Experiment 3</a>.</p>
+<section id="part-1-looking-back-at-experiments-1-and-2" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Part 1 · Looking back at Experiments 1 and 2</h1>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Read this after you submit Experiment 2
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This part discusses the trends you probably saw in <a href="../experiments/ex01-basis-sets.html">Experiment 1</a> and the classification of <a href="../experiments/ex02-jacobs-ladder.html">Experiment 2</a>. If you have not submitted them yet, stop here and come back later.</p>
+</div>
+</div>
+<section id="experiment-1-the-basis-set-error" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="experiment-1-the-basis-set-error"><span class="header-section-number">1.1</span> Experiment 1: the basis-set error</h2>
+<p>In Experiment 1 you computed the dissociation energy of the HCl dimer,</p>
+<p><span id="eq-hcl-diss"><span class="math display">\[
+\Delta E = 2\,E(\mathrm{HCl}) - E\big((\mathrm{HCl})_2\big),
+\tag{1}\]</span></span></p>
+<p>with four methods (HF, PBE, B3LYP, ωB97M-V) and six basis sets from two families (def2-SVP/TZVP/QZVP and cc-pVDZ/TZ/QZ). The reference value is 2.01 kcal/mol. Because the reaction is a <em>dissociation</em>, ΔE is positive, and a <strong>positive signed error</strong> ε = ΔE<sub>comp</sub> − ΔE<sub>ref</sub> means the dimer is <strong>bound too strongly</strong>.</p>
+<section id="what-you-probably-saw-for-the-density-functionals" class="level3" data-number="1.1.1">
+<h3 data-number="1.1.1" class="anchored" data-anchor-id="what-you-probably-saw-for-the-density-functionals"><span class="header-section-number">1.1.1</span> What you probably saw for the density functionals</h3>
+<p>The chart <em>How the error changes as the basis grows</em> puts ζ (DZ, TZ, QZ) on the horizontal axis and |ε| on the vertical axis, one panel per family. For the three functionals the typical picture is:</p>
+<ul>
+<li>the error is largest with the double-ζ basis sets, and the dimer is usually <strong>too strongly bound</strong>;</li>
+<li>the error drops sharply from double-ζ to triple-ζ;</li>
+<li>the change from triple-ζ to quadruple-ζ is small. The curve flattens out.</li>
+</ul>
+<p>Two effects make the double-ζ number too large. The first is the <strong>basis-set incompleteness error</strong> (BSIE): a small basis cannot describe the orbitals well, and the error does not cancel between the dimer and the monomers. The second, and the dominant one for a weakly bound dimer, is the <strong>basis-set superposition error</strong> (BSSE). In the dimer, each HCl molecule can “borrow” the basis functions centered on its partner to improve its own description. The isolated monomers have no partner to borrow from. So the dimer is artificially stabilized, and the binding energy comes out too large. BSSE shrinks quickly as the basis grows, because a molecule that already has a nearly complete basis gains little from its neighbor’s functions. We return to BSSE and the counterpoise correction in <a href="../lectures/l10-error-cancellation.html">Class 10</a>.</p>
+<p>When the curve flattens, you are close to the <strong>complete-basis-set (CBS) limit</strong> for that functional. What is left is the error of the functional itself. This is the most important lesson of Experiment 1: <strong>the basis-set error goes to zero as the basis grows, the functional error does not.</strong> With a quadruple-ζ basis, the remaining error tells you how good the <em>method</em> is. For (HCl)₂ the functional with built-in nonlocal dispersion (ωB97M-V) usually ends up closest to the reference. Functionals with no dispersion term can converge to a value that is slightly too small (underbinding), so their |ε| can go down and then up again as BSSE disappears and their real underbinding is revealed. That is why “no specific pattern” is a legitimate answer for some methods.</p>
+</section>
+<section id="what-you-probably-saw-for-hartreefock" class="level3" data-number="1.1.2">
+<h3 data-number="1.1.2" class="anchored" data-anchor-id="what-you-probably-saw-for-hartreefock"><span class="header-section-number">1.1.2</span> What you probably saw for Hartree–Fock</h3>
+<p>Hartree–Fock behaves very differently, and this is the first big surprise of the course. The HF error often does <em>not</em> decrease with the basis. It may even grow. The reason is physical. (HCl)₂ is held together by a mixture of dipole–dipole electrostatics and <strong>London dispersion</strong>. Hartree–Fock has no electron correlation at all, and dispersion is a correlation effect (Class 8 explains why). So at the CBS limit, HF underbinds the dimer. With a small basis, BSSE adds a spurious attraction that partly hides this missing physics. As the basis grows, the spurious attraction disappears and the true HF answer (too little binding) emerges.</p>
+<p>In other words, HF/def2-SVP can look better than HF/def2-QZVP <em>for the wrong reason</em>. Keep this example in mind: a small basis can make a bad method look good. It is the theme of Experiment 6 and <a href="../lectures/l10-error-cancellation.html">Class 10</a>.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Common mistake: “the error got smaller, so the method got better”
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A smaller error is not proof of a better description. Ask <em>why</em> it got smaller. If the improvement comes from an artifact (BSSE) that happens to compensate for missing physics (dispersion), it will not transfer to another molecule.</p>
+</div>
+</div>
+</section>
+<section id="def2-or-cc-pvnz" class="level3" data-number="1.1.3">
+<h3 data-number="1.1.3" class="anchored" data-anchor-id="def2-or-cc-pvnz"><span class="header-section-number">1.1.3</span> def2 or cc-pVnZ?</h3>
+<p>The two families were built for different purposes. The Dunning correlation-consistent sets, cc-pV<em>n</em>Z <span class="citation" data-cites="dunning1989">(<a href="#ref-dunning1989" role="doc-biblioref">Dunning 1989</a>)</span>, were designed so that the <strong>correlation energy</strong> of wave-function methods (MP2, CCSD(T)) converges smoothly with <em>n</em>. Each step adds a full shell of polarization functions chosen for correlation. The Karlsruhe def2 sets <span class="citation" data-cites="weigend2005">(<a href="#ref-weigend2005" role="doc-biblioref">Weigend and Ahlrichs 2005</a>)</span> were optimized mostly at the Hartree–Fock and DFT level, with the goal of a balanced error across the whole periodic table. Head-Gordon and co-workers found the def2 family to be the most cost-effective for DFT <span class="citation" data-cites="witte2016">(<a href="#ref-witte2016" role="doc-biblioref">Witte et al. 2016</a>)</span>.</p>
+<p>What you probably saw is that, at the same ζ, the two families give errors of similar size, with def2 often a bit better for the functionals at double- and triple-ζ. The differences shrink at quadruple-ζ, where both are close to the CBS limit. Note also that “triple-ζ” does not mean “the same number of functions”: look at the number of basis functions you recorded for each set. Comparing basis sets by name alone is risky, and we will see this again in Experiment 6.</p>
+</section>
+<section id="the-cost-measured-exponents" class="level3" data-number="1.1.4">
+<h3 data-number="1.1.4" class="anchored" data-anchor-id="the-cost-measured-exponents"><span class="header-section-number">1.1.4</span> The cost: measured exponents</h3>
+<p>The second chart plots wall time against the number of basis functions N on a log–log scale. If the cost follows t = a N<sup>n</sup>, then</p>
+<p><span id="eq-loglog"><span class="math display">\[
+\log t = \log a + n \log N,
+\tag{2}\]</span></span></p>
+<p>and the slope of the straight line is the exponent <em>n</em>. In <a href="../lectures/l02-basis-sets.html">Class 2</a> you learned that the formal cost of HF and hybrid DFT grows as N⁴, because the number of two-electron integrals (μν|λσ) grows as N⁴. Most of you measured a smaller exponent, often between 2 and 3. Why?</p>
+<ol type="1">
+<li><strong>Integral screening.</strong> Most of the N⁴ integrals are tiny because the Gaussians are far apart. Programs estimate integrals cheaply (Schwarz inequality) and skip the negligible ones. For large enough molecules the number of significant integrals grows closer to N².</li>
+<li><strong>Fixed overhead.</strong> Small jobs spend a large share of their time on start-up, reading the basis, building the grid and writing output. This cost does not depend much on N, and it flattens the curve at small N.</li>
+<li><strong>Other steps with different scaling.</strong> For functionals, the exchange–correlation integration on the grid scales roughly linearly with the size of the molecule. Linear algebra (diagonalization) scales as N³ but has a small prefactor.</li>
+<li><strong>A narrow range.</strong> Your N values span less than one decade. A fit over a short range is sensitive to noise and to the choice of points.</li>
+</ol>
+<p><a href="#fig-cost-scaling" class="quarto-xref">Figure&nbsp;1</a> shows the effect of a fixed overhead on an ideal N⁴ law: at small N the curve is almost flat, and only at large N does it approach the true slope. Which of your points would you trust most? The largest ones.</p>
+<div id="fig-cost-scaling" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Log-log plot of wall time against number of basis functions, with straight lines for N squared, N cubed and N to the fourth, and a dashed N to the fourth curve with a constant offset that flattens at small N.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-cost-scaling-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/l07-cost-scaling.png" class="img-fluid figure-img" style="width:85.0%" alt="Log-log plot of wall time against number of basis functions, with straight lines for N squared, N cubed and N to the fourth, and a dashed N to the fourth curve with a constant offset that flattens at small N.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cost-scaling-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Model cost curves on a log–log plot. Straight lines are ideal power laws t ∝ Nⁿ for n = 2, 3, 4. The dashed curve is an N⁴ law plus a constant overhead: at small N it is almost flat, so a fit over a short range of N gives an exponent well below 4. All curves are analytic models, not measured timings.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="the-best-compromise" class="level3" data-number="1.1.5">
+<h3 data-number="1.1.5" class="anchored" data-anchor-id="the-best-compromise"><span class="header-section-number">1.1.5</span> The best compromise</h3>
+<p>Putting accuracy and cost together, the usual conclusion is that <strong>triple-ζ</strong> is the sweet spot for DFT. Double-ζ is cheap but not converged (BSIE and BSSE are still large). Quadruple-ζ is close to the CBS limit but costs several times more than triple-ζ for a small gain. This is why Experiments 3–5 use def2-TZVP. If you checked the <a href="../class-results.html">class results</a> (when released), the heatmap shows the same picture for the whole class.</p>
+</section>
+</section>
+<section id="experiment-2-climbing-the-ladder" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="experiment-2-climbing-the-ladder"><span class="header-section-number">1.2</span> Experiment 2: climbing the ladder</h2>
+<p>Experiment 2 asked you to classify 20 functionals into LSDA, GGA, meta-GGA, hybrid GGA and hybrid meta-GGA. The rung depends only on the <strong>ingredients</strong> of the functional (see <a href="../lectures/l06-jacobs-ladder.html">Class 6</a>):</p>
+<table class="table-striped caption-top table">
+<caption>The rungs used in this course.</caption>
+<thead>
+<tr class="header">
+<th>Rung</th>
+<th>Ingredients</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>LSDA</td>
+<td>ρ(<strong>r</strong>) only</td>
+</tr>
+<tr class="even">
+<td>GGA</td>
+<td>ρ and ∇ρ</td>
+</tr>
+<tr class="odd">
+<td>meta-GGA</td>
+<td>ρ, ∇ρ and the kinetic-energy density τ (or ∇²ρ)</td>
+</tr>
+<tr class="even">
+<td>hybrid GGA</td>
+<td>GGA + a fraction of HF exchange</td>
+</tr>
+<tr class="odd">
+<td>hybrid meta-GGA</td>
+<td>meta-GGA + a fraction of HF exchange</td>
+</tr>
+</tbody>
+</table>
+<p>The most common mistakes were these:</p>
+<ul>
+<li><strong>Range separation is not the same as “hybrid”.</strong> M11-L is range separated, but both ranges use <em>local</em> (semilocal) exchange. It contains no HF exchange, so it is a meta-GGA. M11 and ωB97M-V, by contrast, use HF exchange at long range (and some at short range), so they are hybrid meta-GGAs.</li>
+<li><strong>“-V” is not a rung.</strong> The V in B97M-V and ωB97M-V stands for the VV10 nonlocal correlation term, which adds dispersion. It does not add HF exchange. B97M-V is a meta-GGA; ωB97M-V is a hybrid meta-GGA because of the ω (range-separated exchange), not because of the V.</li>
+<li><strong>“-L” means local.</strong> M06-L, M11-L and MN15-L have no HF exchange. MN15-L is formally a meta-NGA, which sits on the meta-GGA rung in our simplified ladder.</li>
+<li><strong>Names that count parameters or exchange.</strong> The “3” in B3LYP and B3PW91 refers to three mixing parameters. The “2X” in M06-2X means twice the HF exchange of M06 (54% vs 27%). M06-HF has 100% HF exchange and is still a hybrid meta-GGA, because it also contains a meta-GGA part.</li>
+</ul>
+<p>The 16 methods you use in Experiments 3–5 sit on the ladder like this:</p>
+<div id="tbl-16" class="striped quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-16-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;1: The methods of Experiments 3–5. “Fitted” means the functional was parametrized on data that include noncovalent complexes.
+</figcaption>
+<div aria-describedby="tbl-16-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="table-striped caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Rung</th>
+<th>Methods</th>
+<th>Dispersion treatment</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>LSDA</td>
+<td>SPW92</td>
+<td>none</td>
+</tr>
+<tr class="even">
+<td>GGA</td>
+<td>BP86, BLYP, PBE, PBE-D4</td>
+<td>none; -D4 for PBE-D4</td>
+</tr>
+<tr class="odd">
+<td>meta-GGA</td>
+<td>SCAN, B97M-V</td>
+<td>none; VV10 for B97M-V</td>
+</tr>
+<tr class="even">
+<td>hybrid GGA</td>
+<td>B3LYP, B3LYP-D4, B3PW91, PBE0</td>
+<td>none; -D4 for B3LYP-D4</td>
+</tr>
+<tr class="odd">
+<td>hybrid meta-GGA</td>
+<td>M06-2X, M11, MN15, ωB97M-V</td>
+<td>fitted (Minnesota); VV10 for ωB97M-V</td>
+</tr>
+<tr class="even">
+<td>(no DFT)</td>
+<td>HF</td>
+<td>none</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>Every chart in Experiments 3–5 colors the methods by rung, so you can see whether climbing the ladder really pays off.</p>
+</section>
+</section>
+<section id="part-2-how-we-test-a-functional" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Part 2 · How we test a functional</h1>
+<section id="why-functionals-must-be-tested" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="why-functionals-must-be-tested"><span class="header-section-number">2.1</span> Why functionals must be tested</h2>
+<p>The exact exchange–correlation functional exists, but nobody knows its form. Every functional you use is an approximation, and unlike wave-function methods (HF → MP2 → CCSD → CCSD(T) → …), there is no systematic path that guarantees improvement. Climbing Jacob’s ladder <em>usually</em> helps, but a meta-GGA is not guaranteed to beat every GGA on every problem.</p>
+<p>So we test. A functional is judged by how well it reproduces trusted reference values for many chemical problems. This is called <strong>benchmarking</strong>, and it is how the whole field decides which functionals to recommend <span class="citation" data-cites="goerigk2017 mardirossian2017 goerigk2019">(<a href="#ref-goerigk2017" role="doc-biblioref">Goerigk et al. 2017</a>; <a href="#ref-mardirossian2017" role="doc-biblioref">Mardirossian and Head-Gordon 2017</a>; <a href="#ref-goerigk2019" role="doc-biblioref">Goerigk and Mehta 2019</a>)</span>. In Experiments 3–5 you will do a small benchmark yourself.</p>
+</section>
+<section id="reference-values" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="reference-values"><span class="header-section-number">2.2</span> Reference values</h2>
+<p>A benchmark is only as good as its reference values. There are two sources.</p>
+<section id="experiment" class="level3" data-number="2.2.1">
+<h3 data-number="2.2.1" class="anchored" data-anchor-id="experiment"><span class="header-section-number">2.2.1</span> Experiment</h3>
+<p>Experimental thermochemistry (enthalpies of formation, bond energies, ionization potentials) has the advantage of being “real”. But experimental numbers cannot be compared directly with a single-point electronic energy:</p>
+<ul>
+<li>experiments measure enthalpies or free energies at a finite temperature, which include zero-point vibrational energy and thermal corrections (see <a href="../lectures/l13-theory-vs-experiment.html">Class 13</a>);</li>
+<li>some experimental values have uncertainties of 1 kcal/mol or more;</li>
+<li>many interesting quantities (a barrier height, the energy of an unstable conformer, a dimer at a fixed geometry) cannot be measured cleanly at all.</li>
+</ul>
+<p>To compare with experiment you must back-correct the experimental value to an electronic energy difference, or add the corrections to the computed one. Both introduce extra uncertainty.</p>
+</section>
+<section id="high-level-theory-ccsdtcbs" class="level3" data-number="2.2.2">
+<h3 data-number="2.2.2" class="anchored" data-anchor-id="high-level-theory-ccsdtcbs"><span class="header-section-number">2.2.2</span> High-level theory: CCSD(T)/CBS</h3>
+<p>The alternative is to compute the reference with a method far more accurate than DFT, at the same geometries. The workhorse is <strong>CCSD(T)</strong>, coupled cluster with single and double excitations and a perturbative estimate of triple excitations <span class="citation" data-cites="raghavachari1989">(<a href="#ref-raghavachari1989" role="doc-biblioref">Raghavachari et al. 1989</a>)</span>. It is called the “gold standard” of quantum chemistry because, for molecules dominated by a single electron configuration, it reproduces experiment to a few tenths of a kcal/mol. Its cost scales as N⁷, so it is affordable only for small molecules.</p>
+<p>CCSD(T) also needs a very large basis set, because the correlation energy converges slowly with the basis. The trick is to compute the energy with two or three basis sets of increasing cardinal number <em>n</em> (e.g., cc-pVTZ and cc-pVQZ) and <strong>extrapolate</strong> to the complete-basis-set (CBS) limit. A common form for the correlation energy is</p>
+<p><span id="eq-cbs"><span class="math display">\[
+E_\text{corr}(n) = E_\text{corr}^\text{CBS} + \frac{A}{n^3},
+\tag{3}\]</span></span></p>
+<p>where A is fitted from two values of <em>n</em> <span class="citation" data-cites="helgaker1997">(<a href="#ref-helgaker1997" role="doc-biblioref">Helgaker et al. 1997</a>)</span>. With two points, <a href="#eq-cbs" class="quarto-xref">Equation&nbsp;3</a> can be solved for the limit:</p>
+<p><span id="eq-cbs2"><span class="math display">\[
+E_\text{corr}^\text{CBS} = \frac{n^3 E_\text{corr}(n) - (n-1)^3 E_\text{corr}(n-1)}{n^3 - (n-1)^3}.
+\tag{4}\]</span></span></p>
+<p>The HF part converges much faster and is usually taken from the largest basis or extrapolated exponentially. The combination is written <strong>CCSD(T)/CBS</strong>. For the most demanding thermochemistry, composite protocols such as W4 add even higher excitations and small corrections, reaching uncertainties around 0.1–0.2 kcal/mol; the W4-17 database used for reaction 5d was built this way <span class="citation" data-cites="karton2017">(<a href="#ref-karton2017" role="doc-biblioref">Karton et al. 2017</a>)</span>.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Worked example: a two-point CBS extrapolation
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Suppose the CCSD(T) correlation energy of a small molecule is −0.27500 E<sub>h</sub> with cc-pVTZ (<em>n</em> = 3) and −0.28500 E<sub>h</sub> with cc-pVQZ (<em>n</em> = 4). These are made-up numbers for practice. Using <a href="#eq-cbs2" class="quarto-xref">Equation&nbsp;4</a>:</p>
+<p><span class="math display">\[
+E_\text{corr}^\text{CBS} = \frac{64(-0.28500) - 27(-0.27500)}{64 - 27} = \frac{-18.24000 + 7.42500}{37} = \frac{-10.81500}{37} = -0.29230\ E_\text{h}.
+\]</span></p>
+<p>The extrapolation adds −0.00730 E<sub>h</sub> beyond the cc-pVQZ value, which is −0.00730 × 627.5095 = −4.58 kcal/mol. The basis-set error of the correlation energy is far from negligible even with a quadruple-ζ basis. For reaction energies much of it cancels, but not all.</p>
+</div>
+</div>
+<p>The important point for you: the reference values in Experiments 3–5 come from CCSD(T)/CBS or better, computed at the <em>same</em> geometries you use. So the difference between your number and the reference is the error of your method (functional + basis set), with no thermal corrections or experimental uncertainty mixed in.</p>
+</section>
+</section>
+<section id="benchmark-databases" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="benchmark-databases"><span class="header-section-number">2.3</span> Benchmark databases</h2>
+<p>A single reaction says little about a functional. A <strong>benchmark database</strong> collects hundreds or thousands of reference values, grouped in <strong>subsets</strong> by chemical type. Three families of databases matter for this course.</p>
+<section id="gmtkn55" class="level3" data-number="2.3.1">
+<h3 data-number="2.3.1" class="anchored" data-anchor-id="gmtkn55"><span class="header-section-number">2.3.1</span> GMTKN55</h3>
+<p>GMTKN55 (General Main-group Thermochemistry, Kinetics and Noncovalent interactions, 55 subsets) was published by Goerigk, Grimme and co-workers in 2017 <span class="citation" data-cites="goerigk2017">(<a href="#ref-goerigk2017" role="doc-biblioref">Goerigk et al. 2017</a>)</span>. It contains about 1500 relative energies, organized in five categories:</p>
+<ol type="1">
+<li>basic properties and reaction energies of small systems (atomization energies, ionization potentials, proton affinities, …);</li>
+<li>reaction energies of larger systems and isomerizations;</li>
+<li>reaction barrier heights;</li>
+<li>intermolecular noncovalent interactions;</li>
+<li>intramolecular noncovalent interactions (conformers).</li>
+</ol>
+<p>Reactions 3a and 3b come from its BHROT27 subset (rotational barriers), 3c from BUT14DIOL (butane-1,4-diol conformers), 3d from FH51 (reaction energies), and in Experiment 4 you will use DARC (Diels–Alder reactions) and ADIM6 (alkane dimers). The paper tested more than 200 functional/dispersion combinations, and it is one of the best places to look up how a functional performs.</p>
+<p>Because the energies in GMTKN55 range from tenths of a kcal/mol (conformers) to hundreds (atomizations), a plain average would be dominated by the large ones. GMTKN55 therefore uses a <strong>weighted</strong> mean absolute deviation, WTMAD-2, in which the MAD of each subset <em>i</em> is scaled by the ratio between 56.84 kcal/mol (the average absolute reference energy over the whole database) and the average absolute reference energy of that subset, <span class="math inline">\(\overline{|\Delta E|}_i\)</span>:</p>
+<p><span id="eq-wtmad"><span class="math display">\[
+\text{WTMAD-2} = \frac{1}{\sum_i N_i}\sum_i N_i \,\frac{56.84\ \text{kcal/mol}}{\overline{|\Delta E|}_i}\,\text{MAD}_i .
+\tag{5}\]</span></span></p>
+<p>Take two subsets whose average reference energies are 1 kcal/mol (conformers) and 50 kcal/mol (reaction energies). An MAD of 0.5 kcal/mol in the first then weighs as much as an MAD of 25 kcal/mol in the second, because 0.5 × 56.84/1 = 25 × 56.84/50 = 28.4. A half-kcal/mol error on a 1 kcal/mol conformer energy really is as bad, chemically, as a 50% error on a larger reaction energy.</p>
+</section>
+<section id="mgcdb84" class="level3" data-number="2.3.2">
+<h3 data-number="2.3.2" class="anchored" data-anchor-id="mgcdb84"><span class="header-section-number">2.3.2</span> MGCDB84</h3>
+<p>MGCDB84 (Main-Group Chemistry DataBase, 84 subsets), assembled by Mardirossian and Head-Gordon <span class="citation" data-cites="mardirossian2017">(<a href="#ref-mardirossian2017" role="doc-biblioref">Mardirossian and Head-Gordon 2017</a>)</span>, contains close to 5000 data points. It grew out of the data used to develop the ωB97X-V, B97M-V and ωB97M-V functionals, and the same paper uses it to evaluate 200 functionals. Its categories distinguish “easy” from “difficult” problems: noncovalent dimers and clusters, isomerization energies, thermochemistry and barrier heights, each split into easy and difficult groups. The AlkIsomer11 and S66 subsets of Experiment 4 come from it.</p>
+</section>
+<section id="the-minnesota-databases" class="level3" data-number="2.3.3">
+<h3 data-number="2.3.3" class="anchored" data-anchor-id="the-minnesota-databases"><span class="header-section-number">2.3.3</span> The Minnesota databases</h3>
+<p>Truhlar’s group has built a long series of databases to develop and test the Minnesota functionals (M06, M11, MN15 and others). The latest, Minnesota Database 2015B, was used to parametrize MN15 <span class="citation" data-cites="yu2016a peverati2014">(<a href="#ref-yu2016a" role="doc-biblioref">Yu et al. 2016</a>; <a href="#ref-peverati2014" role="doc-biblioref">Peverati and Truhlar 2014</a>)</span>. It includes many inorganic and transition-metal systems, and multireference cases. Reactions 5b (CaO) and 5c (H₂SO₄) come from it, and Experiment 1 came from its NCCE30 subset.</p>
+</section>
+<section id="training-sets-and-test-sets" class="level3" data-number="2.3.4">
+<h3 data-number="2.3.4" class="anchored" data-anchor-id="training-sets-and-test-sets"><span class="header-section-number">2.3.4</span> Training sets and test sets</h3>
+<p>Many modern functionals contain parameters fitted to a database. The data used for fitting form the <strong>training set</strong>. Data never used for fitting form the <strong>test set</strong>. A functional’s performance on its own training set is not an independent test: it is guaranteed to be good there, by construction. A fair benchmark looks at the test set, or at a database built by someone else. Keep this in mind for <a href="../lectures/l09-difficult-cases.html">Class 9</a>: one reaction in Experiment 5 belongs to the training set of one of your functionals.</p>
+</section>
+</section>
+<section id="error-statistics" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="error-statistics"><span class="header-section-number">2.4</span> Error statistics</h2>
+<p>You will compute these quantities in every experiment from now on. They are also defined in the <a href="../guides/units-and-errors.html">units and errors guide</a>.</p>
+<section id="the-signed-error" class="level3" data-number="2.4.1">
+<h3 data-number="2.4.1" class="anchored" data-anchor-id="the-signed-error"><span class="header-section-number">2.4.1</span> The signed error</h3>
+<p>For one reaction <em>k</em>,</p>
+<p><span id="eq-signed"><span class="math display">\[
+\varepsilon_k = \Delta E_k^\text{comp} - \Delta E_k^\text{ref}.
+\tag{6}\]</span></span></p>
+<p>The sign carries meaning. If ε &gt; 0, the computed reaction energy is <em>more positive</em> (less negative) than the reference. For an exothermic reaction (ΔE &lt; 0), a positive ε means the method underestimates how favorable the reaction is. For a dissociation (ΔE &gt; 0), a positive ε means the method overbinds. <strong>Always write down the direction of the reaction before interpreting the sign.</strong></p>
+</section>
+<section id="statistics-over-a-set-of-n-reactions" class="level3" data-number="2.4.2">
+<h3 data-number="2.4.2" class="anchored" data-anchor-id="statistics-over-a-set-of-n-reactions"><span class="header-section-number">2.4.2</span> Statistics over a set of N reactions</h3>
+<p><span id="eq-mse-mae"><span class="math display">\[
+\text{MSE} = \frac{1}{N}\sum_{k=1}^{N}\varepsilon_k, \qquad
+\text{MAE} = \frac{1}{N}\sum_{k=1}^{N}|\varepsilon_k|,
+\tag{7}\]</span></span></p>
+<p><span id="eq-rmsd"><span class="math display">\[
+\text{RMSD} = \sqrt{\frac{1}{N}\sum_{k=1}^{N}\varepsilon_k^2}, \qquad
+\text{MaxE} = \max_k |\varepsilon_k|.
+\tag{8}\]</span></span></p>
+<ul>
+<li>The <strong>mean signed error</strong> (MSE) measures <em>systematic bias</em>. A method with MSE ≈ 0 is not necessarily good: large positive and negative errors can cancel.</li>
+<li>The <strong>mean absolute error</strong> (MAE, sometimes MAD or MUE) measures <em>typical accuracy</em>. It is the number most benchmark papers report.</li>
+<li>The <strong>root-mean-square deviation</strong> (RMSD) weights large errors more heavily. RMSD ≥ MAE always; a RMSD much larger than the MAE warns you of outliers.</li>
+<li>The <strong>maximum error</strong> tells you the worst case. If you design a drug or a catalyst, the worst case may matter more than the average.</li>
+</ul>
+</section>
+<section id="the-relative-error" class="level3" data-number="2.4.3">
+<h3 data-number="2.4.3" class="anchored" data-anchor-id="the-relative-error"><span class="header-section-number">2.4.3</span> The relative error</h3>
+<p><span id="eq-rel"><span class="math display">\[
+\varepsilon_k^\text{rel} = \frac{\varepsilon_k}{|\Delta E_k^\text{ref}|}\times 100\%.
+\tag{9}\]</span></span></p>
+<p>The relative error puts reactions of very different size on the same footing. But chemistry is decided by <em>absolute</em> energies: an equilibrium constant depends on ΔG in kcal/mol, not on a percentage. A 1% error on an atomization energy of 600 kcal/mol is 6 kcal/mol, which changes a rate or an equilibrium by orders of magnitude. And a relative error is meaningless when the reference is close to zero. Experiment 5 has a chart for exactly this comparison.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Worked example: statistics for a hypothetical method
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A hypothetical method gives these reaction energies (kcal/mol) for four reactions. The numbers are invented for practice; they are not results for any real functional.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Reaction</th>
+<th style="text-align: right;">ΔE<sub>ref</sub></th>
+<th style="text-align: right;">ΔE<sub>comp</sub></th>
+<th style="text-align: right;">ε</th>
+<th style="text-align: right;">|ε|</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>A</td>
+<td style="text-align: right;">2.50</td>
+<td style="text-align: right;">2.10</td>
+<td style="text-align: right;">−0.40</td>
+<td style="text-align: right;">0.40</td>
+</tr>
+<tr class="even">
+<td>B</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">1.30</td>
+<td style="text-align: right;">+0.30</td>
+<td style="text-align: right;">0.30</td>
+</tr>
+<tr class="odd">
+<td>C</td>
+<td style="text-align: right;">−10.00</td>
+<td style="text-align: right;">−8.80</td>
+<td style="text-align: right;">+1.20</td>
+<td style="text-align: right;">1.20</td>
+</tr>
+<tr class="even">
+<td>D</td>
+<td style="text-align: right;">50.00</td>
+<td style="text-align: right;">47.60</td>
+<td style="text-align: right;">−2.40</td>
+<td style="text-align: right;">2.40</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>MSE = (−0.40 + 0.30 + 1.20 − 2.40)/4 = −1.30/4 = −0.33 kcal/mol (−0.325 before rounding).</li>
+<li>MAE = (0.40 + 0.30 + 1.20 + 2.40)/4 = 4.30/4 = 1.08 kcal/mol (1.075).</li>
+<li>RMSD = √[(0.16 + 0.09 + 1.44 + 5.76)/4] = √(7.45/4) = √1.8625 = 1.36 kcal/mol.</li>
+<li>MaxE = 2.40 kcal/mol (reaction D).</li>
+<li>Relative errors: A 16%, B 30%, C 12%, D 4.8%.</li>
+</ul>
+<p>Reaction D has the largest absolute error but the smallest relative error. Reaction B has the smallest absolute error but the largest relative error. Which one is “worst” depends on the question you are asking.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Common mistakes with error statistics
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Averaging signed errors and calling the result “the accuracy”. That is the MSE, a measure of bias.</li>
+<li>Rounding the total energies before taking differences. Keep all the digits of the total energies (in E<sub>h</sub>), convert the <em>difference</em> to kcal/mol with 1 E<sub>h</sub> = 627.5095 kcal/mol, and round only at the end.</li>
+<li>Forgetting the stoichiometric coefficients. In ΔE = Σ ν<sub>i</sub>E<sub>i</sub> the coefficients are signed: ν &gt; 0 for products, ν &lt; 0 for reactants. “2 ethane → dimer” has ν = −2 for ethane.</li>
+<li>Comparing MAEs computed over different sets of reactions.</li>
+</ul>
+</div>
+</div>
+</section>
+</section>
+<section id="chemical-accuracy" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="chemical-accuracy"><span class="header-section-number">2.5</span> Chemical accuracy</h2>
+<p>The traditional target for a computational method is <strong>chemical accuracy</strong>, an error of about <strong>1 kcal/mol</strong> (4.2 kJ/mol). The number is not arbitrary. At 298 K, RT = 0.5925 kcal/mol, and an error δ in a free-energy difference changes an equilibrium constant (or a rate constant, through the barrier) by a factor exp(δ/RT):</p>
+<p><span id="eq-chemacc"><span class="math display">\[
+\frac{K_\text{comp}}{K_\text{true}} = e^{\delta/RT} = e^{1.000/0.5925} = e^{1.688} \approx 5.4 .
+\tag{10}\]</span></span></p>
+<p>So a 1 kcal/mol error means a factor of about 5 in K or in a rate. That is often good enough to tell which product dominates. A 3 kcal/mol error means a factor of e<sup>5.06</sup> ≈ 160, which is often not.</p>
+<p>For reference: on GMTKN55, the best hybrid and double-hybrid functionals reach a WTMAD-2 of a few kcal/mol, and the best functionals have MAEs well below 1 kcal/mol for easy noncovalent and conformational data, but several kcal/mol for difficult thermochemistry <span class="citation" data-cites="goerigk2017 mardirossian2017">(<a href="#ref-goerigk2017" role="doc-biblioref">Goerigk et al. 2017</a>; <a href="#ref-mardirossian2017" role="doc-biblioref">Mardirossian and Head-Gordon 2017</a>)</span>. Chemical accuracy is not reached uniformly by any functional.</p>
+</section>
+<section id="why-a-single-number-never-tells-the-whole-story" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="why-a-single-number-never-tells-the-whole-story"><span class="header-section-number">2.6</span> Why a single number never tells the whole story</h2>
+<p>Benchmark rankings are useful, but they must be read with care:</p>
+<ol type="1">
+<li><strong>The composition of the database matters.</strong> A ranking depends on which reactions are included and how they are weighted. A functional that is excellent for organic chemistry may be mediocre for transition metals, and an overall average hides this.</li>
+<li><strong>Training sets.</strong> A functional fitted to a database will look good on that database (see above).</li>
+<li><strong>Error cancellation.</strong> A good number can come from a lucky cancellation between two errors (Experiment 1 already showed one). Lucky cancellations don’t transfer.</li>
+<li><strong>Outliers.</strong> A small MAE can coexist with a catastrophic failure on one system. Always look at the maximum error and at the distribution.</li>
+<li><strong>The reference itself.</strong> CCSD(T)/CBS is excellent for single-reference molecules, but less reliable for systems with strong static correlation (Class 9).</li>
+</ol>
+<p>The practical advice: before using a functional for a new problem, look up its performance on the <em>subsets</em> most similar to your problem, not just its overall rank.</p>
+</section>
+</section>
+<section id="experiment-3-briefing" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Experiment 3 briefing</h1>
+<section id="the-goal" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="the-goal"><span class="header-section-number">3.1</span> The goal</h2>
+<p><a href="../experiments/ex03-organic-a.html">Experiment 3</a> is your first benchmark. You will test 16 methods on four reactions that appear in every organic chemistry textbook:</p>
+<table class="table-striped caption-top table">
+<caption>Reactions of Experiment 3. Data from the BHROT27, BUT14DIOL and FH51 subsets of GMTKN55 <span class="citation" data-cites="goerigk2017">(<a href="#ref-goerigk2017" role="doc-biblioref">Goerigk et al. 2017</a>)</span>.</caption>
+<colgroup>
+<col style="width: 30%">
+<col style="width: 30%">
+<col style="width: 40%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Reaction</th>
+<th>Description</th>
+<th style="text-align: right;">ΔE<sub>ref</sub> (kcal/mol)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>3a</td>
+<td>ethane, staggered → eclipsed (rotational barrier)</td>
+<td style="text-align: right;">2.73</td>
+</tr>
+<tr class="even">
+<td>3b</td>
+<td>methanol, staggered → eclipsed (rotational barrier)</td>
+<td style="text-align: right;">1.01</td>
+</tr>
+<tr class="odd">
+<td>3c</td>
+<td>butane-1,4-diol, conformer B1 → B43 (breaks an intramolecular H-bond)</td>
+<td style="text-align: right;">3.29</td>
+</tr>
+<tr class="even">
+<td>3d</td>
+<td><em>cis</em>-pent-2-ene → <em>trans</em>-pent-2-ene</td>
+<td style="text-align: right;">−1.15</td>
+</tr>
+</tbody>
+</table>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../images/ex03-reactions.jpeg" class="img-fluid figure-img" style="width:70.0%" alt="Ball-and-stick and line drawings of the four reactions 3a to 3d."></p>
+<figcaption>Reactions of Experiment 3: rotational barriers of ethane (3a) and methanol (3b), a conformational change of butane-1,4-diol (3c), and the cis–trans isomerization of pent-2-ene (3d).</figcaption>
+</figure>
+</div>
+</section>
+<section id="methods-and-jobs" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="methods-and-jobs"><span class="header-section-number">3.2</span> Methods and jobs</h2>
+<p>You will use the 16 methods of <a href="#tbl-16" class="quarto-xref">Table&nbsp;1</a> with the def2-TZVP basis set. Eight molecules × 16 methods = <strong>128 jobs</strong>. Each one is small and fast, but there are many, so submit them in batches (see <a href="../guides/shared-machines.html">working on a shared machine</a>). For every job record the total energy, the number of SCF cycles and the wall time.</p>
+</section>
+<section id="why-these-reactions-are-easy" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="why-these-reactions-are-easy"><span class="header-section-number">3.3</span> Why these reactions are “easy”</h2>
+<p>All four reactions compare two forms of the same molecule (two conformers, or a cis and a trans isomer). The atoms, the bonds and the number of electron pairs are the same on both sides. Only the arrangement in space changes. Most errors of an approximate functional are tied to specific features of the electron density: the core, the lone pairs, each type of bond. When the same features appear on both sides of the reaction, their errors largely <strong>cancel</strong> when you take products minus reactants.</p>
+<p>This idea has a name in thermochemistry. An <strong>isodesmic reaction</strong> conserves the number and type of each bond, and a <strong>homodesmotic</strong> reaction also conserves the hybridization of the atoms. Chemists design such reactions on purpose, because they make the computed reaction energy much less sensitive to the method. Conformational changes are the extreme case: nothing changes but the geometry.</p>
+<p>Error cancellation is not guaranteed, though. Ask yourself, for each reaction, what <em>does</em> change. In 3c an intramolecular hydrogen bond is broken. In 3a and 3b the barrier comes from a subtle balance of steric and hyperconjugative effects. How well does each rung describe a hydrogen bond? How does a method with no electron correlation at all (HF) do?</p>
+</section>
+<section id="cost-per-scf-cycle" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="cost-per-scf-cycle"><span class="header-section-number">3.4</span> Cost per SCF cycle</h2>
+<p>In Experiment 3 you also measure cost. Different functionals need different numbers of SCF cycles to converge, so the total time mixes “how expensive is one iteration” with “how hard was it to converge”. Dividing the wall time by the number of SCF cycles isolates the cost of one iteration. Think about what each rung adds to that cost:</p>
+<ul>
+<li>a GGA or meta-GGA needs the density (and its gradient, and τ) on a numerical grid;</li>
+<li>a hybrid also needs the HF exchange matrix K, built from the two-electron integrals, which is usually the most expensive step;</li>
+<li>a range-separated hybrid needs extra integrals for the long-range part;</li>
+<li>a nonlocal VV10 term needs a double integral over the grid.</li>
+</ul>
+<p>The site computes the time per cycle for you and plots it against the MAE in the <em>cost vs accuracy</em> chart. The ideal method sits in the bottom-left corner: cheap and accurate.</p>
+</section>
+<section id="what-to-watch-out-for" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="what-to-watch-out-for"><span class="header-section-number">3.5</span> What to watch out for</h2>
+<ul>
+<li>Read the reaction direction in the table: ΔE = E(product) − E(reactant). 3d is negative.</li>
+<li>These reaction energies are small (1–3 kcal/mol). Keep every digit of the total energies.</li>
+<li>Check that each job finished (“Thank you very much for using Q-Chem”) and that the SCF converged. Re-run any job that failed.</li>
+<li>Lock in your predictions on the experiment page <em>before</em> you run anything, including the “functional draft”: the method you bet will win over Experiments 3, 4 and 5.</li>
+</ul>
+</section>
+<section id="key-points" class="level2" data-number="3.6">
+<h2 data-number="3.6" class="anchored" data-anchor-id="key-points"><span class="header-section-number">3.6</span> Key points</h2>
+<ul>
+<li>In Experiment 1 the basis-set error (BSIE + BSSE) of DFT shrinks quickly with ζ; what remains at quadruple-ζ is the error of the functional.</li>
+<li>Hartree–Fock has no dispersion. Its apparent accuracy with small basis sets for (HCl)₂ comes from BSSE, an artifact that disappears as the basis grows.</li>
+<li>Measured cost exponents are below the formal N⁴ because of integral screening, fixed overhead and the short range of N. Triple-ζ is the usual sweet spot for DFT.</li>
+<li>The rung of a functional depends only on its ingredients. Range separation, “-V” and “-D4” are not rungs.</li>
+<li>Functionals are judged by benchmarking against reference data, usually CCSD(T)/CBS, collected in databases such as GMTKN55, MGCDB84 and the Minnesota databases.</li>
+<li>Signed error, MSE, MAE, RMSD, maximum error and relative error each answer a different question. Use more than one.</li>
+<li>Chemical accuracy (1 kcal/mol) corresponds to a factor of about 5 in an equilibrium or rate constant at room temperature.</li>
+<li>Performance on a functional’s own training set is not an independent test.</li>
+</ul>
+</section>
+<section id="study-questions" class="level2" data-number="3.7">
+<h2 data-number="3.7" class="anchored" data-anchor-id="study-questions"><span class="header-section-number">3.7</span> Study questions</h2>
+<ol type="1">
+<li>In Experiment 1, the reaction is a dissociation. Explain in one sentence what a positive signed error means for the binding of (HCl)₂.</li>
+<li>Why does BSSE make dimers too stable and not too unstable? Why does it shrink as the basis grows?</li>
+<li>Explain why the HF error for (HCl)₂ can grow when going from def2-SVP to def2-QZVP. What does this tell you about judging a method by a single small-basis calculation?</li>
+<li>A student measures time ∝ N<sup>2.3</sup> for a hybrid functional. Give three reasons why the exponent is smaller than 4.</li>
+<li>Classify M11-L, B97M-V, ωB97M-V and M06-HF on Jacob’s ladder, and explain the trap in each name.</li>
+<li>Why are CCSD(T)/CBS values preferred over experimental values as references for benchmarking functionals? Give two reasons.</li>
+<li>Using <a href="#eq-cbs2" class="quarto-xref">Equation&nbsp;4</a>, extrapolate correlation energies of −0.2000 E<sub>h</sub> (<em>n</em> = 2) and −0.2300 E<sub>h</sub> (<em>n</em> = 3). How large is the extrapolation correction, in kcal/mol?</li>
+<li>A method has MSE = 0.0 kcal/mol and MAE = 3.0 kcal/mol on a set of reactions. Describe what its errors look like.</li>
+<li>Show that an error of 2 kcal/mol in ΔG changes an equilibrium constant at 298 K by a factor of about 29.</li>
+<li>Why might a functional rank first on one database and tenth on another?</li>
+</ol>
+</section>
+<section id="further-reading" class="level2" data-number="3.8">
+<h2 data-number="3.8" class="anchored" data-anchor-id="further-reading"><span class="header-section-number">3.8</span> Further reading</h2>
+<ul>
+<li>L. Goerigk et al., “A look at the density functional theory zoo with the advanced GMTKN55 database” <span class="citation" data-cites="goerigk2017">(<a href="#ref-goerigk2017" role="doc-biblioref">Goerigk et al. 2017</a>)</span>. The database, its categories and WTMAD-2, with a ranking of more than 200 methods.</li>
+<li>N. Mardirossian and M. Head-Gordon, “Thirty years of density functional theory in computational chemistry” <span class="citation" data-cites="mardirossian2017">(<a href="#ref-mardirossian2017" role="doc-biblioref">Mardirossian and Head-Gordon 2017</a>)</span>. MGCDB84, and a review of 200 functionals.</li>
+<li>L. Goerigk and N. Mehta, “A trip to the density functional theory zoo” <span class="citation" data-cites="goerigk2019">(<a href="#ref-goerigk2019" role="doc-biblioref">Goerigk and Mehta 2019</a>)</span>. A readable guide to choosing functionals.</li>
+<li>P. Morgante and R. Peverati, “The devil in the details” <span class="citation" data-cites="morgante2020">(<a href="#ref-morgante2020" role="doc-biblioref">Morgante and Peverati 2020</a>)</span>. The tutorial review on which this lab is based.</li>
+<li>The course guide on <a href="../guides/units-and-errors.html">units and errors</a>.</li>
+</ul>
+
+
+
+</section>
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-dunning1989" class="csl-entry" role="listitem">
+Dunning, T. H. J. 1989. <em>Chem. Phys.</em> 90: 1007–23.
+</div>
+<div id="ref-goerigk2017" class="csl-entry" role="listitem">
+Goerigk, L., A. Hansen, C. Bauer, S. Ehrlich, A. Najibi, and S. Grimme. 2017. <em>Phys. Chem. Chem. Phys.</em> 19: 32184–215.
+</div>
+<div id="ref-goerigk2019" class="csl-entry" role="listitem">
+Goerigk, L., and N. Mehta. 2019. <em>Aust. J. Chem.</em> 72: 563–73.
+</div>
+<div id="ref-helgaker1997" class="csl-entry" role="listitem">
+Helgaker, T., W. Klopper, H. Koch, and J. Noga. 1997. <span>“Basis-Set Convergence of Correlated Calculations on Water.”</span> <em>J. Chem. Phys.</em> 106: 9639–46. <a href="https://doi.org/10.1063/1.473863">https://doi.org/10.1063/1.473863</a>.
+</div>
+<div id="ref-karton2017" class="csl-entry" role="listitem">
+Karton, A., N. Sylvetsky, and J. M. L. J. Martin. 2017. <em>Comput. Chem.</em> 38: 2063–75.
+</div>
+<div id="ref-mardirossian2017" class="csl-entry" role="listitem">
+Mardirossian, N., and M. Head-Gordon. 2017. <em>Mol. Phys.</em> 115: 2315–72.
+</div>
+<div id="ref-morgante2020" class="csl-entry" role="listitem">
+Morgante, P., and R. Peverati. 2020. <span>“The Devil in the Details: A Tutorial Review on Some Undervalued Aspects of Density Functional Theory Calculations.”</span> <em>Int. J. Quantum Chem.</em> 120: e26332.
+</div>
+<div id="ref-peverati2014" class="csl-entry" role="listitem">
+Peverati, R., and D. G. Truhlar. 2014. <em>Philos. Trans. R. Soc. A</em> 372: 20120476.
+</div>
+<div id="ref-raghavachari1989" class="csl-entry" role="listitem">
+Raghavachari, K., G. W. Trucks, J. A. Pople, and M. Head-Gordon. 1989. <span>“A Fifth-Order Perturbation Comparison of Electron Correlation Theories.”</span> <em>Chem. Phys. Lett.</em> 157: 479–83. <a href="https://doi.org/10.1016/S0009-2614(89)87395-6">https://doi.org/10.1016/S0009-2614(89)87395-6</a>.
+</div>
+<div id="ref-weigend2005" class="csl-entry" role="listitem">
+Weigend, F., and R. Ahlrichs. 2005. <em>Phys. Chem. Chem. Phys.</em> 7: 3297–305.
+</div>
+<div id="ref-witte2016" class="csl-entry" role="listitem">
+Witte, J., J. B. Neaton, and M. J. Head-Gordon. 2016. <em>Chem. Phys.</em> 144: 194306.
+</div>
+<div id="ref-yu2016a" class="csl-entry" role="listitem">
+Yu, H. S., X. He, S. L. Li, and D. G. Truhlar. 2016. <em>Chem. Sci.</em> 7: 5032–51.
+</div>
+</div></section></div></main> <!-- /main -->
+<!-- Peverati lab logo at the top right of the navbar (light and dark versions). -->
+<script>
+(function () {
+  var css = document.querySelector('link[href$="styles.css"]');
+  var root = css ? css.getAttribute("href").replace(/styles\.css$/, "") : "";
+  var nav = document.querySelector("#quarto-header nav.navbar .navbar-container") ||
+            document.querySelector("#quarto-header nav.navbar .container-fluid");
+  if (!nav) return;
+  var a = document.createElement("a");
+  a.className = "lab-logo";
+  a.href = "https://peverati.github.io";
+  a.title = "Peverati research group";
+  // Both versions are inserted; CSS shows the one that matches the light/dark theme.
+  a.innerHTML =
+    '<img class="logo-for-light" src="' + root + 'images/logo-light.png" alt="Peverati research group logo">' +
+    '<img class="logo-for-dark" src="' + root + 'images/logo-dark.png" alt="Peverati research group logo">';
+  nav.appendChild(a);
+})();
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const toggle = window.document.createElement('button');
+      toggle.type = "button";
+      toggle.setAttribute("role", "switch");
+      toggle.setAttribute("aria-checked", "false");
+      toggle.classList.add('top-right');
+      toggle.classList.add('quarto-color-scheme-toggle');
+      toggle.setAttribute("aria-label", "Toggle dark mode");
+      toggle.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      toggle.appendChild(i);
+      // Put the toggle in a landmark of its own, so that landmark navigation
+      // can reach it.
+      //
+      // The container is always a fresh direct child of body, and the toggle is
+      // never moved into page furniture that the theme or the author controls.
+      // The toggle is positioned against the page, so any ancestor that
+      // establishes a containing block captures it: a positioned element or a
+      // grid for position: absolute, and transform, filter, will-change or
+      // contain for position: fixed. A direct child of body has none of these
+      // to inherit, and the shift when one appears is silent and visual.
+      //
+      // ARIA says a document should have at most one banner, and axe reports a
+      // duplicate whether or not the banners carry distinct labels. So use a
+      // header when the page has no banner yet, and a named region otherwise.
+      //
+      // A header is a banner wherever it sits, unless it is inside sectioning
+      // content, so this cannot just look at the children of body: a custom
+      // page layout wraps the title block header in a plain div. An explicit
+      // role="banner" always counts.
+      const sectioning = 'article, aside, main, nav, section, [role="article"], [role="complementary"], [role="main"], [role="navigation"], [role="region"]';
+      const hasBanner = Array.from(
+        window.document.querySelectorAll('header:not([role]), [role="banner"]')
+      ).some(function(el) {
+        return el.hasAttribute("role") || el.closest(sectioning) === null;
+      });
+      const container = window.document.createElement(hasBanner ? "div" : "header");
+      if (hasBanner) {
+        container.setAttribute("role", "region");
+        container.setAttribute("aria-label", "Toggle dark mode");
+      }
+      container.classList.add('quarto-color-scheme-toggle-container');
+      container.appendChild(toggle);
+      window.document.body.appendChild(container);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/peverati\.github\.io\/advpchem\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+          if (!link.classList.contains('no-external-icon')) {
+          }
+        }
+      }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          // Each band is positioned against its own containing block, which is
+          // not the offsetParent of the lines, so place it from client rects.
+          const placeBand = (band, firstEl, lastEl, codeBlock) => {
+            const container = band.offsetParent;
+            if (container === null) {
+              return;
+            }
+            const containerRect = container.getBoundingClientRect();
+            // Reveal.js scales slides with a transform, so convert client
+            // pixels back to the CSS pixels of the container.
+            const scale = containerRect.height / container.offsetHeight || 1;
+            const firstRect = firstEl.getBoundingClientRect();
+            const lastRect = lastEl.getBoundingClientRect();
+            const top = (firstRect.top - containerRect.top) / scale - container.clientTop + container.scrollTop;
+            const height = (lastRect.bottom - firstRect.top) / scale;
+            band.style.top = top - 2 + "px";
+            band.style.height = height + 4 + "px";
+            if (codeBlock) {
+              // Without the copy button wrapper, the containing block is wider
+              // than the code block, so span the code block explicitly.
+              const blockRect = codeBlock.getBoundingClientRect();
+              band.style.left = (blockRect.left - containerRect.left) / scale - container.clientLeft + container.scrollLeft + "px";
+              band.style.width = blockRect.width / scale + "px";
+            }
+          };
+          if (lineIds.length > 0) {
+            const el = window.document.getElementById(lineIds[0]);
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const parent = el.parentElement.parentElement;
+            // cook up a div (if necessary) and position it
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            placeBand(div, el, lastEl, parent.closest("div.sourceCode") || parent);
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            placeBand(gutterDiv, el, lastEl);
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+  <script type="application/javascript">
+  window.quartoScrollableRegionsLabels = {"code":"Scrollable code","output":"Scrollable output"};
+  </script>
+<nav class="page-navigation" aria-label="Page">
+  <div class="nav-page nav-page-previous">
+      <a href="../lectures/l06-jacobs-ladder.html" class="pagination-link" aria-label="Class 6 · Approximating the Hamiltonian III: Jacob's ladder">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Class 6 · Approximating the Hamiltonian III: Jacob’s ladder</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../lectures/l08-dispersion.html" class="pagination-link" aria-label="Class 8 · Dispersion and noncovalent interactions">
+        <span class="nav-page-text">Class 8 · Dispersion and noncovalent interactions</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Advanced Physical Chemistry · Florida Institute of Technology</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>Experiments adapted from Morgante &amp; Peverati, <em>Int. J. Quantum Chem.</em> <strong>2020</strong></p>
+</div>
+  </div>
+</footer>
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

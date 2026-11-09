@@ -1,0 +1,1766 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.11.9">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="description" content="Why almost every method does well on conformers, where London dispersion comes from, why semilocal DFT and Hartree–Fock miss it, and how -D4 and VV10 put it back.">
+
+<title>Class 8 · Dispersion and noncovalent interactions – Computational Chemistry Lab</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../lectures/l09-difficult-cases.html" rel="next">
+<link href="../lectures/l07-benchmarking.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-447e42e69aaa9833c0ba1b986f430b20.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-56996c7b5257095e64120a8d6d543cad.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-9953095112a8816cde90456e6de52415.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-56996c7b5257095e64120a8d6d543cad.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<script src="https://cdn.jsdelivr.net/npm/3dmol@2.4.2/build/3Dmol-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-sidebar floating nav-fixed quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          toggle.setAttribute("aria-checked", alternate ? "true" : "false");
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455).
+    // Not run on load: stylesheets are set before first paint there, and
+    // scrolling would undo the scroll to a URL fragment (#14973).
+    // The one pixel nudge keeps the reader where they were.
+    const refreshSafariScrollbar = () => {
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        const scrollY = window.scrollY;
+        window.scrollTo(0, scrollY > 0 ? scrollY - 1 : 1);
+        setTimeout(() => {
+          window.scrollTo(0, scrollY);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      refreshSafariScrollbar();
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark" aria-label="Site">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Computational Chemistry Lab</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-guides" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Guides</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-guides">    
+        <li>
+    <a class="dropdown-item" href="../guides/iqmol-setup.html">
+ <span class="dropdown-text">Install IQmol and connect to Q-Chem</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../guides/first-job.html">
+ <span class="dropdown-text">Your first Q-Chem job</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../guides/reading-output.html">
+ <span class="dropdown-text">Reading a Q-Chem output</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../guides/shared-machines.html">
+ <span class="dropdown-text">Working on a shared machine</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../guides/units-and-errors.html">
+ <span class="dropdown-text">Units, reaction energies and errors</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-lectures" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Lectures</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-lectures">    
+        <li>
+    <a class="dropdown-item" href="../lectures/index.html">
+ <span class="dropdown-text">All lectures</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l01-molecular-schrodinger.html">
+ <span class="dropdown-text">1 · The molecular Schrödinger equation</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l02-basis-sets.html">
+ <span class="dropdown-text">2 · Basis sets</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l03-from-theory-to-a-calculation.html">
+ <span class="dropdown-text">3 · From theory to a calculation</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l04-hartree-fock.html">
+ <span class="dropdown-text">4 · Hartree–Fock and the SCF</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l05-density-functional-theory.html">
+ <span class="dropdown-text">5 · Density functional theory</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l06-jacobs-ladder.html">
+ <span class="dropdown-text">6 · Jacob’s ladder</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l07-benchmarking.html">
+ <span class="dropdown-text">7 · How we test a functional</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l08-dispersion.html">
+ <span class="dropdown-text">8 · Dispersion</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l09-difficult-cases.html">
+ <span class="dropdown-text">9 · Difficult cases for DFT</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l10-error-cancellation.html">
+ <span class="dropdown-text">10 · Basis-set vs functional error</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l11-integration-grids.html">
+ <span class="dropdown-text">11 · Integration grids</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l12-scf-stability.html">
+ <span class="dropdown-text">12 · SCF stability and transition metals</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l13-theory-vs-experiment.html">
+ <span class="dropdown-text">13 · Theory vs experiment</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l14-choosing-a-method.html">
+ <span class="dropdown-text">14 · Choosing a method</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l15-wrap-up.html">
+ <span class="dropdown-text">15 · What we learned</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-experiments" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Experiments</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-experiments">    
+        <li>
+    <a class="dropdown-item" href="../experiments/ex01-basis-sets.html">
+ <span class="dropdown-text">Experiment 1: Basis Set Incompleteness Error</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex02-jacobs-ladder.html">
+ <span class="dropdown-text">Experiment 2: Jacob’s Ladder</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex03-organic-a.html">
+ <span class="dropdown-text">Experiment 3: Applying DFT to Organic Chemistry – Part A</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex04-organic-b.html">
+ <span class="dropdown-text">Experiment 4: Applying DFT to Organic Chemistry – Part B</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex05-difficult-cases.html">
+ <span class="dropdown-text">Experiment 5: Difficult Cases for DFT</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex06-b3lyp-631gs.html">
+ <span class="dropdown-text">Experiment 6: Why is the B3LYP/6-31G* Level of Theory so Successful?</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex07-grids.html">
+ <span class="dropdown-text">Experiment 7: Integration Grids</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex08-stability.html">
+ <span class="dropdown-text">Experiment 8: Stability Analysis and Transition Metals</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex09-experiment-vs-theory.html">
+ <span class="dropdown-text">Experiment 9: Comparison with Experimental Results</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex10-final-review.html">
+ <span class="dropdown-text">Experiment 10: Final Review</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="../class-results.html"> 
+<span class="menu-text">Class results</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <button type="button" role="switch" aria-checked="false" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode" aria-label="Toggle dark mode"><i class="bi"></i></button>
+</div>
+            <div id="quarto-search" class="" title="Search"></div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav" aria-label="Toolbar">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../lectures/l08-dispersion.html">Class 8 · Dispersion and noncovalent interactions</a></li></ol></nav>
+        <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto" aria-label="Section">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lectures</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l01-molecular-schrodinger.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 1 · The molecular Schrödinger equation</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l02-basis-sets.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 2 · Approximating the wave function: basis sets</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l03-from-theory-to-a-calculation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 3 · From theory to a calculation: IQmol, Q-Chem and Experiment 1</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l04-hartree-fock.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 4 · Approximating the Hamiltonian I: Hartree–Fock and the SCF</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l05-density-functional-theory.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 5 · Approximating the Hamiltonian II: density functional theory</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l06-jacobs-ladder.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 6 · Approximating the Hamiltonian III: Jacob’s ladder</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l07-benchmarking.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 7 · How we test a functional</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l08-dispersion.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Class 8 · Dispersion and noncovalent interactions</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l09-difficult-cases.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 9 · Why some reactions are hard for DFT</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l10-error-cancellation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 10 · Basis-set error vs functional error</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l11-integration-grids.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 11 · Numerical integration grids</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l12-scf-stability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 12 · SCF stability, open shells and transition metals</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l13-theory-vs-experiment.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 13 · From electronic energies to experiment</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l14-choosing-a-method.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 14 · Choosing, running and reporting a method</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l15-wrap-up.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 15 · What we learned</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" aria-labelledby="toc-title" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#part-1-looking-back-at-experiment-3" id="toc-part-1-looking-back-at-experiment-3" class="nav-link active" data-scroll-target="#part-1-looking-back-at-experiment-3"><span class="header-section-number">1</span> Part 1 · Looking back at Experiment 3</a>
+  <ul class="collapse">
+  <li><a href="#the-easy-reactions-really-were-easy" id="toc-the-easy-reactions-really-were-easy" class="nav-link" data-scroll-target="#the-easy-reactions-really-were-easy"><span class="header-section-number">1.1</span> The “easy” reactions really were easy</a>
+  <ul class="collapse">
+  <li><a href="#why-error-cancellation" id="toc-why-error-cancellation" class="nav-link" data-scroll-target="#why-error-cancellation"><span class="header-section-number">1.1.1</span> Why: error cancellation</a></li>
+  <li><a href="#the-usual-outliers-butane-14-diol-lsda-and-hf" id="toc-the-usual-outliers-butane-14-diol-lsda-and-hf" class="nav-link" data-scroll-target="#the-usual-outliers-butane-14-diol-lsda-and-hf"><span class="header-section-number">1.1.2</span> The usual outliers: butane-1,4-diol, LSDA and HF</a></li>
+  </ul></li>
+  <li><a href="#cost-vs-accuracy" id="toc-cost-vs-accuracy" class="nav-link" data-scroll-target="#cost-vs-accuracy"><span class="header-section-number">1.2</span> Cost vs accuracy</a></li>
+  </ul></li>
+  <li><a href="#part-2-dispersion-and-noncovalent-interactions" id="toc-part-2-dispersion-and-noncovalent-interactions" class="nav-link" data-scroll-target="#part-2-dispersion-and-noncovalent-interactions"><span class="header-section-number">2</span> Part 2 · Dispersion and noncovalent interactions</a>
+  <ul class="collapse">
+  <li><a href="#noncovalent-interactions" id="toc-noncovalent-interactions" class="nav-link" data-scroll-target="#noncovalent-interactions"><span class="header-section-number">2.1</span> Noncovalent interactions</a></li>
+  <li><a href="#the-physics-of-london-dispersion" id="toc-the-physics-of-london-dispersion" class="nav-link" data-scroll-target="#the-physics-of-london-dispersion"><span class="header-section-number">2.2</span> The physics of London dispersion</a>
+  <ul class="collapse">
+  <li><a href="#fluctuating-dipoles" id="toc-fluctuating-dipoles" class="nav-link" data-scroll-target="#fluctuating-dipoles"><span class="header-section-number">2.2.1</span> Fluctuating dipoles</a></li>
+  <li><a href="#a-model-two-coupled-oscillators" id="toc-a-model-two-coupled-oscillators" class="nav-link" data-scroll-target="#a-model-two-coupled-oscillators"><span class="header-section-number">2.2.2</span> A model: two coupled oscillators</a></li>
+  </ul></li>
+  <li><a href="#why-semilocal-dft-and-hartreefock-miss-dispersion" id="toc-why-semilocal-dft-and-hartreefock-miss-dispersion" class="nav-link" data-scroll-target="#why-semilocal-dft-and-hartreefock-miss-dispersion"><span class="header-section-number">2.3</span> Why semilocal DFT and Hartree–Fock miss dispersion</a>
+  <ul class="collapse">
+  <li><a href="#semilocal-functionals" id="toc-semilocal-functionals" class="nav-link" data-scroll-target="#semilocal-functionals"><span class="header-section-number">2.3.1</span> Semilocal functionals</a></li>
+  <li><a href="#hybrids" id="toc-hybrids" class="nav-link" data-scroll-target="#hybrids"><span class="header-section-number">2.3.2</span> Hybrids</a></li>
+  <li><a href="#hartreefock" id="toc-hartreefock" class="nav-link" data-scroll-target="#hartreefock"><span class="header-section-number">2.3.3</span> Hartree–Fock</a></li>
+  <li><a href="#wave-function-methods" id="toc-wave-function-methods" class="nav-link" data-scroll-target="#wave-function-methods"><span class="header-section-number">2.3.4</span> Wave-function methods</a></li>
+  </ul></li>
+  <li><a href="#how-to-put-dispersion-back-into-dft" id="toc-how-to-put-dispersion-back-into-dft" class="nav-link" data-scroll-target="#how-to-put-dispersion-back-into-dft"><span class="header-section-number">2.4</span> How to put dispersion back into DFT</a>
+  <ul class="collapse">
+  <li><a href="#strategy-1-pairwise-corrections--d" id="toc-strategy-1-pairwise-corrections--d" class="nav-link" data-scroll-target="#strategy-1-pairwise-corrections--d"><span class="header-section-number">2.4.1</span> Strategy 1: pairwise corrections (-D)</a></li>
+  <li><a href="#strategy-2-nonlocal-correlation-functionals-vv10-rvv10" id="toc-strategy-2-nonlocal-correlation-functionals-vv10-rvv10" class="nav-link" data-scroll-target="#strategy-2-nonlocal-correlation-functionals-vv10-rvv10"><span class="header-section-number">2.4.2</span> Strategy 2: nonlocal correlation functionals (VV10, rVV10)</a></li>
+  <li><a href="#strategy-3-fitted-functionals" id="toc-strategy-3-fitted-functionals" class="nav-link" data-scroll-target="#strategy-3-fitted-functionals"><span class="header-section-number">2.4.3</span> Strategy 3: fitted functionals</a></li>
+  </ul></li>
+  <li><a href="#intramolecular-dispersion-branched-alkanes" id="toc-intramolecular-dispersion-branched-alkanes" class="nav-link" data-scroll-target="#intramolecular-dispersion-branched-alkanes"><span class="header-section-number">2.5</span> Intramolecular dispersion: branched alkanes</a></li>
+  <li><a href="#a-reminder-about-bsse" id="toc-a-reminder-about-bsse" class="nav-link" data-scroll-target="#a-reminder-about-bsse"><span class="header-section-number">2.6</span> A reminder about BSSE</a></li>
+  </ul></li>
+  <li><a href="#experiment-4-briefing" id="toc-experiment-4-briefing" class="nav-link" data-scroll-target="#experiment-4-briefing"><span class="header-section-number">3</span> Experiment 4 briefing</a>
+  <ul class="collapse">
+  <li><a href="#the-goal" id="toc-the-goal" class="nav-link" data-scroll-target="#the-goal"><span class="header-section-number">3.1</span> The goal</a></li>
+  <li><a href="#methods-and-jobs" id="toc-methods-and-jobs" class="nav-link" data-scroll-target="#methods-and-jobs"><span class="header-section-number">3.2</span> Methods and jobs</a></li>
+  <li><a href="#what-to-watch-out-for" id="toc-what-to-watch-out-for" class="nav-link" data-scroll-target="#what-to-watch-out-for"><span class="header-section-number">3.3</span> What to watch out for</a></li>
+  <li><a href="#key-points" id="toc-key-points" class="nav-link" data-scroll-target="#key-points"><span class="header-section-number">3.4</span> Key points</a></li>
+  <li><a href="#study-questions" id="toc-study-questions" class="nav-link" data-scroll-target="#study-questions"><span class="header-section-number">3.5</span> Study questions</a></li>
+  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading"><span class="header-section-number">3.6</span> Further reading</a></li>
+  </ul></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="l08-dispersion.pdf"><i class="bi bi-file-pdf"></i>PDF handout</a></li><li><a href="l08-dispersion.pdf"><i class="bi bi-file-pdf"></i>Typst</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content" tabindex="-1">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Class 8 · Dispersion and noncovalent interactions</h1>
+<p class="subtitle lead">Debrief of Experiment 3 and introduction to Experiment 4</p>
+</div>
+
+<div>
+  <div class="description">
+    Why almost every method does well on conformers, where London dispersion comes from, why semilocal DFT and Hartree–Fock miss it, and how -D4 and VV10 put it back.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Learning goals
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>After this class you should be able to:</p>
+<ul>
+<li>explain why most methods give small errors for the reactions of Experiment 3, and why LSDA and Hartree–Fock are the usual exceptions;</li>
+<li>read the cost-vs-accuracy chart and explain why hybrids cost more per SCF cycle than (meta-)GGAs;</li>
+<li>derive the −C₆/R⁶ form of the London dispersion energy from a model of two coupled oscillators;</li>
+<li>explain why semilocal functionals and Hartree–Fock cannot describe dispersion;</li>
+<li>describe how the -D4 correction works (pairwise C₆ terms, damping, charge dependence, three-body term) and how nonlocal VV10/rVV10 correlation differs from it;</li>
+<li>explain why intramolecular dispersion matters for branched alkanes;</li>
+<li>start Experiment 4 knowing what each reaction tests.</li>
+</ul>
+</div>
+</div>
+<section id="part-1-looking-back-at-experiment-3" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Part 1 · Looking back at Experiment 3</h1>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Read this after you submit Experiment 3
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This part discusses the trends you probably saw in <a href="../experiments/ex03-organic-a.html">Experiment 3</a>. If you have not submitted it yet, stop here and come back later.</p>
+</div>
+</div>
+<section id="the-easy-reactions-really-were-easy" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="the-easy-reactions-really-were-easy"><span class="header-section-number">1.1</span> The “easy” reactions really were easy</h2>
+<p>In Experiment 3 you computed four small energy differences: two rotational barriers (3a ethane, 2.73 kcal/mol; 3b methanol, 1.01 kcal/mol), a conformational change of butane-1,4-diol that breaks an intramolecular hydrogen bond (3c, 3.29 kcal/mol), and the <em>cis</em>→<em>trans</em> isomerization of pent-2-ene (3d, −1.15 kcal/mol). The 16 methods range from LSDA to hybrid meta-GGAs, plus Hartree–Fock.</p>
+<p>What you probably saw on the <em>signed error</em> chart is a sea of very short bars. For 3a, 3b and 3d, nearly every method lands within a few tenths of a kcal/mol of the reference, whatever its rung. The ranking among the best methods changes from reaction to reaction, and the differences between them are often smaller than 0.1–0.2 kcal/mol. Differences that small are close to the uncertainty of the reference values and of your own numerical settings, so they should not be over-interpreted.</p>
+<section id="why-error-cancellation" class="level3" data-number="1.1.1">
+<h3 data-number="1.1.1" class="anchored" data-anchor-id="why-error-cancellation"><span class="header-section-number">1.1.1</span> Why: error cancellation</h3>
+<p>The explanation is the one we anticipated in <a href="../lectures/l07-benchmarking.html">Class 7</a>. Each reaction compares two forms of the <em>same</em> molecule. The number of electrons, the bonds, the lone pairs and the core orbitals are identical on both sides. An approximate functional makes errors in describing each of these features, but it makes nearly the same errors in the reactant and in the product. When you compute ΔE = E(product) − E(reactant), those errors cancel. What remains is the error in describing the small <em>change</em> in the density, and that change is small and local.</p>
+<p>This is the most powerful idea in practical quantum chemistry. It is also fragile, because it depends on the reaction, not on the method. Nobody can tell in advance, from the reaction type alone, whether a conformational change will be easy. That is why we benchmark.</p>
+</section>
+<section id="the-usual-outliers-butane-14-diol-lsda-and-hf" class="level3" data-number="1.1.2">
+<h3 data-number="1.1.2" class="anchored" data-anchor-id="the-usual-outliers-butane-14-diol-lsda-and-hf"><span class="header-section-number">1.1.2</span> The usual outliers: butane-1,4-diol, LSDA and HF</h3>
+<p>Reaction 3c is the one where the sea of short bars breaks up. In conformer B1 the two OH groups form an intramolecular hydrogen bond; in B43 they do not. So 3c measures, roughly, the energy of one hydrogen bond plus some conformational strain. A change in a noncovalent interaction does not cancel.</p>
+<p>The two methods that most often stand out are at the two ends of the ladder:</p>
+<ul>
+<li><strong>LSDA (SPW92)</strong> is known to <strong>overbind</strong> hydrogen bonds and, more generally, to give too much attraction wherever two densities overlap weakly. The uniform-electron-gas model has no way to tell a weak, stretched interaction from a real bond. For 3c this makes the hydrogen-bonded conformer too stable, so the energy to break the H-bond comes out too large.</li>
+<li><strong>Hartree–Fock</strong> has no correlation. A hydrogen bond is mostly electrostatics, which HF describes reasonably, but the correlation and dispersion parts are missing, so HF tends to <strong>underbind</strong>. Its error on 3c has the opposite sign to LSDA’s.</li>
+</ul>
+<p>The modern hybrid and meta-GGA functionals usually describe the hydrogen bond well. You may also have noticed that -D4 changed the numbers in Experiment 3 very little. The dispersion energy depends on interatomic distances, and the distances barely change in a rotation or in a cis–trans isomerization, so the -D4 contribution nearly cancels too. In 3c, where the molecule changes shape more, -D4 makes a slightly larger difference.</p>
+</section>
+</section>
+<section id="cost-vs-accuracy" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="cost-vs-accuracy"><span class="header-section-number">1.2</span> Cost vs accuracy</h2>
+<p>The <em>cost vs accuracy</em> chart plots the MAE against the time per SCF cycle on a log axis. You probably saw something like this:</p>
+<ul>
+<li><strong>SPW92 and the GGAs</strong> are the cheapest per cycle. They need only the density and its gradient on the integration grid.</li>
+<li><strong>Meta-GGAs</strong> cost slightly more: they need τ on the grid too, and are often run on finer grids (Class 11).</li>
+<li><strong>Hybrids</strong> are clearly more expensive per cycle. They need the HF exchange matrix K, built from the four-index two-electron integrals, and that step dominates.</li>
+<li><strong>Range-separated hybrids</strong> (ωB97M-V, M11) need extra integrals for the long-range exchange, and <strong>VV10</strong> (B97M-V, ωB97M-V) adds a double integral over grid points. These are usually the most expensive per cycle.</li>
+<li><strong>HF</strong> needs K but no grid at all, so it costs about the same as a hybrid.</li>
+<li><strong>B3LYP is not special.</strong> It costs about the same as B3PW91 and PBE0, because cost is set by the rung (and by the HF exchange), not by the name.</li>
+</ul>
+<p>The ideal method sits bottom-left. For Experiment 3, cheap methods are almost as accurate as expensive ones, because error cancellation does most of the work. The ranking will look very different in Experiments 4 and 5. Keep your chart: comparing it with the next two is the real lesson.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Common mistake: generalizing from easy reactions
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“SPW92 was fine for the ethane barrier, so LSDA is good enough” is wrong. Experiment 3 tells you that <em>conformational energies with similar bonding</em> are easy. It says almost nothing about reactions where bonds or noncovalent contacts change.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="part-2-dispersion-and-noncovalent-interactions" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Part 2 · Dispersion and noncovalent interactions</h1>
+<section id="noncovalent-interactions" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="noncovalent-interactions"><span class="header-section-number">2.1</span> Noncovalent interactions</h2>
+<p>Noncovalent interactions are the forces between molecules (and between distant parts of the same molecule) that do not involve sharing electrons in a bond. They are weak, typically 0.1–10 kcal/mol per contact, but they decide the structure of DNA, the folding of proteins, the packing of crystals, and the binding of a drug to its target. The total interaction energy is often split into four physical contributions:</p>
+<ol type="1">
+<li><strong>electrostatics</strong>: the classical interaction between the charge distributions of the two monomers (charges, dipoles, quadrupoles);</li>
+<li><strong>exchange (Pauli) repulsion</strong>: electrons with the same spin cannot occupy the same region; it grows roughly exponentially as the densities overlap;</li>
+<li><strong>induction (polarization)</strong>: each monomer’s density is distorted by the field of the other;</li>
+<li><strong>dispersion</strong>: the attraction between correlated, instantaneous fluctuations of the electron clouds.</li>
+</ol>
+<p>A hydrogen bond, like the one in the methanol dimer, is dominated by electrostatics, with important induction and dispersion parts. The interaction between two alkanes, like the ethane dimer, is almost purely dispersion balanced by Pauli repulsion: ethane has no dipole moment and no hydrogen-bond donors or acceptors.</p>
+</section>
+<section id="the-physics-of-london-dispersion" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="the-physics-of-london-dispersion"><span class="header-section-number">2.2</span> The physics of London dispersion</h2>
+<section id="fluctuating-dipoles" class="level3" data-number="2.2.1">
+<h3 data-number="2.2.1" class="anchored" data-anchor-id="fluctuating-dipoles"><span class="header-section-number">2.2.1</span> Fluctuating dipoles</h3>
+<p>Even a perfectly spherical atom, like argon, has an instantaneous dipole moment at every moment, because its electrons move. On average the dipole is zero. But an instantaneous dipole on atom A creates an electric field at atom B, which induces a dipole on B. The two dipoles are aligned so that they attract. The motions of the electrons on A and B become <strong>correlated</strong>, and the correlation lowers the energy. This is the picture Fritz London gave in 1930 <span class="citation" data-cites="london1930">(<a href="#ref-london1930" role="doc-biblioref">London 1930</a>)</span>: dispersion is an electron correlation effect between two distant regions of space.</p>
+</section>
+<section id="a-model-two-coupled-oscillators" class="level3" data-number="2.2.2">
+<h3 data-number="2.2.2" class="anchored" data-anchor-id="a-model-two-coupled-oscillators"><span class="header-section-number">2.2.2</span> A model: two coupled oscillators</h3>
+<p>The simplest model that captures the physics is the <strong>Drude model</strong>. Represent each atom by a charge −q bound to a nucleus by a spring of force constant k = mω₀², so that it oscillates with frequency ω₀. The static polarizability of such an oscillator is α = q²/k. Put two of these oscillators a distance R apart, and let the charges move only along the line that joins them (a one-dimensional model). The dipole–dipole interaction between the displacements x₁ and x₂ is</p>
+<p><span id="eq-dd"><span class="math display">\[
+V = -\frac{2q^2 x_1 x_2}{R^3}.
+\tag{1}\]</span></span></p>
+<p>The Hamiltonian of the two coupled oscillators can be separated into two normal modes, x₁ ± x₂, with frequencies</p>
+<p><span id="eq-modes"><span class="math display">\[
+\omega_\pm = \omega_0\sqrt{1 \mp \frac{2\alpha}{R^3}} .
+\tag{2}\]</span></span></p>
+<p>Quantum mechanics says each oscillator keeps a zero-point energy ħω/2 even in its ground state. The total zero-point energy of the pair is (ħ/2)(ω₊ + ω₋). Expanding the square roots for large R with √(1 + x) ≈ 1 + x/2 − x²/8, the first-order terms cancel and the second-order terms do not:</p>
+<p><span id="eq-zpe"><span class="math display">\[
+\frac{\hbar}{2}(\omega_+ + \omega_-) \approx \hbar\omega_0 - \frac{\hbar\omega_0}{2}\,\frac{\alpha^2}{R^6}.
+\tag{3}\]</span></span></p>
+<p>The first term is just the energy of two separate oscillators. The second is the interaction:</p>
+<p><span id="eq-london"><span class="math display">\[
+E_\text{disp} = -\frac{\hbar\omega_0\,\alpha^2}{2R^6} \quad\text{(1D model)}, \qquad
+E_\text{disp} = -\frac{3\hbar\omega_0\,\alpha^2}{4R^6} \quad\text{(3D model)}.
+\tag{4}\]</span></span></p>
+<p>Three lessons come out of this simple calculation.</p>
+<ol type="1">
+<li>Dispersion is <strong>always attractive</strong>.</li>
+<li>It decays as <strong>R⁻⁶</strong>. We write E<sub>disp</sub> = −C₆/R⁶, with a <strong>dispersion coefficient</strong> C₆.</li>
+<li>It is a <strong>quantum</strong> effect: it comes from the change in zero-point energy. Classical static charge distributions with no dipole would not interact at all.</li>
+</ol>
+<p>The model also tells us what C₆ depends on: the <strong>polarizability</strong> α (how easily the electron cloud is distorted) and a characteristic excitation energy ħω₀. London approximated ħω₀ by the ionization energy I, which gives the famous <strong>London formula</strong> for two different atoms:</p>
+<p><span id="eq-london-formula"><span class="math display">\[
+C_6^{AB} \approx \frac{3}{2}\,\frac{I_A I_B}{I_A + I_B}\,\alpha_A\alpha_B .
+\tag{5}\]</span></span></p>
+<p>The exact expression, due to Casimir and Polder <span class="citation" data-cites="casimir1948">(<a href="#ref-casimir1948" role="doc-biblioref">Casimir and Polder 1948</a>)</span>, integrates the frequency-dependent polarizabilities at imaginary frequency:</p>
+<p><span id="eq-casimir-polder"><span class="math display">\[
+C_6^{AB} = \frac{3}{\pi}\int_0^\infty \alpha_A(i\omega)\,\alpha_B(i\omega)\,d\omega .
+\tag{6}\]</span></span></p>
+<p>Large, soft, polarizable atoms (Xe, I, S) have large C₆; small, hard ones (He, Ne, H) have small C₆. That is why boiling points rise down a group, and why long alkanes are liquids or solids while methane is a gas.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Worked example: the size of dispersion between two argon atoms
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The C₆ coefficient of the argon dimer is about 64.3 E<sub>h</sub> a₀⁶. Convert it to kcal/mol Å⁶ using 1 E<sub>h</sub> = 627.5095 kcal/mol and 1 a₀ = 0.529177 Å, so 1 a₀⁶ = 0.529177⁶ Å⁶ = 0.021958 Å⁶:</p>
+<p><span class="math display">\[
+C_6 = 64.3 \times 627.5095 \times 0.021958\ \text{kcal mol}^{-1}\,\text{Å}^6 = 886\ \text{kcal mol}^{-1}\,\text{Å}^6 .
+\]</span></p>
+<p>At the equilibrium distance of Ar₂, R ≈ 3.76 Å, R⁶ = 3.76⁶ = 2.83 × 10³ Å⁶, and</p>
+<p><span class="math display">\[
+-\frac{C_6}{R^6} = -\frac{886}{2.83\times 10^{3}} = -0.31\ \text{kcal/mol}.
+\]</span></p>
+<p>The full well depth of Ar₂ is about 0.28 kcal/mol (Experiment 7 studies this curve). The dispersion attraction is slightly larger than the well depth, because Pauli repulsion already cancels part of it at that distance.</p>
+</div>
+</div>
+<p><a href="#fig-disp-models" class="quarto-xref">Figure&nbsp;1</a> (a) shows a Lennard-Jones model of a rare-gas dimer. The minimum arises from the balance of a steep repulsion and the R⁻⁶ attraction. Without the attraction there is no minimum at all: the curve is purely repulsive.</p>
+<div id="fig-disp-models" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Two panels. Left: a Lennard-Jones potential with a minimum near 3.8 angstrom, and its repulsive and attractive parts as dashed curves. Right: the undamped minus C6 over R to the sixth diverges at short distance; the rational-damped curve levels off at a finite value; the zero-damped curve goes back to zero at short distance.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-disp-models-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/l08-dispersion-models.png" class="img-fluid figure-img" style="width:100.0%" alt="Two panels. Left: a Lennard-Jones potential with a minimum near 3.8 angstrom, and its repulsive and attractive parts as dashed curves. Right: the undamped minus C6 over R to the sixth diverges at short distance; the rational-damped curve levels off at a finite value; the zero-damped curve goes back to zero at short distance.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-disp-models-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: (a) Lennard-Jones model of Ar₂ (ε = 0.285 kcal/mol, σ = 3.35 Å), split into its repulsive R⁻¹² and attractive R⁻⁶ terms. (b) The dispersion energy −C₆/R⁶ for Ar–Ar (C₆ = 64.3 E<sub>h</sub> a₀⁶) without damping, with rational (Becke–Johnson-type) damping and with zero (Fermi-type) damping. The damping radius is illustrative, not the -D4 value. All curves are analytic models.
+</figcaption>
+</figure>
+</div>
+</section>
+</section>
+<section id="why-semilocal-dft-and-hartreefock-miss-dispersion" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="why-semilocal-dft-and-hartreefock-miss-dispersion"><span class="header-section-number">2.3</span> Why semilocal DFT and Hartree–Fock miss dispersion</h2>
+<section id="semilocal-functionals" class="level3" data-number="2.3.1">
+<h3 data-number="2.3.1" class="anchored" data-anchor-id="semilocal-functionals"><span class="header-section-number">2.3.1</span> Semilocal functionals</h3>
+<p>A GGA writes the exchange–correlation energy as a single integral over space:</p>
+<p><span id="eq-gga"><span class="math display">\[
+E_\text{xc}^\text{GGA}[\rho] = \int f\big(\rho(\mathbf r), \nabla\rho(\mathbf r)\big)\,d\mathbf r .
+\tag{7}\]</span></span></p>
+<p>The energy density at each point depends only on the density and its gradient <em>at that point</em>. A meta-GGA adds τ(<strong>r</strong>), still at the same point. Now consider two argon atoms far apart, so that their densities do not overlap. At every point in space, the density is either that of atom A or that of atom B (or zero). The integral splits into a sum of two atomic integrals, and the interaction energy is exactly zero. As the atoms approach and the densities start to overlap, the semilocal functional “sees” the overlap, but this effect decays <strong>exponentially</strong> with distance, like the density tails, not as R⁻⁶.</p>
+<p>Dispersion is a correlation between fluctuations at <strong>r</strong> in atom A and at <strong>r′</strong> in atom B, which may be far apart. A functional that looks only at one point at a time cannot know about it. This is a limitation of the <em>form</em> of the functional, not of its parameters.</p>
+<p>Different semilocal functionals fail in different ways in the overlap region, where they can produce <em>spurious</em> binding or <em>spurious</em> repulsion. LSDA tends to overbind weakly interacting systems. PBE gives a little binding for some dispersion-bound complexes. B88 exchange (in BLYP, B3LYP) is quite repulsive, so BLYP and B3LYP often predict little or no binding for rare-gas and alkane dimers. None of these behaviors comes from real dispersion: they are side effects of how the exchange functional behaves where the density is small and varies quickly. Getting binding from LSDA is “right for the wrong reason”.</p>
+</section>
+<section id="hybrids" class="level3" data-number="2.3.2">
+<h3 data-number="2.3.2" class="anchored" data-anchor-id="hybrids"><span class="header-section-number">2.3.2</span> Hybrids</h3>
+<p>Hybrid functionals add a fraction of HF exchange, which is nonlocal. But dispersion is a <em>correlation</em> effect, and the correlation part of a hybrid is still semilocal. Hybrids miss dispersion just as GGAs do.</p>
+</section>
+<section id="hartreefock" class="level3" data-number="2.3.3">
+<h3 data-number="2.3.3" class="anchored" data-anchor-id="hartreefock"><span class="header-section-number">2.3.3</span> Hartree–Fock</h3>
+<p>Hartree–Fock describes each electron in the average field of the others. Instantaneous, correlated fluctuations are exactly what the mean field leaves out, so HF has <strong>no dispersion at all</strong>. HF describes electrostatics, induction and Pauli repulsion, so it binds hydrogen-bonded or ionic complexes partially, but rare-gas and alkane dimers come out unbound. Experiment 1 already showed this for (HCl)₂.</p>
+</section>
+<section id="wave-function-methods" class="level3" data-number="2.3.4">
+<h3 data-number="2.3.4" class="anchored" data-anchor-id="wave-function-methods"><span class="header-section-number">2.3.4</span> Wave-function methods</h3>
+<p>Correlated wave-function methods include dispersion naturally, because they include excitations on both monomers at once. MP2 includes it at second order (and tends to overestimate it for π stacks). CCSD(T) describes it accurately, which is why it provides the reference values for noncovalent databases such as S66 <span class="citation" data-cites="rezac2011 rezac2016">(<a href="#ref-rezac2011" role="doc-biblioref">Řezáč et al. 2011</a>; <a href="#ref-rezac2016" role="doc-biblioref">Řezáč and Hobza 2016</a>)</span>.</p>
+</section>
+</section>
+<section id="how-to-put-dispersion-back-into-dft" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="how-to-put-dispersion-back-into-dft"><span class="header-section-number">2.4</span> How to put dispersion back into DFT</h2>
+<p>Three strategies are in use <span class="citation" data-cites="grimme2016 grimme2011">(<a href="#ref-grimme2016" role="doc-biblioref">Grimme et al. 2016</a>, <a href="#ref-grimme2011" role="doc-biblioref">2011</a>)</span>. Experiment 4 compares all three.</p>
+<section id="strategy-1-pairwise-corrections--d" class="level3" data-number="2.4.1">
+<h3 data-number="2.4.1" class="anchored" data-anchor-id="strategy-1-pairwise-corrections--d"><span class="header-section-number">2.4.1</span> Strategy 1: pairwise corrections (-D)</h3>
+<p>The simplest idea is to add the London formula, atom pair by atom pair, to the DFT energy:</p>
+<p><span id="eq-dftd"><span class="math display">\[
+E_\text{tot} = E_\text{DFT} + E_\text{disp}, \qquad
+E_\text{disp} = -\sum_{A&lt;B}\sum_{n=6,8} s_n\,\frac{C_n^{AB}}{R_{AB}^n}\,f_{\text{damp},n}(R_{AB}) .
+\tag{8}\]</span></span></p>
+<p>Here R<sub>AB</sub> is the distance between atoms A and B, C₆<sup>AB</sup> and C₈<sup>AB</sup> are dispersion coefficients (the C₈/R⁸ term describes dipole–quadrupole fluctuations and matters at medium range), s<sub>n</sub> are scaling factors fitted for each functional, and f<sub>damp</sub> is a <strong>damping function</strong>. The correction depends only on the geometry, so it costs almost nothing and does not change the density or the orbitals. It adds energy (and forces, for geometry optimizations).</p>
+<p><strong>Why damping?</strong> The bare −C₆/R⁶ diverges at short distance (<a href="#fig-disp-models" class="quarto-xref">Figure&nbsp;1</a> b). It would make molecules collapse. Moreover, at short and medium range the functional already describes some correlation; adding the full −C₆/R⁶ there would count it twice. The damping function switches the correction off where the functional is already doing the job. Two forms are common:</p>
+<ul>
+<li><strong>zero damping</strong> sends the correction to zero at short range. D2 used a Fermi-type function of R/R₀, and the original D3 a similar “zero-damping” function.</li>
+<li><strong>rational (Becke–Johnson, BJ) damping</strong> replaces R⁶ by R⁶ + R₀⁶, so the correction tends to a finite constant at short range <span class="citation" data-cites="grimme2011">(<a href="#ref-grimme2011" role="doc-biblioref">Grimme et al. 2011</a>)</span>:</li>
+</ul>
+<p><span id="eq-bj"><span class="math display">\[
+f_\text{damp,n}^\text{BJ}(R) = \frac{R^n}{R^n + (a_1 R_0^{AB} + a_2)^n}, \qquad R_0^{AB} = \sqrt{C_8^{AB}/C_6^{AB}} .
+\tag{9}\]</span></span></p>
+<p>The parameters a₁, a₂ and s₈ are fitted for each functional, because each functional has its own amount of spurious short-range binding or repulsion. That is why the same -D4 correction gives different numbers on PBE and on B3LYP.</p>
+<p><strong>A short history.</strong> Grimme’s first corrections (D, 2004, and D2, 2006 <span class="citation" data-cites="grimme2006b">(<a href="#ref-grimme2006b" role="doc-biblioref">S. J. Grimme 2006</a>)</span>) used fixed C₆ for each element. But the C₆ of carbon depends on its environment: an sp³ carbon in an alkane is less polarizable than an sp² carbon in benzene. D3 (2010) made C₆ depend on the <strong>coordination number</strong> of each atom, computed from the geometry <span class="citation" data-cites="grimme2010">(<a href="#ref-grimme2010" role="doc-biblioref">Grimme et al. 2010</a>)</span>. D3(BJ) added rational damping <span class="citation" data-cites="grimme2011">(<a href="#ref-grimme2011" role="doc-biblioref">Grimme et al. 2011</a>)</span>.</p>
+<p><strong>-D4, the version used in this course</strong> <span class="citation" data-cites="caldeweyher2017 caldeweyher2019">(<a href="#ref-caldeweyher2017" role="doc-biblioref">Caldeweyher et al. 2017</a>, <a href="#ref-caldeweyher2019" role="doc-biblioref">2019</a>)</span>, goes one step further. Its main ingredients are:</p>
+<ul>
+<li><strong>reference polarizabilities.</strong> For each element, D4 stores frequency-dependent polarizabilities α(iω) of reference systems with different coordination numbers.</li>
+<li><strong>coordination and charge.</strong> For each atom in your molecule, D4 interpolates between these references using the atom’s coordination number <em>and its partial charge</em>. The charges come from a fast electronegativity-equilibration model that uses only the geometry. An anion-like atom is more polarizable (larger C₆) than a cation-like one, which D3 could not capture.</li>
+<li><strong>Casimir–Polder integration.</strong> The atom-in-molecule α(iω) are combined with <a href="#eq-casimir-polder" class="quarto-xref">Equation&nbsp;6</a> to give C₆<sup>AB</sup> for every pair.</li>
+<li><strong>a three-body term.</strong> The Axilrod–Teller–Muto term describes the dispersion among three atoms at once. It is usually repulsive for compact arrangements and matters for large molecules and molecular crystals.</li>
+</ul>
+<p>In Q-Chem, -D4 is requested with <code>DFT_D = D4</code> on top of the functional (e.g., <code>METHOD = B3LYP</code>). The site’s input generator does it for you.</p>
+</section>
+<section id="strategy-2-nonlocal-correlation-functionals-vv10-rvv10" class="level3" data-number="2.4.2">
+<h3 data-number="2.4.2" class="anchored" data-anchor-id="strategy-2-nonlocal-correlation-functionals-vv10-rvv10"><span class="header-section-number">2.4.2</span> Strategy 2: nonlocal correlation functionals (VV10, rVV10)</h3>
+<p>The second strategy is to fix the functional itself, by adding a correlation term that couples two points of space:</p>
+<p><span id="eq-nl"><span class="math display">\[
+E_\text{c}^\text{nl} = \frac{1}{2}\iint \rho(\mathbf r)\,\Phi(\mathbf r, \mathbf r')\,\rho(\mathbf r')\,d\mathbf r\,d\mathbf r' + \beta N .
+\tag{10}\]</span></span></p>
+<p>The <strong>kernel</strong> Φ depends on the distance |<strong>r</strong> − <strong>r′</strong>| and on the local density and its gradient at both points. The first functional of this kind was vdW-DF by Dion, Lundqvist and co-workers <span class="citation" data-cites="dion2004 lee2010">(<a href="#ref-dion2004" role="doc-biblioref">Dion et al. 2004</a>; <a href="#ref-lee2010" role="doc-biblioref">Lee et al. 2010</a>)</span>. Vydrov and Van Voorhis built the simpler and more accurate <strong>VV10</strong> <span class="citation" data-cites="vydrov2010">(<a href="#ref-vydrov2010" role="doc-biblioref">Vydrov and Van Voorhis 2010</a>)</span>. Its kernel has the form</p>
+<p><span id="eq-vv10"><span class="math display">\[
+\Phi^\text{VV10} = -\frac{3}{2\,g\,g'\,(g+g')}, \qquad g = \omega_0(\mathbf r)\,R^2 + \kappa(\mathbf r), \quad R = |\mathbf r - \mathbf r'|,
+\tag{11}\]</span></span></p>
+<p>where ω₀(<strong>r</strong>) is a local excitation frequency built from the density and its gradient, and κ(<strong>r</strong>) controls the short-range behavior. For large R, g ≈ ω₀R², and Φ ≈ −3/(2ω₀ω₀′(ω₀+ω₀′)R⁶): the R⁻⁶ law is recovered, with C₆ coefficients that come from the density itself, not from a table. The kernel has two parameters, b and C; b in particular is adjusted for each host functional. The constant β is chosen so that the term vanishes for the uniform electron gas.</p>
+<p><strong>rVV10</strong> <span class="citation" data-cites="sabatini2013">(<a href="#ref-sabatini2013" role="doc-biblioref">Sabatini et al. 2013</a>)</span> is a revised form of the kernel that can be evaluated much faster (via a Fourier-space interpolation), with nearly the same accuracy. B97M-rV <span class="citation" data-cites="mardirossian2017rv">(<a href="#ref-mardirossian2017rv" role="doc-biblioref">Mardirossian et al. 2017</a>)</span> is B97M-V with rVV10 in place of VV10.</p>
+<p>Compared with -D4, nonlocal functionals respond to the actual electron density (they “know” about charge transfer or unusual bonding), at the price of an extra double integral over the grid. This is why B97M-V and ωB97M-V cost more per SCF cycle.</p>
+</section>
+<section id="strategy-3-fitted-functionals" class="level3" data-number="2.4.3">
+<h3 data-number="2.4.3" class="anchored" data-anchor-id="strategy-3-fitted-functionals"><span class="header-section-number">2.4.3</span> Strategy 3: fitted functionals</h3>
+<p>The third strategy is to include noncovalent complexes in the training set of a highly flexible functional, and let the fit find parameters that reproduce their binding energies. Many Minnesota functionals (M06-2X, M11, MN15) work this way <span class="citation" data-cites="zhao2008 peverati2011 yu2016a">(<a href="#ref-zhao2008" role="doc-biblioref">Zhao and Truhlar 2008</a>; <a href="#ref-peverati2011" role="doc-biblioref">Peverati and Truhlar 2011</a>; <a href="#ref-yu2016a" role="doc-biblioref">Yu et al. 2016</a>)</span>. They describe <strong>medium-range</strong> dispersion (the region around the equilibrium distance of most complexes) surprisingly well. But they are still semilocal (plus HF exchange) in their correlation, so they have no true R⁻⁶ tail at long range. Dispersion corrections for some Minnesota functionals have been proposed <span class="citation" data-cites="goerigk2011 goerigk2015">(<a href="#ref-goerigk2011" role="doc-biblioref">Goerigk and Grimme 2011</a>; <a href="#ref-goerigk2015" role="doc-biblioref">Goerigk 2015</a>)</span>, but they are small by design.</p>
+<table class="table-striped caption-top table">
+<caption>Four ways a functional can treat dispersion.</caption>
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Strategy</th>
+<th>Example in this course</th>
+<th>Long-range R⁻⁶</th>
+<th>Depends on density?</th>
+<th>Extra cost</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>none</td>
+<td>PBE, B3LYP, BLYP</td>
+<td>no</td>
+<td>n/a</td>
+<td>none</td>
+</tr>
+<tr class="even">
+<td>pairwise -D4</td>
+<td>PBE-D4, B3LYP-D4</td>
+<td>yes</td>
+<td>no (geometry and model charges)</td>
+<td>negligible</td>
+</tr>
+<tr class="odd">
+<td>nonlocal VV10/rVV10</td>
+<td>B97M-V, ωB97M-V, B97M-rV</td>
+<td>yes</td>
+<td>yes</td>
+<td>moderate</td>
+</tr>
+<tr class="even">
+<td>fitted</td>
+<td>M06-2X, M11, MN15</td>
+<td>no</td>
+<td>n/a</td>
+<td>none</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Common mistakes about dispersion corrections
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>“-D4 changes the orbitals.” It does not. It adds an energy computed from the geometry (it does change optimized geometries, through the forces).</li>
+<li>“Adding -D4 always helps.” It fixes missing dispersion. It cannot fix other errors of the functional, and if the functional already has spurious binding (or the basis has BSSE), adding -D4 can overbind.</li>
+<li>“The V in ωB97M-V means it is a meta-GGA.” V stands for VV10, a correlation term. The rung is set by the exchange and by the ingredients.</li>
+</ul>
+</div>
+</div>
+</section>
+</section>
+<section id="intramolecular-dispersion-branched-alkanes" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="intramolecular-dispersion-branched-alkanes"><span class="header-section-number">2.5</span> Intramolecular dispersion: branched alkanes</h2>
+<p>Dispersion does not act only <em>between</em> molecules. Any two atoms that are a few ångström apart in the same molecule also attract each other. In a long, extended chain most atom pairs are far apart. In a compact, <strong>branched</strong> molecule, more atoms are at medium distance (1,3- and 1,4-contacts between C and H atoms), so the total intramolecular dispersion is larger.</p>
+<p>This is part of the reason why branched alkanes are more stable than their linear isomers: for example, neohexane (2,2-dimethylbutane) lies below <em>n</em>-hexane. Schleyer and co-workers called the stabilizing 1,3-interactions in alkanes <strong>protobranching</strong>. The effect is small, a few kcal/mol, but it is a classic difficulty for DFT. In 2006 Grimme <span class="citation" data-cites="grimme2006alkanes">(<a href="#ref-grimme2006alkanes" role="doc-biblioref">S. Grimme 2006</a>)</span> and Wodrich, Corminboeuf and Schleyer <span class="citation" data-cites="wodrich2006">(<a href="#ref-wodrich2006" role="doc-biblioref">Wodrich et al. 2006</a>)</span> showed that popular functionals such as B3LYP make systematic errors for the relative stability of alkane isomers, and that the errors grow with the size of the molecule. Missing medium-range correlation (dispersion) is one of the causes. Karton, Gruzman and Martin computed benchmark values for all the alkane isomers up to octane <span class="citation" data-cites="karton2009">(<a href="#ref-karton2009" role="doc-biblioref">Karton et al. 2009</a>)</span>; reaction 4b comes from that work, via the AlkIsomer11 subset of MGCDB84.</p>
+<p>Notice how different this is from Experiment 3. There, the molecule changed shape but kept the same set of close contacts, so dispersion nearly cancelled. Here, the <em>number</em> of medium-range contacts changes.</p>
+</section>
+<section id="a-reminder-about-bsse" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="a-reminder-about-bsse"><span class="header-section-number">2.6</span> A reminder about BSSE</h2>
+<p>When you compute the binding energy of a dimer, E(dimer) − E(monomer A) − E(monomer B), BSSE makes the dimer artificially too stable (Class 7). With def2-TZVP the BSSE is much smaller than with double-ζ sets, but it is not zero, and for a dimer bound by 1–2 kcal/mol even a few tenths matter. We do not correct for it in Experiment 4. Class 10 defines the counterpoise correction that removes most of it.</p>
+</section>
+</section>
+<section id="experiment-4-briefing" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Experiment 4 briefing</h1>
+<section id="the-goal" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="the-goal"><span class="header-section-number">3.1</span> The goal</h2>
+<p><a href="../experiments/ex04-organic-b.html">Experiment 4</a> moves from “easy” to “medium” reactions. Reactants and products are now different molecules, or a complex and its separated parts, so error cancellation can no longer be taken for granted.</p>
+<table class="table-striped caption-top table">
+<caption>Reactions of Experiment 4. Data from the DARC and ADIM6 subsets of GMTKN55 <span class="citation" data-cites="goerigk2017">(<a href="#ref-goerigk2017" role="doc-biblioref">Goerigk et al. 2017</a>)</span> and the AlkIsomer11 and S66 subsets of MGCDB84 <span class="citation" data-cites="mardirossian2017">(<a href="#ref-mardirossian2017" role="doc-biblioref">Mardirossian and Head-Gordon 2017</a>)</span>.</caption>
+<thead>
+<tr class="header">
+<th>Reaction</th>
+<th>Description</th>
+<th style="text-align: right;">ΔE<sub>ref</sub> (kcal/mol)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>4a</td>
+<td>ethene + butadiene → cyclohexene (Diels–Alder)</td>
+<td style="text-align: right;">−45.40</td>
+</tr>
+<tr class="even">
+<td>4b</td>
+<td><em>n</em>-hexane → neohexane</td>
+<td style="text-align: right;">−2.49</td>
+</tr>
+<tr class="odd">
+<td>4c</td>
+<td>2 ethane → (ethane)₂</td>
+<td style="text-align: right;">−1.34</td>
+</tr>
+<tr class="even">
+<td>4d</td>
+<td>MeOH(A) + MeOH(B) → (MeOH)₂</td>
+<td style="text-align: right;">−5.81</td>
+</tr>
+</tbody>
+</table>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../images/ex04-reactions.jpeg" class="img-fluid figure-img" style="width:75.0%" alt="Ball-and-stick and line drawings of reactions 4a to 4d."></p>
+<figcaption>Reactions of Experiment 4: Diels–Alder reaction of ethene and butadiene (4a), isomerization of <em>n</em>-hexane to neohexane (4b), and formation of the ethane (4c) and methanol (4d) dimers.</figcaption>
+</figure>
+</div>
+<p>What each reaction tests:</p>
+<ul>
+<li><strong>4a, Diels–Alder.</strong> Two π bonds become two new C–C σ bonds and one π bond moves. The bonding changes substantially between reactants and product. This is a test of how well a functional describes <em>bond formation</em>, not dispersion.</li>
+<li><strong>4b, alkane isomerization.</strong> Same atoms, same bond types (all C–C and C–H single bonds), but a different number of medium-range contacts. A test of intramolecular dispersion and of subtle electronic effects in alkanes.</li>
+<li><strong>4c, ethane dimer.</strong> Almost pure dispersion. A direct test of how each method treats dispersion.</li>
+<li><strong>4d, methanol dimer.</strong> A hydrogen bond. Mostly electrostatics and induction, with a smaller dispersion part.</li>
+</ul>
+</section>
+<section id="methods-and-jobs" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="methods-and-jobs"><span class="header-section-number">3.2</span> Methods and jobs</h2>
+<p>The same 16 methods as Experiment 3, all with def2-TZVP. Ten molecules × 16 methods = <strong>160 jobs</strong>.</p>
+</section>
+<section id="what-to-watch-out-for" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="what-to-watch-out-for"><span class="header-section-number">3.3</span> What to watch out for</h2>
+<ul>
+<li><strong>Directions and signs.</strong> 4c and 4d are written as <em>monomers → dimer</em>, so the reference values are negative: a negative ΔE means the dimer is bound. A positive signed error for a dimer means it is bound <strong>too weakly</strong>.</li>
+<li><strong>Coefficients.</strong> In 4c the ethane monomer counts twice: ν = −2. In 4a and 4d three species are involved.</li>
+<li><strong>Two different methanol monomers.</strong> In 4d the monomers are cut from the dimer and have slightly different geometries, so compute both (A and B). Do not use one monomer twice.</li>
+<li><strong>Pairs of methods.</strong> PBE/PBE-D4 and B3LYP/B3LYP-D4 differ only by the dispersion correction. The <em>Does -D4 help?</em> chart compares each pair directly.</li>
+<li><strong>The dimer chart.</strong> The <em>binding of the two dimers</em> chart groups the methods by how they treat dispersion (none, D4, VV10, fitted). Before you look, write down what you expect for each group on 4c and on 4d, and why the two dimers might behave differently.</li>
+<li>Lock in your predictions on the experiment page before you run anything.</li>
+</ul>
+</section>
+<section id="key-points" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="key-points"><span class="header-section-number">3.4</span> Key points</h2>
+<ul>
+<li>Conformational and cis–trans reactions are easy because errors cancel between two forms of the same molecule; noncovalent changes (like the H-bond in 3c) cancel less.</li>
+<li>LSDA overbinds weak interactions, HF underbinds them; neither is reliable for noncovalent chemistry.</li>
+<li>Hybrids cost more per SCF cycle than (meta-)GGAs because of the exchange matrix K; range separation and VV10 add more. B3LYP is not special in cost.</li>
+<li>London dispersion is an attractive correlation between fluctuating dipoles. It decays as −C₆/R⁶, with C₆ set by polarizabilities.</li>
+<li>Semilocal functionals and Hartree–Fock cannot describe dispersion: semilocal ones see one point at a time, HF has no correlation.</li>
+<li>-D4 adds damped pairwise −C₆/R⁶ and −C₈/R⁸ terms with coordination- and charge-dependent C₆, plus a three-body term. VV10/rVV10 add a nonlocal correlation functional of the density. Minnesota functionals capture medium-range dispersion by fitting.</li>
+<li>Damping prevents the divergence of −C₆/R⁶ at short range and avoids double counting with the functional.</li>
+<li>Intramolecular dispersion helps make branched alkanes more stable than linear ones, and is a known difficulty for popular functionals.</li>
+</ul>
+</section>
+<section id="study-questions" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="study-questions"><span class="header-section-number">3.5</span> Study questions</h2>
+<ol type="1">
+<li>Why does adding -D4 change the reaction energies of Experiment 3 so little?</li>
+<li>Explain, with the signs, why LSDA and HF tend to err in opposite directions on the hydrogen-bond-breaking reaction 3c.</li>
+<li>Starting from <a href="#eq-modes" class="quarto-xref">Equation&nbsp;2</a>, carry out the expansion and verify <a href="#eq-zpe" class="quarto-xref">Equation&nbsp;3</a>. Why do the first-order terms cancel?</li>
+<li>Use <a href="#eq-london-formula" class="quarto-xref">Equation&nbsp;5</a> to explain why C₆ for two xenon atoms is much larger than for two neon atoms.</li>
+<li>Two argon atoms are 5.0 Å apart. Using C₆ = 886 kcal mol⁻¹ Å⁶, compute the undamped dispersion energy. Is damping important at this distance? (Look at <a href="#fig-disp-models" class="quarto-xref">Figure&nbsp;1</a>.)</li>
+<li>Explain in your own words why a GGA gives zero interaction energy for two atoms whose densities do not overlap.</li>
+<li>What is the role of the damping function in -D4? What would happen in a geometry optimization without it?</li>
+<li>What does -D4 add over D3? Give one chemical situation where the difference should matter.</li>
+<li>Compare -D4 and VV10: which one depends on the electron density, which is cheaper, and which one has an R⁻⁶ tail with coefficients computed from the density?</li>
+<li>Why is a branched alkane stabilized more by dispersion than its linear isomer?</li>
+</ol>
+</section>
+<section id="further-reading" class="level2" data-number="3.6">
+<h2 data-number="3.6" class="anchored" data-anchor-id="further-reading"><span class="header-section-number">3.6</span> Further reading</h2>
+<ul>
+<li>S. Grimme, A. Hansen, J. G. Brandenburg and C. Bannwarth, “Dispersion-corrected mean-field electronic structure methods” <span class="citation" data-cites="grimme2016">(<a href="#ref-grimme2016" role="doc-biblioref">Grimme et al. 2016</a>)</span>. A complete review of dispersion corrections.</li>
+<li>E. Caldeweyher et al., the two -D4 papers <span class="citation" data-cites="caldeweyher2017 caldeweyher2019">(<a href="#ref-caldeweyher2017" role="doc-biblioref">Caldeweyher et al. 2017</a>, <a href="#ref-caldeweyher2019" role="doc-biblioref">2019</a>)</span>.</li>
+<li>O. A. Vydrov and T. Van Voorhis, the VV10 paper <span class="citation" data-cites="vydrov2010">(<a href="#ref-vydrov2010" role="doc-biblioref">Vydrov and Van Voorhis 2010</a>)</span>.</li>
+<li>J. Řezáč and P. Hobza, “Benchmark calculations of interaction energies in noncovalent complexes and their applications” <span class="citation" data-cites="rezac2016">(<a href="#ref-rezac2016" role="doc-biblioref">Řezáč and Hobza 2016</a>)</span>.</li>
+<li>S. Grimme, “Seemingly simple stereoelectronic effects in alkane isomers and the implications for Kohn–Sham density functional theory” <span class="citation" data-cites="grimme2006alkanes">(<a href="#ref-grimme2006alkanes" role="doc-biblioref">S. Grimme 2006</a>)</span>.</li>
+</ul>
+
+
+
+</section>
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-caldeweyher2017" class="csl-entry" role="listitem">
+Caldeweyher, E., C. Bannwarth, and S. Grimme. 2017. <em>J. Chem. Phys.</em> 147: 034112.
+</div>
+<div id="ref-caldeweyher2019" class="csl-entry" role="listitem">
+Caldeweyher, E., S. Ehlert, A. Hansen, et al. 2019. <em>Chem. Phys.</em> 150: 154122.
+</div>
+<div id="ref-casimir1948" class="csl-entry" role="listitem">
+Casimir, H. B. G., and D. Polder. 1948. <span>“The Influence of Retardation on the <span>London</span>–van Der <span>Waals</span> Forces.”</span> <em>Phys. Rev.</em> 73: 360–72. <a href="https://doi.org/10.1103/PhysRev.73.360">https://doi.org/10.1103/PhysRev.73.360</a>.
+</div>
+<div id="ref-dion2004" class="csl-entry" role="listitem">
+Dion, M., H. Rydberg, E. Schröder, D. C. Langreth, and B. I. Lundqvist. 2004. <em>Phys. Rev. Lett.</em> 92: 246401.
+</div>
+<div id="ref-goerigk2015" class="csl-entry" role="listitem">
+Goerigk, L. J. 2015. <em>Phys. Chem. Lett.</em> 6: 3891–96.
+</div>
+<div id="ref-goerigk2011" class="csl-entry" role="listitem">
+Goerigk, L., and S. Grimme. 2011. <em>Phys. Chem. Chem. Phys.</em> 13: 6670–88.
+</div>
+<div id="ref-goerigk2017" class="csl-entry" role="listitem">
+Goerigk, L., A. Hansen, C. Bauer, S. Ehrlich, A. Najibi, and S. Grimme. 2017. <em>Phys. Chem. Chem. Phys.</em> 19: 32184–215.
+</div>
+<div id="ref-grimme2006alkanes" class="csl-entry" role="listitem">
+Grimme, S. 2006. <span>“Seemingly Simple Stereoelectronic Effects in Alkane Isomers and the Implications for <span>Kohn</span>–<span>Sham</span> Density Functional Theory.”</span> <em>Angew. Chem. Int. Ed.</em> 45: 4460–64. <a href="https://doi.org/10.1002/anie.200600448">https://doi.org/10.1002/anie.200600448</a>.
+</div>
+<div id="ref-grimme2006b" class="csl-entry" role="listitem">
+Grimme, S. J. 2006. <em>Comput. Chem.</em> 27: 1787–99.
+</div>
+<div id="ref-grimme2010" class="csl-entry" role="listitem">
+Grimme, S., J. Antony, S. Ehrlich, and H. J. Krieg. 2010. <em>Chem. Phys.</em> 132: 154104.
+</div>
+<div id="ref-grimme2011" class="csl-entry" role="listitem">
+Grimme, S., S. Ehrlich, and L. J. Goerigk. 2011. <em>Comput. Chem.</em> 32: 1456–65.
+</div>
+<div id="ref-grimme2016" class="csl-entry" role="listitem">
+Grimme, S., A. Hansen, J. G. Brandenburg, and C. Bannwarth. 2016. <span>“Dispersion-Corrected Mean-Field Electronic Structure Methods.”</span> <em>Chem. Rev.</em> 116: 5105–54. <a href="https://doi.org/10.1021/acs.chemrev.5b00533">https://doi.org/10.1021/acs.chemrev.5b00533</a>.
+</div>
+<div id="ref-karton2009" class="csl-entry" role="listitem">
+Karton, A., D. Gruzman, and J. M. L. J. Martin. 2009. <em>Phys. Chem. A</em> 113: 8434–47.
+</div>
+<div id="ref-lee2010" class="csl-entry" role="listitem">
+Lee, K., É. D. Murray, L. Kong, B. I. Lundqvist, and D. C. Langreth. 2010. <em>Phys. Rev. B</em> 82: 081101.
+</div>
+<div id="ref-london1930" class="csl-entry" role="listitem">
+London, F. 1930. <span>“Zur <span>Theorie</span> Und <span>Systematik</span> Der <span>Molekularkräfte</span>.”</span> <em>Z. Phys.</em> 63: 245–79. <a href="https://doi.org/10.1007/BF01421741">https://doi.org/10.1007/BF01421741</a>.
+</div>
+<div id="ref-mardirossian2017" class="csl-entry" role="listitem">
+Mardirossian, N., and M. Head-Gordon. 2017. <em>Mol. Phys.</em> 115: 2315–72.
+</div>
+<div id="ref-mardirossian2017rv" class="csl-entry" role="listitem">
+Mardirossian, N., L. Ruiz Pestana, J. C. Womack, C.-K. Skylaris, T. Head-Gordon, and M. Head-Gordon. 2017. <em>J. Phys. Chem. Lett.</em> 8: 35–40.
+</div>
+<div id="ref-peverati2011" class="csl-entry" role="listitem">
+Peverati, R., and D. G. J. Truhlar. 2011. <em>Phys. Chem. Lett.</em> 2: 2810–17.
+</div>
+<div id="ref-rezac2016" class="csl-entry" role="listitem">
+Řezáč, J., and P. Hobza. 2016. <span>“Benchmark Calculations of Interaction Energies in Noncovalent Complexes and Their Applications.”</span> <em>Chem. Rev.</em> 116: 5038–71. <a href="https://doi.org/10.1021/acs.chemrev.5b00526">https://doi.org/10.1021/acs.chemrev.5b00526</a>.
+</div>
+<div id="ref-rezac2011" class="csl-entry" role="listitem">
+Řezáč, J., K. E. Riley, and P. J. Hobza. 2011. <em>Chem. Theory Comput.</em> 7: 2427–38.
+</div>
+<div id="ref-sabatini2013" class="csl-entry" role="listitem">
+Sabatini, R., T. Gorni, and S. de Gironcoli. 2013. <span>“Nonlocal van Der <span>Waals</span> Density Functional Made Simple and Efficient.”</span> <em>Phys. Rev. B</em> 87: 041108. <a href="https://doi.org/10.1103/PhysRevB.87.041108">https://doi.org/10.1103/PhysRevB.87.041108</a>.
+</div>
+<div id="ref-vydrov2010" class="csl-entry" role="listitem">
+Vydrov, O. A., and T. J. Van Voorhis. 2010. <em>Chem. Phys.</em> 133: 244103.
+</div>
+<div id="ref-wodrich2006" class="csl-entry" role="listitem">
+Wodrich, M. D., C. Corminboeuf, and P. v. R. Schleyer. 2006. <span>“Systematic Errors in Computed Alkane Energies Using <span>B3LYP</span> and Other Popular <span>DFT</span> Functionals.”</span> <em>Org. Lett.</em> 8: 3631–34. <a href="https://doi.org/10.1021/ol061016i">https://doi.org/10.1021/ol061016i</a>.
+</div>
+<div id="ref-yu2016a" class="csl-entry" role="listitem">
+Yu, H. S., X. He, S. L. Li, and D. G. Truhlar. 2016. <em>Chem. Sci.</em> 7: 5032–51.
+</div>
+<div id="ref-zhao2008" class="csl-entry" role="listitem">
+Zhao, Y., and D. G. Truhlar. 2008. <em>Theor. Chem. Acc.</em> 120: 215–41.
+</div>
+</div></section></div></main> <!-- /main -->
+<!-- Peverati lab logo at the top right of the navbar (light and dark versions). -->
+<script>
+(function () {
+  var css = document.querySelector('link[href$="styles.css"]');
+  var root = css ? css.getAttribute("href").replace(/styles\.css$/, "") : "";
+  var nav = document.querySelector("#quarto-header nav.navbar .navbar-container") ||
+            document.querySelector("#quarto-header nav.navbar .container-fluid");
+  if (!nav) return;
+  var a = document.createElement("a");
+  a.className = "lab-logo";
+  a.href = "https://peverati.github.io";
+  a.title = "Peverati research group";
+  // Both versions are inserted; CSS shows the one that matches the light/dark theme.
+  a.innerHTML =
+    '<img class="logo-for-light" src="' + root + 'images/logo-light.png" alt="Peverati research group logo">' +
+    '<img class="logo-for-dark" src="' + root + 'images/logo-dark.png" alt="Peverati research group logo">';
+  nav.appendChild(a);
+})();
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const toggle = window.document.createElement('button');
+      toggle.type = "button";
+      toggle.setAttribute("role", "switch");
+      toggle.setAttribute("aria-checked", "false");
+      toggle.classList.add('top-right');
+      toggle.classList.add('quarto-color-scheme-toggle');
+      toggle.setAttribute("aria-label", "Toggle dark mode");
+      toggle.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      toggle.appendChild(i);
+      // Put the toggle in a landmark of its own, so that landmark navigation
+      // can reach it.
+      //
+      // The container is always a fresh direct child of body, and the toggle is
+      // never moved into page furniture that the theme or the author controls.
+      // The toggle is positioned against the page, so any ancestor that
+      // establishes a containing block captures it: a positioned element or a
+      // grid for position: absolute, and transform, filter, will-change or
+      // contain for position: fixed. A direct child of body has none of these
+      // to inherit, and the shift when one appears is silent and visual.
+      //
+      // ARIA says a document should have at most one banner, and axe reports a
+      // duplicate whether or not the banners carry distinct labels. So use a
+      // header when the page has no banner yet, and a named region otherwise.
+      //
+      // A header is a banner wherever it sits, unless it is inside sectioning
+      // content, so this cannot just look at the children of body: a custom
+      // page layout wraps the title block header in a plain div. An explicit
+      // role="banner" always counts.
+      const sectioning = 'article, aside, main, nav, section, [role="article"], [role="complementary"], [role="main"], [role="navigation"], [role="region"]';
+      const hasBanner = Array.from(
+        window.document.querySelectorAll('header:not([role]), [role="banner"]')
+      ).some(function(el) {
+        return el.hasAttribute("role") || el.closest(sectioning) === null;
+      });
+      const container = window.document.createElement(hasBanner ? "div" : "header");
+      if (hasBanner) {
+        container.setAttribute("role", "region");
+        container.setAttribute("aria-label", "Toggle dark mode");
+      }
+      container.classList.add('quarto-color-scheme-toggle-container');
+      container.appendChild(toggle);
+      window.document.body.appendChild(container);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/peverati\.github\.io\/advpchem\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+          if (!link.classList.contains('no-external-icon')) {
+          }
+        }
+      }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          // Each band is positioned against its own containing block, which is
+          // not the offsetParent of the lines, so place it from client rects.
+          const placeBand = (band, firstEl, lastEl, codeBlock) => {
+            const container = band.offsetParent;
+            if (container === null) {
+              return;
+            }
+            const containerRect = container.getBoundingClientRect();
+            // Reveal.js scales slides with a transform, so convert client
+            // pixels back to the CSS pixels of the container.
+            const scale = containerRect.height / container.offsetHeight || 1;
+            const firstRect = firstEl.getBoundingClientRect();
+            const lastRect = lastEl.getBoundingClientRect();
+            const top = (firstRect.top - containerRect.top) / scale - container.clientTop + container.scrollTop;
+            const height = (lastRect.bottom - firstRect.top) / scale;
+            band.style.top = top - 2 + "px";
+            band.style.height = height + 4 + "px";
+            if (codeBlock) {
+              // Without the copy button wrapper, the containing block is wider
+              // than the code block, so span the code block explicitly.
+              const blockRect = codeBlock.getBoundingClientRect();
+              band.style.left = (blockRect.left - containerRect.left) / scale - container.clientLeft + container.scrollLeft + "px";
+              band.style.width = blockRect.width / scale + "px";
+            }
+          };
+          if (lineIds.length > 0) {
+            const el = window.document.getElementById(lineIds[0]);
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const parent = el.parentElement.parentElement;
+            // cook up a div (if necessary) and position it
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            placeBand(div, el, lastEl, parent.closest("div.sourceCode") || parent);
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            placeBand(gutterDiv, el, lastEl);
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+  <script type="application/javascript">
+  window.quartoScrollableRegionsLabels = {"code":"Scrollable code","output":"Scrollable output"};
+  </script>
+<nav class="page-navigation" aria-label="Page">
+  <div class="nav-page nav-page-previous">
+      <a href="../lectures/l07-benchmarking.html" class="pagination-link" aria-label="Class 7 · How we test a functional">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Class 7 · How we test a functional</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../lectures/l09-difficult-cases.html" class="pagination-link" aria-label="Class 9 · Why some reactions are hard for DFT">
+        <span class="nav-page-text">Class 9 · Why some reactions are hard for DFT</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Advanced Physical Chemistry · Florida Institute of Technology</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>Experiments adapted from Morgante &amp; Peverati, <em>Int. J. Quantum Chem.</em> <strong>2020</strong></p>
+</div>
+  </div>
+</footer>
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

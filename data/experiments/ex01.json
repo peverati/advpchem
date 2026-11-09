@@ -1,0 +1,104 @@
+{
+  "id": "ex01",
+  "number": 1,
+  "title": "Basis Set Incompleteness Error",
+  "geometry_dir": "ex01",
+  "rem_common": { "JOBTYPE": "SP", "SCF_CONVERGENCE": "8" },
+  "species": [
+    { "id": "dimer", "label": "(HCl)₂", "file": "36_HCl-HCl_NCCE30.xyz", "charge": 0, "mult": 1 },
+    { "id": "hcl", "label": "HCl", "file": "37_HCl_NCCE30.xyz", "charge": 0, "mult": 1 }
+  ],
+  "reactions": [
+    { "id": "diss", "label": "(HCl)₂ → 2 HCl", "nu": { "dimer": -1, "hcl": 2 }, "ref": 2.01 }
+  ],
+  "methods": [
+    { "id": "B3LYP", "label": "B3LYP", "rung": "hybrid GGA", "rem": { "METHOD": "B3LYP" } },
+    { "id": "PBE", "label": "PBE", "rung": "GGA", "rem": { "METHOD": "PBE" } },
+    { "id": "wB97M-V", "label": "ωB97M-V", "rung": "hybrid meta-GGA", "rem": { "METHOD": "wB97M-V" } },
+    { "id": "HF", "label": "HF", "rung": "Hartree–Fock", "rem": { "METHOD": "HF" } }
+  ],
+  "bases": [
+    { "id": "def2-SVP", "family": "Ahlrichs def2", "zeta": 2 },
+    { "id": "def2-TZVP", "family": "Ahlrichs def2", "zeta": 3 },
+    { "id": "def2-QZVP", "family": "Ahlrichs def2", "zeta": 4 },
+    { "id": "cc-pVDZ", "family": "Dunning cc", "zeta": 2 },
+    { "id": "cc-pVTZ", "family": "Dunning cc", "zeta": 3 },
+    { "id": "cc-pVQZ", "family": "Dunning cc", "zeta": 4 }
+  ],
+  "fields": ["energy", "scf", "time", "nbf"],
+  "quiz": [
+    {
+      "q": "What does “triple-ζ” (TZ) mean for a basis set?",
+      "options": [
+        "Each valence atomic orbital is described by three basis functions",
+        "Each atom carries three polarization functions",
+        "The basis set was optimized for third-row atoms",
+        "Three Gaussians are contracted into every basis function"
+      ],
+      "answer": 0,
+      "explain": "ζ counts how many independent functions describe each valence orbital. Going DZ → TZ → QZ gives the orbitals more flexibility, and usually adds higher angular-momentum polarization functions too."
+    },
+    {
+      "q": "The basis set incompleteness error (BSIE) comes from…",
+      "options": [
+        "Approximating the exchange–correlation functional",
+        "Expanding the orbitals in a finite (truncated) set of functions",
+        "Rounding errors in the SCF procedure",
+        "Using experimental instead of computed geometries"
+      ],
+      "answer": 1,
+      "explain": "A complete basis would need infinitely many functions. Any real basis is a truncation, and the difference from the complete-basis-set (CBS) limit is the BSIE."
+    },
+    {
+      "q": "In the dimer (HCl)₂, each HCl can “borrow” basis functions centred on its partner. With a small basis, what does this do to the computed binding?",
+      "options": [
+        "Nothing: basis functions on one molecule cannot affect the other",
+        "It makes the dimer artificially too stable (overbinding)",
+        "It makes the dimer artificially too unstable (underbinding)",
+        "It only changes the geometry, not the energy"
+      ],
+      "answer": 1,
+      "explain": "This is the basis set superposition error (BSSE). The dimer gets a better description than the isolated monomers, so binding is overestimated. BSSE shrinks as the basis grows, which is one reason the error changes with ζ."
+    }
+  ],
+  "predictions": [
+    {
+      "id": "trend_dft",
+      "prompt": "Going from double-ζ to quadruple-ζ (def2 family), the error of **ωB97M-V** will…",
+      "options": ["decrease steadily", "increase", "show no clear pattern"],
+      "check": { "type": "trend", "method": "wB97M-V", "family": "Ahlrichs def2" }
+    },
+    {
+      "id": "trend_hf",
+      "prompt": "…and the error of **Hartree–Fock** will…",
+      "options": ["decrease steadily", "increase", "show no clear pattern"],
+      "check": { "type": "trend", "method": "HF", "family": "Ahlrichs def2" }
+    },
+    {
+      "id": "family",
+      "prompt": "At the same ζ level, which family will give **smaller errors** on average?",
+      "options": ["Ahlrichs def2", "Dunning cc", "about the same"],
+      "check": { "type": "family" }
+    },
+    {
+      "id": "best",
+      "prompt": "Which method will be **closest to the reference** with the largest basis (def2-QZVP)?",
+      "options": ["B3LYP", "PBE", "ωB97M-V", "HF"],
+      "check": { "type": "best", "basis": "def2-QZVP" }
+    }
+  ],
+  "questions": [
+    { "id": "q1", "text": "Is there a trend when going from a double- to a quadruple-ζ basis set? What happens to the magnitude of the error? Do all methods follow the same pattern?" },
+    { "id": "q2", "text": "Which basis-set family performs better? Is that consistent for every method?" },
+    {
+      "id": "q3",
+      "type": "classify",
+      "text": "Classify the behavior of each method you tried.",
+      "items": ["B3LYP", "PBE", "ωB97M-V", "HF"],
+      "choices": ["Error decreases with basis size", "Error increases with basis size", "No specific pattern"]
+    },
+    { "id": "q4", "text": "Use the scaling plot: what exponent n did you measure for time ∝ Nⁿ (N = number of basis functions)? Is it the same for HF and for the functionals? Why might it differ from the textbook N⁴?" },
+    { "id": "q5", "text": "In your opinion, which method (functional + basis) is the best for this reaction, considering both accuracy and cost? Justify." }
+  ],
+  "explore": ["error-vs-zeta", "scaling"]
+}

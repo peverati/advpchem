@@ -1,0 +1,1707 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.11.9">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="description" content="What -D4 and VV10 fixed in Experiment 4 and what they could not, self-interaction and delocalization error, static correlation, atomization energies and open-shell atoms, and the briefing for Experiment 5.">
+
+<title>Class 9 · Why some reactions are hard for DFT – Computational Chemistry Lab</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../lectures/l10-error-cancellation.html" rel="next">
+<link href="../lectures/l08-dispersion.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-447e42e69aaa9833c0ba1b986f430b20.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-56996c7b5257095e64120a8d6d543cad.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-9953095112a8816cde90456e6de52415.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-56996c7b5257095e64120a8d6d543cad.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<script src="https://cdn.jsdelivr.net/npm/3dmol@2.4.2/build/3Dmol-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-sidebar floating nav-fixed quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          toggle.setAttribute("aria-checked", alternate ? "true" : "false");
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455).
+    // Not run on load: stylesheets are set before first paint there, and
+    // scrolling would undo the scroll to a URL fragment (#14973).
+    // The one pixel nudge keeps the reader where they were.
+    const refreshSafariScrollbar = () => {
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        const scrollY = window.scrollY;
+        window.scrollTo(0, scrollY > 0 ? scrollY - 1 : 1);
+        setTimeout(() => {
+          window.scrollTo(0, scrollY);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      refreshSafariScrollbar();
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark" aria-label="Site">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Computational Chemistry Lab</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-guides" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Guides</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-guides">    
+        <li>
+    <a class="dropdown-item" href="../guides/iqmol-setup.html">
+ <span class="dropdown-text">Install IQmol and connect to Q-Chem</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../guides/first-job.html">
+ <span class="dropdown-text">Your first Q-Chem job</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../guides/reading-output.html">
+ <span class="dropdown-text">Reading a Q-Chem output</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../guides/shared-machines.html">
+ <span class="dropdown-text">Working on a shared machine</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../guides/units-and-errors.html">
+ <span class="dropdown-text">Units, reaction energies and errors</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-lectures" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Lectures</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-lectures">    
+        <li>
+    <a class="dropdown-item" href="../lectures/index.html">
+ <span class="dropdown-text">All lectures</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l01-molecular-schrodinger.html">
+ <span class="dropdown-text">1 · The molecular Schrödinger equation</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l02-basis-sets.html">
+ <span class="dropdown-text">2 · Basis sets</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l03-from-theory-to-a-calculation.html">
+ <span class="dropdown-text">3 · From theory to a calculation</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l04-hartree-fock.html">
+ <span class="dropdown-text">4 · Hartree–Fock and the SCF</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l05-density-functional-theory.html">
+ <span class="dropdown-text">5 · Density functional theory</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l06-jacobs-ladder.html">
+ <span class="dropdown-text">6 · Jacob’s ladder</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l07-benchmarking.html">
+ <span class="dropdown-text">7 · How we test a functional</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l08-dispersion.html">
+ <span class="dropdown-text">8 · Dispersion</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l09-difficult-cases.html">
+ <span class="dropdown-text">9 · Difficult cases for DFT</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l10-error-cancellation.html">
+ <span class="dropdown-text">10 · Basis-set vs functional error</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l11-integration-grids.html">
+ <span class="dropdown-text">11 · Integration grids</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l12-scf-stability.html">
+ <span class="dropdown-text">12 · SCF stability and transition metals</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l13-theory-vs-experiment.html">
+ <span class="dropdown-text">13 · Theory vs experiment</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l14-choosing-a-method.html">
+ <span class="dropdown-text">14 · Choosing a method</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l15-wrap-up.html">
+ <span class="dropdown-text">15 · What we learned</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-experiments" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Experiments</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-experiments">    
+        <li>
+    <a class="dropdown-item" href="../experiments/ex01-basis-sets.html">
+ <span class="dropdown-text">Experiment 1: Basis Set Incompleteness Error</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex02-jacobs-ladder.html">
+ <span class="dropdown-text">Experiment 2: Jacob’s Ladder</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex03-organic-a.html">
+ <span class="dropdown-text">Experiment 3: Applying DFT to Organic Chemistry – Part A</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex04-organic-b.html">
+ <span class="dropdown-text">Experiment 4: Applying DFT to Organic Chemistry – Part B</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex05-difficult-cases.html">
+ <span class="dropdown-text">Experiment 5: Difficult Cases for DFT</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex06-b3lyp-631gs.html">
+ <span class="dropdown-text">Experiment 6: Why is the B3LYP/6-31G* Level of Theory so Successful?</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex07-grids.html">
+ <span class="dropdown-text">Experiment 7: Integration Grids</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex08-stability.html">
+ <span class="dropdown-text">Experiment 8: Stability Analysis and Transition Metals</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex09-experiment-vs-theory.html">
+ <span class="dropdown-text">Experiment 9: Comparison with Experimental Results</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex10-final-review.html">
+ <span class="dropdown-text">Experiment 10: Final Review</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="../class-results.html"> 
+<span class="menu-text">Class results</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <button type="button" role="switch" aria-checked="false" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode" aria-label="Toggle dark mode"><i class="bi"></i></button>
+</div>
+            <div id="quarto-search" class="" title="Search"></div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav" aria-label="Toolbar">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../lectures/l09-difficult-cases.html">Class 9 · Why some reactions are hard for DFT</a></li></ol></nav>
+        <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto" aria-label="Section">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lectures</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l01-molecular-schrodinger.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 1 · The molecular Schrödinger equation</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l02-basis-sets.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 2 · Approximating the wave function: basis sets</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l03-from-theory-to-a-calculation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 3 · From theory to a calculation: IQmol, Q-Chem and Experiment 1</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l04-hartree-fock.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 4 · Approximating the Hamiltonian I: Hartree–Fock and the SCF</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l05-density-functional-theory.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 5 · Approximating the Hamiltonian II: density functional theory</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l06-jacobs-ladder.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 6 · Approximating the Hamiltonian III: Jacob’s ladder</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l07-benchmarking.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 7 · How we test a functional</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l08-dispersion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 8 · Dispersion and noncovalent interactions</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l09-difficult-cases.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Class 9 · Why some reactions are hard for DFT</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l10-error-cancellation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 10 · Basis-set error vs functional error</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l11-integration-grids.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 11 · Numerical integration grids</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l12-scf-stability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 12 · SCF stability, open shells and transition metals</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l13-theory-vs-experiment.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 13 · From electronic energies to experiment</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l14-choosing-a-method.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 14 · Choosing, running and reporting a method</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l15-wrap-up.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 15 · What we learned</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" aria-labelledby="toc-title" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#part-1-looking-back-at-experiment-4" id="toc-part-1-looking-back-at-experiment-4" class="nav-link active" data-scroll-target="#part-1-looking-back-at-experiment-4"><span class="header-section-number">1</span> Part 1 · Looking back at Experiment 4</a>
+  <ul class="collapse">
+  <li><a href="#the-big-picture-errors-got-larger" id="toc-the-big-picture-errors-got-larger" class="nav-link" data-scroll-target="#the-big-picture-errors-got-larger"><span class="header-section-number">1.1</span> The big picture: errors got larger</a></li>
+  <li><a href="#a-the-dielsalder-reaction" id="toc-a-the-dielsalder-reaction" class="nav-link" data-scroll-target="#a-the-dielsalder-reaction"><span class="header-section-number">1.2</span> 4a: the Diels–Alder reaction</a></li>
+  <li><a href="#b-n-hexane-neohexane" id="toc-b-n-hexane-neohexane" class="nav-link" data-scroll-target="#b-n-hexane-neohexane"><span class="header-section-number">1.3</span> 4b: n-hexane → neohexane</a></li>
+  <li><a href="#c-and-4d-the-two-dimers" id="toc-c-and-4d-the-two-dimers" class="nav-link" data-scroll-target="#c-and-4d-the-two-dimers"><span class="header-section-number">1.4</span> 4c and 4d: the two dimers</a></li>
+  <li><a href="#the--d4-pair-chart" id="toc-the--d4-pair-chart" class="nav-link" data-scroll-target="#the--d4-pair-chart"><span class="header-section-number">1.5</span> The -D4 pair chart</a></li>
+  <li><a href="#lessons-of-experiment-4" id="toc-lessons-of-experiment-4" class="nav-link" data-scroll-target="#lessons-of-experiment-4"><span class="header-section-number">1.6</span> Lessons of Experiment 4</a></li>
+  </ul></li>
+  <li><a href="#part-2-why-dft-fails" id="toc-part-2-why-dft-fails" class="nav-link" data-scroll-target="#part-2-why-dft-fails"><span class="header-section-number">2</span> Part 2 · Why DFT fails</a>
+  <ul class="collapse">
+  <li><a href="#self-interaction-error" id="toc-self-interaction-error" class="nav-link" data-scroll-target="#self-interaction-error"><span class="header-section-number">2.1</span> Self-interaction error</a>
+  <ul class="collapse">
+  <li><a href="#one-electron-should-not-repel-itself" id="toc-one-electron-should-not-repel-itself" class="nav-link" data-scroll-target="#one-electron-should-not-repel-itself"><span class="header-section-number">2.1.1</span> One electron should not repel itself</a></li>
+  <li><a href="#many-electrons-delocalization-error" id="toc-many-electrons-delocalization-error" class="nav-link" data-scroll-target="#many-electrons-delocalization-error"><span class="header-section-number">2.1.2</span> Many electrons: delocalization error</a></li>
+  <li><a href="#chemical-consequences" id="toc-chemical-consequences" class="nav-link" data-scroll-target="#chemical-consequences"><span class="header-section-number">2.1.3</span> Chemical consequences</a></li>
+  </ul></li>
+  <li><a href="#static-correlation-and-multireference-character" id="toc-static-correlation-and-multireference-character" class="nav-link" data-scroll-target="#static-correlation-and-multireference-character"><span class="header-section-number">2.2</span> Static correlation and multireference character</a>
+  <ul class="collapse">
+  <li><a href="#dynamic-and-static-correlation" id="toc-dynamic-and-static-correlation" class="nav-link" data-scroll-target="#dynamic-and-static-correlation"><span class="header-section-number">2.2.1</span> Dynamic and static correlation</a></li>
+  <li><a href="#the-textbook-example-stretching-h₂" id="toc-the-textbook-example-stretching-h₂" class="nav-link" data-scroll-target="#the-textbook-example-stretching-h₂"><span class="header-section-number">2.2.2</span> The textbook example: stretching H₂</a></li>
+  <li><a href="#where-static-correlation-appears-in-experiment-5" id="toc-where-static-correlation-appears-in-experiment-5" class="nav-link" data-scroll-target="#where-static-correlation-appears-in-experiment-5"><span class="header-section-number">2.2.3</span> Where static correlation appears in Experiment 5</a></li>
+  </ul></li>
+  <li><a href="#atomization-energies-and-open-shell-atoms" id="toc-atomization-energies-and-open-shell-atoms" class="nav-link" data-scroll-target="#atomization-energies-and-open-shell-atoms"><span class="header-section-number">2.3</span> Atomization energies and open-shell atoms</a>
+  <ul class="collapse">
+  <li><a href="#why-atomization-energies-are-hard" id="toc-why-atomization-energies-are-hard" class="nav-link" data-scroll-target="#why-atomization-energies-are-hard"><span class="header-section-number">2.3.1</span> Why atomization energies are hard</a></li>
+  <li><a href="#why-hartreefock-fails-dramatically" id="toc-why-hartreefock-fails-dramatically" class="nav-link" data-scroll-target="#why-hartreefock-fails-dramatically"><span class="header-section-number">2.3.2</span> Why Hartree–Fock fails dramatically</a></li>
+  <li><a href="#open-shell-atoms-and-their-multiplicities" id="toc-open-shell-atoms-and-their-multiplicities" class="nav-link" data-scroll-target="#open-shell-atoms-and-their-multiplicities"><span class="header-section-number">2.3.3</span> Open-shell atoms and their multiplicities</a></li>
+  </ul></li>
+  <li><a href="#absolute-and-relative-errors" id="toc-absolute-and-relative-errors" class="nav-link" data-scroll-target="#absolute-and-relative-errors"><span class="header-section-number">2.4</span> Absolute and relative errors</a></li>
+  <li><a href="#training-sets-and-fitted-functionals" id="toc-training-sets-and-fitted-functionals" class="nav-link" data-scroll-target="#training-sets-and-fitted-functionals"><span class="header-section-number">2.5</span> Training sets and fitted functionals</a></li>
+  </ul></li>
+  <li><a href="#experiment-5-briefing" id="toc-experiment-5-briefing" class="nav-link" data-scroll-target="#experiment-5-briefing"><span class="header-section-number">3</span> Experiment 5 briefing</a>
+  <ul class="collapse">
+  <li><a href="#the-goal" id="toc-the-goal" class="nav-link" data-scroll-target="#the-goal"><span class="header-section-number">3.1</span> The goal</a></li>
+  <li><a href="#methods-and-jobs" id="toc-methods-and-jobs" class="nav-link" data-scroll-target="#methods-and-jobs"><span class="header-section-number">3.2</span> Methods and jobs</a></li>
+  <li><a href="#what-to-watch-out-for" id="toc-what-to-watch-out-for" class="nav-link" data-scroll-target="#what-to-watch-out-for"><span class="header-section-number">3.3</span> What to watch out for</a></li>
+  <li><a href="#key-points" id="toc-key-points" class="nav-link" data-scroll-target="#key-points"><span class="header-section-number">3.4</span> Key points</a></li>
+  <li><a href="#study-questions" id="toc-study-questions" class="nav-link" data-scroll-target="#study-questions"><span class="header-section-number">3.5</span> Study questions</a></li>
+  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading"><span class="header-section-number">3.6</span> Further reading</a></li>
+  </ul></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="l09-difficult-cases.pdf"><i class="bi bi-file-pdf"></i>PDF handout</a></li><li><a href="l09-difficult-cases.pdf"><i class="bi bi-file-pdf"></i>Typst</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content" tabindex="-1">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Class 9 · Why some reactions are hard for DFT</h1>
+<p class="subtitle lead">Debrief of Experiment 4 and introduction to Experiment 5</p>
+</div>
+
+<div>
+  <div class="description">
+    What -D4 and VV10 fixed in Experiment 4 and what they could not, self-interaction and delocalization error, static correlation, atomization energies and open-shell atoms, and the briefing for Experiment 5.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Learning goals
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>After this class you should be able to:</p>
+<ul>
+<li>read the -D4 pair chart and the dimer chart of Experiment 4, and explain which reactions dispersion corrections help and why;</li>
+<li>explain why error cancellation breaks down when bonds are formed or broken;</li>
+<li>define the self-interaction error and the delocalization error, and list their chemical consequences;</li>
+<li>explain what static (nondynamic) correlation is and why a single-determinant method struggles with ozone, stretched bonds and CaO;</li>
+<li>explain why atomization energies are hard, especially for Hartree–Fock;</li>
+<li>assign the correct spin multiplicity to O, S, H, Ca and O₂ and set up unrestricted calculations;</li>
+<li>distinguish absolute and relative errors, and explain why a functional should not be judged on its own training set.</li>
+</ul>
+</div>
+</div>
+<p>This class may be taught over two meetings. The split point is marked in the text.</p>
+<section id="part-1-looking-back-at-experiment-4" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Part 1 · Looking back at Experiment 4</h1>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Read this after you submit Experiment 4
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This part discusses the trends you probably saw in <a href="../experiments/ex04-organic-b.html">Experiment 4</a>. If you have not submitted it yet, stop here and come back later.</p>
+</div>
+</div>
+<section id="the-big-picture-errors-got-larger" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="the-big-picture-errors-got-larger"><span class="header-section-number">1.1</span> The big picture: errors got larger</h2>
+<p>Compare the <em>signed error</em> chart of Experiment 4 with the one from Experiment 3. The bars are longer, and they differ much more from method to method. The typical error has grown, sometimes by an order of magnitude. This is what happens when reactants and products are no longer two forms of the same molecule. Each reaction in Experiment 4 failed to cancel errors for a different physical reason, which is why it is worth looking at them one at a time.</p>
+</section>
+<section id="a-the-dielsalder-reaction" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="a-the-dielsalder-reaction"><span class="header-section-number">1.2</span> 4a: the Diels–Alder reaction</h2>
+<p>The Diels–Alder reaction (ethene + butadiene → cyclohexene, −45.40 kcal/mol) usually produces the largest absolute errors of the experiment. What you probably saw:</p>
+<ul>
+<li>Several older functionals, BLYP and B3LYP in particular, and also Hartree–Fock, make the reaction <strong>not exothermic enough</strong> (positive signed error), often by many kcal/mol.</li>
+<li>LSDA tends to err in the opposite direction (too exothermic), consistent with its general overbinding.</li>
+<li>The modern meta-GGAs and hybrid meta-GGAs usually do much better.</li>
+<li>-D4 helps B3LYP and PBE, but it does not remove the whole error.</li>
+</ul>
+<p>Why is this reaction hard? Two π bonds turn into two new C–C σ bonds. The electron density changes substantially: a delocalized, conjugated π system in butadiene becomes localized single bonds in cyclohexene. Errors in describing a π bond and a σ bond are different, so they no longer cancel. In addition:</p>
+<ul>
+<li><strong>Delocalization error</strong> (Part 2) makes approximate functionals overstabilize delocalized electrons, like the conjugated π system of butadiene. A reactant that is too stable makes the reaction too little exothermic.</li>
+<li><strong>Medium-range correlation</strong> is larger in the compact, ring-shaped product than in the two separated reactants. A functional that misses it underestimates the stability of the product. This is the part -D4 can fix, and it explains why -D4 helps but is not enough.</li>
+</ul>
+</section>
+<section id="b-n-hexane-neohexane" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="b-n-hexane-neohexane"><span class="header-section-number">1.3</span> 4b: n-hexane → neohexane</h2>
+<p>This reaction keeps the same atoms and the same types of bonds, but neohexane is more compact. What you probably saw: functionals without any dispersion treatment (BLYP, BP86, B3LYP, B3PW91, PBE, PBE0) do not make neohexane stable enough, so their signed errors are positive and similar in size to the reaction energy itself. Adding -D4 shrinks the error substantially, and the VV10 functionals and the fitted Minnesota functionals are usually good. Hartree–Fock, with no correlation, is among the worst.</p>
+<p>You may also have seen LSDA (SPW92) do surprisingly well here. That is the spurious overbinding of LSDA in regions of small overlap, which mimics the missing medium-range attraction. It is “right for the wrong reason”, and it will not survive the next experiment.</p>
+</section>
+<section id="c-and-4d-the-two-dimers" class="level2" data-number="1.4">
+<h2 data-number="1.4" class="anchored" data-anchor-id="c-and-4d-the-two-dimers"><span class="header-section-number">1.4</span> 4c and 4d: the two dimers</h2>
+<p>The <em>binding of the two dimers</em> chart sorts the methods by how they treat dispersion. Remember that positive ε means the dimer is bound too weakly.</p>
+<p>For the <strong>ethane dimer (4c)</strong>, which is held together almost only by dispersion:</p>
+<ul>
+<li>methods with <strong>no dispersion</strong> treatment bind too weakly. BLYP, BP86 and B3LYP give almost no binding, or even repulsion, because B88 exchange is repulsive in the overlap region. PBE gives a little binding from its exchange behavior, but not enough. HF does not bind at all;</li>
+<li><strong>-D4</strong> and <strong>VV10</strong> usually bring the binding very close to the reference;</li>
+<li>the <strong>fitted</strong> Minnesota functionals usually get most of it, because similar complexes were in their training sets;</li>
+<li><strong>LSDA</strong> tends to overbind.</li>
+</ul>
+<p>For the <strong>methanol dimer (4d)</strong>, held together by a hydrogen bond, the picture is different. Most methods, even those without any dispersion term, are within about 1 kcal/mol, because the hydrogen bond is dominated by electrostatics and induction, which all methods describe reasonably. Dispersion is a smaller part of the binding, so -D4 changes it less, and in some cases slightly overbinds. The lesson is that “noncovalent” is not one thing: an interaction dominated by dispersion and one dominated by electrostatics respond differently to dispersion corrections.</p>
+</section>
+<section id="the--d4-pair-chart" class="level2" data-number="1.5">
+<h2 data-number="1.5" class="anchored" data-anchor-id="the--d4-pair-chart"><span class="header-section-number">1.5</span> The -D4 pair chart</h2>
+<p>The <em>Does -D4 help?</em> chart pairs PBE with PBE-D4 and B3LYP with B3LYP-D4. What you probably saw: -D4 helps most where the <em>number of close contacts</em> changes, that is, 4c (two molecules come together) and 4b (a more compact isomer). It helps partially for 4a. It matters little for 4d. Overall, the MAE of each functional drops when -D4 is added. This matches the theory of Class 8: -D4 adds only dispersion, so it improves only what was wrong because of missing dispersion.</p>
+</section>
+<section id="lessons-of-experiment-4" class="level2" data-number="1.6">
+<h2 data-number="1.6" class="anchored" data-anchor-id="lessons-of-experiment-4"><span class="header-section-number">1.6</span> Lessons of Experiment 4</h2>
+<ol type="1">
+<li>Error cancellation weakens as the chemical change between reactants and products grows.</li>
+<li>Dispersion corrections fix dispersion. They are cheap and should be used routinely with functionals that lack dispersion.</li>
+<li>A method can be right for the wrong reason (LSDA on 4b). Check a method on several reactions before trusting it.</li>
+<li>Bond formation (4a) is a different problem from dispersion, and needs a better functional, not a better dispersion correction.</li>
+</ol>
+</section>
+</section>
+<section id="part-2-why-dft-fails" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Part 2 · Why DFT fails</h1>
+<p>Experiment 5 contains reactions that are hard for nearly every functional. To understand why, we need three ideas: self-interaction (and delocalization) error, static correlation, and the special difficulty of atomization energies. All are discussed in the excellent review by Cohen, Mori-Sánchez and Yang <span class="citation" data-cites="cohen2012">(<a href="#ref-cohen2012" role="doc-biblioref">Cohen et al. 2012</a>)</span>.</p>
+<section id="self-interaction-error" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="self-interaction-error"><span class="header-section-number">2.1</span> Self-interaction error</h2>
+<section id="one-electron-should-not-repel-itself" class="level3" data-number="2.1.1">
+<h3 data-number="2.1.1" class="anchored" data-anchor-id="one-electron-should-not-repel-itself"><span class="header-section-number">2.1.1</span> One electron should not repel itself</h3>
+<p>Consider a system with just one electron, like the hydrogen atom. There is no electron–electron interaction, so the exact energy contains only the kinetic energy and the attraction to the nucleus. In Kohn–Sham DFT the energy is</p>
+<p><span id="eq-ks"><span class="math display">\[
+E[\rho] = T_s[\rho] + E_\text{ne}[\rho] + J[\rho] + E_\text{xc}[\rho],
+\tag{1}\]</span></span></p>
+<p>where J[ρ] is the classical Coulomb energy of the density with itself:</p>
+<p><span id="eq-J"><span class="math display">\[
+J[\rho] = \frac{1}{2}\iint \frac{\rho(\mathbf r)\rho(\mathbf r')}{|\mathbf r - \mathbf r'|}\,d\mathbf r\,d\mathbf r' .
+\tag{2}\]</span></span></p>
+<p>For one electron, J is not zero: it is the repulsion of the electron’s density with itself, a spurious <strong>self-interaction</strong>. The exact functional cancels it exactly:</p>
+<p><span id="eq-sic"><span class="math display">\[
+J[\rho_1] + E_\text{xc}[\rho_1] = 0 \quad \text{for any one-electron density } \rho_1 .
+\tag{3}\]</span></span></p>
+<p>In Hartree–Fock, the condition holds automatically, because the Coulomb and exchange integrals of an orbital with itself are equal (J<sub>ii</sub> = K<sub>ii</sub>, Class 4). Approximate functionals (LSDA, GGAs, meta-GGAs) do not satisfy <a href="#eq-sic" class="quarto-xref">Equation&nbsp;3</a>. Perdew and Zunger called the leftover the <strong>self-interaction error</strong> (SIE) and proposed an orbital-by-orbital correction for it <span class="citation" data-cites="perdew1981">(<a href="#ref-perdew1981" role="doc-biblioref">Perdew and Zunger 1981</a>)</span>. Hybrids reduce the SIE in proportion to their fraction of HF exchange, and range-separated hybrids, with 100% HF exchange at long range, remove it at long range.</p>
+</section>
+<section id="many-electrons-delocalization-error" class="level3" data-number="2.1.2">
+<h3 data-number="2.1.2" class="anchored" data-anchor-id="many-electrons-delocalization-error"><span class="header-section-number">2.1.2</span> Many electrons: delocalization error</h3>
+<p>For many-electron systems the more useful concept is the <strong>delocalization error</strong> <span class="citation" data-cites="morisanchez2008">(<a href="#ref-morisanchez2008" role="doc-biblioref">Mori-Sánchez et al. 2008</a>)</span>. Imagine allowing the number of electrons N to vary continuously, so that a system can hold a fractional number of electrons (think of a statistical mixture, or of one electron shared between two very distant fragments). The exact energy E(N) is a series of <strong>straight lines</strong> between integer values of N <span class="citation" data-cites="perdew1982">(<a href="#ref-perdew1982" role="doc-biblioref">Perdew et al. 1982</a>)</span>. Approximate functionals give curves instead (<a href="#fig-fractional" class="quarto-xref">Figure&nbsp;1</a>):</p>
+<ul>
+<li>typical density functionals give curves that bow <strong>below</strong> the straight lines (they are convex). Fractional charges, and therefore electrons spread over too large a region, come out <strong>too low in energy</strong>. This is the <strong>delocalization error</strong>.</li>
+<li>Hartree–Fock gives curves that bow <strong>above</strong> the lines (concave). It favors electrons that are too localized: the <strong>localization error</strong>.</li>
+</ul>
+<div id="fig-fractional" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Plot of energy against electron number with three curves: straight line segments meeting at N0 for the exact energy, a curve sagging below them for approximate functionals, and a curve bulging above them for Hartree-Fock.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-fractional-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/l09-fractional-charge.png" class="img-fluid figure-img" style="width:80.0%" alt="Plot of energy against electron number with three curves: straight line segments meeting at N0 for the exact energy, a curve sagging below them for approximate functionals, and a curve bulging above them for Hartree-Fock.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fractional-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Schematic of the energy of a system as a function of a continuous number of electrons N between N₀ − 1 and N₀ + 1. The exact energy is piecewise linear. Typical approximate density functionals bow below the lines (delocalization error); Hartree–Fock bows above them (localization error). Arbitrary units; the curves are a schematic, not computed results.
+</figcaption>
+</figure>
+</div>
+<p>Hybrids mix the two behaviors, and their errors partly cancel. This is one reason why hybrids with 20–50% HF exchange perform well for thermochemistry.</p>
+</section>
+<section id="chemical-consequences" class="level3" data-number="2.1.3">
+<h3 data-number="2.1.3" class="anchored" data-anchor-id="chemical-consequences"><span class="header-section-number">2.1.3</span> Chemical consequences</h3>
+<p>The delocalization error shows up in many places:</p>
+<ul>
+<li><strong>Stretched one-electron bonds.</strong> For H₂⁺ at long distance, the exact answer is a proton plus a hydrogen atom, or equivalently half an electron on each side with the same energy. Approximate functionals favor the delocalized “half and half” state too much, and give a dissociation curve that is far too low at large distance. The same happens for other radical cations <span class="citation" data-cites="bally1997">(<a href="#ref-bally1997" role="doc-biblioref">Bally and Sastry 1997</a>)</span>.</li>
+<li><strong>Barrier heights too low.</strong> In a transition state, bonds are partly broken and electrons are more delocalized than in reactants. GGAs overstabilize the transition state and underestimate barriers, often by several kcal/mol. More HF exchange raises barriers, which is why functionals built for kinetics (M06-2X, for example) have a lot of it.</li>
+<li><strong>Charge-transfer complexes</strong> and donor–acceptor systems are overbound, because partial charge transfer is overstabilized.</li>
+<li><strong>Conjugated and delocalized systems</strong> are overstabilized relative to localized ones (we saw a hint of this in 4a).</li>
+<li><strong>Band gaps and orbital energies.</strong> The HOMO energy of a GGA is much too high, and fundamental gaps are too small.</li>
+<li><strong>Odd-electron systems and radicals</strong> with delocalized spin are overstabilized.</li>
+</ul>
+<p>The delocalization error is a property of the <em>functional</em>. A larger basis does not help, and neither does -D4.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Split point
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If this class is taught over two meetings, the first meeting ends here, after the Experiment 4 debrief and self-interaction error. The second meeting starts with a short recap, then covers static correlation, atomization energies and the Experiment 5 briefing.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="static-correlation-and-multireference-character" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="static-correlation-and-multireference-character"><span class="header-section-number">2.2</span> Static correlation and multireference character</h2>
+<section id="dynamic-and-static-correlation" class="level3" data-number="2.2.1">
+<h3 data-number="2.2.1" class="anchored" data-anchor-id="dynamic-and-static-correlation"><span class="header-section-number">2.2.1</span> Dynamic and static correlation</h3>
+<p>In Class 4 we split the correlation energy into two kinds:</p>
+<ul>
+<li><strong>dynamic correlation</strong>: electrons avoid each other at short range. Every system has it. A single determinant is a good starting point, and correlation adds small corrections from many excited determinants.</li>
+<li><strong>static (nondynamic) correlation</strong>: the system cannot be described by a single determinant at all, because two or more electron configurations have similar energies and mix strongly. Systems like this are said to have <strong>multireference character</strong>.</li>
+</ul>
+</section>
+<section id="the-textbook-example-stretching-h₂" class="level3" data-number="2.2.2">
+<h3 data-number="2.2.2" class="anchored" data-anchor-id="the-textbook-example-stretching-h₂"><span class="header-section-number">2.2.2</span> The textbook example: stretching H₂</h3>
+<p>At its equilibrium distance, H₂ is described well by one determinant with both electrons in the bonding orbital σ<sub>g</sub>. As the bond is stretched, the antibonding orbital σ<sub>u</sub> comes down in energy, and the configurations σ<sub>g</sub>² and σ<sub>u</sub>² become degenerate. The exact wave function at long distance is an equal mixture of the two, which describes one electron on each atom. Restricted Hartree–Fock (RHF), stuck with σ<sub>g</sub>², puts both electrons on the same atom half of the time (H⁺ + H⁻) and gives a dissociation energy that is far too large. An unrestricted calculation (UHF or UKS) can break the symmetry and dissociate correctly, at the price of a wave function that is no longer a pure spin state (spin contamination, Class 12).</p>
+<p>Approximate functionals are built for single-determinant Kohn–Sham systems. They capture dynamic correlation reasonably, and they mimic some static correlation through their exchange part, but systems with strong static correlation remain hard. They also make the reference values harder to compute: CCSD(T) itself becomes less reliable when the single-determinant starting point is poor.</p>
+</section>
+<section id="where-static-correlation-appears-in-experiment-5" class="level3" data-number="2.2.3">
+<h3 data-number="2.2.3" class="anchored" data-anchor-id="where-static-correlation-appears-in-experiment-5"><span class="header-section-number">2.2.3</span> Where static correlation appears in Experiment 5</h3>
+<ul>
+<li><strong>Ozone.</strong> O₃ has partial <strong>diradical character</strong>: besides the main closed-shell configuration, a second configuration with two electrons promoted into a low-lying π* orbital has a large weight. This makes O₃ a classic multireference molecule. Reactions 5a (ozonolysis) and 5d (2 O₃ → 3 O₂) both involve it.</li>
+<li><strong>CaO.</strong> Calcium oxide is a molecule with low-lying excited states and strongly mixed bonding (ionic Ca²⁺O²⁻ and less ionic configurations close in energy). Reaction 5b comes from MR-MGM-BE4, a subset of <em>multireference</em> main-group bond energies <span class="citation" data-cites="yu2015a">(<a href="#ref-yu2015a" role="doc-biblioref">Yu and Truhlar 2015</a>)</span>.</li>
+<li><strong>Stretched bonds and bond breaking</strong> in general, and <strong>transition-metal compounds</strong> (Class 12).</li>
+</ul>
+<p>How do you know whether a molecule has multireference character? Diagnostics exist, for example the T₁ diagnostic from coupled cluster <span class="citation" data-cites="lee1989">(<a href="#ref-lee1989" role="doc-biblioref">Lee and Taylor 1989</a>)</span>, or the fraction of the atomization energy that comes from the (T) triples. Large values are a warning: the reference values themselves may carry larger uncertainties, and DFT results should be treated with caution.</p>
+</section>
+</section>
+<section id="atomization-energies-and-open-shell-atoms" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="atomization-energies-and-open-shell-atoms"><span class="header-section-number">2.3</span> Atomization energies and open-shell atoms</h2>
+<section id="why-atomization-energies-are-hard" class="level3" data-number="2.3.1">
+<h3 data-number="2.3.1" class="anchored" data-anchor-id="why-atomization-energies-are-hard"><span class="header-section-number">2.3.1</span> Why atomization energies are hard</h3>
+<p>An <strong>atomization energy</strong> is the energy needed to separate a molecule into its atoms, for example</p>
+<p><span id="eq-atomization"><span class="math display">\[
+\mathrm{H_2SO_4 \rightarrow S + 4\,O + 2\,H}, \qquad \Delta E = E(\mathrm S) + 4E(\mathrm O) + 2E(\mathrm H) - E(\mathrm{H_2SO_4}).
+\tag{4}\]</span></span></p>
+<p>Here all the bonds are broken at once, and the products are open-shell atoms while the reactant is a closed-shell molecule. This is the opposite of an isodesmic reaction: there is essentially <strong>no error cancellation</strong>. Every error in the description of each bond adds up. That is why atomization energies are the classic hard test for functionals, and the test on which Becke’s first hybrid functionals were judged <span class="citation" data-cites="becke1993">(<a href="#ref-becke1993" role="doc-biblioref">Becke 1993</a>)</span>.</p>
+</section>
+<section id="why-hartreefock-fails-dramatically" class="level3" data-number="2.3.2">
+<h3 data-number="2.3.2" class="anchored" data-anchor-id="why-hartreefock-fails-dramatically"><span class="header-section-number">2.3.2</span> Why Hartree–Fock fails dramatically</h3>
+<p>When atoms come together to form bonds, electrons pair up in the same region of space. A molecule therefore has <em>more</em> correlation energy than its separated atoms. Hartree–Fock has no correlation at all, so it misses this extra stabilization of the molecule and <strong>severely underestimates atomization energies</strong>. The error grows with the number of bonds, and for a molecule like H₂SO₄ it is enormous. For the same reason, HF is not a useful method for any reaction where the number of electron pairs changes.</p>
+</section>
+<section id="open-shell-atoms-and-their-multiplicities" class="level3" data-number="2.3.3">
+<h3 data-number="2.3.3" class="anchored" data-anchor-id="open-shell-atoms-and-their-multiplicities"><span class="header-section-number">2.3.3</span> Open-shell atoms and their multiplicities</h3>
+<p>The atoms you will compute in Experiment 5 are open-shell, and their ground-state multiplicities follow Hund’s rules:</p>
+<div id="tbl-mult" class="striped quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-mult-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;1: Ground-state multiplicities of the open-shell species (and Ca) in Experiment 5.
+</figcaption>
+<div aria-describedby="tbl-mult-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="table-striped caption-top table">
+<thead>
+<tr class="header">
+<th>Species</th>
+<th>Configuration</th>
+<th>Ground state</th>
+<th style="text-align: right;">Multiplicity 2S + 1</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>H</td>
+<td>1s¹</td>
+<td>²S</td>
+<td style="text-align: right;">2 (doublet)</td>
+</tr>
+<tr class="even">
+<td>O</td>
+<td>[He] 2s² 2p⁴</td>
+<td>³P</td>
+<td style="text-align: right;">3 (triplet)</td>
+</tr>
+<tr class="odd">
+<td>S</td>
+<td>[Ne] 3s² 3p⁴</td>
+<td>³P</td>
+<td style="text-align: right;">3 (triplet)</td>
+</tr>
+<tr class="even">
+<td>Ca</td>
+<td>[Ar] 4s²</td>
+<td>¹S</td>
+<td style="text-align: right;">1 (singlet)</td>
+</tr>
+<tr class="odd">
+<td>O₂</td>
+<td>(π*)²</td>
+<td>³Σ<sub>g</sub>⁻</td>
+<td style="text-align: right;">3 (triplet)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>Two practical rules follow.</p>
+<ol type="1">
+<li><strong>Set the multiplicity correctly.</strong> Line 2 of every .xyz file in this lab is “charge multiplicity”. A triplet O atom run as a singlet gives a perfectly converged, perfectly wrong energy, too high by tens of kcal/mol, and every reaction that uses it is wrong.</li>
+<li><strong>Use an unrestricted calculation</strong> (<code>UNRESTRICTED = TRUE</code> in Q-Chem) for open shells, so that α and β electrons can have different orbitals. The generated inputs do this for you.</li>
+</ol>
+<p>Open-shell atoms are hard for approximate functionals for additional reasons. The functional must describe <strong>spin polarization</strong> (different α and β densities) correctly. The p-shell of O and S is partly filled, and an approximate functional may give different energies for different ways of occupying the p orbitals, or break the spherical symmetry of the atom. The molecule, by contrast, is closed-shell. The errors in the two kinds of systems are different and do not cancel.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Worked example: an atomization energy from total energies
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Suppose a calculation gives these total energies (illustrative numbers, not from any experiment in this course): E(H₂O) = −76.40000 E<sub>h</sub>, E(O, triplet) = −75.05000 E<sub>h</sub>, E(H, doublet) = −0.50000 E<sub>h</sub>. For H₂O → O + 2 H, with ν(H₂O) = −1, ν(O) = +1 and ν(H) = +2:</p>
+<p><span class="math display">\[
+\Delta E = (+1)(-75.05000) + (+2)(-0.50000) + (-1)(-76.40000) = -76.05000 + 76.40000 = 0.35000\ E_\text{h}.
+\]</span></p>
+<p>In kcal/mol: 0.35000 × 627.5095 = 219.63 kcal/mol. Note the sign: atomization is endothermic, so ΔE &gt; 0. If the O atom had been run as a singlet, its energy would be too high, and the atomization energy would come out too large.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="absolute-and-relative-errors" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="absolute-and-relative-errors"><span class="header-section-number">2.4</span> Absolute and relative errors</h2>
+<p>Reaction 5c, the atomization of sulfuric acid, has a reference value of 602.18 kcal/mol, by far the largest number in the course. A method that is “only” 1% off is wrong by about 6 kcal/mol. Is that good or bad?</p>
+<ul>
+<li>In <strong>relative</strong> terms (the relative error defined in <a href="../lectures/l07-benchmarking.html">Class 7</a>), 1% looks excellent, much better than a 0.3 kcal/mol error on a 1 kcal/mol rotational barrier (30%).</li>
+<li>In <strong>absolute</strong> terms, 6 kcal/mol is six times chemical accuracy. It would change an equilibrium constant by a factor of about <span class="math inline">\(e^{6/0.5925} \approx 2.5\times 10^4\)</span> at room temperature.</li>
+</ul>
+<p>Chemistry is decided by absolute energies. Relative errors are useful to compare the difficulty of very different quantities, but they must never be used to excuse a large absolute error. Experiment 5 has a chart that shows the same errors in both ways.</p>
+</section>
+<section id="training-sets-and-fitted-functionals" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="training-sets-and-fitted-functionals"><span class="header-section-number">2.5</span> Training sets and fitted functionals</h2>
+<p>Many functionals contain parameters fitted to data (Class 6). B3LYP has 3; the Minnesota functionals have several dozen. The data used for the fit are the <strong>training set</strong>. A fitted functional reproduces its training set well <em>by construction</em>, so a good result on a training-set molecule is expected, not impressive. What matters for a user is how the functional performs on systems it was <strong>not</strong> fitted to.</p>
+<p>Reaction 5b (CaO → Ca + O) belongs to the MR-MGM-BE4 subset of Minnesota Database 2015B <span class="citation" data-cites="yu2015a">(<a href="#ref-yu2015a" role="doc-biblioref">Yu and Truhlar 2015</a>)</span>, and MN15 was parametrized on that database <span class="citation" data-cites="yu2016a">(<a href="#ref-yu2016a" role="doc-biblioref">Yu et al. 2016</a>)</span>. Experiment 5 has a <em>spotlight</em> chart for this reaction. When you look at it, ask: is this result a test of MN15, or a check that the fit worked? The same caution applies to any benchmark: before you use a dataset to judge a functional, check whether it was part of the functional’s training set.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Common mistakes in hard cases
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Running open-shell atoms as singlets, or with restricted orbitals.</li>
+<li>Using the wrong coefficient for the atoms: in 5c there are 4 O atoms and 2 H atoms (ν = +4 and +2).</li>
+<li>Expecting -D4 to fix everything. Dispersion corrections fix dispersion, not self-interaction or static correlation.</li>
+<li>Judging a functional by a single good result, especially on its own training data.</li>
+</ul>
+</div>
+</div>
+</section>
+</section>
+<section id="experiment-5-briefing" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Experiment 5 briefing</h1>
+<section id="the-goal" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="the-goal"><span class="header-section-number">3.1</span> The goal</h2>
+<p><a href="../experiments/ex05-difficult-cases.html">Experiment 5</a> is the last experiment on functionals. It contains four reactions that look simple chemically (the largest molecules have only five atoms heavier than hydrogen) but are known to be hard for DFT.</p>
+<table class="table-striped caption-top table">
+<caption>Reactions of Experiment 5. Data from the DC13 subset of GMTKN55 <span class="citation" data-cites="goerigk2017">(<a href="#ref-goerigk2017" role="doc-biblioref">Goerigk et al. 2017</a>)</span>, the MR-MGM-BE4 and SMAE3 subsets of Minnesota 2015B <span class="citation" data-cites="yu2016a yu2015a">(<a href="#ref-yu2016a" role="doc-biblioref">Yu et al. 2016</a>; <a href="#ref-yu2015a" role="doc-biblioref">Yu and Truhlar 2015</a>)</span>, and W4-17 <span class="citation" data-cites="karton2017">(<a href="#ref-karton2017" role="doc-biblioref">Karton et al. 2017</a>)</span>.</caption>
+<thead>
+<tr class="header">
+<th>Reaction</th>
+<th>Description</th>
+<th style="text-align: right;">ΔE<sub>ref</sub> (kcal/mol)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>5a</td>
+<td>O₃ + C₂H₄ → primary ozonide</td>
+<td style="text-align: right;">−58.7</td>
+</tr>
+<tr class="even">
+<td>5b</td>
+<td>CaO → Ca + O</td>
+<td style="text-align: right;">96.15</td>
+</tr>
+<tr class="odd">
+<td>5c</td>
+<td>H₂SO₄ → S + 4 O + 2 H</td>
+<td style="text-align: right;">602.18</td>
+</tr>
+<tr class="even">
+<td>5d</td>
+<td>2 O₃ → 3 O₂</td>
+<td style="text-align: right;">−67.60</td>
+</tr>
+</tbody>
+</table>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../images/ex05-reactions.jpeg" class="img-fluid figure-img" style="width:80.0%" alt="Ball-and-stick drawings of reactions 5a to 5d."></p>
+<figcaption>Reactions of Experiment 5: formation of the primary ozonide from ozone and ethene (5a), dissociation of CaO (5b), atomization of sulfuric acid (5c), and conversion of ozone into oxygen (5d).</figcaption>
+</figure>
+</div>
+<p>For each reaction, think about which of the difficulties of Part 2 it contains: delocalization error, static correlation, open-shell atoms, no error cancellation. Some reactions contain more than one.</p>
+</section>
+<section id="methods-and-jobs" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="methods-and-jobs"><span class="header-section-number">3.2</span> Methods and jobs</h2>
+<p>The same 16 methods as Experiments 3 and 4, all with def2-TZVP. Twelve species × 16 methods = <strong>192 jobs</strong>. Note that 5a and 5d use two different ozone geometries (from two different databases), and that the O atom of 5b and the O atom of 5c also come from different databases: use the files listed for each reaction.</p>
+</section>
+<section id="what-to-watch-out-for" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="what-to-watch-out-for"><span class="header-section-number">3.3</span> What to watch out for</h2>
+<ul>
+<li><strong>Multiplicities.</strong> O, S and O₂ are triplets, H is a doublet, Ca and all the closed-shell molecules are singlets (<a href="#tbl-mult" class="quarto-xref">Table&nbsp;1</a>). The generated inputs already set the multiplicity and <code>UNRESTRICTED = TRUE</code>. If you build an input by hand, check line 2 of the .xyz file.</li>
+<li><strong>Coefficients.</strong> In 5c, ν = −1 for H₂SO₄, +1 for S, +4 for O and +2 for H. In 5d, ν = −2 for O₃ and +3 for O₂.</li>
+<li><strong>SCF convergence.</strong> Open-shell atoms and ozone can take more SCF cycles. Check that every job converged before using its energy.</li>
+<li><strong>The charts.</strong> Besides the signed errors, you will see the <em>relative-error</em> chart, the <em>CaO spotlight</em> and the <em>easy → hard</em> chart, which combines your Experiments 3, 4 and 5 (from this browser) and shows how your functional-draft pick did.</li>
+<li>Lock in your predictions on the experiment page first: how much larger will the errors be, which method will win, and will -D4 help?</li>
+</ul>
+</section>
+<section id="key-points" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="key-points"><span class="header-section-number">3.4</span> Key points</h2>
+<ul>
+<li>In Experiment 4 errors grew because reactants and products differ: bonds change in 4a, the number of close contacts in 4b and 4c.</li>
+<li>-D4 and VV10 fix missing dispersion (4b, 4c) but not errors in bond formation (4a); hydrogen bonds (4d) depend mostly on electrostatics.</li>
+<li>The self-interaction error is the spurious repulsion of an electron with itself; HF has none, approximate functionals do.</li>
+<li>The delocalization error makes approximate functionals overstabilize spread-out electrons: stretched radical cations, transition states, charge transfer, conjugated systems. HF has the opposite (localization) error.</li>
+<li>Static correlation arises when several configurations are nearly degenerate (stretched bonds, ozone, CaO); single-determinant methods struggle.</li>
+<li>Atomization energies have no error cancellation. HF underestimates them badly because molecules have more correlation energy than their atoms.</li>
+<li>Open-shell atoms need the right multiplicity (O, S triplet; H doublet; Ca singlet) and unrestricted orbitals.</li>
+<li>Absolute errors decide chemistry; relative errors can hide large absolute errors.</li>
+<li>A functional’s result on its own training data is not an independent test.</li>
+</ul>
+</section>
+<section id="study-questions" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="study-questions"><span class="header-section-number">3.5</span> Study questions</h2>
+<ol type="1">
+<li>Why did -D4 help much more for 4c than for 4d? Answer in terms of the physical components of each interaction.</li>
+<li>Give two reasons why the Diels–Alder reaction 4a is harder for DFT than the ethane rotation 3a.</li>
+<li>Write <a href="#eq-sic" class="quarto-xref">Equation&nbsp;3</a> in words. Why does Hartree–Fock satisfy it automatically?</li>
+<li>Sketch E(N) between N₀ − 1 and N₀ + 1 for the exact functional, a GGA and HF. Use your sketch to explain why GGAs underestimate reaction barriers.</li>
+<li>Why is a GGA’s dissociation curve for H₂⁺ too low at large distance?</li>
+<li>Explain the difference between dynamic and static correlation, using H₂ at equilibrium and at a long bond length.</li>
+<li>Why does Hartree–Fock underestimate atomization energies? Would you expect the error to grow or shrink for larger molecules?</li>
+<li>Determine the ground-state multiplicity of N, C, F and Mg atoms. Which need an unrestricted calculation?</li>
+<li>An atomization energy of 400 kcal/mol is computed with a 1.5% error. A conformational energy of 0.8 kcal/mol is computed with a 50% error. Which is the larger absolute error, and by how much?</li>
+<li>A new functional reproduces a molecule’s bond energy within 0.1 kcal/mol, and that molecule was in its training set. What can you conclude? What would you check next?</li>
+</ol>
+</section>
+<section id="further-reading" class="level2" data-number="3.6">
+<h2 data-number="3.6" class="anchored" data-anchor-id="further-reading"><span class="header-section-number">3.6</span> Further reading</h2>
+<ul>
+<li>A. J. Cohen, P. Mori-Sánchez and W. Yang, “Challenges for density functional theory” <span class="citation" data-cites="cohen2012">(<a href="#ref-cohen2012" role="doc-biblioref">Cohen et al. 2012</a>)</span>. The best review of delocalization error and static correlation.</li>
+<li>P. Mori-Sánchez, A. J. Cohen and W. Yang, “Localization and delocalization errors in density functional theory” <span class="citation" data-cites="morisanchez2008">(<a href="#ref-morisanchez2008" role="doc-biblioref">Mori-Sánchez et al. 2008</a>)</span>.</li>
+<li>J. P. Perdew and A. Zunger, the original self-interaction-correction paper <span class="citation" data-cites="perdew1981">(<a href="#ref-perdew1981" role="doc-biblioref">Perdew and Zunger 1981</a>)</span>.</li>
+<li>E. R. Johnson, P. Mori-Sánchez, A. J. Cohen and W. Yang, “Delocalization errors in density functionals and implications for main-group thermochemistry” <span class="citation" data-cites="johnson2008">(<a href="#ref-johnson2008" role="doc-biblioref">Johnson et al. 2008</a>)</span>.</li>
+<li>K. H. Hopmann’s editorial in <em>Organometallics</em> on what makes a computational study useful <span class="citation" data-cites="hopmann2019">(<a href="#ref-hopmann2019" role="doc-biblioref">Hopmann 2019</a>)</span>: “Do not use DFT for mechanisms it cannot handle.”</li>
+</ul>
+
+
+
+</section>
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-bally1997" class="csl-entry" role="listitem">
+Bally, T., and G. N. Sastry. 1997. <span>“Incorrect Dissociation Behavior of Radical Ions in Density Functional Calculations.”</span> <em>J. Phys. Chem. A</em> 101: 7923–25. <a href="https://doi.org/10.1021/jp972378y">https://doi.org/10.1021/jp972378y</a>.
+</div>
+<div id="ref-becke1993" class="csl-entry" role="listitem">
+Becke, A. D. J. 1993. <em>Chem. Phys.</em> 98: 5648–52.
+</div>
+<div id="ref-cohen2012" class="csl-entry" role="listitem">
+Cohen, A. J., P. Mori-Sánchez, and W. Yang. 2012. <em>Chem. Rev.</em> 112: 289–320.
+</div>
+<div id="ref-goerigk2017" class="csl-entry" role="listitem">
+Goerigk, L., A. Hansen, C. Bauer, S. Ehrlich, A. Najibi, and S. Grimme. 2017. <em>Phys. Chem. Chem. Phys.</em> 19: 32184–215.
+</div>
+<div id="ref-hopmann2019" class="csl-entry" role="listitem">
+Hopmann, K. H. 2019. <em>Organometallics</em> 38: 603–5.
+</div>
+<div id="ref-johnson2008" class="csl-entry" role="listitem">
+Johnson, E. R., P. Mori-Sánchez, A. J. Cohen, and W. J. Yang. 2008. <em>Chem. Phys.</em> 129: 204112.
+</div>
+<div id="ref-karton2017" class="csl-entry" role="listitem">
+Karton, A., N. Sylvetsky, and J. M. L. J. Martin. 2017. <em>Comput. Chem.</em> 38: 2063–75.
+</div>
+<div id="ref-lee1989" class="csl-entry" role="listitem">
+Lee, T. J., and P. R. Taylor. 1989. <span>“A Diagnostic for Determining the Quality of Single-Reference Electron Correlation Methods.”</span> <em>Int. J. Quantum Chem.</em> 36 (S23): 199–207. <a href="https://doi.org/10.1002/qua.560360824">https://doi.org/10.1002/qua.560360824</a>.
+</div>
+<div id="ref-morisanchez2008" class="csl-entry" role="listitem">
+Mori-Sánchez, P., A. J. Cohen, and W. Yang. 2008. <span>“Localization and Delocalization Errors in Density Functional Theory and Implications for Band-Gap Prediction.”</span> <em>Phys. Rev. Lett.</em> 100: 146401. <a href="https://doi.org/10.1103/PhysRevLett.100.146401">https://doi.org/10.1103/PhysRevLett.100.146401</a>.
+</div>
+<div id="ref-perdew1982" class="csl-entry" role="listitem">
+Perdew, J. P., R. G. Parr, M. Levy, and J. L. Balduz. 1982. <span>“Density-Functional Theory for Fractional Particle Number: Derivative Discontinuities of the Energy.”</span> <em>Phys. Rev. Lett.</em> 49: 1691–94. <a href="https://doi.org/10.1103/PhysRevLett.49.1691">https://doi.org/10.1103/PhysRevLett.49.1691</a>.
+</div>
+<div id="ref-perdew1981" class="csl-entry" role="listitem">
+Perdew, J. P., and A. Zunger. 1981. <span>“Self-Interaction Correction to Density-Functional Approximations for Many-Electron Systems.”</span> <em>Phys. Rev. B</em> 23: 5048–79. <a href="https://doi.org/10.1103/PhysRevB.23.5048">https://doi.org/10.1103/PhysRevB.23.5048</a>.
+</div>
+<div id="ref-yu2016a" class="csl-entry" role="listitem">
+Yu, H. S., X. He, S. L. Li, and D. G. Truhlar. 2016. <em>Chem. Sci.</em> 7: 5032–51.
+</div>
+<div id="ref-yu2015a" class="csl-entry" role="listitem">
+Yu, H., and D. G. J. Truhlar. 2015. <em>Chem. Theory Comput.</em> 11: 2968–83.
+</div>
+</div></section></div></main> <!-- /main -->
+<!-- Peverati lab logo at the top right of the navbar (light and dark versions). -->
+<script>
+(function () {
+  var css = document.querySelector('link[href$="styles.css"]');
+  var root = css ? css.getAttribute("href").replace(/styles\.css$/, "") : "";
+  var nav = document.querySelector("#quarto-header nav.navbar .navbar-container") ||
+            document.querySelector("#quarto-header nav.navbar .container-fluid");
+  if (!nav) return;
+  var a = document.createElement("a");
+  a.className = "lab-logo";
+  a.href = "https://peverati.github.io";
+  a.title = "Peverati research group";
+  // Both versions are inserted; CSS shows the one that matches the light/dark theme.
+  a.innerHTML =
+    '<img class="logo-for-light" src="' + root + 'images/logo-light.png" alt="Peverati research group logo">' +
+    '<img class="logo-for-dark" src="' + root + 'images/logo-dark.png" alt="Peverati research group logo">';
+  nav.appendChild(a);
+})();
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const toggle = window.document.createElement('button');
+      toggle.type = "button";
+      toggle.setAttribute("role", "switch");
+      toggle.setAttribute("aria-checked", "false");
+      toggle.classList.add('top-right');
+      toggle.classList.add('quarto-color-scheme-toggle');
+      toggle.setAttribute("aria-label", "Toggle dark mode");
+      toggle.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      toggle.appendChild(i);
+      // Put the toggle in a landmark of its own, so that landmark navigation
+      // can reach it.
+      //
+      // The container is always a fresh direct child of body, and the toggle is
+      // never moved into page furniture that the theme or the author controls.
+      // The toggle is positioned against the page, so any ancestor that
+      // establishes a containing block captures it: a positioned element or a
+      // grid for position: absolute, and transform, filter, will-change or
+      // contain for position: fixed. A direct child of body has none of these
+      // to inherit, and the shift when one appears is silent and visual.
+      //
+      // ARIA says a document should have at most one banner, and axe reports a
+      // duplicate whether or not the banners carry distinct labels. So use a
+      // header when the page has no banner yet, and a named region otherwise.
+      //
+      // A header is a banner wherever it sits, unless it is inside sectioning
+      // content, so this cannot just look at the children of body: a custom
+      // page layout wraps the title block header in a plain div. An explicit
+      // role="banner" always counts.
+      const sectioning = 'article, aside, main, nav, section, [role="article"], [role="complementary"], [role="main"], [role="navigation"], [role="region"]';
+      const hasBanner = Array.from(
+        window.document.querySelectorAll('header:not([role]), [role="banner"]')
+      ).some(function(el) {
+        return el.hasAttribute("role") || el.closest(sectioning) === null;
+      });
+      const container = window.document.createElement(hasBanner ? "div" : "header");
+      if (hasBanner) {
+        container.setAttribute("role", "region");
+        container.setAttribute("aria-label", "Toggle dark mode");
+      }
+      container.classList.add('quarto-color-scheme-toggle-container');
+      container.appendChild(toggle);
+      window.document.body.appendChild(container);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/peverati\.github\.io\/advpchem\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+          if (!link.classList.contains('no-external-icon')) {
+          }
+        }
+      }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          // Each band is positioned against its own containing block, which is
+          // not the offsetParent of the lines, so place it from client rects.
+          const placeBand = (band, firstEl, lastEl, codeBlock) => {
+            const container = band.offsetParent;
+            if (container === null) {
+              return;
+            }
+            const containerRect = container.getBoundingClientRect();
+            // Reveal.js scales slides with a transform, so convert client
+            // pixels back to the CSS pixels of the container.
+            const scale = containerRect.height / container.offsetHeight || 1;
+            const firstRect = firstEl.getBoundingClientRect();
+            const lastRect = lastEl.getBoundingClientRect();
+            const top = (firstRect.top - containerRect.top) / scale - container.clientTop + container.scrollTop;
+            const height = (lastRect.bottom - firstRect.top) / scale;
+            band.style.top = top - 2 + "px";
+            band.style.height = height + 4 + "px";
+            if (codeBlock) {
+              // Without the copy button wrapper, the containing block is wider
+              // than the code block, so span the code block explicitly.
+              const blockRect = codeBlock.getBoundingClientRect();
+              band.style.left = (blockRect.left - containerRect.left) / scale - container.clientLeft + container.scrollLeft + "px";
+              band.style.width = blockRect.width / scale + "px";
+            }
+          };
+          if (lineIds.length > 0) {
+            const el = window.document.getElementById(lineIds[0]);
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const parent = el.parentElement.parentElement;
+            // cook up a div (if necessary) and position it
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            placeBand(div, el, lastEl, parent.closest("div.sourceCode") || parent);
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            placeBand(gutterDiv, el, lastEl);
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+  <script type="application/javascript">
+  window.quartoScrollableRegionsLabels = {"code":"Scrollable code","output":"Scrollable output"};
+  </script>
+<nav class="page-navigation" aria-label="Page">
+  <div class="nav-page nav-page-previous">
+      <a href="../lectures/l08-dispersion.html" class="pagination-link" aria-label="Class 8 · Dispersion and noncovalent interactions">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Class 8 · Dispersion and noncovalent interactions</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../lectures/l10-error-cancellation.html" class="pagination-link" aria-label="Class 10 · Basis-set error vs functional error">
+        <span class="nav-page-text">Class 10 · Basis-set error vs functional error</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Advanced Physical Chemistry · Florida Institute of Technology</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>Experiments adapted from Morgante &amp; Peverati, <em>Int. J. Quantum Chem.</em> <strong>2020</strong></p>
+</div>
+  </div>
+</footer>
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

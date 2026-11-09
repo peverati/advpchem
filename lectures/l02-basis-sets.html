@@ -1,0 +1,1972 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.11.9">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="description" content="Slater and Gaussian functions, contraction, split valence, polarization and diffuse functions, the Pople, Karlsruhe and Dunning families, and convergence to the complete-basis-set limit.">
+
+<title>Class 2 · Approximating the wave function: basis sets – Computational Chemistry Lab</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../lectures/l03-from-theory-to-a-calculation.html" rel="next">
+<link href="../lectures/l01-molecular-schrodinger.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-447e42e69aaa9833c0ba1b986f430b20.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-56996c7b5257095e64120a8d6d543cad.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-9953095112a8816cde90456e6de52415.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-56996c7b5257095e64120a8d6d543cad.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<script src="https://cdn.jsdelivr.net/npm/3dmol@2.4.2/build/3Dmol-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-sidebar floating nav-fixed quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          toggle.setAttribute("aria-checked", alternate ? "true" : "false");
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455).
+    // Not run on load: stylesheets are set before first paint there, and
+    // scrolling would undo the scroll to a URL fragment (#14973).
+    // The one pixel nudge keeps the reader where they were.
+    const refreshSafariScrollbar = () => {
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        const scrollY = window.scrollY;
+        window.scrollTo(0, scrollY > 0 ? scrollY - 1 : 1);
+        setTimeout(() => {
+          window.scrollTo(0, scrollY);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      refreshSafariScrollbar();
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark" aria-label="Site">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Computational Chemistry Lab</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-guides" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Guides</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-guides">    
+        <li>
+    <a class="dropdown-item" href="../guides/iqmol-setup.html">
+ <span class="dropdown-text">Install IQmol and connect to Q-Chem</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../guides/first-job.html">
+ <span class="dropdown-text">Your first Q-Chem job</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../guides/reading-output.html">
+ <span class="dropdown-text">Reading a Q-Chem output</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../guides/shared-machines.html">
+ <span class="dropdown-text">Working on a shared machine</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../guides/units-and-errors.html">
+ <span class="dropdown-text">Units, reaction energies and errors</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-lectures" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Lectures</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-lectures">    
+        <li>
+    <a class="dropdown-item" href="../lectures/index.html">
+ <span class="dropdown-text">All lectures</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l01-molecular-schrodinger.html">
+ <span class="dropdown-text">1 · The molecular Schrödinger equation</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l02-basis-sets.html">
+ <span class="dropdown-text">2 · Basis sets</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l03-from-theory-to-a-calculation.html">
+ <span class="dropdown-text">3 · From theory to a calculation</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l04-hartree-fock.html">
+ <span class="dropdown-text">4 · Hartree–Fock and the SCF</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l05-density-functional-theory.html">
+ <span class="dropdown-text">5 · Density functional theory</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l06-jacobs-ladder.html">
+ <span class="dropdown-text">6 · Jacob’s ladder</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l07-benchmarking.html">
+ <span class="dropdown-text">7 · How we test a functional</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l08-dispersion.html">
+ <span class="dropdown-text">8 · Dispersion</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l09-difficult-cases.html">
+ <span class="dropdown-text">9 · Difficult cases for DFT</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l10-error-cancellation.html">
+ <span class="dropdown-text">10 · Basis-set vs functional error</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l11-integration-grids.html">
+ <span class="dropdown-text">11 · Integration grids</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l12-scf-stability.html">
+ <span class="dropdown-text">12 · SCF stability and transition metals</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l13-theory-vs-experiment.html">
+ <span class="dropdown-text">13 · Theory vs experiment</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l14-choosing-a-method.html">
+ <span class="dropdown-text">14 · Choosing a method</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l15-wrap-up.html">
+ <span class="dropdown-text">15 · What we learned</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-experiments" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Experiments</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-experiments">    
+        <li>
+    <a class="dropdown-item" href="../experiments/ex01-basis-sets.html">
+ <span class="dropdown-text">Experiment 1: Basis Set Incompleteness Error</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex02-jacobs-ladder.html">
+ <span class="dropdown-text">Experiment 2: Jacob’s Ladder</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex03-organic-a.html">
+ <span class="dropdown-text">Experiment 3: Applying DFT to Organic Chemistry – Part A</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex04-organic-b.html">
+ <span class="dropdown-text">Experiment 4: Applying DFT to Organic Chemistry – Part B</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex05-difficult-cases.html">
+ <span class="dropdown-text">Experiment 5: Difficult Cases for DFT</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex06-b3lyp-631gs.html">
+ <span class="dropdown-text">Experiment 6: Why is the B3LYP/6-31G* Level of Theory so Successful?</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex07-grids.html">
+ <span class="dropdown-text">Experiment 7: Integration Grids</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex08-stability.html">
+ <span class="dropdown-text">Experiment 8: Stability Analysis and Transition Metals</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex09-experiment-vs-theory.html">
+ <span class="dropdown-text">Experiment 9: Comparison with Experimental Results</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex10-final-review.html">
+ <span class="dropdown-text">Experiment 10: Final Review</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="../class-results.html"> 
+<span class="menu-text">Class results</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <button type="button" role="switch" aria-checked="false" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode" aria-label="Toggle dark mode"><i class="bi"></i></button>
+</div>
+            <div id="quarto-search" class="" title="Search"></div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav" aria-label="Toolbar">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../lectures/l02-basis-sets.html">Class 2 · Approximating the wave function: basis sets</a></li></ol></nav>
+        <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto" aria-label="Section">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lectures</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l01-molecular-schrodinger.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 1 · The molecular Schrödinger equation</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l02-basis-sets.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Class 2 · Approximating the wave function: basis sets</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l03-from-theory-to-a-calculation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 3 · From theory to a calculation: IQmol, Q-Chem and Experiment 1</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l04-hartree-fock.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 4 · Approximating the Hamiltonian I: Hartree–Fock and the SCF</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l05-density-functional-theory.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 5 · Approximating the Hamiltonian II: density functional theory</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l06-jacobs-ladder.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 6 · Approximating the Hamiltonian III: Jacob’s ladder</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l07-benchmarking.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 7 · How we test a functional</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l08-dispersion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 8 · Dispersion and noncovalent interactions</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l09-difficult-cases.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 9 · Why some reactions are hard for DFT</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l10-error-cancellation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 10 · Basis-set error vs functional error</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l11-integration-grids.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 11 · Numerical integration grids</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l12-scf-stability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 12 · SCF stability, open shells and transition metals</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l13-theory-vs-experiment.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 13 · From electronic energies to experiment</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l14-choosing-a-method.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 14 · Choosing, running and reporting a method</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l15-wrap-up.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 15 · What we learned</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" aria-labelledby="toc-title" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#molecular-orbitals-from-basis-functions" id="toc-molecular-orbitals-from-basis-functions" class="nav-link active" data-scroll-target="#molecular-orbitals-from-basis-functions"><span class="header-section-number">1</span> Molecular orbitals from basis functions</a>
+  <ul class="collapse">
+  <li><a href="#the-lcao-expansion" id="toc-the-lcao-expansion" class="nav-link" data-scroll-target="#the-lcao-expansion"><span class="header-section-number">1.1</span> The LCAO expansion</a></li>
+  <li><a href="#the-variational-principle-and-the-cbs-limit" id="toc-the-variational-principle-and-the-cbs-limit" class="nav-link" data-scroll-target="#the-variational-principle-and-the-cbs-limit"><span class="header-section-number">1.2</span> The variational principle and the CBS limit</a></li>
+  </ul></li>
+  <li><a href="#slater-type-and-gaussian-type-functions" id="toc-slater-type-and-gaussian-type-functions" class="nav-link" data-scroll-target="#slater-type-and-gaussian-type-functions"><span class="header-section-number">2</span> Slater-type and Gaussian-type functions</a>
+  <ul class="collapse">
+  <li><a href="#slater-type-orbitals" id="toc-slater-type-orbitals" class="nav-link" data-scroll-target="#slater-type-orbitals"><span class="header-section-number">2.1</span> Slater-type orbitals</a></li>
+  <li><a href="#gaussian-type-orbitals" id="toc-gaussian-type-orbitals" class="nav-link" data-scroll-target="#gaussian-type-orbitals"><span class="header-section-number">2.2</span> Gaussian-type orbitals</a></li>
+  <li><a href="#the-gaussian-product-theorem" id="toc-the-gaussian-product-theorem" class="nav-link" data-scroll-target="#the-gaussian-product-theorem"><span class="header-section-number">2.3</span> The Gaussian product theorem</a></li>
+  <li><a href="#contracted-gaussians-sto-3g" id="toc-contracted-gaussians-sto-3g" class="nav-link" data-scroll-target="#contracted-gaussians-sto-3g"><span class="header-section-number">2.4</span> Contracted Gaussians: STO-3G</a></li>
+  <li><a href="#cartesian-and-spherical-d-functions" id="toc-cartesian-and-spherical-d-functions" class="nav-link" data-scroll-target="#cartesian-and-spherical-d-functions"><span class="header-section-number">2.5</span> Cartesian and spherical d functions</a></li>
+  </ul></li>
+  <li><a href="#building-better-basis-sets" id="toc-building-better-basis-sets" class="nav-link" data-scroll-target="#building-better-basis-sets"><span class="header-section-number">3</span> Building better basis sets</a>
+  <ul class="collapse">
+  <li><a href="#split-valence-letting-orbitals-change-size" id="toc-split-valence-letting-orbitals-change-size" class="nav-link" data-scroll-target="#split-valence-letting-orbitals-change-size"><span class="header-section-number">3.1</span> Split valence: letting orbitals change size</a></li>
+  <li><a href="#polarization-functions-letting-orbitals-change-shape" id="toc-polarization-functions-letting-orbitals-change-shape" class="nav-link" data-scroll-target="#polarization-functions-letting-orbitals-change-shape"><span class="header-section-number">3.2</span> Polarization functions: letting orbitals change shape</a></li>
+  <li><a href="#diffuse-functions-the-far-tail" id="toc-diffuse-functions-the-far-tail" class="nav-link" data-scroll-target="#diffuse-functions-the-far-tail"><span class="header-section-number">3.3</span> Diffuse functions: the far tail</a></li>
+  </ul></li>
+  <li><a href="#pople-basis-sets" id="toc-pople-basis-sets" class="nav-link" data-scroll-target="#pople-basis-sets"><span class="header-section-number">4</span> Pople basis sets</a></li>
+  <li><a href="#the-modern-families-used-in-this-course" id="toc-the-modern-families-used-in-this-course" class="nav-link" data-scroll-target="#the-modern-families-used-in-this-course"><span class="header-section-number">5</span> The modern families used in this course</a>
+  <ul class="collapse">
+  <li><a href="#karlsruhe-def2-basis-sets" id="toc-karlsruhe-def2-basis-sets" class="nav-link" data-scroll-target="#karlsruhe-def2-basis-sets"><span class="header-section-number">5.1</span> Karlsruhe def2 basis sets</a></li>
+  <li><a href="#dunning-correlation-consistent-basis-sets" id="toc-dunning-correlation-consistent-basis-sets" class="nav-link" data-scroll-target="#dunning-correlation-consistent-basis-sets"><span class="header-section-number">5.2</span> Dunning correlation-consistent basis sets</a></li>
+  <li><a href="#jensen-polarization-consistent-basis-sets" id="toc-jensen-polarization-consistent-basis-sets" class="nav-link" data-scroll-target="#jensen-polarization-consistent-basis-sets"><span class="header-section-number">5.3</span> Jensen polarization-consistent basis sets</a></li>
+  <li><a href="#counting-basis-functions" id="toc-counting-basis-functions" class="nav-link" data-scroll-target="#counting-basis-functions"><span class="header-section-number">5.4</span> Counting basis functions</a></li>
+  </ul></li>
+  <li><a href="#convergence-cost-and-basis-set-errors" id="toc-convergence-cost-and-basis-set-errors" class="nav-link" data-scroll-target="#convergence-cost-and-basis-set-errors"><span class="header-section-number">6</span> Convergence, cost and basis-set errors</a>
+  <ul class="collapse">
+  <li><a href="#more-functions-better-results" id="toc-more-functions-better-results" class="nav-link" data-scroll-target="#more-functions-better-results"><span class="header-section-number">6.1</span> More functions, better results</a></li>
+  <li><a href="#sec-cbs" id="toc-sec-cbs" class="nav-link" data-scroll-target="#sec-cbs"><span class="header-section-number">6.2</span> Extrapolation to the CBS limit</a></li>
+  <li><a href="#the-price-cost-grows-steeply-with-k" id="toc-the-price-cost-grows-steeply-with-k" class="nav-link" data-scroll-target="#the-price-cost-grows-steeply-with-k"><span class="header-section-number">6.3</span> The price: cost grows steeply with K</a></li>
+  <li><a href="#two-basis-set-errors-bsie-and-bsse" id="toc-two-basis-set-errors-bsie-and-bsse" class="nav-link" data-scroll-target="#two-basis-set-errors-bsie-and-bsse"><span class="header-section-number">6.4</span> Two basis-set errors: BSIE and BSSE</a></li>
+  </ul></li>
+  <li><a href="#key-points" id="toc-key-points" class="nav-link" data-scroll-target="#key-points"><span class="header-section-number">7</span> Key points</a></li>
+  <li><a href="#study-questions" id="toc-study-questions" class="nav-link" data-scroll-target="#study-questions"><span class="header-section-number">8</span> Study questions</a></li>
+  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading"><span class="header-section-number">9</span> Further reading</a></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="l02-basis-sets.pdf"><i class="bi bi-file-pdf"></i>PDF handout</a></li><li><a href="l02-basis-sets.pdf"><i class="bi bi-file-pdf"></i>Typst</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content" tabindex="-1">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Class 2 · Approximating the wave function: basis sets</h1>
+<p class="subtitle lead">From LCAO to def2-QZVP: what basis functions are, how to read their names, and what they cost</p>
+</div>
+
+<div>
+  <div class="description">
+    Slater and Gaussian functions, contraction, split valence, polarization and diffuse functions, the Pople, Karlsruhe and Dunning families, and convergence to the complete-basis-set limit.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Learning goals
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>After studying this chapter you should be able to:</p>
+<ul>
+<li>explain the LCAO expansion and why, by the variational principle, a bigger basis gives a lower (or equal) energy;</li>
+<li>compare Slater-type and Gaussian-type functions and explain why almost every program uses contracted Gaussians;</li>
+<li>explain what split valence (ζ), polarization and diffuse functions add, and when each matters;</li>
+<li>decode basis-set names such as STO-3G, 6-31G*, 6-311+G**, def2-TZVP, cc-pVQZ and aug-cc-pVTZ;</li>
+<li>count the basis functions of a small molecule from the shell composition of each atom;</li>
+<li>describe the complete-basis-set (CBS) limit, how the cost grows with the number of basis functions, and what the basis-set incompleteness error (BSIE) and basis-set superposition error (BSSE) are.</li>
+</ul>
+</div>
+</div>
+<div class="callout callout-style-simple callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Review from P-Chem 2
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><a href="https://peverati.github.io/pchem2/Bonds.html">The chemical bond in H₂⁺ and H₂</a> (chapter 12): the LCAO idea in its simplest form.</li>
+<li><a href="https://peverati.github.io/pchem2/Poly.html#the-chemical-bond-in-the-water-molecule-using-a-minimal-basis">The water molecule with a minimal basis</a> and <a href="https://peverati.github.io/pchem2/Poly.html#hartree-fock-calculation-for-water">Hartree–Fock calculation for water</a> (§13.1–13.2): seven basis functions, the overlap matrix and the integrals.</li>
+<li><a href="https://peverati.github.io/pchem2/Molecules.html#the-hartree-fock-method">The Hartree–Fock method</a> (§11.3.1): orbitals expanded in basis functions.</li>
+<li><a href="https://peverati.github.io/pchem2/Atoms.html#variational-method">The variational method</a> (§10.2.1).</li>
+</ul>
+</div>
+</div>
+<section id="molecular-orbitals-from-basis-functions" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="molecular-orbitals-from-basis-functions"><span class="header-section-number">1</span> Molecular orbitals from basis functions</h2>
+<section id="the-lcao-expansion" class="level3" data-number="1.1">
+<h3 data-number="1.1" class="anchored" data-anchor-id="the-lcao-expansion"><span class="header-section-number">1.1</span> The LCAO expansion</h3>
+<p><a href="../lectures/l01-molecular-schrodinger.html">Class 1</a> ended with the first of the two approximations of every calculation: the orbitals are unknown functions of three coordinates, and a computer cannot store an arbitrary function. The solution is to write each molecular orbital <span class="math inline">\(\phi_i\)</span> as a <strong>linear combination</strong> of a finite number <span class="math inline">\(K\)</span> of known functions <span class="math inline">\(\chi_\mu\)</span>, the <strong>basis functions</strong>:</p>
+<p><span id="eq-lcao"><span class="math display">\[
+\phi_i(\mathbf{r}) = \sum_{\mu=1}^{K} c_{\mu i}\, \chi_\mu(\mathbf{r}) .
+\tag{1}\]</span></span></p>
+<p>The basis functions are fixed in advance; only the <strong>coefficients</strong> <span class="math inline">\(c_{\mu i}\)</span> are optimized. In P-Chem 2 you met this as LCAO, the <em>linear combination of atomic orbitals</em>: for H₂⁺, one 1s function on each proton; for water, a 1s, 2s and three 2p functions on oxygen plus one 1s on each hydrogen, seven functions in total. Modern basis functions are not atomic orbitals in the strict sense (they are not eigenfunctions of any atom), but they are still <strong>centered on the atoms</strong> and look like atomic orbitals, so the name has stuck.</p>
+<p>With <a href="#eq-lcao" class="quarto-xref">Equation&nbsp;1</a>, the hard problem of finding unknown <em>functions</em> becomes the much easier problem of finding unknown <em>numbers</em>: a <span class="math inline">\(K \times K\)</span> matrix of coefficients. In Hartree–Fock and Kohn–Sham DFT this leads to a matrix eigenvalue equation, the Roothaan–Hall equation <span class="math inline">\(\mathbf{FC} = \mathbf{SC}\boldsymbol{\varepsilon}\)</span>, which you will meet in Class 4. Here <span class="math inline">\(\mathbf{S}\)</span> is the <strong>overlap matrix</strong>, <span class="math inline">\(S_{\mu\nu} = \int \chi_\mu^* \chi_\nu \, d\mathbf{r}\)</span>. Basis functions on different atoms overlap, so <span class="math inline">\(\mathbf{S}\)</span> is not the identity matrix; <a href="https://peverati.github.io/pchem2/Poly.html#hartree-fock-calculation-for-water">§13.2 of the P-Chem 2 textbook</a> shows it for water.</p>
+<p><span class="math inline">\(K\)</span> basis functions give exactly <span class="math inline">\(K\)</span> molecular orbitals. Of these, <span class="math inline">\(N/2\)</span> are occupied in a closed-shell molecule with <span class="math inline">\(N\)</span> electrons; the rest are <strong>virtual</strong> (unoccupied) orbitals. The number of basis functions <span class="math inline">\(K\)</span> is printed in every Q-Chem output and is one of the four numbers you record in <a href="../experiments/ex01-basis-sets.html">Experiment 1</a>.</p>
+</section>
+<section id="the-variational-principle-and-the-cbs-limit" class="level3" data-number="1.2">
+<h3 data-number="1.2" class="anchored" data-anchor-id="the-variational-principle-and-the-cbs-limit"><span class="header-section-number">1.2</span> The variational principle and the CBS limit</h3>
+<p>If the set <span class="math inline">\(\{\chi_\mu\}\)</span> were <strong>complete</strong>, any function could be expanded exactly in it, and <a href="#eq-lcao" class="quarto-xref">Equation&nbsp;1</a> would be no approximation at all. A complete set is infinite, so any real basis is a <strong>truncation</strong>. The orbitals can only take the shapes that the chosen functions allow.</p>
+<p>The variational principle of Class 1 tells us what happens as we enlarge the basis. For Hartree–Fock and for Kohn–Sham DFT with a given functional, the energy is minimized with respect to the coefficients. Adding basis functions enlarges the space of allowed orbitals, so the minimum can only go down or stay the same:</p>
+<p><span class="math display">\[
+E(\text{basis}_1) \;\geq\; E(\text{basis}_2) \quad \text{if basis}_2 \supseteq \text{basis}_1 .
+\]</span></p>
+<p>As the basis grows toward completeness, the energy converges from above to a limit, the <strong>complete-basis-set (CBS) limit</strong>. The difference between the energy in a finite basis and the CBS energy (with the same method) is the <strong>basis-set incompleteness error</strong> (BSIE). It is the error that <a href="../experiments/ex01-basis-sets.html">Experiment 1</a> is designed to measure.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Strictly nested or not?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The inequality is guaranteed only if the bigger basis <em>contains</em> the smaller one. Real basis-set families are re-optimized at each size, so def2-TZVP does not literally contain def2-SVP. In practice the total energy still decreases monotonically along a well-designed family, which is what matters for us. Reaction energies, being differences, do not have to converge monotonically, and Experiment 1 asks you to look at exactly this.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="slater-type-and-gaussian-type-functions" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="slater-type-and-gaussian-type-functions"><span class="header-section-number">2</span> Slater-type and Gaussian-type functions</h2>
+<p>What should the basis functions look like? Two choices dominate the history of quantum chemistry.</p>
+<section id="slater-type-orbitals" class="level3" data-number="2.1">
+<h3 data-number="2.1" class="anchored" data-anchor-id="slater-type-orbitals"><span class="header-section-number">2.1</span> Slater-type orbitals</h3>
+<p><strong>Slater-type orbitals</strong> (STOs) mimic the hydrogen-atom solutions:</p>
+<p><span id="eq-sto"><span class="math display">\[
+\chi^\text{STO}(r,\theta,\varphi) = N\, r^{n-1} e^{-\zeta r}\, Y_\ell^{m}(\theta,\varphi) .
+\tag{2}\]</span></span></p>
+<p>The <strong>exponent</strong> <span class="math inline">\(\zeta\)</span> (zeta) sets the size: a large <span class="math inline">\(\zeta\)</span> gives a tight function close to the nucleus; a small <span class="math inline">\(\zeta\)</span> gives a diffuse one. STOs have the right physics. They have a <strong>cusp</strong> at the nucleus (a finite slope at <span class="math inline">\(r = 0\)</span>, as every exact wave function must <span class="citation" data-cites="kato1957">(<a href="#ref-kato1957" role="doc-biblioref">Kato 1957</a>)</span>) and an <strong>exponential tail</strong> at large <span class="math inline">\(r\)</span>, like real bound states (Class 1).</p>
+<p>Their weakness is computational. A molecular calculation needs huge numbers of integrals over basis functions, the worst being the <strong>two-electron integrals</strong></p>
+<p><span id="eq-eri"><span class="math display">\[
+(\mu\nu|\lambda\sigma) = \iint \frac{\chi_\mu(\mathbf{r}_1)\chi_\nu(\mathbf{r}_1)\,\chi_\lambda(\mathbf{r}_2)\chi_\sigma(\mathbf{r}_2)}{|\mathbf{r}_1-\mathbf{r}_2|}\, d\mathbf{r}_1 d\mathbf{r}_2 ,
+\tag{3}\]</span></span></p>
+<p>in which the four functions may sit on four different atoms. For STOs these multicenter integrals have no closed form and must be computed numerically, which is slow.</p>
+</section>
+<section id="gaussian-type-orbitals" class="level3" data-number="2.2">
+<h3 data-number="2.2" class="anchored" data-anchor-id="gaussian-type-orbitals"><span class="header-section-number">2.2</span> Gaussian-type orbitals</h3>
+<p>In 1950, Boys proposed using <strong>Gaussian-type orbitals</strong> (GTOs) instead <span class="citation" data-cites="boys1950">(<a href="#ref-boys1950" role="doc-biblioref">Boys 1950</a>)</span>:</p>
+<p><span id="eq-gto"><span class="math display">\[
+\chi^\text{GTO}(x,y,z) = N\, x^{a} y^{b} z^{c}\, e^{-\alpha r^2}, \qquad \ell = a + b + c .
+\tag{4}\]</span></span></p>
+<p>The sum <span class="math inline">\(\ell = a + b + c\)</span> sets the angular momentum: <span class="math inline">\(\ell = 0\)</span> is an s function, <span class="math inline">\(\ell = 1\)</span> a p function (<span class="math inline">\(x\)</span>, <span class="math inline">\(y\)</span> or <span class="math inline">\(z\)</span> in front), <span class="math inline">\(\ell = 2\)</span> a d function, and so on. The exponent <span class="math inline">\(\alpha\)</span> plays the role of <span class="math inline">\(\zeta\)</span>.</p>
+<p>GTOs have the <em>wrong</em> physics in two places, visible in <a href="#fig-sto-gto" class="quarto-xref">Figure&nbsp;2</a>:</p>
+<ul>
+<li><strong>No cusp.</strong> A Gaussian is flat at the nucleus (<span class="math inline">\(d\chi/dr = 0\)</span> at <span class="math inline">\(r = 0\)</span>), and its value there is too small.</li>
+<li><strong>Wrong tail.</strong> <span class="math inline">\(e^{-\alpha r^2}\)</span> decays much faster than <span class="math inline">\(e^{-\zeta r}\)</span>. Far from the nucleus, a single Gaussian underestimates the wave function by orders of magnitude.</li>
+</ul>
+</section>
+<section id="the-gaussian-product-theorem" class="level3" data-number="2.3">
+<h3 data-number="2.3" class="anchored" data-anchor-id="the-gaussian-product-theorem"><span class="header-section-number">2.3</span> The Gaussian product theorem</h3>
+<p>Why use the wrong functions? Because of one beautiful property. The product of two Gaussians centered on two different points <span class="math inline">\(\mathbf{A}\)</span> and <span class="math inline">\(\mathbf{B}\)</span> is a single Gaussian centered at a point <span class="math inline">\(\mathbf{P}\)</span> on the line between them:</p>
+<p><span id="eq-gpt"><span class="math display">\[
+e^{-\alpha|\mathbf{r}-\mathbf{A}|^2}\, e^{-\beta|\mathbf{r}-\mathbf{B}|^2}
+= K_{AB}\, e^{-p|\mathbf{r}-\mathbf{P}|^2},
+\qquad p = \alpha+\beta,\quad
+\mathbf{P} = \frac{\alpha\mathbf{A}+\beta\mathbf{B}}{\alpha+\beta},\quad
+K_{AB} = e^{-\frac{\alpha\beta}{\alpha+\beta}|\mathbf{A}-\mathbf{B}|^2} .
+\tag{5}\]</span></span></p>
+<p>This is the <strong>Gaussian product theorem</strong> (<a href="#fig-gpt" class="quarto-xref">Figure&nbsp;1</a>). It collapses every pair of functions in <a href="#eq-eri" class="quarto-xref">Equation&nbsp;3</a> to a single center, so a four-center integral becomes a two-center one, which has an analytic formula. Gaussian integrals are so cheap that it pays to use several Gaussians to imitate one STO. This trade, more functions but much faster integrals, is the reason virtually every molecular quantum-chemistry program, Q-Chem included, uses Gaussian basis functions.</p>
+<div id="fig-gpt" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Two Gaussian curves centered at x = 0 and x = 1.5, and their product, a narrower and lower Gaussian centered at x = 0.5625 between them.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-gpt-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/l02-gaussian-product.png" class="img-fluid figure-img" alt="Two Gaussian curves centered at x = 0 and x = 1.5, and their product, a narrower and lower Gaussian centered at x = 0.5625 between them.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-gpt-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: The Gaussian product theorem in one dimension. The product (black) of a Gaussian centered at A (exponent 1.0) and one centered at B (exponent 0.6) is exactly a single Gaussian centered at P, with exponent 1.6 and height reduced by the constant <span class="math inline">\(K_{AB}\)</span> of <a href="#eq-gpt" class="quarto-xref">Equation&nbsp;5</a>.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="contracted-gaussians-sto-3g" class="level3" data-number="2.4">
+<h3 data-number="2.4" class="anchored" data-anchor-id="contracted-gaussians-sto-3g"><span class="header-section-number">2.4</span> Contracted Gaussians: STO-3G</h3>
+<p>A <strong>contracted Gaussian</strong> is a fixed linear combination of several <strong>primitive</strong> Gaussians:</p>
+<p><span id="eq-contraction"><span class="math display">\[
+\chi_\mu(\mathbf{r}) = \sum_{k=1}^{L} d_{k\mu}\, g_k(\alpha_k, \mathbf{r}) .
+\tag{6}\]</span></span></p>
+<p>The exponents <span class="math inline">\(\alpha_k\)</span> and the <strong>contraction coefficients</strong> <span class="math inline">\(d_{k\mu}\)</span> are chosen once, when the basis set is designed, and never change during a calculation. The program optimizes only the coefficients <span class="math inline">\(c_{\mu i}\)</span> of <a href="#eq-lcao" class="quarto-xref">Equation&nbsp;1</a>, one per <em>contracted</em> function. Contraction gives functions with a better shape without increasing <span class="math inline">\(K\)</span>.</p>
+<p>The simplest example is <strong>STO-3G</strong> <span class="citation" data-cites="hehre1969">(<a href="#ref-hehre1969" role="doc-biblioref">Hehre et al. 1969</a>)</span>: each Slater-type orbital is replaced by a contraction of three primitive Gaussians, fitted to reproduce it as closely as possible. For the hydrogen 1s function, which in STO-3G mimics a Slater function with <span class="math inline">\(\zeta = 1.24\)</span> (slightly tighter than the free-atom value of 1.0, because a hydrogen in a molecule holds its electron more tightly), the published primitives are:</p>
+<div id="tbl-sto3g" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-sto3g-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;1: STO-3G contraction for the hydrogen 1s function (coefficients for normalized primitives).
+</figcaption>
+<div aria-describedby="tbl-sto3g-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th><span class="math inline">\(k\)</span></th>
+<th>exponent <span class="math inline">\(\alpha_k\)</span> (bohr⁻²)</th>
+<th>coefficient <span class="math inline">\(d_k\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>3.42525091</td>
+<td>0.15432897</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>0.62391373</td>
+<td>0.53532814</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>0.16885540</td>
+<td>0.44463454</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>The tight primitive (<span class="math inline">\(\alpha \approx 3.4\)</span>) builds up the peak near the nucleus; the diffuse one (<span class="math inline">\(\alpha \approx 0.17\)</span>) supplies the tail. <a href="#fig-sto-gto" class="quarto-xref">Figure&nbsp;2</a> compares the result with the Slater function it imitates and with the best <em>single</em> Gaussian (the one with maximum overlap with the STO, <span class="math inline">\(\alpha = 0.417\)</span>). The single Gaussian has an overlap of 0.978 with the STO; the three-Gaussian contraction reaches 0.9998. Even so, STO-3G still misses the cusp, and its tail still falls too fast beyond about 5 bohr.</p>
+<div id="fig-sto-gto" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Two panels. Left: the Slater 1s function peaks sharply at r = 0 with value 0.78; the STO-3G contraction follows it closely except near r = 0 where it is flat at 0.63; a single Gaussian is much flatter at 0.37. Right: on a log scale the Slater function is a straight line; STO-3G follows it to about 5 bohr and then falls below; the single Gaussian falls off much faster.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-sto-gto-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/l02-sto-vs-gto.png" class="img-fluid figure-img" alt="Two panels. Left: the Slater 1s function peaks sharply at r = 0 with value 0.78; the STO-3G contraction follows it closely except near r = 0 where it is flat at 0.63; a single Gaussian is much flatter at 0.37. Right: on a log scale the Slater function is a straight line; STO-3G follows it to about 5 bohr and then falls below; the single Gaussian falls off much faster.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sto-gto-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: The hydrogen 1s Slater function with <span class="math inline">\(\zeta = 1.24\)</span> (black), the best single Gaussian (dashed red) and the STO-3G contraction of three Gaussians (blue), using the exponents and coefficients of <a href="#tbl-sto3g" class="quarto-xref">Table&nbsp;1</a>. (a) Near the nucleus, the Slater function has a cusp; Gaussians are flat at <span class="math inline">\(r = 0\)</span>. The dotted curves are the three weighted primitives that add up to the STO-3G function. (b) On a logarithmic scale, the Slater function decays as a straight line (<span class="math inline">\(e^{-\zeta r}\)</span>); Gaussians bend down (<span class="math inline">\(e^{-\alpha r^2}\)</span>).
+</figcaption>
+</figure>
+</div>
+<p>The shell composition of a basis set is often written as (primitives)/[contracted functions]. For STO-3G on oxygen, (6s3p)/[2s1p]: six s primitives contracted to two s functions (1s and 2s), and three p primitives contracted to one set of p functions. A “set” of p functions means <span class="math inline">\(p_x\)</span>, <span class="math inline">\(p_y\)</span> and <span class="math inline">\(p_z\)</span>, so [2s1p] is <span class="math inline">\(2 + 3 = 5\)</span> basis functions.</p>
+</section>
+<section id="cartesian-and-spherical-d-functions" class="level3" data-number="2.5">
+<h3 data-number="2.5" class="anchored" data-anchor-id="cartesian-and-spherical-d-functions"><span class="header-section-number">2.5</span> Cartesian and spherical d functions</h3>
+<p><a href="#eq-gto" class="quarto-xref">Equation&nbsp;4</a> with <span class="math inline">\(\ell = 2\)</span> gives six <strong>Cartesian</strong> d functions: <span class="math inline">\(x^2\)</span>, <span class="math inline">\(y^2\)</span>, <span class="math inline">\(z^2\)</span>, <span class="math inline">\(xy\)</span>, <span class="math inline">\(xz\)</span>, <span class="math inline">\(yz\)</span> (times the Gaussian). But a true d shell has only five components. The extra one is the combination <span class="math inline">\(x^2 + y^2 + z^2 = r^2\)</span>, which is spherical: it behaves like an s function. <strong>Spherical</strong> (or <em>pure</em>) d functions keep only the five real combinations with <span class="math inline">\(\ell = 2\)</span> (<span class="math inline">\(d_{z^2}\)</span>, <span class="math inline">\(d_{x^2-y^2}\)</span>, <span class="math inline">\(d_{xy}\)</span>, <span class="math inline">\(d_{xz}\)</span>, <span class="math inline">\(d_{yz}\)</span>). The same happens for higher <span class="math inline">\(\ell\)</span>:</p>
+<div id="tbl-cartsph" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-cartsph-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;2: Number of functions per shell. Cartesian: <span class="math inline">\((\ell+1)(\ell+2)/2\)</span>; spherical: <span class="math inline">\(2\ell+1\)</span>.
+</figcaption>
+<div aria-describedby="tbl-cartsph-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Shell</th>
+<th>Cartesian components</th>
+<th>Spherical (pure) components</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>s</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>p</td>
+<td>3</td>
+<td>3</td>
+</tr>
+<tr class="odd">
+<td>d</td>
+<td>6 (“6d”)</td>
+<td>5 (“5d”)</td>
+</tr>
+<tr class="even">
+<td>f</td>
+<td>10</td>
+<td>7</td>
+</tr>
+<tr class="odd">
+<td>g</td>
+<td>15</td>
+<td>9</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>The choice changes <span class="math inline">\(K\)</span>, the energy (slightly) and the cost. Each basis set was designed with one convention in mind: the Pople sets such as 6-31G* were defined with six Cartesian d functions, while the def2 and correlation-consistent sets were designed for spherical functions. Programs have defaults that you can override, so <strong>always check the number of basis functions in your output</strong> against what you expect. This is one of the checks you will do in Experiment 1.</p>
+</section>
+</section>
+<section id="building-better-basis-sets" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="building-better-basis-sets"><span class="header-section-number">3</span> Building better basis sets</h2>
+<p>A minimal basis such as STO-3G has a fundamental limitation: each occupied atomic orbital gets exactly one function, with a fixed size and shape. In a molecule, orbitals need to change in three ways, and each one is addressed by a different kind of extra function.</p>
+<section id="split-valence-letting-orbitals-change-size" class="level3" data-number="3.1">
+<h3 data-number="3.1" class="anchored" data-anchor-id="split-valence-letting-orbitals-change-size"><span class="header-section-number">3.1</span> Split valence: letting orbitals change size</h3>
+<p>The core orbitals (1s on C, N, O; 1s2s2p on Cl) hardly change when atoms form bonds. The <strong>valence</strong> orbitals change a lot: they expand or contract depending on the bonding partner and on the charge. A <strong>split-valence</strong> basis gives each valence orbital two or more functions with different exponents, a tight one and a loose one. The variational optimization then chooses the right mixture, effectively tuning the size of the orbital in each direction and in each molecule.</p>
+<p>The number of functions per valence orbital is called <strong>ζ</strong> (“zeta”, from the STO exponent):</p>
+<ul>
+<li><strong>minimal</strong> (single-ζ): one function per occupied orbital (STO-3G);</li>
+<li><strong>double-ζ</strong> (DZ): two functions per valence orbital;</li>
+<li><strong>triple-ζ</strong> (TZ): three;</li>
+<li><strong>quadruple-ζ</strong> (QZ): four; and so on.</li>
+</ul>
+<p>In the Dunning families, ζ is labeled by the <strong>cardinal number</strong> <span class="math inline">\(n\)</span> = 2 (D), 3 (T), 4 (Q), 5, 6.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Worked example: what does split valence buy?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For oxygen, a minimal basis has 1s, 2s, 2p: <span class="math inline">\(1 + 1 + 3 = 5\)</span> functions. A split-valence double-ζ basis keeps one core 1s function but doubles the valence: <span class="math inline">\(1 + 2 + 2\times 3 = 9\)</span> functions (written [3s2p]). Water goes from <span class="math inline">\(5 + 2 \times 1 = 7\)</span> functions (minimal) to <span class="math inline">\(9 + 2 \times 2 = 13\)</span> (double-ζ valence on both O and H, no polarization). Splitting the valence nearly doubles the size of the basis, before adding anything else.</p>
+</div>
+</div>
+</section>
+<section id="polarization-functions-letting-orbitals-change-shape" class="level3" data-number="3.2">
+<h3 data-number="3.2" class="anchored" data-anchor-id="polarization-functions-letting-orbitals-change-shape"><span class="header-section-number">3.2</span> Polarization functions: letting orbitals change shape</h3>
+<p>An s function is spherical; a p function points along one axis. When an atom sits in a molecule, the electric field of its neighbors distorts its electron cloud: the orbitals need to bend and shift off-center. The way to allow this is to add functions with <strong>higher angular momentum</strong> than any occupied orbital of the free atom: p functions on hydrogen, d functions on C, N, O and Cl, f functions on top of those, and so on. Mixing a little p into an s function shifts its center of charge; mixing d into p bends it. These are <strong>polarization functions</strong>.</p>
+<p>Polarization functions are essential for almost every property: bond angles (NH₃ is too flat without them), reaction energies, dipole moments and, very importantly for this lab, the weak interactions between molecules. In larger basis sets, they come in several layers: def2-TZVP has 2d1f on oxygen; cc-pVQZ has 3d2f1g.</p>
+</section>
+<section id="diffuse-functions-the-far-tail" class="level3" data-number="3.3">
+<h3 data-number="3.3" class="anchored" data-anchor-id="diffuse-functions-the-far-tail"><span class="header-section-number">3.3</span> Diffuse functions: the far tail</h3>
+<p><strong>Diffuse functions</strong> are extra functions with very small exponents, so they extend far from the nucleus. They are needed whenever electrons spend time far out:</p>
+<ul>
+<li><strong>anions</strong>, whose extra electron is weakly bound and spread out;</li>
+<li><strong>weak intermolecular interactions</strong> (hydrogen bonds, dispersion), which depend on the overlap of the outer tails of two molecules;</li>
+<li><strong>Rydberg excited states</strong> and properties such as polarizabilities.</li>
+</ul>
+<p>Diffuse functions are expensive and can cause numerical problems (near-linear dependence of the basis) in larger molecules. Use them when the chemistry needs them.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Three questions, three kinds of functions
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Size → more ζ (split valence). Shape → polarization (higher ℓ). Reach → diffuse (small α). A good basis set is <strong>balanced</strong>: it improves all three together rather than piling up one kind.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="pople-basis-sets" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="pople-basis-sets"><span class="header-section-number">4</span> Pople basis sets</h2>
+<p>The basis sets developed by John Pople and co-workers in the 1970s and 1980s are the most widely known, and you will see their names in thousands of papers. Their names are a code for how the functions are contracted.</p>
+<div id="tbl-pople" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-pople-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;3: Reading a Pople basis-set name. The numbers before “G” describe contractions: the digit before the hyphen is the core, the digits after it are the valence functions.
+</figcaption>
+<div aria-describedby="tbl-pople-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Name</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>STO-3G</td>
+<td>minimal; each STO fitted by 3 Gaussians <span class="citation" data-cites="hehre1969">(<a href="#ref-hehre1969" role="doc-biblioref">Hehre et al. 1969</a>)</span></td>
+</tr>
+<tr class="even">
+<td>3-21G</td>
+<td>core: 3 primitives in 1 function; valence split in two: 2 primitives + 1 primitive <span class="citation" data-cites="binkley1980">(<a href="#ref-binkley1980" role="doc-biblioref">Binkley et al. 1980</a>)</span></td>
+</tr>
+<tr class="odd">
+<td>6-31G</td>
+<td>core: 6 primitives; valence: 3 + 1 (double-ζ) <span class="citation" data-cites="ditchfield1971 hehre1972">(<a href="#ref-ditchfield1971" role="doc-biblioref">Ditchfield et al. 1971</a>; <a href="#ref-hehre1972" role="doc-biblioref">Hehre et al. 1972</a>)</span></td>
+</tr>
+<tr class="even">
+<td>6-311G</td>
+<td>core: 6; valence: 3 + 1 + 1 (triple-ζ) <span class="citation" data-cites="krishnan1980">(<a href="#ref-krishnan1980" role="doc-biblioref">Krishnan et al. 1980</a>)</span></td>
+</tr>
+<tr class="odd">
+<td>6-31G* = 6-31G(d)</td>
+<td>6-31G plus one set of d polarization functions on heavy (non-hydrogen) atoms <span class="citation" data-cites="hariharan1973 francl1982">(<a href="#ref-hariharan1973" role="doc-biblioref">Hariharan and Pople 1973</a>; <a href="#ref-francl1982" role="doc-biblioref">Francl et al. 1982</a>)</span></td>
+</tr>
+<tr class="even">
+<td>6-31G** = 6-31G(d,p)</td>
+<td>as above, plus p functions on hydrogen</td>
+</tr>
+<tr class="odd">
+<td>6-31+G*</td>
+<td>plus diffuse s and p functions on heavy atoms</td>
+</tr>
+<tr class="even">
+<td>6-31++G**</td>
+<td>plus diffuse s functions on hydrogen too</td>
+</tr>
+<tr class="odd">
+<td>6-311G**</td>
+<td>triple-ζ valence, d on heavy atoms, p on H</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Worked example: counting functions in 6-31G*
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Water.</strong> Oxygen in 6-31G: one core 1s function, two 2s functions and two sets of 2p functions, [3s2p] = <span class="math inline">\(3 + 6 = 9\)</span>. The star adds one set of d functions: 6 if Cartesian (as 6-31G* was defined), 5 if spherical. Hydrogen in 6-31G has two s functions and no polarization in 6-31G* (only the second star adds p on H). Total: <span class="math inline">\(9 + 6 + 2 \times 2 = 19\)</span> (Cartesian d) or 18 (spherical d).</p>
+<p><strong>HCl.</strong> Chlorine in 6-31G: one 1s, then the 2s2p shell (one s + one p set), then the valence 3s3p split in two (two s + two p sets): [4s3p] = <span class="math inline">\(4 + 9 = 13\)</span>; plus d: 6 or 5. Hydrogen: 2. Total: <span class="math inline">\(13 + 6 + 2 = 21\)</span> (Cartesian) or 20 (spherical). For comparison, STO-3G gives HCl only 10 functions: [3s2p] = 9 on Cl, 1 on H.</p>
+</div>
+</div>
+<p>Pople sets were designed for Hartree–Fock in the era of slow computers, and they were extraordinarily successful. Their limitations are well known today: the s and p functions of each valence shell share exponents (to save time, which no longer matters), polarization is added in an ad hoc way, and the sequence 6-31G* → 6-311G** is <strong>not designed to converge systematically</strong> toward the CBS limit. You should recognize them, and you will meet 6-31G* again in <a href="../experiments/ex06-b3lyp-631gs.html">Experiment 6</a>, where its famous partnership with B3LYP gets a closer look. For new work, the families in the next section are better choices.</p>
+</section>
+<section id="the-modern-families-used-in-this-course" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="the-modern-families-used-in-this-course"><span class="header-section-number">5</span> The modern families used in this course</h2>
+<section id="karlsruhe-def2-basis-sets" class="level3" data-number="5.1">
+<h3 data-number="5.1" class="anchored" data-anchor-id="karlsruhe-def2-basis-sets"><span class="header-section-number">5.1</span> Karlsruhe def2 basis sets</h3>
+<p>The <strong>def2</strong> basis sets of Weigend and Ahlrichs <span class="citation" data-cites="weigend2005">(<a href="#ref-weigend2005" role="doc-biblioref">Weigend and Ahlrichs 2005</a>)</span> (the “Ahlrichs” or “Karlsruhe” family) were designed to give consistent quality across almost the whole periodic table, H to Rn. The names describe the valence quality:</p>
+<ul>
+<li><strong>def2-SVP</strong>: split valence (double-ζ) plus polarization;</li>
+<li><strong>def2-TZVP</strong>: triple-ζ valence plus polarization;</li>
+<li><strong>def2-QZVP</strong>: quadruple-ζ valence plus polarization.</li>
+</ul>
+<p>Variants with an extra P (def2-TZVPP, def2-QZVPP) add more polarization, and variants ending in D add diffuse functions. “def2” stands for the second generation of the Karlsruhe <em>default</em> sets. For elements beyond krypton, def2 replaces the inner-core electrons with an <strong>effective core potential</strong> (ECP): a fixed potential that represents the core and includes the scalar-relativistic effects that matter for heavy atoms. Only the outer electrons are treated explicitly. You will use this in Experiments 8 and 10 for ruthenium and palladium.</p>
+<p>The def2 family has been found to be among the most cost-effective choices for DFT <span class="citation" data-cites="witte2016">(<a href="#ref-witte2016" role="doc-biblioref">Witte et al. 2016</a>)</span>, which is one reason it is the default basis of most experiments in this lab.</p>
+</section>
+<section id="dunning-correlation-consistent-basis-sets" class="level3" data-number="5.2">
+<h3 data-number="5.2" class="anchored" data-anchor-id="dunning-correlation-consistent-basis-sets"><span class="header-section-number">5.2</span> Dunning correlation-consistent basis sets</h3>
+<p>The <strong>correlation-consistent</strong> basis sets of Dunning and co-workers are written <strong>cc-pVnZ</strong>: <em>correlation-consistent polarized valence n-zeta</em>, with <span class="math inline">\(n\)</span> = D, T, Q, 5, 6 <span class="citation" data-cites="dunning1989 woon1993">(<a href="#ref-dunning1989" role="doc-biblioref">Dunning 1989</a>; <a href="#ref-woon1993" role="doc-biblioref">Woon and Dunning 1993</a>)</span>. They were built for correlated wave-function methods (MP2, CCSD(T)). The design rule is that functions are added in groups that each recover a similar amount of <strong>correlation energy</strong>. Going from cc-pVDZ to cc-pVTZ adds one more s, p and d function <em>and</em> the first f function on oxygen, because these contribute comparably. The result is a family that converges <strong>systematically</strong> toward the CBS limit, so results at several <span class="math inline">\(n\)</span> can be extrapolated (<a href="#sec-cbs" class="quarto-xref">Section&nbsp;6.2</a>).</p>
+<p>The prefix <strong>aug-</strong> adds one diffuse function of <em>each</em> angular momentum present <span class="citation" data-cites="kendall1992">(<a href="#ref-kendall1992" role="doc-biblioref">Kendall et al. 1992</a>)</span>: aug-cc-pVTZ is the standard choice for anions and weak interactions with correlated methods. (Other prefixes, such as cc-pCVnZ for core correlation, exist but are not used here.)</p>
+</section>
+<section id="jensen-polarization-consistent-basis-sets" class="level3" data-number="5.3">
+<h3 data-number="5.3" class="anchored" data-anchor-id="jensen-polarization-consistent-basis-sets"><span class="header-section-number">5.3</span> Jensen polarization-consistent basis sets</h3>
+<p>Jensen’s <strong>pc-n</strong> basis sets (pc-0, pc-1, pc-2, pc-3, pc-4) apply the same systematic idea, but are optimized for Hartree–Fock and DFT instead of correlated methods <span class="citation" data-cites="jensen2001">(<a href="#ref-jensen2001" role="doc-biblioref">Jensen 2001</a>)</span>. pc-1 is double-ζ quality. You will use pc-1 in <a href="../experiments/ex06-b3lyp-631gs.html">Experiment 6</a> to compare double-ζ basis sets from different families.</p>
+</section>
+<section id="counting-basis-functions" class="level3" data-number="5.4">
+<h3 data-number="5.4" class="anchored" data-anchor-id="counting-basis-functions"><span class="header-section-number">5.4</span> Counting basis functions</h3>
+<p>The size of every basis set follows from the shell composition of each atom. With spherical (pure) functions, each shell contributes <span class="math inline">\(2\ell+1\)</span> functions: s = 1, p = 3, d = 5, f = 7, g = 9.</p>
+<div id="tbl-count" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-count-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;4: Number of basis functions for water, from the published shell compositions (Basis Set Exchange). Spherical (5d, 7f, 9g) functions unless noted.
+</figcaption>
+<div aria-describedby="tbl-count-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Basis set</th>
+<th>ζ</th>
+<th>H</th>
+<th>O</th>
+<th><span class="math inline">\(K\)</span> for H₂O</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>STO-3G</td>
+<td>1</td>
+<td>[1s] = 1</td>
+<td>[2s1p] = 5</td>
+<td>7</td>
+</tr>
+<tr class="even">
+<td>6-31G* (5d)</td>
+<td>2</td>
+<td>[2s] = 2</td>
+<td>[3s2p1d] = 14</td>
+<td>18 (19 with 6d)</td>
+</tr>
+<tr class="odd">
+<td>6-311G** (5d)</td>
+<td>3</td>
+<td>[3s1p] = 6</td>
+<td>[4s3p1d] = 18</td>
+<td>30 (31 with 6d)</td>
+</tr>
+<tr class="even">
+<td>def2-SVP</td>
+<td>2</td>
+<td>[2s1p] = 5</td>
+<td>[3s2p1d] = 14</td>
+<td>24</td>
+</tr>
+<tr class="odd">
+<td>def2-TZVP</td>
+<td>3</td>
+<td>[3s1p] = 6</td>
+<td>[5s3p2d1f] = 31</td>
+<td>43</td>
+</tr>
+<tr class="even">
+<td>def2-QZVP</td>
+<td>4</td>
+<td>[4s3p2d1f] = 30</td>
+<td>[7s4p3d2f1g] = 57</td>
+<td>117</td>
+</tr>
+<tr class="odd">
+<td>cc-pVDZ</td>
+<td>2</td>
+<td>[2s1p] = 5</td>
+<td>[3s2p1d] = 14</td>
+<td>24</td>
+</tr>
+<tr class="even">
+<td>cc-pVTZ</td>
+<td>3</td>
+<td>[3s2p1d] = 14</td>
+<td>[4s3p2d1f] = 30</td>
+<td>58</td>
+</tr>
+<tr class="odd">
+<td>cc-pVQZ</td>
+<td>4</td>
+<td>[4s3p2d1f] = 30</td>
+<td>[5s4p3d2f1g] = 55</td>
+<td>115</td>
+</tr>
+<tr class="even">
+<td>aug-cc-pVTZ</td>
+<td>3</td>
+<td>[4s3p2d] = 23</td>
+<td>[5s4p3d2f] = 46</td>
+<td>92</td>
+</tr>
+<tr class="odd">
+<td>pc-1</td>
+<td>2</td>
+<td>[2s1p] = 5</td>
+<td>[3s2p1d] = 14</td>
+<td>24</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Worked example: def2-TZVP versus cc-pVTZ for water
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>def2-TZVP.</strong> Oxygen [5s3p2d1f]: <span class="math inline">\(5\times1 + 3\times3 + 2\times5 + 1\times7 = 5 + 9 + 10 + 7 = 31\)</span>. Hydrogen [3s1p]: <span class="math inline">\(3 + 3 = 6\)</span>. Water: <span class="math inline">\(31 + 2\times6 = 43\)</span>.</p>
+<p><strong>cc-pVTZ.</strong> Oxygen [4s3p2d1f]: <span class="math inline">\(4 + 9 + 10 + 7 = 30\)</span>. Hydrogen [3s2p1d]: <span class="math inline">\(3 + 6 + 5 = 14\)</span>. Water: <span class="math inline">\(30 + 2\times14 = 58\)</span>.</p>
+<p>Both are “triple-ζ”, but they distribute the functions differently. cc-pVTZ gives hydrogen much more polarization (2p1d instead of 1p), because correlated methods need it. def2-TZVP puts more s functions on oxygen. Same label, different size: the name tells you the <em>quality class</em>, not the cost.</p>
+</div>
+</div>
+<p>Notice three things in <a href="#tbl-count" class="quarto-xref">Table&nbsp;4</a>. First, double-ζ sets from different families can have the same size (24 for def2-SVP, cc-pVDZ and pc-1 here) yet different exponents and different results. Second, the size grows quickly with ζ: about a factor of 2 from double- to triple-ζ, and another factor of 2–3 to quadruple-ζ. Third, hydrogen atoms are cheap at double-ζ but not at quadruple-ζ (30 functions each).</p>
+</section>
+</section>
+<section id="convergence-cost-and-basis-set-errors" class="level2" data-number="6">
+<h2 data-number="6" class="anchored" data-anchor-id="convergence-cost-and-basis-set-errors"><span class="header-section-number">6</span> Convergence, cost and basis-set errors</h2>
+<section id="more-functions-better-results" class="level3" data-number="6.1">
+<h3 data-number="6.1" class="anchored" data-anchor-id="more-functions-better-results"><span class="header-section-number">6.1</span> More functions, better results</h3>
+<p>The central message of this chapter fits in one sentence: <strong>in a systematic family, more functions give results that converge toward the CBS limit.</strong> <a href="#fig-convergence" class="quarto-xref">Figure&nbsp;3</a> (a) sketches the typical behavior of the total energy. The first step, double- to triple-ζ, is large; each further step is smaller.</p>
+<p>For Hartree–Fock and DFT, the total energy converges <em>fast</em>, roughly exponentially with the cardinal number <span class="citation" data-cites="feller1992">(<a href="#ref-feller1992" role="doc-biblioref">Feller 1992</a>)</span>:</p>
+<p><span id="eq-cbs-hf"><span class="math display">\[
+E(n) = E_\text{CBS} + A\, e^{-\alpha n} .
+\tag{7}\]</span></span></p>
+<p>The <strong>correlation energy</strong> of wave-function methods converges much more slowly, as an inverse power <span class="citation" data-cites="helgaker1997 halkier1998">(<a href="#ref-helgaker1997" role="doc-biblioref">Helgaker et al. 1997</a>; <a href="#ref-halkier1998" role="doc-biblioref">Halkier et al. 1998</a>)</span>:</p>
+<p><span id="eq-cbs-corr"><span class="math display">\[
+E_\text{corr}(n) = E_\text{corr,CBS} + A\, n^{-3} .
+\tag{8}\]</span></span></p>
+<p>The reason is physical. Near the point where two electrons meet, the exact wave function has a cusp in the inter-electron distance <span class="math inline">\(r_{12}\)</span>, and smooth orbital products converge to it only slowly. HF and DFT have no such cusp to describe, so they converge faster.</p>
+<div id="fig-convergence" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Two panels. Left, labeled schematic: an energy curve decreasing steeply from n = 2 to n = 3 and flattening toward a dashed CBS limit at n = 5 and 6. Right: bar chart of basis functions for water: def2 24, 43, 117 and cc 24, 58, 115 for double, triple and quadruple zeta, with relative K to the fourth costs of 1, 10, 565 and 1, 34, 527.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-convergence-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/l02-convergence.png" class="img-fluid figure-img" alt="Two panels. Left, labeled schematic: an energy curve decreasing steeply from n = 2 to n = 3 and flattening toward a dashed CBS limit at n = 5 and 6. Right: bar chart of basis functions for water: def2 24, 43, 117 and cc 24, 58, 115 for double, triple and quadruple zeta, with relative K to the fourth costs of 1, 10, 565 and 1, 34, 527.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-convergence-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: (a) <strong>Schematic</strong> convergence of a variational energy with the cardinal number <span class="math inline">\(n\)</span> of a systematic basis-set family, toward the CBS limit (<a href="#eq-cbs-hf" class="quarto-xref">Equation&nbsp;7</a>; the curve is illustrative, not data). (b) Real numbers of basis functions <span class="math inline">\(K\)</span> for water in the def2 and cc-pVnZ families (<a href="#tbl-count" class="quarto-xref">Table&nbsp;4</a>), with the formal <span class="math inline">\(K^4\)</span> cost relative to the double-ζ basis written above each bar.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="sec-cbs" class="level3" data-number="6.2">
+<h3 data-number="6.2" class="anchored" data-anchor-id="sec-cbs"><span class="header-section-number">6.2</span> Extrapolation to the CBS limit</h3>
+<p>Because the convergence is systematic, two or three results at consecutive <span class="math inline">\(n\)</span> can be fit to <a href="#eq-cbs-hf" class="quarto-xref">Equation&nbsp;7</a> or <a href="#eq-cbs-corr" class="quarto-xref">Equation&nbsp;8</a> to estimate the CBS limit without ever computing it. For the <span class="math inline">\(n^{-3}\)</span> form, two points <span class="math inline">\(m &lt; n\)</span> give</p>
+<p><span id="eq-two-point"><span class="math display">\[
+E_\text{CBS} = \frac{n^3 E_n - m^3 E_m}{n^3 - m^3} .
+\tag{9}\]</span></span></p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Worked example: two-point extrapolation
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Suppose (hypothetical numbers) the MP2 correlation energy of a molecule is <span class="math inline">\(-0.2950\ E_\text{h}\)</span> with cc-pVTZ (<span class="math inline">\(m = 3\)</span>) and <span class="math inline">\(-0.3080\ E_\text{h}\)</span> with cc-pVQZ (<span class="math inline">\(n = 4\)</span>). Then</p>
+<p><span class="math display">\[
+E_\text{corr,CBS} = \frac{64(-0.3080) - 27(-0.2950)}{64 - 27} = \frac{-19.712 + 7.965}{37} = -0.3175\ E_\text{h} .
+\]</span></p>
+<p>The extrapolated value lies 0.0095 <span class="math inline">\(E_\text{h}\)</span> (6 kcal/mol) below the QZ result: the correlation energy is far from converged even at quadruple-ζ. This is why reference values such as those you compare with in this lab are usually CCSD(T)/CBS estimates.</p>
+</div>
+</div>
+<p>The optional Colab notebook of <a href="../experiments/ex01-basis-sets.html">Experiment 1</a> lets you try an extrapolation on the HCl dimer yourself.</p>
+</section>
+<section id="the-price-cost-grows-steeply-with-k" class="level3" data-number="6.3">
+<h3 data-number="6.3" class="anchored" data-anchor-id="the-price-cost-grows-steeply-with-k"><span class="header-section-number">6.3</span> The price: cost grows steeply with K</h3>
+<p>Better results cost more. The number of two-electron integrals (<a href="#eq-eri" class="quarto-xref">Equation&nbsp;3</a>) grows as <span class="math inline">\(K^4\)</span>: with permutational symmetry there are about <span class="math inline">\(K^4/8\)</span> unique ones. For water, that is about 41,000 with def2-SVP (<span class="math inline">\(K = 24\)</span>), 430,000 with def2-TZVP (43), and 23 million with def2-QZVP (117). Going from double- to quadruple-ζ multiplies the formal cost by about 565 (<a href="#fig-convergence" class="quarto-xref">Figure&nbsp;3</a> b).</p>
+<p>This <span class="math inline">\(K^4\)</span> is the <em>formal</em> scaling of Hartree–Fock and hybrid DFT. In practice, programs do better: integrals between functions far apart are negligible and are skipped (screening), and approximations such as density fitting reduce the work. For small molecules, fixed overheads (starting the program, reading files) also blur the picture. The <em>measured</em> exponent is therefore lower than 4, and it depends on the method and the size of the system. In Experiment 1 you will measure it yourself from your own wall times.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>The 10-minute limit is a basis-set limit
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>On the free IQmol server every job must finish in 10 minutes. For the molecules in this lab, the basis set is usually what decides whether a job fits. A one-character typo, such as def2-QZVP instead of def2-SVP, can multiply the cost by hundreds and get your job killed.</p>
+</div>
+</div>
+</section>
+<section id="two-basis-set-errors-bsie-and-bsse" class="level3" data-number="6.4">
+<h3 data-number="6.4" class="anchored" data-anchor-id="two-basis-set-errors-bsie-and-bsse"><span class="header-section-number">6.4</span> Two basis-set errors: BSIE and BSSE</h3>
+<ul>
+<li><strong>Basis-set incompleteness error (BSIE).</strong> The difference between a result in a finite basis and the CBS limit, with the same method. It affects every calculation. It shrinks as the basis grows, and it is what Experiment 1 measures for a reaction energy.</li>
+<li><strong>Basis-set superposition error (BSSE).</strong> A specific artifact of incomplete basis sets in systems made of fragments, such as a dimer. In the dimer, each monomer can “borrow” the basis functions centered on its partner to improve its own description, lowering its energy. The isolated monomers have no partner functions to borrow. The dimer is therefore artificially stabilized, and the interaction energy is too large in magnitude. BSSE also vanishes in the CBS limit. The standard correction, the counterpoise method of Boys and Bernardi <span class="citation" data-cites="boys1970">(<a href="#ref-boys1970" role="doc-biblioref">Boys and Bernardi 1970</a>)</span>, recomputes each monomer in the full dimer basis. We return to BSSE in Classes 8 and 10.</li>
+</ul>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Practical rules of thumb
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Double-ζ (def2-SVP, cc-pVDZ) is fine for quick tests and geometries of large systems, but rarely converged for energies.</li>
+<li>Triple-ζ (def2-TZVP) is the usual compromise between accuracy and cost for DFT, and it is the default basis of Experiments 3–5 and 9.</li>
+<li>Quadruple-ζ is close to the CBS limit for HF and DFT, and expensive.</li>
+<li>Add diffuse functions for anions and when weak interactions matter most.</li>
+<li>Report the basis set exactly, including stars, plus signs and prefixes: “6-31G” and “6-31G*” are different basis sets.</li>
+</ul>
+</div>
+</div>
+</section>
+</section>
+<section id="key-points" class="level2" data-number="7">
+<h2 data-number="7" class="anchored" data-anchor-id="key-points"><span class="header-section-number">7</span> Key points</h2>
+<ul>
+<li>Molecular orbitals are expanded in a finite set of <span class="math inline">\(K\)</span> atom-centered basis functions, <span class="math inline">\(\phi_i = \sum_\mu c_{\mu i}\chi_\mu\)</span>. Only the coefficients are optimized.</li>
+<li>For HF and DFT, a bigger basis gives a lower (or equal) energy; the limit is the complete-basis-set (CBS) limit, and the difference is the basis-set incompleteness error.</li>
+<li>Slater functions have the correct cusp and tail but expensive integrals; Gaussians have neither, but the Gaussian product theorem makes their integrals fast. Contracted Gaussians combine several primitives to imitate one Slater function (STO-3G).</li>
+<li>Cartesian d shells have 6 components and spherical ones 5 (f: 10 vs 7). The convention changes <span class="math inline">\(K\)</span>; check it in the output.</li>
+<li>Split valence (more ζ) lets orbitals change size; polarization (higher ℓ) lets them change shape; diffuse functions (small α) extend their reach.</li>
+<li>Pople names encode contractions (6-31G*, 6-311+G**). Pople sets are historical and not designed to converge systematically.</li>
+<li>def2-SVP/TZVP/QZVP cover almost the whole periodic table, with ECPs beyond Kr. cc-pVnZ (n = D, T, Q, 5) converges systematically for correlated methods; aug- adds diffuse functions. pc-n is optimized for DFT.</li>
+<li>The number of basis functions follows from the shell composition: for water, 24 (def2-SVP, cc-pVDZ), 43 (def2-TZVP), 58 (cc-pVTZ), 117 (def2-QZVP), 115 (cc-pVQZ).</li>
+<li>The formal cost of HF and hybrid DFT grows as <span class="math inline">\(K^4\)</span>; the measured exponent is lower. HF/DFT energies converge roughly exponentially with <span class="math inline">\(n\)</span>; correlation energies as <span class="math inline">\(n^{-3}\)</span>.</li>
+<li>BSSE makes complexes artificially too stable in small basis sets; it vanishes at the CBS limit.</li>
+</ul>
+</section>
+<section id="study-questions" class="level2" data-number="8">
+<h2 data-number="8" class="anchored" data-anchor-id="study-questions"><span class="header-section-number">8</span> Study questions</h2>
+<ol type="1">
+<li>Explain in your own words why the energy cannot increase when functions are added to a basis set (for HF or DFT). Why is this guarantee weaker when comparing def2-SVP and def2-TZVP, and why does it not apply to reaction energies?</li>
+<li>List two physical shortcomings of Gaussian functions compared with Slater functions, and the one mathematical property that makes Gaussians the standard anyway.</li>
+<li>Using <a href="#eq-gpt" class="quarto-xref">Equation&nbsp;5</a>, find the center <span class="math inline">\(P\)</span> and the exponent <span class="math inline">\(p\)</span> of the product of an s Gaussian with <span class="math inline">\(\alpha = 2.0\)</span> at <span class="math inline">\(x = 0\)</span> and one with <span class="math inline">\(\beta = 0.5\)</span> at <span class="math inline">\(x = 1.0\)</span> bohr. Which original Gaussian is <span class="math inline">\(P\)</span> closer to, and why?</li>
+<li>What is the difference between a primitive and a contracted Gaussian? In STO-3G, how many primitives and how many contracted functions does a hydrogen atom have? How many coefficients <span class="math inline">\(c_{\mu i}\)</span> does the SCF optimize for an H atom?</li>
+<li>Decode each name: 3-21G, 6-31+G**, 6-311++G(d,p), def2-TZVPP, aug-cc-pVQZ. For each, say whether it has polarization functions on H, and whether it has diffuse functions.</li>
+<li>Count the basis functions of HCl in def2-SVP from the shell compositions H [2s1p] and Cl [4s3p1d], with spherical functions. Then predict <span class="math inline">\(K\)</span> for the HCl dimer. (Check your answer against your first Experiment 1 output.)</li>
+<li>Count the basis functions of methane (CH₄) in cc-pVDZ, cc-pVTZ and def2-TZVP. Carbon has the same shell composition as oxygen in <a href="#tbl-count" class="quarto-xref">Table&nbsp;4</a>.</li>
+<li>A water calculation reports 25 basis functions with 6-31G**. Another program reports 24 for the same basis. Explain the difference.</li>
+<li>If the time of a calculation grew exactly as <span class="math inline">\(K^4\)</span>, how much longer would a water job take with def2-QZVP than with def2-TZVP? Give two reasons why the real ratio is smaller.</li>
+<li>Why does BSSE make the binding energy of a dimer too large in a small basis set, rather than too small? Why does it disappear at the CBS limit?</li>
+</ol>
+</section>
+<section id="further-reading" class="level2" data-number="9">
+<h2 data-number="9" class="anchored" data-anchor-id="further-reading"><span class="header-section-number">9</span> Further reading</h2>
+<ul>
+<li>F. Jensen, “Atomic orbital basis sets” <span class="citation" data-cites="jensen2013">(<a href="#ref-jensen2013" role="doc-biblioref">Jensen 2013</a>)</span>, and B. Nagy and F. Jensen, “Basis sets in quantum chemistry” <span class="citation" data-cites="nagy2017">(<a href="#ref-nagy2017" role="doc-biblioref">Nagy and Jensen 2017</a>)</span>: modern, readable reviews of everything in this chapter.</li>
+<li>A. Szabo and N. S. Ostlund, <em>Modern Quantum Chemistry</em> <span class="citation" data-cites="szabo1996">(<a href="#ref-szabo1996" role="doc-biblioref">Szabo and Ostlund 1996</a>)</span>, §3.6: the classic derivation of STO-nG and the minimal-basis H₂ calculation.</li>
+<li>T. Helgaker, P. Jørgensen and J. Olsen, <em>Molecular Electronic-Structure Theory</em> <span class="citation" data-cites="helgaker2000">(<a href="#ref-helgaker2000" role="doc-biblioref">Helgaker et al. 2000</a>)</span>, chapters 6 and 8: Gaussian functions, basis-set design and convergence in depth.</li>
+<li>F. Weigend and R. Ahlrichs <span class="citation" data-cites="weigend2005">(<a href="#ref-weigend2005" role="doc-biblioref">Weigend and Ahlrichs 2005</a>)</span>: the original def2 paper, with tables of the shell compositions for every element.</li>
+<li>The <a href="https://www.basissetexchange.org">Basis Set Exchange</a> lists the exponents and coefficients of nearly every published basis set; you can look up any of the sets in <a href="#tbl-count" class="quarto-xref">Table&nbsp;4</a> there.</li>
+</ul>
+
+
+
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-binkley1980" class="csl-entry" role="listitem">
+Binkley, J. S., J. A. Pople, and W. J. Hehre. 1980. <span>“Self-Consistent Molecular Orbital Methods. 21. <span>S</span>mall Split-Valence Basis Sets for First-Row Elements.”</span> <em>J. Am. Chem. Soc.</em> 102: 939–47. <a href="https://doi.org/10.1021/ja00523a008">https://doi.org/10.1021/ja00523a008</a>.
+</div>
+<div id="ref-boys1950" class="csl-entry" role="listitem">
+Boys, S. F. 1950. <span>“Electronic Wave Functions. <span>I</span>. <span>A</span> General Method of Calculation for the Stationary States of Any Molecular System.”</span> <em>Proc. R. Soc. Lond. A</em> 200: 542–54. <a href="https://doi.org/10.1098/rspa.1950.0036">https://doi.org/10.1098/rspa.1950.0036</a>.
+</div>
+<div id="ref-boys1970" class="csl-entry" role="listitem">
+Boys, S. F., and F. Bernardi. 1970. <span>“The Calculation of Small Molecular Interactions by the Differences of Separate Total Energies. <span>S</span>ome Procedures with Reduced Errors.”</span> <em>Mol. Phys.</em> 19: 553–66. <a href="https://doi.org/10.1080/00268977000101561">https://doi.org/10.1080/00268977000101561</a>.
+</div>
+<div id="ref-ditchfield1971" class="csl-entry" role="listitem">
+Ditchfield, R., W. J. Hehre, and J. A. J. Pople. 1971. <em>Chem. Phys.</em> 54: 724–28.
+</div>
+<div id="ref-dunning1989" class="csl-entry" role="listitem">
+Dunning, T. H. J. 1989. <em>Chem. Phys.</em> 90: 1007–23.
+</div>
+<div id="ref-feller1992" class="csl-entry" role="listitem">
+Feller, D. 1992. <span>“Application of Systematic Sequences of Wave Functions to the Water Dimer.”</span> <em>J. Chem. Phys.</em> 96: 6104–14. <a href="https://doi.org/10.1063/1.462652">https://doi.org/10.1063/1.462652</a>.
+</div>
+<div id="ref-francl1982" class="csl-entry" role="listitem">
+Francl, M. M., W. J. Pietro, W. J. Hehre, et al. 1982. <em>Chem. Phys.</em> 77: 3654–65.
+</div>
+<div id="ref-halkier1998" class="csl-entry" role="listitem">
+Halkier, A., T. Helgaker, P. Jørgensen, et al. 1998. <span>“Basis-Set Convergence in Correlated Calculations on <span>Ne</span>, <span>N<span class="math inline">\(_2\)</span></span>, and <span>H<span class="math inline">\(_2\)</span>O</span>.”</span> <em>Chem. Phys. Lett.</em> 286: 243–52. <a href="https://doi.org/10.1016/S0009-2614(98)00111-0">https://doi.org/10.1016/S0009-2614(98)00111-0</a>.
+</div>
+<div id="ref-hariharan1973" class="csl-entry" role="listitem">
+Hariharan, P. C., and J. A. Pople. 1973. <em>Theor. Chim. Acta</em> 28: 213–22.
+</div>
+<div id="ref-hehre1972" class="csl-entry" role="listitem">
+Hehre, W. J., R. Ditchfield, and J. A. J. Pople. 1972. <em>Chem. Phys.</em> 56: 2257–61.
+</div>
+<div id="ref-hehre1969" class="csl-entry" role="listitem">
+Hehre, W. J., R. F. Stewart, and J. A. Pople. 1969. <span>“Self-Consistent Molecular-Orbital Methods. <span>I</span>. <span>U</span>se of <span>G</span>aussian Expansions of <span>S</span>later-Type Atomic Orbitals.”</span> <em>J. Chem. Phys.</em> 51: 2657–64. <a href="https://doi.org/10.1063/1.1672392">https://doi.org/10.1063/1.1672392</a>.
+</div>
+<div id="ref-helgaker2000" class="csl-entry" role="listitem">
+Helgaker, T., P. Jørgensen, and J. Olsen. 2000. <em>Molecular Electronic-Structure Theory</em>. Wiley.
+</div>
+<div id="ref-helgaker1997" class="csl-entry" role="listitem">
+Helgaker, T., W. Klopper, H. Koch, and J. Noga. 1997. <span>“Basis-Set Convergence of Correlated Calculations on Water.”</span> <em>J. Chem. Phys.</em> 106: 9639–46. <a href="https://doi.org/10.1063/1.473863">https://doi.org/10.1063/1.473863</a>.
+</div>
+<div id="ref-jensen2013" class="csl-entry" role="listitem">
+Jensen, F. 2013. <em>WIREs Comp. Mol. Sci.</em> 3: 273–95.
+</div>
+<div id="ref-jensen2001" class="csl-entry" role="listitem">
+Jensen, F. J. 2001. <em>Chem. Phys.</em> 115: 9113–25.
+</div>
+<div id="ref-kato1957" class="csl-entry" role="listitem">
+Kato, T. 1957. <span>“On the Eigenfunctions of Many-Particle Systems in Quantum Mechanics.”</span> <em>Commun. Pure Appl. Math.</em> 10: 151–77. <a href="https://doi.org/10.1002/cpa.3160100201">https://doi.org/10.1002/cpa.3160100201</a>.
+</div>
+<div id="ref-kendall1992" class="csl-entry" role="listitem">
+Kendall, R. A., Jr. Dunning T. H., and R. J. Harrison. 1992. <span>“Electron Affinities of the First-Row Atoms Revisited. <span>S</span>ystematic Basis Sets and Wave Functions.”</span> <em>J. Chem. Phys.</em> 96: 6796–806. <a href="https://doi.org/10.1063/1.462569">https://doi.org/10.1063/1.462569</a>.
+</div>
+<div id="ref-krishnan1980" class="csl-entry" role="listitem">
+Krishnan, R., J. S. Binkley, R. Seeger, and J. A. Pople. 1980. <span>“Self-Consistent Molecular Orbital Methods. <span>XX</span>. <span>A</span> Basis Set for Correlated Wave Functions.”</span> <em>J. Chem. Phys.</em> 72: 650–54. <a href="https://doi.org/10.1063/1.438955">https://doi.org/10.1063/1.438955</a>.
+</div>
+<div id="ref-nagy2017" class="csl-entry" role="listitem">
+Nagy, B., and F. Jensen. 2017. <span>“Basis Sets in Quantum Chemistry.”</span> In <em>Reviews in Computational Chemistry</em>, edited by A. L. Parrill and K. B. Lipkowitz. John Wiley &amp; Sons.
+</div>
+<div id="ref-szabo1996" class="csl-entry" role="listitem">
+Szabo, A., and N. S. Ostlund. 1996. <em>Modern Quantum Chemistry: Introduction to Advanced Electronic Structure Theory</em>. Dover.
+</div>
+<div id="ref-weigend2005" class="csl-entry" role="listitem">
+Weigend, F., and R. Ahlrichs. 2005. <em>Phys. Chem. Chem. Phys.</em> 7: 3297–305.
+</div>
+<div id="ref-witte2016" class="csl-entry" role="listitem">
+Witte, J., J. B. Neaton, and M. J. Head-Gordon. 2016. <em>Chem. Phys.</em> 144: 194306.
+</div>
+<div id="ref-woon1993" class="csl-entry" role="listitem">
+Woon, D. E., and T. H. J. Dunning. 1993. <em>Chem. Phys.</em> 98: 1358–71.
+</div>
+</div></section></div></main> <!-- /main -->
+<!-- Peverati lab logo at the top right of the navbar (light and dark versions). -->
+<script>
+(function () {
+  var css = document.querySelector('link[href$="styles.css"]');
+  var root = css ? css.getAttribute("href").replace(/styles\.css$/, "") : "";
+  var nav = document.querySelector("#quarto-header nav.navbar .navbar-container") ||
+            document.querySelector("#quarto-header nav.navbar .container-fluid");
+  if (!nav) return;
+  var a = document.createElement("a");
+  a.className = "lab-logo";
+  a.href = "https://peverati.github.io";
+  a.title = "Peverati research group";
+  // Both versions are inserted; CSS shows the one that matches the light/dark theme.
+  a.innerHTML =
+    '<img class="logo-for-light" src="' + root + 'images/logo-light.png" alt="Peverati research group logo">' +
+    '<img class="logo-for-dark" src="' + root + 'images/logo-dark.png" alt="Peverati research group logo">';
+  nav.appendChild(a);
+})();
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const toggle = window.document.createElement('button');
+      toggle.type = "button";
+      toggle.setAttribute("role", "switch");
+      toggle.setAttribute("aria-checked", "false");
+      toggle.classList.add('top-right');
+      toggle.classList.add('quarto-color-scheme-toggle');
+      toggle.setAttribute("aria-label", "Toggle dark mode");
+      toggle.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      toggle.appendChild(i);
+      // Put the toggle in a landmark of its own, so that landmark navigation
+      // can reach it.
+      //
+      // The container is always a fresh direct child of body, and the toggle is
+      // never moved into page furniture that the theme or the author controls.
+      // The toggle is positioned against the page, so any ancestor that
+      // establishes a containing block captures it: a positioned element or a
+      // grid for position: absolute, and transform, filter, will-change or
+      // contain for position: fixed. A direct child of body has none of these
+      // to inherit, and the shift when one appears is silent and visual.
+      //
+      // ARIA says a document should have at most one banner, and axe reports a
+      // duplicate whether or not the banners carry distinct labels. So use a
+      // header when the page has no banner yet, and a named region otherwise.
+      //
+      // A header is a banner wherever it sits, unless it is inside sectioning
+      // content, so this cannot just look at the children of body: a custom
+      // page layout wraps the title block header in a plain div. An explicit
+      // role="banner" always counts.
+      const sectioning = 'article, aside, main, nav, section, [role="article"], [role="complementary"], [role="main"], [role="navigation"], [role="region"]';
+      const hasBanner = Array.from(
+        window.document.querySelectorAll('header:not([role]), [role="banner"]')
+      ).some(function(el) {
+        return el.hasAttribute("role") || el.closest(sectioning) === null;
+      });
+      const container = window.document.createElement(hasBanner ? "div" : "header");
+      if (hasBanner) {
+        container.setAttribute("role", "region");
+        container.setAttribute("aria-label", "Toggle dark mode");
+      }
+      container.classList.add('quarto-color-scheme-toggle-container');
+      container.appendChild(toggle);
+      window.document.body.appendChild(container);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/peverati\.github\.io\/advpchem\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+          if (!link.classList.contains('no-external-icon')) {
+          }
+        }
+      }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          // Each band is positioned against its own containing block, which is
+          // not the offsetParent of the lines, so place it from client rects.
+          const placeBand = (band, firstEl, lastEl, codeBlock) => {
+            const container = band.offsetParent;
+            if (container === null) {
+              return;
+            }
+            const containerRect = container.getBoundingClientRect();
+            // Reveal.js scales slides with a transform, so convert client
+            // pixels back to the CSS pixels of the container.
+            const scale = containerRect.height / container.offsetHeight || 1;
+            const firstRect = firstEl.getBoundingClientRect();
+            const lastRect = lastEl.getBoundingClientRect();
+            const top = (firstRect.top - containerRect.top) / scale - container.clientTop + container.scrollTop;
+            const height = (lastRect.bottom - firstRect.top) / scale;
+            band.style.top = top - 2 + "px";
+            band.style.height = height + 4 + "px";
+            if (codeBlock) {
+              // Without the copy button wrapper, the containing block is wider
+              // than the code block, so span the code block explicitly.
+              const blockRect = codeBlock.getBoundingClientRect();
+              band.style.left = (blockRect.left - containerRect.left) / scale - container.clientLeft + container.scrollLeft + "px";
+              band.style.width = blockRect.width / scale + "px";
+            }
+          };
+          if (lineIds.length > 0) {
+            const el = window.document.getElementById(lineIds[0]);
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const parent = el.parentElement.parentElement;
+            // cook up a div (if necessary) and position it
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            placeBand(div, el, lastEl, parent.closest("div.sourceCode") || parent);
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            placeBand(gutterDiv, el, lastEl);
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+  <script type="application/javascript">
+  window.quartoScrollableRegionsLabels = {"code":"Scrollable code","output":"Scrollable output"};
+  </script>
+<nav class="page-navigation" aria-label="Page">
+  <div class="nav-page nav-page-previous">
+      <a href="../lectures/l01-molecular-schrodinger.html" class="pagination-link" aria-label="Class 1 · The molecular Schrödinger equation">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Class 1 · The molecular Schrödinger equation</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../lectures/l03-from-theory-to-a-calculation.html" class="pagination-link" aria-label="Class 3 · From theory to a calculation: IQmol, Q-Chem and Experiment 1">
+        <span class="nav-page-text">Class 3 · From theory to a calculation: IQmol, Q-Chem and Experiment 1</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Advanced Physical Chemistry · Florida Institute of Technology</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>Experiments adapted from Morgante &amp; Peverati, <em>Int. J. Quantum Chem.</em> <strong>2020</strong></p>
+</div>
+  </div>
+</footer>
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

@@ -1,0 +1,1794 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.11.9">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="description" content="What the argon dimer taught us about grids, how to tell whether an SCF solution is a true minimum, why transition metals are hard, and a briefing for Experiment 8.">
+
+<title>Class 12 · SCF stability, open shells and transition metals – Computational Chemistry Lab</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../lectures/l13-theory-vs-experiment.html" rel="next">
+<link href="../lectures/l11-integration-grids.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-447e42e69aaa9833c0ba1b986f430b20.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-56996c7b5257095e64120a8d6d543cad.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-9953095112a8816cde90456e6de52415.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-56996c7b5257095e64120a8d6d543cad.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<script src="https://cdn.jsdelivr.net/npm/3dmol@2.4.2/build/3Dmol-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-sidebar floating nav-fixed quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          toggle.setAttribute("aria-checked", alternate ? "true" : "false");
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455).
+    // Not run on load: stylesheets are set before first paint there, and
+    // scrolling would undo the scroll to a URL fragment (#14973).
+    // The one pixel nudge keeps the reader where they were.
+    const refreshSafariScrollbar = () => {
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        const scrollY = window.scrollY;
+        window.scrollTo(0, scrollY > 0 ? scrollY - 1 : 1);
+        setTimeout(() => {
+          window.scrollTo(0, scrollY);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      refreshSafariScrollbar();
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark" aria-label="Site">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Computational Chemistry Lab</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-guides" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Guides</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-guides">    
+        <li>
+    <a class="dropdown-item" href="../guides/iqmol-setup.html">
+ <span class="dropdown-text">Install IQmol and connect to Q-Chem</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../guides/first-job.html">
+ <span class="dropdown-text">Your first Q-Chem job</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../guides/reading-output.html">
+ <span class="dropdown-text">Reading a Q-Chem output</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../guides/shared-machines.html">
+ <span class="dropdown-text">Working on a shared machine</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../guides/units-and-errors.html">
+ <span class="dropdown-text">Units, reaction energies and errors</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-lectures" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Lectures</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-lectures">    
+        <li>
+    <a class="dropdown-item" href="../lectures/index.html">
+ <span class="dropdown-text">All lectures</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l01-molecular-schrodinger.html">
+ <span class="dropdown-text">1 · The molecular Schrödinger equation</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l02-basis-sets.html">
+ <span class="dropdown-text">2 · Basis sets</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l03-from-theory-to-a-calculation.html">
+ <span class="dropdown-text">3 · From theory to a calculation</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l04-hartree-fock.html">
+ <span class="dropdown-text">4 · Hartree–Fock and the SCF</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l05-density-functional-theory.html">
+ <span class="dropdown-text">5 · Density functional theory</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l06-jacobs-ladder.html">
+ <span class="dropdown-text">6 · Jacob’s ladder</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l07-benchmarking.html">
+ <span class="dropdown-text">7 · How we test a functional</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l08-dispersion.html">
+ <span class="dropdown-text">8 · Dispersion</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l09-difficult-cases.html">
+ <span class="dropdown-text">9 · Difficult cases for DFT</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l10-error-cancellation.html">
+ <span class="dropdown-text">10 · Basis-set vs functional error</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l11-integration-grids.html">
+ <span class="dropdown-text">11 · Integration grids</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l12-scf-stability.html">
+ <span class="dropdown-text">12 · SCF stability and transition metals</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l13-theory-vs-experiment.html">
+ <span class="dropdown-text">13 · Theory vs experiment</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l14-choosing-a-method.html">
+ <span class="dropdown-text">14 · Choosing a method</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l15-wrap-up.html">
+ <span class="dropdown-text">15 · What we learned</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-experiments" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Experiments</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-experiments">    
+        <li>
+    <a class="dropdown-item" href="../experiments/ex01-basis-sets.html">
+ <span class="dropdown-text">Experiment 1: Basis Set Incompleteness Error</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex02-jacobs-ladder.html">
+ <span class="dropdown-text">Experiment 2: Jacob’s Ladder</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex03-organic-a.html">
+ <span class="dropdown-text">Experiment 3: Applying DFT to Organic Chemistry – Part A</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex04-organic-b.html">
+ <span class="dropdown-text">Experiment 4: Applying DFT to Organic Chemistry – Part B</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex05-difficult-cases.html">
+ <span class="dropdown-text">Experiment 5: Difficult Cases for DFT</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex06-b3lyp-631gs.html">
+ <span class="dropdown-text">Experiment 6: Why is the B3LYP/6-31G* Level of Theory so Successful?</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex07-grids.html">
+ <span class="dropdown-text">Experiment 7: Integration Grids</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex08-stability.html">
+ <span class="dropdown-text">Experiment 8: Stability Analysis and Transition Metals</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex09-experiment-vs-theory.html">
+ <span class="dropdown-text">Experiment 9: Comparison with Experimental Results</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex10-final-review.html">
+ <span class="dropdown-text">Experiment 10: Final Review</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="../class-results.html"> 
+<span class="menu-text">Class results</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <button type="button" role="switch" aria-checked="false" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode" aria-label="Toggle dark mode"><i class="bi"></i></button>
+</div>
+            <div id="quarto-search" class="" title="Search"></div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav" aria-label="Toolbar">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../lectures/l12-scf-stability.html">Class 12 · SCF stability, open shells and transition metals</a></li></ol></nav>
+        <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto" aria-label="Section">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lectures</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l01-molecular-schrodinger.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 1 · The molecular Schrödinger equation</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l02-basis-sets.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 2 · Approximating the wave function: basis sets</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l03-from-theory-to-a-calculation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 3 · From theory to a calculation: IQmol, Q-Chem and Experiment 1</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l04-hartree-fock.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 4 · Approximating the Hamiltonian I: Hartree–Fock and the SCF</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l05-density-functional-theory.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 5 · Approximating the Hamiltonian II: density functional theory</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l06-jacobs-ladder.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 6 · Approximating the Hamiltonian III: Jacob’s ladder</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l07-benchmarking.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 7 · How we test a functional</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l08-dispersion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 8 · Dispersion and noncovalent interactions</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l09-difficult-cases.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 9 · Why some reactions are hard for DFT</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l10-error-cancellation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 10 · Basis-set error vs functional error</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l11-integration-grids.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 11 · Numerical integration grids</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l12-scf-stability.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Class 12 · SCF stability, open shells and transition metals</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l13-theory-vs-experiment.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 13 · From electronic energies to experiment</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l14-choosing-a-method.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 14 · Choosing, running and reporting a method</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l15-wrap-up.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 15 · What we learned</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" aria-labelledby="toc-title" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#part-1-looking-back-at-experiment-7" id="toc-part-1-looking-back-at-experiment-7" class="nav-link active" data-scroll-target="#part-1-looking-back-at-experiment-7"><span class="header-section-number">1</span> Part 1 · Looking back at Experiment 7</a>
+  <ul class="collapse">
+  <li><a href="#wiggles-are-grid-noise-not-physics" id="toc-wiggles-are-grid-noise-not-physics" class="nav-link" data-scroll-target="#wiggles-are-grid-noise-not-physics"><span class="header-section-number">1.1</span> Wiggles are grid noise, not physics</a></li>
+  <li><a href="#which-functionals-needed-the-finest-grid" id="toc-which-functionals-needed-the-finest-grid" class="nav-link" data-scroll-target="#which-functionals-needed-the-finest-grid"><span class="header-section-number">1.2</span> Which functionals needed the finest grid?</a></li>
+  <li><a href="#grid-convergence-is-not-accuracy" id="toc-grid-convergence-is-not-accuracy" class="nav-link" data-scroll-target="#grid-convergence-is-not-accuracy"><span class="header-section-number">1.3</span> Grid convergence is not accuracy</a></li>
+  <li><a href="#what-the-grid-costs" id="toc-what-the-grid-costs" class="nav-link" data-scroll-target="#what-the-grid-costs"><span class="header-section-number">1.4</span> What the grid costs</a></li>
+  <li><a href="#recommendations" id="toc-recommendations" class="nav-link" data-scroll-target="#recommendations"><span class="header-section-number">1.5</span> Recommendations</a></li>
+  </ul></li>
+  <li><a href="#part-2-is-the-scf-solution-the-right-one" id="toc-part-2-is-the-scf-solution-the-right-one" class="nav-link" data-scroll-target="#part-2-is-the-scf-solution-the-right-one"><span class="header-section-number">2</span> Part 2 · Is the SCF solution the right one?</a>
+  <ul class="collapse">
+  <li><a href="#the-scf-finds-stationary-points" id="toc-the-scf-finds-stationary-points" class="nav-link" data-scroll-target="#the-scf-finds-stationary-points"><span class="header-section-number">2.1</span> The SCF finds stationary points</a></li>
+  <li><a href="#a-picture-of-an-unstable-solution" id="toc-a-picture-of-an-unstable-solution" class="nav-link" data-scroll-target="#a-picture-of-an-unstable-solution"><span class="header-section-number">2.2</span> A picture of an unstable solution</a></li>
+  <li><a href="#the-electronic-hessian" id="toc-the-electronic-hessian" class="nav-link" data-scroll-target="#the-electronic-hessian"><span class="header-section-number">2.3</span> The electronic Hessian</a></li>
+  <li><a href="#internal-and-external-instabilities" id="toc-internal-and-external-instabilities" class="nav-link" data-scroll-target="#internal-and-external-instabilities"><span class="header-section-number">2.4</span> Internal and external instabilities</a></li>
+  <li><a href="#sec-qchem-stability" id="toc-sec-qchem-stability" class="nav-link" data-scroll-target="#sec-qchem-stability"><span class="header-section-number">2.5</span> Stability analysis in Q-Chem</a></li>
+  </ul></li>
+  <li><a href="#part-3-open-shells-spin-contamination-and-transition-metals" id="toc-part-3-open-shells-spin-contamination-and-transition-metals" class="nav-link" data-scroll-target="#part-3-open-shells-spin-contamination-and-transition-metals"><span class="header-section-number">3</span> Part 3 · Open shells, spin contamination and transition metals</a>
+  <ul class="collapse">
+  <li><a href="#spin-and-s²" id="toc-spin-and-s²" class="nav-link" data-scroll-target="#spin-and-s²"><span class="header-section-number">3.1</span> Spin and ⟨S²⟩</a></li>
+  <li><a href="#sec-tm" id="toc-sec-tm" class="nav-link" data-scroll-target="#sec-tm"><span class="header-section-number">3.2</span> Why transition metals are hard</a></li>
+  <li><a href="#effective-core-potentials-and-relativity" id="toc-effective-core-potentials-and-relativity" class="nav-link" data-scroll-target="#effective-core-potentials-and-relativity"><span class="header-section-number">3.3</span> Effective core potentials and relativity</a></li>
+  </ul></li>
+  <li><a href="#experiment-8-briefing" id="toc-experiment-8-briefing" class="nav-link" data-scroll-target="#experiment-8-briefing"><span class="header-section-number">4</span> Experiment 8 briefing</a>
+  <ul class="collapse">
+  <li><a href="#goal" id="toc-goal" class="nav-link" data-scroll-target="#goal"><span class="header-section-number">4.1</span> Goal</a></li>
+  <li><a href="#the-two-excitations" id="toc-the-two-excitations" class="nav-link" data-scroll-target="#the-two-excitations"><span class="header-section-number">4.2</span> The two excitations</a></li>
+  <li><a href="#methods-and-jobs" id="toc-methods-and-jobs" class="nav-link" data-scroll-target="#methods-and-jobs"><span class="header-section-number">4.3</span> Methods and jobs</a></li>
+  <li><a href="#pitfalls" id="toc-pitfalls" class="nav-link" data-scroll-target="#pitfalls"><span class="header-section-number">4.4</span> Pitfalls</a></li>
+  <li><a href="#what-to-look-at" id="toc-what-to-look-at" class="nav-link" data-scroll-target="#what-to-look-at"><span class="header-section-number">4.5</span> What to look at</a></li>
+  <li><a href="#key-points" id="toc-key-points" class="nav-link" data-scroll-target="#key-points"><span class="header-section-number">4.6</span> Key points</a></li>
+  <li><a href="#study-questions" id="toc-study-questions" class="nav-link" data-scroll-target="#study-questions"><span class="header-section-number">4.7</span> Study questions</a></li>
+  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading"><span class="header-section-number">4.8</span> Further reading</a></li>
+  </ul></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="l12-scf-stability.pdf"><i class="bi bi-file-pdf"></i>PDF handout</a></li><li><a href="l12-scf-stability.pdf"><i class="bi bi-file-pdf"></i>Typst</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content" tabindex="-1">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Class 12 · SCF stability, open shells and transition metals</h1>
+<p class="subtitle lead">Debrief of Experiment 7 and introduction to Experiment 8</p>
+</div>
+
+<div>
+  <div class="description">
+    What the argon dimer taught us about grids, how to tell whether an SCF solution is a true minimum, why transition metals are hard, and a briefing for Experiment 8.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Learning goals
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>After this class you should be able to:</p>
+<ul>
+<li>tell grid noise from physics in a potential energy curve, and choose a grid for a given functional;</li>
+<li>explain why a converged SCF solution is a stationary point that may not be a minimum;</li>
+<li>define the electronic Hessian and say what a negative eigenvalue means;</li>
+<li>distinguish internal from external (restricted → unrestricted, real → complex) instabilities;</li>
+<li>compute the exact ⟨S²⟩ for a spin state and judge spin contamination in an unrestricted calculation;</li>
+<li>explain why transition-metal atoms have many low-lying states, and what an effective core potential does;</li>
+<li>plan Experiment 8.</li>
+</ul>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p><strong>This class may take two meetings.</strong> If it does, the natural split point is just before <a href="#sec-tm" class="quarto-xref">Section&nbsp;3.2</a>: the first meeting covers the Experiment 7 debrief, SCF stability and spin contamination, the second covers transition metals, effective core potentials and the Experiment 8 briefing.</p>
+</div>
+</div>
+</div>
+<section id="part-1-looking-back-at-experiment-7" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Part 1 · Looking back at Experiment 7</h1>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Read this after you submit Experiment 7
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This part discusses the trends you most likely saw in <a href="../experiments/ex07-grids.html">Experiment 7</a>. Your curves may differ in the details, and a classmate’s may too. What matters is how to read them.</p>
+</div>
+</div>
+<section id="wiggles-are-grid-noise-not-physics" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="wiggles-are-grid-noise-not-physics"><span class="header-section-number">1.1</span> Wiggles are grid noise, not physics</h2>
+<p>The reference Ar₂ curve has one minimum. Most of you probably found curves with two, three or more minima, especially on SG-1. Those extra minima are not chemistry. Argon atoms do not have several preferred distances. As <a href="../lectures/l11-integration-grids.html">Class 11</a> explained, the grid moves with the atoms, so the integration error changes erratically from one distance to the next. The binding energy is only 0.28 kcal/mol, or 4.5 × 10⁻⁴ <span class="math inline">\(E_h\)</span>, so an integration error of a few 10⁻⁵ <span class="math inline">\(E_h\)</span> is enough to draw a new minimum.</p>
+<p>Two simple tests separate noise from physics:</p>
+<ol type="1">
+<li><strong>Does the feature survive a finer grid?</strong> A physical minimum stays where it is when you go from SG-2 to SG-3. A grid artifact moves, shrinks or disappears.</li>
+<li><strong>Does it make physical sense?</strong> A real potential between two closed-shell atoms has one well. Several minima a few tenths of an ångström apart are a red flag.</li>
+</ol>
+<p>The <strong>max Δ vs SG-3</strong> column of the wiggle report measures the first test. It compares each curve with the same functional on the finest grid, without using the reference, so it measures grid convergence alone.</p>
+</section>
+<section id="which-functionals-needed-the-finest-grid" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="which-functionals-needed-the-finest-grid"><span class="header-section-number">1.2</span> Which functionals needed the finest grid?</h2>
+<p>The typical pattern, which you probably reproduced:</p>
+<ul>
+<li><strong>SG-1 is too coarse for this problem for almost everyone.</strong> Even B3LYP may show small ripples at SG-1 on a scale of 0.1 kcal/mol, invisible in ordinary reaction energies but obvious here.</li>
+<li><strong>The meta-GGAs M06-L and M11-L and the hybrid meta-GGA M11</strong> were usually the most sensitive. Their curves often still had spurious minima at SG-2, and sometimes small irregularities even at SG-3. This matches what Wheeler and Houk <span class="citation" data-cites="wheeler2010">(<a href="#ref-wheeler2010" role="doc-biblioref">Wheeler and Houk 2010</a>)</span> and Mardirossian and Head-Gordon <span class="citation" data-cites="mardirossian2016">(<a href="#ref-mardirossian2016" role="doc-biblioref">Mardirossian and Head-Gordon 2016b</a>)</span> reported for Minnesota functionals.</li>
+<li><strong>ωB97M-V</strong> is also a meta-GGA, but it was designed with smoothness in mind <span class="citation" data-cites="mardirossian2016a">(<a href="#ref-mardirossian2016a" role="doc-biblioref">Mardirossian and Head-Gordon 2016a</a>)</span>. It usually converges by SG-2.</li>
+<li><strong>B3LYP</strong> converges quickly with the grid, because a GGA hybrid has a smooth integrand.</li>
+</ul>
+</section>
+<section id="grid-convergence-is-not-accuracy" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="grid-convergence-is-not-accuracy"><span class="header-section-number">1.3</span> Grid convergence is not accuracy</h2>
+<p>Now look at the <em>shape</em> of the converged curves. B3LYP has no dispersion, and argon is held together only by dispersion. On a converged grid, B3LYP’s curve is probably repulsive at every distance, or nearly so. Any “well” it showed on SG-1 was made by the grid. Some Minnesota functionals bind Ar₂ only weakly on a converged grid. ωB97M-V includes VV10 nonlocal correlation and usually has a well of about the right depth. A smooth curve tells you the grid is good enough. It does not tell you the functional is right.</p>
+</section>
+<section id="what-the-grid-costs" class="level2" data-number="1.4">
+<h2 data-number="1.4" class="anchored" data-anchor-id="what-the-grid-costs"><span class="header-section-number">1.4</span> What the grid costs</h2>
+<div id="tbl-sg-recap" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-sg-recap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;1: Grid sizes from Class 11 (Q-Chem manual values for carbon).
+</figcaption>
+<div aria-describedby="tbl-sg-recap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Grid</th>
+<th style="text-align: right;">SG-1</th>
+<th style="text-align: right;">SG-2</th>
+<th style="text-align: right;">SG-3</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Points for a carbon atom</td>
+<td style="text-align: right;">≈ 3,800</td>
+<td style="text-align: right;">≈ 7,800</td>
+<td style="text-align: right;">≈ 17,700</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>The timing chart probably surprised some of you: going from SG-1 to SG-3 multiplies the number of grid points by more than four (<a href="#tbl-sg-recap" class="quarto-xref">Table&nbsp;1</a>), but the total wall time grows much less. Only the exchange–correlation part of each SCF cycle scales with the number of points. Compared with the effect of a larger basis set (Experiment 1), a finer grid is cheap insurance.</p>
+</section>
+<section id="recommendations" class="level2" data-number="1.5">
+<h2 data-number="1.5" class="anchored" data-anchor-id="recommendations"><span class="header-section-number">1.5</span> Recommendations</h2>
+<ul>
+<li>Use <strong>at least SG-2</strong> for meta-GGAs, and <strong>SG-3 or (99,590)</strong> for Minnesota functionals and other heavily parametrized ones. SG-1 is acceptable for GGAs and GGA hybrids in ordinary reaction energies, but not for weak interactions or frequencies.</li>
+<li>Use <strong>the same grid for every species</strong> in a reaction.</li>
+<li><strong>Report the grid</strong> in every methods section, by name or as <span class="math inline">\((n_r, n_\Omega)\)</span>.</li>
+<li><strong>Hartree–Fock has no grid problem.</strong> If you answered question 7 with “no, because HF exchange is computed analytically”, you were right.</li>
+</ul>
+</section>
+</section>
+<section id="part-2-is-the-scf-solution-the-right-one" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Part 2 · Is the SCF solution the right one?</h1>
+<section id="the-scf-finds-stationary-points" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="the-scf-finds-stationary-points"><span class="header-section-number">2.1</span> The SCF finds stationary points</h2>
+<p>In Class 4 you saw the SCF loop: guess orbitals, build the Fock (or Kohn–Sham) matrix, diagonalize, repeat until nothing changes (see <a href="../lectures/l04-hartree-fock.html">Class 4</a>). When it stops, the energy no longer changes to first order when you mix occupied and virtual orbitals. That is a statement about the <strong>gradient</strong>. It says nothing about the curvature.</p>
+<p>To make this precise, write any small change of the occupied orbitals as a rotation that mixes occupied orbital <span class="math inline">\(i\)</span> with virtual orbital <span class="math inline">\(a\)</span> by an amount <span class="math inline">\(\kappa_{ai}\)</span>:</p>
+<p><span class="math display">\[
+\phi_i \;\rightarrow\; \phi_i + \sum_a \kappa_{ai}\,\phi_a + \dots
+\]</span></p>
+<p>The energy is a function of all the rotation parameters <span class="math inline">\(\boldsymbol{\kappa}\)</span>. Expanded around the converged solution,</p>
+<p><span class="math display">\[
+E(\boldsymbol{\kappa}) = E_0 + \mathbf{g}^{\mathsf{T}}\boldsymbol{\kappa} + \tfrac{1}{2}\,\boldsymbol{\kappa}^{\mathsf{T}}\mathbf{H}\,\boldsymbol{\kappa} + \dots
+\]</span></p>
+<p>The SCF convergence criterion is <span class="math inline">\(\mathbf{g} = 0\)</span> (the off-diagonal occupied–virtual block of the Fock matrix vanishes; this is Brillouin’s theorem). A point with zero gradient is a <strong>stationary point</strong>. It can be</p>
+<ul>
+<li>a <strong>minimum</strong>: all eigenvalues of <span class="math inline">\(\mathbf{H}\)</span> positive;</li>
+<li>a <strong>saddle point</strong>: some eigenvalues negative;</li>
+<li>a <strong>maximum</strong>: all eigenvalues negative (rare in practice).</li>
+</ul>
+<p>The matrix <span class="math inline">\(\mathbf{H}\)</span> of second derivatives of the energy with respect to orbital rotations is the <strong>electronic Hessian</strong> (or orbital Hessian). Note what is being differentiated: the <em>energy</em>, with respect to <em>orbital rotations</em>. This is not the nuclear Hessian you use for vibrational frequencies.</p>
+</section>
+<section id="a-picture-of-an-unstable-solution" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="a-picture-of-an-unstable-solution"><span class="header-section-number">2.2</span> A picture of an unstable solution</h2>
+<p><a href="#fig-toy" class="quarto-xref">Figure&nbsp;1</a> shows the toy model used by the stability-landscape widget of Experiment 8. One angle <span class="math inline">\(\theta\)</span> mixes two orbitals, and the energy is</p>
+<p><span class="math display">\[
+E(\theta) = \Delta\,\sin^2\theta - \sin^2 2\theta.
+\]</span></p>
+<p>At <span class="math inline">\(\theta = 0\)</span> the gradient is zero for every value of <span class="math inline">\(\Delta\)</span>, so an SCF can converge there. The curvature is <span class="math inline">\(E''(0) = 2\Delta - 8\)</span>. For a large gap (<span class="math inline">\(\Delta &gt; 4\)</span>) the curvature is positive and <span class="math inline">\(\theta = 0\)</span> is a minimum. For a small gap (<span class="math inline">\(\Delta &lt; 4\)</span>) it is negative: <span class="math inline">\(\theta = 0\)</span> is a maximum along this direction, and lower solutions exist at <span class="math inline">\(\cos 2\theta^{*} = \Delta/4\)</span>.</p>
+<div id="fig-toy" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Energy versus orbital-mixing angle. The blue curve for a large gap has a single minimum at zero. The red curve for a small gap has a local maximum at zero and two lower minima near plus and minus 30 degrees.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-toy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/l12-stability-toy.png" class="img-fluid figure-img" style="width:85.0%" alt="Energy versus orbital-mixing angle. The blue curve for a large gap has a single minimum at zero. The red curve for a small gap has a local maximum at zero and two lower minima near plus and minus 30 degrees.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-toy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Toy model of SCF (in)stability (schematic; the same function as the Experiment 8 widget). With a large gap Δ between two low-lying states (blue), the converged point θ = 0 is a minimum. With a small gap (red), the same point still has zero gradient but negative curvature, and two lower solutions exist.
+</figcaption>
+</figure>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Worked example: when does the toy model become unstable?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For <span class="math inline">\(\Delta = 2\)</span>, <span class="math inline">\(E''(0) = 2(2) - 8 = -4 &lt; 0\)</span>, so the converged point is unstable. The lower solutions satisfy <span class="math inline">\(\cos 2\theta^{*} = 2/4 = 0.5\)</span>, so <span class="math inline">\(2\theta^{*} = 60^\circ\)</span> and <span class="math inline">\(\theta^{*} = 30^\circ\)</span>. Their energy is</p>
+<p><span class="math display">\[
+E(30^\circ) = 2\sin^2 30^\circ - \sin^2 60^\circ = 2(0.25) - 0.75 = -0.25,
+\]</span></p>
+<p>below the converged value <span class="math inline">\(E(0) = 0\)</span>. For <span class="math inline">\(\Delta = 6\)</span>, <span class="math inline">\(E''(0) = +4\)</span> and there is nothing to fix. The crossover is at <span class="math inline">\(\Delta = 4\)</span>, where the curvature changes sign. Small gaps between states make instabilities likely.</p>
+</div>
+</div>
+</section>
+<section id="the-electronic-hessian" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="the-electronic-hessian"><span class="header-section-number">2.3</span> The electronic Hessian</h2>
+<p>For a real, closed-shell Hartree–Fock determinant, the Hessian has a simple block structure built from two matrices <span class="citation" data-cites="cizek1967 seeger1977">(<a href="#ref-cizek1967" role="doc-biblioref">Čı́žek and Paldus 1967</a>; <a href="#ref-seeger1977" role="doc-biblioref">Seeger and Pople 1977</a>)</span>:</p>
+<p><span class="math display">\[
+A_{ia,jb} = (\varepsilon_a - \varepsilon_i)\,\delta_{ij}\,\delta_{ab} + \langle aj \| ib \rangle, \qquad
+B_{ia,jb} = \langle ab \| ij \rangle,
+\]</span></p>
+<p>where <span class="math inline">\(i, j\)</span> label occupied orbitals, <span class="math inline">\(a, b\)</span> virtual orbitals, <span class="math inline">\(\varepsilon\)</span> orbital energies and <span class="math inline">\(\langle pq\|rs\rangle\)</span> antisymmetrized two-electron integrals. The solution is stable with respect to real rotations if <span class="math inline">\(\mathbf{A} + \mathbf{B}\)</span> has no negative eigenvalues, and with respect to complex rotations if <span class="math inline">\(\mathbf{A} - \mathbf{B}\)</span> has none. In Kohn–Sham DFT the same structure holds, with the exchange–correlation kernel (the second derivative of <span class="math inline">\(E_\mathrm{xc}\)</span>) added to the two-electron terms.</p>
+<p>Two remarks help the intuition:</p>
+<ul>
+<li>The first term is the orbital-energy gap <span class="math inline">\(\varepsilon_a - \varepsilon_i\)</span>. A large HOMO–LUMO gap makes the diagonal large and positive, and the solution is almost certainly stable. Small gaps are where trouble lives.</li>
+<li><span class="math inline">\(\mathbf{A}\)</span> and <span class="math inline">\(\mathbf{B}\)</span> are the same matrices that appear in time-dependent HF and DFT for excitation energies. A negative eigenvalue of the Hessian corresponds to a “negative excitation energy”: there is a state of the same kind <em>below</em> the one you converged to.</li>
+</ul>
+</section>
+<section id="internal-and-external-instabilities" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="internal-and-external-instabilities"><span class="header-section-number">2.4</span> Internal and external instabilities</h2>
+<p>Every SCF calculation works within constraints: restricted or unrestricted spin orbitals, real or complex coefficients. These form a hierarchy <span class="citation" data-cites="seeger1977 fukutome1981">(<a href="#ref-seeger1977" role="doc-biblioref">Seeger and Pople 1977</a>; <a href="#ref-fukutome1981" role="doc-biblioref">Fukutome 1981</a>)</span>:</p>
+<p><span class="math display">\[
+\text{RHF} \subset \text{UHF} \subset \text{GHF}, \qquad \text{real} \subset \text{complex}.
+\]</span></p>
+<ul>
+<li>An <strong>internal instability</strong> means a lower solution exists <em>within the same constraints</em>: for example, a UHF (or UKS) solution that can lower its energy by rotating to a different UHF solution. This is the typical case for open-shell atoms that converged to the wrong occupation of their d orbitals.</li>
+<li>An <strong>external instability</strong> means a lower solution exists only if you <em>relax a constraint</em>. The classic example is a restricted solution with a lower unrestricted solution (an <strong>RHF → UHF</strong>, or triplet, instability). Stretch H₂ and the RHF solution, stable near equilibrium, becomes externally unstable past the Coulson–Fischer point (roughly 1.2 Å for HF). From there on, UHF lets the two electrons localize on separate atoms and gives a lower energy.</li>
+</ul>
+<p>A stability analysis computes the lowest eigenvalues of the Hessian. If one is negative, the program rotates the orbitals along the corresponding eigenvector, which is downhill by construction, converges the SCF again from there, and checks the new solution. It repeats until all eigenvalues are non-negative <span class="citation" data-cites="bauernschmitt1996">(<a href="#ref-bauernschmitt1996" role="doc-biblioref">Bauernschmitt and Ahlrichs 1996</a>)</span>.</p>
+</section>
+<section id="sec-qchem-stability" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="sec-qchem-stability"><span class="header-section-number">2.5</span> Stability analysis in Q-Chem</h2>
+<p>In Q-Chem, add one line to the <code>$rem</code> section:</p>
+<pre class="text"><code>INTERNAL_STABILITY  TRUE</code></pre>
+<p>After the SCF converges, Q-Chem checks for internal instabilities. If it finds one, it follows it, reconverges and checks again, and the output reports what it found and the new energy. The energy after a successful stability analysis can only be equal to or lower than the energy without it. Q-Chem <span class="citation" data-cites="epifanovsky2021">(<a href="#ref-epifanovsky2021" role="doc-biblioref"><span class="nocase">Epifanovsky et al.</span> 2021</a>)</span> has separate options for external (restricted → unrestricted) checks; the manual describes them. In this course the open-shell atoms already use unrestricted orbitals, so internal stability is what matters.</p>
+<p>A stability analysis costs extra time, usually a few times the cost of the SCF itself, because finding the lowest Hessian eigenvalues requires work similar to a few excited-state calculations. For a small molecule that is nothing. For a large one, run the analysis on the final geometry at least.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Common mistakes with SCF solutions
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong>“It converged, so it’s right.”</strong> Convergence means <span class="math inline">\(\mathbf{g} = 0\)</span>, nothing more.</li>
+<li><strong>Comparing energies from different solutions.</strong> If one state of a reaction was stabilized and the other wasn’t, the reaction energy mixes two different kinds of solution.</li>
+<li><strong>Ignoring an energy that goes <em>up</em>.</strong> A stable solution can never be higher than the unstable one it came from. If the “with stability” energy is higher, the two jobs did not use the same settings.</li>
+</ul>
+</div>
+</div>
+</section>
+</section>
+<section id="part-3-open-shells-spin-contamination-and-transition-metals" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Part 3 · Open shells, spin contamination and transition metals</h1>
+<section id="spin-and-s²" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="spin-and-s²"><span class="header-section-number">3.1</span> Spin and ⟨S²⟩</h2>
+<p>A state with total spin quantum number <span class="math inline">\(S\)</span> is an eigenfunction of <span class="math inline">\(\hat S^2\)</span> with eigenvalue <span class="math inline">\(S(S+1)\)</span> (in units of <span class="math inline">\(\hbar^2\)</span>), and has multiplicity <span class="math inline">\(2S + 1\)</span>. For <span class="math inline">\(N_\alpha\)</span> α electrons and <span class="math inline">\(N_\beta\)</span> β electrons in the high-spin component, <span class="math inline">\(S = M_S = (N_\alpha - N_\beta)/2\)</span>:</p>
+<div id="tbl-s2" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-s2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;2: Spin states and their exact ⟨S²⟩ values.
+</figcaption>
+<div aria-describedby="tbl-s2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Multiplicity</th>
+<th style="text-align: center;"><span class="math inline">\(S\)</span></th>
+<th style="text-align: center;">exact <span class="math inline">\(\langle S^2\rangle\)</span></th>
+<th>Example in this course</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>doublet</td>
+<td style="text-align: center;">1/2</td>
+<td style="text-align: center;">0.75</td>
+<td>H, OH, <em>tert</em>-butyl, Cl</td>
+</tr>
+<tr class="even">
+<td>triplet</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">2.00</td>
+<td>O, C, excited Fe</td>
+</tr>
+<tr class="odd">
+<td>quartet</td>
+<td style="text-align: center;">3/2</td>
+<td style="text-align: center;">3.75</td>
+<td>N, ground-state Ru⁺</td>
+</tr>
+<tr class="even">
+<td>quintet</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">6.00</td>
+<td>ground-state Fe</td>
+</tr>
+<tr class="odd">
+<td>sextet</td>
+<td style="text-align: center;">5/2</td>
+<td style="text-align: center;">8.75</td>
+<td>excited Ru⁺, FeCl</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>A <strong>restricted open-shell</strong> (ROHF/ROKS) determinant uses the same spatial orbitals for α and β electrons and is a proper spin eigenfunction. An <strong>unrestricted</strong> (UHF/UKS) determinant lets α and β orbitals differ. That gives more variational freedom and a lower energy, but the determinant is no longer an eigenfunction of <span class="math inline">\(\hat S^2\)</span>. For UHF,</p>
+<p><span class="math display">\[
+\langle S^2 \rangle_\mathrm{UHF} = S(S+1) + N_\beta - \sum_{i}^{N_\alpha}\sum_{j}^{N_\beta} \big|\langle \phi_i^\alpha | \phi_j^\beta \rangle\big|^2 ,
+\]</span></p>
+<p>which is always at least <span class="math inline">\(S(S+1)\)</span>. The excess is <strong>spin contamination</strong>: the determinant contains some admixture of higher spin states. Q-Chem prints ⟨S²⟩ after every unrestricted SCF.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Worked example: is this triplet contaminated?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A UKS calculation on a triplet (<span class="math inline">\(S = 1\)</span>) prints ⟨S²⟩ = 2.03. The exact value is <span class="math inline">\(S(S+1) = 2\)</span>, so the excess is 0.03, or 1.5%. That is small; the state is essentially a triplet. If it printed 2.60, the excess would be 0.60 (30%), a sign that the determinant is far from a pure triplet, for example a broken-symmetry mixture with a quintet (<span class="math inline">\(\langle S^2\rangle = 6\)</span>).</p>
+</div>
+</div>
+<p>In Kohn–Sham DFT, ⟨S²⟩ of the determinant is not strictly the ⟨S²⟩ of the real system: the KS determinant describes a fictitious non-interacting system. It is still a useful diagnostic. A value far from <span class="math inline">\(S(S+1)\)</span> means the calculation has a problem worth looking at. Note that following an instability can <em>increase</em> spin contamination: the lower solution may break spin symmetry to gain energy.</p>
+</section>
+<section id="sec-tm" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="sec-tm"><span class="header-section-number">3.2</span> Why transition metals are hard</h2>
+<p>In main-group chemistry, a closed-shell molecule usually has one dominant electron configuration with a large HOMO–LUMO gap, and the SCF converges to it easily. Transition metals break both assumptions.</p>
+<p><strong>Near-degenerate configurations.</strong> The 3d and 4s orbitals (4d and 5s in the second row) have similar energies. The iron atom has the ground configuration [Ar]3d⁶4s² (a quintet, ⁵D), but states of the 3d⁷4s¹ configuration lie only about 1–2 eV higher. Each configuration also has many ways to place the d electrons in five d orbitals, so there are many low-lying states and many SCF solutions close in energy. In the language of <a href="#fig-toy" class="quarto-xref">Figure&nbsp;1</a>, the gap Δ is small, and instabilities are common.</p>
+<p><strong>Symmetry breaking.</strong> An open-shell atom with a partially filled d shell has a spherically symmetric density only on average over all the degenerate components. A single KS determinant picks one component and has a non-spherical density. Different starting guesses can land on different components, which in an approximate functional need not have exactly the same energy.</p>
+<p><strong>Spin-state energetics.</strong> The energy difference between spin states of the same metal depends strongly on the functional. Exact (HF) exchange stabilizes parallel spins, so functionals with more HF exchange tend to favor high-spin states, and semilocal functionals tend to favor low-spin states. No single functional is reliable for all transition-metal spin-state gaps, which is why they are a demanding benchmark <span class="citation" data-cites="cao2019">(<a href="#ref-cao2019" role="doc-biblioref">Cao and Ryde 2019</a>)</span>.</p>
+<p><strong>SCF convergence.</strong> With many nearly degenerate orbitals, the SCF can oscillate between occupations from one cycle to the next and never converge. Remedies exist (better guesses, damping, level shifting, direct-minimization algorithms), but some functionals fail more often than others. Experiment 8 keeps only the functional/atom pairs that converged reliably on the IQmol server; the ones that were removed are a lesson in themselves.</p>
+</section>
+<section id="effective-core-potentials-and-relativity" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="effective-core-potentials-and-relativity"><span class="header-section-number">3.3</span> Effective core potentials and relativity</h2>
+<p>Ruthenium has 44 electrons and palladium 46. Their core electrons are chemically inert, but they cost basis functions and they move fast. Near a nucleus with charge <span class="math inline">\(Z\)</span>, an inner electron’s speed is a sizable fraction of the speed of light (roughly <span class="math inline">\(Z/137\)</span> in atomic units). <strong>Scalar relativistic effects</strong> contract and stabilize s and p orbitals, and through better screening expand and destabilize d and f orbitals. For 4d metals they shift orbital energies and excitation energies by amounts that matter chemically.</p>
+<p>An <strong>effective core potential</strong> (ECP) solves both problems at once. It replaces the core electrons with a potential fitted to accurate relativistic atomic calculations, so the scalar relativistic effects of the core are built in <span class="citation" data-cites="andrae1990">(<a href="#ref-andrae1990" role="doc-biblioref">Andrae et al. 1990</a>)</span>. Only the valence electrons are treated explicitly, with a basis set designed for that ECP. The def2 basis sets use small-core ECPs for elements beyond krypton <span class="citation" data-cites="weigend2005">(<a href="#ref-weigend2005" role="doc-biblioref">Weigend and Ahlrichs 2005</a>)</span>: for the 4d metals, 28 core electrons (the shells 1s through 3d) are replaced.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Worked example: how many electrons does Q-Chem see for Ru⁺?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Ruthenium has <span class="math inline">\(Z = 44\)</span>. Ru⁺ has 43 electrons. The def2 ECP replaces 28 core electrons, so the calculation treats <span class="math inline">\(43 - 28 = 15\)</span> electrons explicitly, moving in the field of an effective core of charge <span class="math inline">\(44 - 28 = +16\)</span>. For the sextet, <span class="math inline">\(N_\alpha - N_\beta = 5\)</span> and <span class="math inline">\(N_\alpha + N_\beta = 15\)</span>, so <span class="math inline">\(N_\alpha = 10\)</span> and <span class="math inline">\(N_\beta = 5\)</span>. For the quartet, <span class="math inline">\(N_\alpha = 9\)</span> and <span class="math inline">\(N_\beta = 6\)</span>.</p>
+</div>
+</div>
+<p>In Q-Chem, ECPs are requested with <code>ECP = def2-ECP</code>; the website’s input generator adds it for Ru and Pd. Iron (a 3d metal) is treated with all its electrons in def2 basis sets. Its relativistic effects are smaller, and in this course we ignore them. Spin–orbit coupling, the other relativistic effect, is not included in standard ECPs or in standard DFT. It returns in <a href="../lectures/l13-theory-vs-experiment.html">Class 13</a>.</p>
+</section>
+</section>
+<section id="experiment-8-briefing" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Experiment 8 briefing</h1>
+<section id="goal" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="goal"><span class="header-section-number">4.1</span> Goal</h2>
+<p><a href="../experiments/ex08-stability.html">Experiment 8</a> asks whether stability analysis changes anything for two transition-metal “reactions”: excitations between spin states of an atom.</p>
+</section>
+<section id="the-two-excitations" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="the-two-excitations"><span class="header-section-number">4.2</span> The two excitations</h2>
+<p>The data come from the 3dAEE8 <span class="citation" data-cites="hoyer2014 luo2014 yu2014">(<a href="#ref-hoyer2014" role="doc-biblioref">Hoyer et al. 2014</a>; <a href="#ref-luo2014" role="doc-biblioref">Luo et al. 2014</a>; <a href="#ref-yu2014" role="doc-biblioref">Yu and Truhlar 2014</a>)</span> and 4dAEE5 <span class="citation" data-cites="luo2012">(<a href="#ref-luo2012" role="doc-biblioref">Luo and Truhlar 2012</a>)</span> subsets of the Minnesota 2015B database <span class="citation" data-cites="yu2016a">(<a href="#ref-yu2016a" role="doc-biblioref">Yu et al. 2016</a>)</span>. Each excitation energy is a reaction energy with ν = −1 for the ground state and ν = +1 for the excited state:</p>
+<div id="tbl-ex08" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-ex08-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;3: The two excitation energies of Experiment 8.
+</figcaption>
+<div aria-describedby="tbl-ex08-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 23%">
+<col style="width: 23%">
+<col style="width: 23%">
+<col style="width: 30%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Reaction</th>
+<th>Ground state</th>
+<th>Excited state</th>
+<th style="text-align: right;">Reference (kcal/mol)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Fe: quintet → triplet</td>
+<td>Fe, charge 0, multiplicity 5</td>
+<td>Fe, charge 0, multiplicity 3</td>
+<td style="text-align: right;">34.32</td>
+</tr>
+<tr class="even">
+<td>Ru⁺: quartet → sextet</td>
+<td>Ru⁺, charge +1, multiplicity 4</td>
+<td>Ru⁺, charge +1, multiplicity 6</td>
+<td style="text-align: right;">21.96</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p><span class="math display">\[
+\Delta E = E(\text{excited}) - E(\text{ground}).
+\]</span></p>
+<p>Note that for Ru⁺ the <em>higher</em> multiplicity is the excited state. Ruthenium’s ground-state configuration has more d electrons than iron’s, and the balance between d and s occupation is different in the two rows.</p>
+</section>
+<section id="methods-and-jobs" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="methods-and-jobs"><span class="header-section-number">4.3</span> Methods and jobs</h2>
+<div id="tbl-ex08-methods" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-ex08-methods-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;4: Functional/atom pairs in Experiment 8.
+</figcaption>
+<div aria-describedby="tbl-ex08-methods-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Functional</th>
+<th>Rung</th>
+<th>Atoms</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>PBE</td>
+<td>GGA</td>
+<td>Fe and Ru⁺</td>
+</tr>
+<tr class="even">
+<td>BP86</td>
+<td>GGA</td>
+<td>Ru⁺</td>
+</tr>
+<tr class="odd">
+<td>PBE0</td>
+<td>hybrid GGA</td>
+<td>Ru⁺</td>
+</tr>
+<tr class="even">
+<td>B97M-V</td>
+<td>meta-GGA</td>
+<td>Fe</td>
+</tr>
+<tr class="odd">
+<td>M06-2X</td>
+<td>hybrid meta-GGA</td>
+<td>Fe</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>All jobs use def2-TZVP (with <code>ECP = def2-ECP</code> for Ru). Each functional/state pair is run twice, without and with <code>INTERNAL_STABILITY TRUE</code>. That is 12 calculations per run, <strong>24 jobs</strong> in all. They are small atoms, so each job is quick, although the stability runs take longer.</p>
+</section>
+<section id="pitfalls" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="pitfalls"><span class="header-section-number">4.4</span> Pitfalls</h2>
+<ul>
+<li><strong>Same settings in both runs.</strong> The only difference between the two inputs must be <code>INTERNAL_STABILITY</code>. Use the website’s inputs.</li>
+<li><strong>Read the stability section of each output.</strong> Look for whether an instability was found and whether the wave function was reoptimized. Then compare the final energy with the one from the first run.</li>
+<li><strong>Check ⟨S²⟩</strong> in every output against <a href="#tbl-s2" class="quarto-xref">Table&nbsp;2</a>. Note any large deviation in your answers.</li>
+<li><strong>Charge and multiplicity</strong> are on line 2 of every geometry file. Ru⁺ has charge +1.</li>
+<li><strong>SCF failures.</strong> If a job doesn’t converge, record it and tell your instructor. Don’t silently replace the functional.</li>
+<li><strong>Units.</strong> Total energies in <span class="math inline">\(E_h\)</span> with all their digits; excitation energies in kcal/mol (× 627.5095).</li>
+</ul>
+</section>
+<section id="what-to-look-at" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="what-to-look-at"><span class="header-section-number">4.5</span> What to look at</h2>
+<p>The <strong>stability landscape</strong> widget on the experiment page lets you play with the toy model of <a href="#fig-toy" class="quarto-xref">Figure&nbsp;1</a> before you run anything. After you enter your results, the <strong>energy-lowering table</strong> shows E(with) − E(without) for every functional and state, in kcal/mol: zero means nothing changed, a negative number means a lower solution was found. The <strong>error chart</strong> shows each excitation-energy error without (grey) and with (red) stability analysis.</p>
+<p>Two questions to think about while you work, without guessing the answers here: if stability analysis lowers only one of the two states, in which direction does the excitation energy move? And once every solution is stable, is the remaining error small?</p>
+</section>
+<section id="key-points" class="level2" data-number="4.6">
+<h2 data-number="4.6" class="anchored" data-anchor-id="key-points"><span class="header-section-number">4.6</span> Key points</h2>
+<ul>
+<li>Grid wiggles are numerical noise. Test any feature of a curve with a finer grid. Meta-GGAs, especially heavily parametrized ones, need SG-2 to SG-3; report the grid.</li>
+<li>Grid convergence is not accuracy: B3LYP gives a smooth but essentially unbound Ar₂ curve because it has no dispersion.</li>
+<li>A converged SCF solution has zero gradient with respect to orbital rotations. It can be a minimum or a saddle point.</li>
+<li>Stability analysis computes the lowest eigenvalues of the electronic Hessian (second derivatives of the energy with respect to orbital rotations). A negative eigenvalue means a lower solution exists; the program follows it and reconverges.</li>
+<li>Internal instabilities lead to lower solutions of the same type; external ones require relaxing a constraint (RHF → UHF, real → complex).</li>
+<li>Unrestricted determinants are spin-contaminated: ⟨S²⟩ &gt; S(S+1). Use it as a diagnostic.</li>
+<li>Transition metals have many near-degenerate configurations and spin states, so instabilities and convergence failures are common.</li>
+<li>Elements beyond Kr use effective core potentials with def2 basis sets (<code>ECP = def2-ECP</code>); the ECP includes scalar relativistic effects of the core.</li>
+</ul>
+</section>
+<section id="study-questions" class="level2" data-number="4.7">
+<h2 data-number="4.7" class="anchored" data-anchor-id="study-questions"><span class="header-section-number">4.7</span> Study questions</h2>
+<ol type="1">
+<li>A classmate’s M06-L curve on SG-2 has three minima, at 3.6, 4.1 and 4.6 Å. List two checks that tell you whether any of them is physical.</li>
+<li>Why can B3LYP give a smooth curve with no minimum for Ar₂, while a less accurate functional gives a well of about the right depth?</li>
+<li>Explain the difference between the gradient condition <span class="math inline">\(\mathbf{g} = 0\)</span> and the stability condition on the electronic Hessian. Which one does an ordinary SCF check?</li>
+<li>In the toy model <span class="math inline">\(E(\theta) = \Delta\sin^2\theta - \sin^2 2\theta\)</span>, find the lower solutions and their energy for <span class="math inline">\(\Delta = 3\)</span>.</li>
+<li>Why does a small HOMO–LUMO gap make an instability more likely? Point to the term in <span class="math inline">\(A_{ia,jb}\)</span> responsible.</li>
+<li>Give one example each of an internal and an external instability.</li>
+<li>A UKS calculation on a doublet radical gives ⟨S²⟩ = 0.78. Another gives 1.10. Comment on each.</li>
+<li>How many electrons are treated explicitly for neutral Pd with def2-TZVP? What is the charge of the effective core?</li>
+<li>If stability analysis lowers the ground state of an atom by 5 kcal/mol and leaves the excited state unchanged, how does the computed excitation energy change?</li>
+<li>Why do functionals with a large fraction of HF exchange tend to favor high-spin states?</li>
+</ol>
+</section>
+<section id="further-reading" class="level2" data-number="4.8">
+<h2 data-number="4.8" class="anchored" data-anchor-id="further-reading"><span class="header-section-number">4.8</span> Further reading</h2>
+<ul>
+<li>R. Seeger and J. A. Pople, “Self-consistent molecular orbital methods. XVIII. Constraints and stability in Hartree–Fock theory” <span class="citation" data-cites="seeger1977">(<a href="#ref-seeger1977" role="doc-biblioref">Seeger and Pople 1977</a>)</span>: the classic paper on the hierarchy of instabilities.</li>
+<li>J. Čížek and J. Paldus <span class="citation" data-cites="cizek1967">(<a href="#ref-cizek1967" role="doc-biblioref">Čı́žek and Paldus 1967</a>)</span>: the original derivation of the stability conditions.</li>
+<li>R. Bauernschmitt and R. Ahlrichs, stability analysis for HF and DFT wave functions <span class="citation" data-cites="bauernschmitt1996">(<a href="#ref-bauernschmitt1996" role="doc-biblioref">Bauernschmitt and Ahlrichs 1996</a>)</span>.</li>
+<li>H. Fukutome, a group-theoretical classification of unrestricted solutions <span class="citation" data-cites="fukutome1981">(<a href="#ref-fukutome1981" role="doc-biblioref">Fukutome 1981</a>)</span>.</li>
+<li>D. Andrae et al., the Stuttgart effective core potentials for the 4d and 5d metals used with def2 basis sets <span class="citation" data-cites="andrae1990">(<a href="#ref-andrae1990" role="doc-biblioref">Andrae et al. 1990</a>)</span>.</li>
+<li>N. Mardirossian and M. Head-Gordon on grid sensitivity <span class="citation" data-cites="mardirossian2016">(<a href="#ref-mardirossian2016" role="doc-biblioref">Mardirossian and Head-Gordon 2016b</a>)</span>.</li>
+<li>P. Morgante and R. Peverati, “The devil in the details” <span class="citation" data-cites="morgante2020">(<a href="#ref-morgante2020" role="doc-biblioref">Morgante and Peverati 2020</a>)</span>, sections on grids and stability.</li>
+</ul>
+
+
+
+</section>
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-andrae1990" class="csl-entry" role="listitem">
+Andrae, D., U. Häußermann, M. Dolg, H. Stoll, and H. Preuß. 1990. <span>“Energy-Adjusted Ab Initio Pseudopotentials for the Second and Third Row Transition Elements.”</span> <em>Theor. Chim. Acta</em> 77: 123–41. <a href="https://doi.org/10.1007/BF01114537">https://doi.org/10.1007/BF01114537</a>.
+</div>
+<div id="ref-bauernschmitt1996" class="csl-entry" role="listitem">
+Bauernschmitt, R., and R. J. Ahlrichs. 1996. <em>Chem. Phys.</em> 104: 9047–52.
+</div>
+<div id="ref-cao2019" class="csl-entry" role="listitem">
+Cao, L., and U. Ryde. 2019. <em>Phys. Chem. Chem. Phys.</em> 21: 2480–88.
+</div>
+<div id="ref-cizek1967" class="csl-entry" role="listitem">
+Čı́žek, J., and J. Paldus. 1967. <span>“Stability Conditions for the Solutions of the <span>Hartree–Fock</span> Equations for Atomic and Molecular Systems. <span>Application</span> to the Pi-Electron Model of Cyclic Polyenes.”</span> <em>J. Chem. Phys.</em> 47: 3976–85. <a href="https://doi.org/10.1063/1.1701562">https://doi.org/10.1063/1.1701562</a>.
+</div>
+<div id="ref-epifanovsky2021" class="csl-entry" role="listitem">
+<span class="nocase">Epifanovsky, E. et al.</span> 2021. <span>“Software for the Frontiers of Quantum Chemistry: An Overview of Developments in the <span>Q-Chem</span> 5 Package.”</span> <em>J. Chem. Phys.</em> 155: 084801.
+</div>
+<div id="ref-fukutome1981" class="csl-entry" role="listitem">
+Fukutome, H. 1981. <em>Int. J. Quantum Chem.</em> 20: 955–1065.
+</div>
+<div id="ref-hoyer2014" class="csl-entry" role="listitem">
+Hoyer, C. E., G. Li Manni, D. G. Truhlar, and L. J. Gagliardi. 2014. <em>Chem. Phys.</em> 141: 204309.
+</div>
+<div id="ref-luo2014" class="csl-entry" role="listitem">
+Luo, S., B. B. Averkiev, K. R. Yang, X. Xu, and D. G. J. Truhlar. 2014. <em>Chem. Theory Comput.</em> 10: 102–21.
+</div>
+<div id="ref-luo2012" class="csl-entry" role="listitem">
+Luo, S., and D. G. J. Truhlar. 2012. <em>Chem. Theory Comput.</em> 8: 4112–26.
+</div>
+<div id="ref-mardirossian2016a" class="csl-entry" role="listitem">
+Mardirossian, N., and M. J. Head-Gordon. 2016a. <em>Chem. Phys.</em> 144: 214110.
+</div>
+<div id="ref-mardirossian2016" class="csl-entry" role="listitem">
+Mardirossian, N., and M. J. Head-Gordon. 2016b. <em>Chem. Theory Comput.</em> 12: 4303–25.
+</div>
+<div id="ref-morgante2020" class="csl-entry" role="listitem">
+Morgante, P., and R. Peverati. 2020. <span>“The Devil in the Details: A Tutorial Review on Some Undervalued Aspects of Density Functional Theory Calculations.”</span> <em>Int. J. Quantum Chem.</em> 120: e26332.
+</div>
+<div id="ref-seeger1977" class="csl-entry" role="listitem">
+Seeger, R., and J. A. J. Pople. 1977. <em>Chem. Phys.</em> 66: 3045–50.
+</div>
+<div id="ref-weigend2005" class="csl-entry" role="listitem">
+Weigend, F., and R. Ahlrichs. 2005. <em>Phys. Chem. Chem. Phys.</em> 7: 3297–305.
+</div>
+<div id="ref-wheeler2010" class="csl-entry" role="listitem">
+Wheeler, S. E., and K. N. J. Houk. 2010. <em>Chem. Theory Comput.</em> 6: 395–404.
+</div>
+<div id="ref-yu2016a" class="csl-entry" role="listitem">
+Yu, H. S., X. He, S. L. Li, and D. G. Truhlar. 2016. <em>Chem. Sci.</em> 7: 5032–51.
+</div>
+<div id="ref-yu2014" class="csl-entry" role="listitem">
+Yu, H., and D. G. J. Truhlar. 2014. <em>Chem. Theory Comput.</em> 10: 2291–305.
+</div>
+</div></section></div></main> <!-- /main -->
+<!-- Peverati lab logo at the top right of the navbar (light and dark versions). -->
+<script>
+(function () {
+  var css = document.querySelector('link[href$="styles.css"]');
+  var root = css ? css.getAttribute("href").replace(/styles\.css$/, "") : "";
+  var nav = document.querySelector("#quarto-header nav.navbar .navbar-container") ||
+            document.querySelector("#quarto-header nav.navbar .container-fluid");
+  if (!nav) return;
+  var a = document.createElement("a");
+  a.className = "lab-logo";
+  a.href = "https://peverati.github.io";
+  a.title = "Peverati research group";
+  // Both versions are inserted; CSS shows the one that matches the light/dark theme.
+  a.innerHTML =
+    '<img class="logo-for-light" src="' + root + 'images/logo-light.png" alt="Peverati research group logo">' +
+    '<img class="logo-for-dark" src="' + root + 'images/logo-dark.png" alt="Peverati research group logo">';
+  nav.appendChild(a);
+})();
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const toggle = window.document.createElement('button');
+      toggle.type = "button";
+      toggle.setAttribute("role", "switch");
+      toggle.setAttribute("aria-checked", "false");
+      toggle.classList.add('top-right');
+      toggle.classList.add('quarto-color-scheme-toggle');
+      toggle.setAttribute("aria-label", "Toggle dark mode");
+      toggle.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      toggle.appendChild(i);
+      // Put the toggle in a landmark of its own, so that landmark navigation
+      // can reach it.
+      //
+      // The container is always a fresh direct child of body, and the toggle is
+      // never moved into page furniture that the theme or the author controls.
+      // The toggle is positioned against the page, so any ancestor that
+      // establishes a containing block captures it: a positioned element or a
+      // grid for position: absolute, and transform, filter, will-change or
+      // contain for position: fixed. A direct child of body has none of these
+      // to inherit, and the shift when one appears is silent and visual.
+      //
+      // ARIA says a document should have at most one banner, and axe reports a
+      // duplicate whether or not the banners carry distinct labels. So use a
+      // header when the page has no banner yet, and a named region otherwise.
+      //
+      // A header is a banner wherever it sits, unless it is inside sectioning
+      // content, so this cannot just look at the children of body: a custom
+      // page layout wraps the title block header in a plain div. An explicit
+      // role="banner" always counts.
+      const sectioning = 'article, aside, main, nav, section, [role="article"], [role="complementary"], [role="main"], [role="navigation"], [role="region"]';
+      const hasBanner = Array.from(
+        window.document.querySelectorAll('header:not([role]), [role="banner"]')
+      ).some(function(el) {
+        return el.hasAttribute("role") || el.closest(sectioning) === null;
+      });
+      const container = window.document.createElement(hasBanner ? "div" : "header");
+      if (hasBanner) {
+        container.setAttribute("role", "region");
+        container.setAttribute("aria-label", "Toggle dark mode");
+      }
+      container.classList.add('quarto-color-scheme-toggle-container');
+      container.appendChild(toggle);
+      window.document.body.appendChild(container);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/peverati\.github\.io\/advpchem\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+          if (!link.classList.contains('no-external-icon')) {
+          }
+        }
+      }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          // Each band is positioned against its own containing block, which is
+          // not the offsetParent of the lines, so place it from client rects.
+          const placeBand = (band, firstEl, lastEl, codeBlock) => {
+            const container = band.offsetParent;
+            if (container === null) {
+              return;
+            }
+            const containerRect = container.getBoundingClientRect();
+            // Reveal.js scales slides with a transform, so convert client
+            // pixels back to the CSS pixels of the container.
+            const scale = containerRect.height / container.offsetHeight || 1;
+            const firstRect = firstEl.getBoundingClientRect();
+            const lastRect = lastEl.getBoundingClientRect();
+            const top = (firstRect.top - containerRect.top) / scale - container.clientTop + container.scrollTop;
+            const height = (lastRect.bottom - firstRect.top) / scale;
+            band.style.top = top - 2 + "px";
+            band.style.height = height + 4 + "px";
+            if (codeBlock) {
+              // Without the copy button wrapper, the containing block is wider
+              // than the code block, so span the code block explicitly.
+              const blockRect = codeBlock.getBoundingClientRect();
+              band.style.left = (blockRect.left - containerRect.left) / scale - container.clientLeft + container.scrollLeft + "px";
+              band.style.width = blockRect.width / scale + "px";
+            }
+          };
+          if (lineIds.length > 0) {
+            const el = window.document.getElementById(lineIds[0]);
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const parent = el.parentElement.parentElement;
+            // cook up a div (if necessary) and position it
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            placeBand(div, el, lastEl, parent.closest("div.sourceCode") || parent);
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            placeBand(gutterDiv, el, lastEl);
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+  <script type="application/javascript">
+  window.quartoScrollableRegionsLabels = {"code":"Scrollable code","output":"Scrollable output"};
+  </script>
+<nav class="page-navigation" aria-label="Page">
+  <div class="nav-page nav-page-previous">
+      <a href="../lectures/l11-integration-grids.html" class="pagination-link" aria-label="Class 11 · Numerical integration grids">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Class 11 · Numerical integration grids</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../lectures/l13-theory-vs-experiment.html" class="pagination-link" aria-label="Class 13 · From electronic energies to experiment">
+        <span class="nav-page-text">Class 13 · From electronic energies to experiment</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Advanced Physical Chemistry · Florida Institute of Technology</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>Experiments adapted from Morgante &amp; Peverati, <em>Int. J. Quantum Chem.</em> <strong>2020</strong></p>
+</div>
+  </div>
+</footer>
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

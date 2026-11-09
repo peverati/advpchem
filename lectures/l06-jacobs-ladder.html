@@ -1,0 +1,1969 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.11.9">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="description" content="How density functional approximations are built, rung by rung, how to decode their names, and how to prepare for Experiment 2.">
+
+<title>Class 6 · Approximating the Hamiltonian III: Jacob’s ladder – Computational Chemistry Lab</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../lectures/l07-benchmarking.html" rel="next">
+<link href="../lectures/l05-density-functional-theory.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-447e42e69aaa9833c0ba1b986f430b20.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-56996c7b5257095e64120a8d6d543cad.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-9953095112a8816cde90456e6de52415.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-56996c7b5257095e64120a8d6d543cad.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<script src="https://cdn.jsdelivr.net/npm/3dmol@2.4.2/build/3Dmol-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-sidebar floating nav-fixed quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          toggle.setAttribute("aria-checked", alternate ? "true" : "false");
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455).
+    // Not run on load: stylesheets are set before first paint there, and
+    // scrolling would undo the scroll to a URL fragment (#14973).
+    // The one pixel nudge keeps the reader where they were.
+    const refreshSafariScrollbar = () => {
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        const scrollY = window.scrollY;
+        window.scrollTo(0, scrollY > 0 ? scrollY - 1 : 1);
+        setTimeout(() => {
+          window.scrollTo(0, scrollY);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      refreshSafariScrollbar();
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark" aria-label="Site">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Computational Chemistry Lab</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-guides" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Guides</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-guides">    
+        <li>
+    <a class="dropdown-item" href="../guides/iqmol-setup.html">
+ <span class="dropdown-text">Install IQmol and connect to Q-Chem</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../guides/first-job.html">
+ <span class="dropdown-text">Your first Q-Chem job</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../guides/reading-output.html">
+ <span class="dropdown-text">Reading a Q-Chem output</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../guides/shared-machines.html">
+ <span class="dropdown-text">Working on a shared machine</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../guides/units-and-errors.html">
+ <span class="dropdown-text">Units, reaction energies and errors</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-lectures" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Lectures</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-lectures">    
+        <li>
+    <a class="dropdown-item" href="../lectures/index.html">
+ <span class="dropdown-text">All lectures</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l01-molecular-schrodinger.html">
+ <span class="dropdown-text">1 · The molecular Schrödinger equation</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l02-basis-sets.html">
+ <span class="dropdown-text">2 · Basis sets</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l03-from-theory-to-a-calculation.html">
+ <span class="dropdown-text">3 · From theory to a calculation</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l04-hartree-fock.html">
+ <span class="dropdown-text">4 · Hartree–Fock and the SCF</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l05-density-functional-theory.html">
+ <span class="dropdown-text">5 · Density functional theory</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l06-jacobs-ladder.html">
+ <span class="dropdown-text">6 · Jacob’s ladder</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l07-benchmarking.html">
+ <span class="dropdown-text">7 · How we test a functional</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l08-dispersion.html">
+ <span class="dropdown-text">8 · Dispersion</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l09-difficult-cases.html">
+ <span class="dropdown-text">9 · Difficult cases for DFT</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l10-error-cancellation.html">
+ <span class="dropdown-text">10 · Basis-set vs functional error</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l11-integration-grids.html">
+ <span class="dropdown-text">11 · Integration grids</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l12-scf-stability.html">
+ <span class="dropdown-text">12 · SCF stability and transition metals</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l13-theory-vs-experiment.html">
+ <span class="dropdown-text">13 · Theory vs experiment</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l14-choosing-a-method.html">
+ <span class="dropdown-text">14 · Choosing a method</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../lectures/l15-wrap-up.html">
+ <span class="dropdown-text">15 · What we learned</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-experiments" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Experiments</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-experiments">    
+        <li>
+    <a class="dropdown-item" href="../experiments/ex01-basis-sets.html">
+ <span class="dropdown-text">Experiment 1: Basis Set Incompleteness Error</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex02-jacobs-ladder.html">
+ <span class="dropdown-text">Experiment 2: Jacob’s Ladder</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex03-organic-a.html">
+ <span class="dropdown-text">Experiment 3: Applying DFT to Organic Chemistry – Part A</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex04-organic-b.html">
+ <span class="dropdown-text">Experiment 4: Applying DFT to Organic Chemistry – Part B</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex05-difficult-cases.html">
+ <span class="dropdown-text">Experiment 5: Difficult Cases for DFT</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex06-b3lyp-631gs.html">
+ <span class="dropdown-text">Experiment 6: Why is the B3LYP/6-31G* Level of Theory so Successful?</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex07-grids.html">
+ <span class="dropdown-text">Experiment 7: Integration Grids</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex08-stability.html">
+ <span class="dropdown-text">Experiment 8: Stability Analysis and Transition Metals</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex09-experiment-vs-theory.html">
+ <span class="dropdown-text">Experiment 9: Comparison with Experimental Results</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../experiments/ex10-final-review.html">
+ <span class="dropdown-text">Experiment 10: Final Review</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="../class-results.html"> 
+<span class="menu-text">Class results</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <button type="button" role="switch" aria-checked="false" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode" aria-label="Toggle dark mode"><i class="bi"></i></button>
+</div>
+            <div id="quarto-search" class="" title="Search"></div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav" aria-label="Toolbar">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../lectures/l06-jacobs-ladder.html">Class 6 · Approximating the Hamiltonian III: Jacob’s ladder</a></li></ol></nav>
+        <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto" aria-label="Section">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lectures</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l01-molecular-schrodinger.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 1 · The molecular Schrödinger equation</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l02-basis-sets.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 2 · Approximating the wave function: basis sets</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l03-from-theory-to-a-calculation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 3 · From theory to a calculation: IQmol, Q-Chem and Experiment 1</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l04-hartree-fock.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 4 · Approximating the Hamiltonian I: Hartree–Fock and the SCF</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l05-density-functional-theory.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 5 · Approximating the Hamiltonian II: density functional theory</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l06-jacobs-ladder.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Class 6 · Approximating the Hamiltonian III: Jacob’s ladder</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l07-benchmarking.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 7 · How we test a functional</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l08-dispersion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 8 · Dispersion and noncovalent interactions</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l09-difficult-cases.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 9 · Why some reactions are hard for DFT</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l10-error-cancellation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 10 · Basis-set error vs functional error</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l11-integration-grids.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 11 · Numerical integration grids</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l12-scf-stability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 12 · SCF stability, open shells and transition metals</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l13-theory-vs-experiment.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 13 · From electronic energies to experiment</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l14-choosing-a-method.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 14 · Choosing, running and reporting a method</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lectures/l15-wrap-up.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Class 15 · What we learned</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" aria-labelledby="toc-title" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#jacobs-ladder" id="toc-jacobs-ladder" class="nav-link active" data-scroll-target="#jacobs-ladder"><span class="header-section-number">1</span> Jacob’s ladder</a></li>
+  <li><a href="#rung-2-the-generalized-gradient-approximation-gga" id="toc-rung-2-the-generalized-gradient-approximation-gga" class="nav-link" data-scroll-target="#rung-2-the-generalized-gradient-approximation-gga"><span class="header-section-number">2</span> Rung 2: the generalized gradient approximation (GGA)</a>
+  <ul class="collapse">
+  <li><a href="#the-reduced-gradient-and-the-enhancement-factor" id="toc-the-reduced-gradient-and-the-enhancement-factor" class="nav-link" data-scroll-target="#the-reduced-gradient-and-the-enhancement-factor"><span class="header-section-number">2.1</span> The reduced gradient and the enhancement factor</a></li>
+  <li><a href="#b88-exchange" id="toc-b88-exchange" class="nav-link" data-scroll-target="#b88-exchange"><span class="header-section-number">2.2</span> B88 exchange</a></li>
+  <li><a href="#pbe-exchange-and-the-idea-of-exact-constraints" id="toc-pbe-exchange-and-the-idea-of-exact-constraints" class="nav-link" data-scroll-target="#pbe-exchange-and-the-idea-of-exact-constraints"><span class="header-section-number">2.3</span> PBE exchange and the idea of exact constraints</a></li>
+  <li><a href="#gga-correlation-and-the-names-of-gga-functionals" id="toc-gga-correlation-and-the-names-of-gga-functionals" class="nav-link" data-scroll-target="#gga-correlation-and-the-names-of-gga-functionals"><span class="header-section-number">2.4</span> GGA correlation and the names of GGA functionals</a></li>
+  </ul></li>
+  <li><a href="#rung-3-meta-ggas" id="toc-rung-3-meta-ggas" class="nav-link" data-scroll-target="#rung-3-meta-ggas"><span class="header-section-number">3</span> Rung 3: meta-GGAs</a>
+  <ul class="collapse">
+  <li><a href="#the-kinetic-energy-density" id="toc-the-kinetic-energy-density" class="nav-link" data-scroll-target="#the-kinetic-energy-density"><span class="header-section-number">3.1</span> The kinetic-energy density</a></li>
+  <li><a href="#examples" id="toc-examples" class="nav-link" data-scroll-target="#examples"><span class="header-section-number">3.2</span> Examples</a></li>
+  </ul></li>
+  <li><a href="#rung-4-hybrid-functionals" id="toc-rung-4-hybrid-functionals" class="nav-link" data-scroll-target="#rung-4-hybrid-functionals"><span class="header-section-number">4</span> Rung 4: hybrid functionals</a>
+  <ul class="collapse">
+  <li><a href="#why-mix-in-hartreefock-exchange-the-adiabatic-connection" id="toc-why-mix-in-hartreefock-exchange-the-adiabatic-connection" class="nav-link" data-scroll-target="#why-mix-in-hartreefock-exchange-the-adiabatic-connection"><span class="header-section-number">4.1</span> Why mix in Hartree–Fock exchange? The adiabatic connection</a></li>
+  <li><a href="#global-hybrids-b3lyp-and-pbe0" id="toc-global-hybrids-b3lyp-and-pbe0" class="nav-link" data-scroll-target="#global-hybrids-b3lyp-and-pbe0"><span class="header-section-number">4.2</span> Global hybrids: B3LYP and PBE0</a></li>
+  <li><a href="#range-separated-hybrids" id="toc-range-separated-hybrids" class="nav-link" data-scroll-target="#range-separated-hybrids"><span class="header-section-number">4.3</span> Range-separated hybrids</a></li>
+  </ul></li>
+  <li><a href="#rung-5-double-hybrids-and-rpa" id="toc-rung-5-double-hybrids-and-rpa" class="nav-link" data-scroll-target="#rung-5-double-hybrids-and-rpa"><span class="header-section-number">5</span> Rung 5: double hybrids and RPA</a></li>
+  <li><a href="#two-design-questions-that-cut-across-the-ladder" id="toc-two-design-questions-that-cut-across-the-ladder" class="nav-link" data-scroll-target="#two-design-questions-that-cut-across-the-ladder"><span class="header-section-number">6</span> Two design questions that cut across the ladder</a>
+  <ul class="collapse">
+  <li><a href="#how-is-dispersion-included" id="toc-how-is-dispersion-included" class="nav-link" data-scroll-target="#how-is-dispersion-included"><span class="header-section-number">6.1</span> How is dispersion included?</a></li>
+  <li><a href="#non-empirical-or-empirical" id="toc-non-empirical-or-empirical" class="nav-link" data-scroll-target="#non-empirical-or-empirical"><span class="header-section-number">6.2</span> Non-empirical or empirical?</a></li>
+  <li><a href="#decoding-functional-names" id="toc-decoding-functional-names" class="nav-link" data-scroll-target="#decoding-functional-names"><span class="header-section-number">6.3</span> Decoding functional names</a></li>
+  </ul></li>
+  <li><a href="#experiment-2-climbing-the-ladder-yourself" id="toc-experiment-2-climbing-the-ladder-yourself" class="nav-link" data-scroll-target="#experiment-2-climbing-the-ladder-yourself"><span class="header-section-number">7</span> Experiment 2: climbing the ladder yourself</a></li>
+  <li><a href="#the-16-methods-of-experiments-35-on-the-ladder" id="toc-the-16-methods-of-experiments-35-on-the-ladder" class="nav-link" data-scroll-target="#the-16-methods-of-experiments-35-on-the-ladder"><span class="header-section-number">8</span> The 16 methods of Experiments 3–5 on the ladder</a></li>
+  <li><a href="#key-points" id="toc-key-points" class="nav-link" data-scroll-target="#key-points">Key points</a></li>
+  <li><a href="#study-questions" id="toc-study-questions" class="nav-link" data-scroll-target="#study-questions">Study questions</a></li>
+  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading">Further reading</a></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="l06-jacobs-ladder.pdf"><i class="bi bi-file-pdf"></i>PDF handout</a></li><li><a href="l06-jacobs-ladder.pdf"><i class="bi bi-file-pdf"></i>Typst</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content" tabindex="-1">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Class 6 · Approximating the Hamiltonian III: Jacob’s ladder</h1>
+<p class="subtitle lead">From the gradient of the density to hybrids, range separation and dispersion</p>
+</div>
+
+<div>
+  <div class="description">
+    How density functional approximations are built, rung by rung, how to decode their names, and how to prepare for Experiment 2.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Learning goals
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>After studying this chapter you should be able to:</p>
+<ul>
+<li>describe Perdew’s <strong>Jacob’s ladder</strong> and name the ingredient that each rung adds;</li>
+<li>define the <strong>reduced density gradient</strong> <span class="math inline">\(s\)</span> and the <strong>exchange enhancement factor</strong> <span class="math inline">\(F_x(s)\)</span>, and explain what B88 and PBE do;</li>
+<li>define the <strong>kinetic-energy density</strong> <span class="math inline">\(\tau\)</span> and explain what a meta-GGA can do that a GGA cannot;</li>
+<li>write the formula of a <strong>global hybrid</strong> (B3LYP, PBE0) and explain, with the adiabatic connection, why mixing in Hartree–Fock exchange helps;</li>
+<li>explain <strong>range separation</strong> with <span class="math inline">\(\mathrm{erf}(\omega r)/r\)</span> and read the percentages of a range-separated hybrid;</li>
+<li>say what a <strong>double hybrid</strong> adds;</li>
+<li>tell how <strong>dispersion</strong> is included in a functional (-D4, VV10, fitted, or not at all) and whether a functional is <strong>non-empirical</strong> or <strong>empirical</strong>;</li>
+<li>place any functional on the ladder from its ingredients, using the original paper or a review: the task of <a href="../experiments/ex02-jacobs-ladder.html">Experiment 2</a>.</li>
+</ul>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Review from Classes 4 and 5
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This chapter builds directly on the previous two. Before reading it, make sure you can:</p>
+<ul>
+<li>write the Hartree–Fock exchange energy and explain why it is free of self-interaction (<a href="../lectures/l04-hartree-fock.html">Class 4</a>);</li>
+<li>write the Kohn–Sham energy <span class="math inline">\(E = T_s + E_{ne} + J + E_{xc}\)</span> (<a href="../lectures/l05-density-functional-theory.html">Class 5</a>);</li>
+<li>write the LSDA exchange energy, <span class="math inline">\(E_x^{\mathrm{LDA}} = -C_x\int\rho^{4/3}\,d\mathbf{r}\)</span>, and list what LSDA gets right and wrong (<a href="../lectures/l05-density-functional-theory.html">Class 5</a>).</li>
+</ul>
+</div>
+</div>
+<section id="jacobs-ladder" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="jacobs-ladder"><span class="header-section-number">1</span> Jacob’s ladder</h2>
+<p>In <a href="../lectures/l05-density-functional-theory.html">Class 5</a> we saw that Kohn–Sham DFT is exact except for one term, the exchange–correlation energy <span class="math inline">\(E_{xc}[\rho]\)</span>, and that the simplest approximation to it, LSDA, overbinds molecules badly. Since the late 1980s, hundreds of better approximations have been proposed. Their names can look like a random collection of letters and numbers: BLYP, PBE0, M06-2X, ωB97M-V, MN15-L. There is order behind them, and the most useful way to see it is a metaphor introduced by John Perdew and Karla Schmidt in 2001 <span class="citation" data-cites="perdew2001 perdew2005">(<a href="#ref-perdew2001" role="doc-biblioref">Perdew and Schmidt 2001</a>; <a href="#ref-perdew2005" role="doc-biblioref">Perdew et al. 2005</a>)</span>.</p>
+<p>In the Book of Genesis, Jacob dreams of a ladder that connects earth to heaven. In Perdew’s version, the ladder rises from the “Hartree world” (no exchange or correlation at all, as in Hartree’s 1928 method) to the “heaven of chemical accuracy”, meaning errors below about 1 kcal/mol for energy differences. Each rung adds a new <strong>ingredient</strong>: a new kind of local information that the functional can use (<a href="#fig-ladder" class="quarto-xref">Figure&nbsp;1</a>).</p>
+<div id="fig-ladder" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A ladder with five rungs. Rung 1, LSDA, uses the density rho (examples SVWN, SPW92). Rung 2, GGA, adds the gradient of the density (BLYP, PW91, PBE). Rung 3, meta-GGA, adds the kinetic-energy density tau or the Laplacian (TPSS, SCAN, r2SCAN). Rung 4, hybrid, adds the occupied orbitals through Hartree–Fock exchange (B3LYP, PBE0, TPSSh). Rung 5, double hybrid or RPA, adds the virtual orbitals (B2PLYP, RPA). The bottom is labeled Hartree world and the top heaven of chemical accuracy.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-ladder-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/l06-jacobs-ladder.png" class="img-fluid figure-img" style="width:80.0%" alt="A ladder with five rungs. Rung 1, LSDA, uses the density rho (examples SVWN, SPW92). Rung 2, GGA, adds the gradient of the density (BLYP, PW91, PBE). Rung 3, meta-GGA, adds the kinetic-energy density tau or the Laplacian (TPSS, SCAN, r2SCAN). Rung 4, hybrid, adds the occupied orbitals through Hartree–Fock exchange (B3LYP, PBE0, TPSSh). Rung 5, double hybrid or RPA, adds the virtual orbitals (B2PLYP, RPA). The bottom is labeled Hartree world and the top heaven of chemical accuracy.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ladder-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Perdew’s Jacob’s ladder of density functional approximations. Each rung keeps the ingredients of the rungs below it and adds a new one. Higher rungs are usually more accurate and always more expensive. Examples are typical functionals for each rung.
+</figcaption>
+</figure>
+</div>
+<div id="tbl-rungs" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-rungs-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;1: The five rungs of Jacob’s ladder.
+</figcaption>
+<div aria-describedby="tbl-rungs-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 30%">
+<col style="width: 23%">
+<col style="width: 23%">
+<col style="width: 23%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">Rung</th>
+<th>Name</th>
+<th>New ingredient</th>
+<th>Typical examples</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td>LSDA</td>
+<td>spin densities <span class="math inline">\(\rho_\alpha\)</span>, <span class="math inline">\(\rho_\beta\)</span></td>
+<td>SVWN, SPW92</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td>GGA</td>
+<td>density gradient <span class="math inline">\(\nabla\rho_\sigma\)</span></td>
+<td>BLYP, PW91, PBE</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td>meta-GGA</td>
+<td>kinetic-energy density <span class="math inline">\(\tau_\sigma\)</span> (or the Laplacian <span class="math inline">\(\nabla^2\rho_\sigma\)</span>)</td>
+<td>TPSS, SCAN, r²SCAN</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4</td>
+<td>hybrid</td>
+<td>occupied orbitals, through Hartree–Fock exchange</td>
+<td>B3LYP, PBE0, TPSSh, ωB97X-V</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">5</td>
+<td>double hybrid, RPA</td>
+<td>virtual (unoccupied) orbitals</td>
+<td>B2PLYP, RPA</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>Three facts about the ladder are worth stating clearly.</p>
+<ul>
+<li><strong>Each rung includes the lower ones.</strong> A GGA still uses the density, a meta-GGA still uses the gradient, a hybrid is built on top of a GGA or a meta-GGA.</li>
+<li><strong>Higher is usually better, but not always.</strong> A well-designed GGA can beat a poorly designed hybrid for some properties. The ladder ranks <em>ingredients</em>, not individual functionals.</li>
+<li><strong>Higher is always more expensive.</strong> Rungs 1–3 are <strong>semilocal</strong>: the energy density at a point depends only on information at that point, and the cost is small. Rung 4 needs the exchange matrix of Hartree–Fock, which is more expensive, and rung 5 needs a correlated wave-function step like MP2.</li>
+</ul>
+<p>The rest of this chapter climbs the ladder one rung at a time. Rung 1 (LSDA) was the subject of <a href="../lectures/l05-density-functional-theory.html">Class 5</a>.</p>
+</section>
+<section id="rung-2-the-generalized-gradient-approximation-gga" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="rung-2-the-generalized-gradient-approximation-gga"><span class="header-section-number">2</span> Rung 2: the generalized gradient approximation (GGA)</h2>
+<section id="the-reduced-gradient-and-the-enhancement-factor" class="level3" data-number="2.1">
+<h3 data-number="2.1" class="anchored" data-anchor-id="the-reduced-gradient-and-the-enhancement-factor"><span class="header-section-number">2.1</span> The reduced gradient and the enhancement factor</h3>
+<p>LSDA uses only the value of the density at each point. In a molecule, the density changes rapidly: near the nuclei, in bonds, and in the tails. The natural next ingredient is the <strong>gradient</strong> of the density, <span class="math inline">\(\nabla\rho\)</span>, which tells the functional how fast the density is changing. The early attempts to add a simple gradient correction (the gradient expansion) made things worse, because the expansion behaves badly where the gradient is large. The solution, developed in the 1980s, was the <strong>generalized gradient approximation</strong> (GGA): a more flexible function of <span class="math inline">\(\rho\)</span> and <span class="math inline">\(\nabla\rho\)</span> that is built to behave well everywhere.</p>
+<p>To compare gradients in regions of very different density, GGAs use a dimensionless <strong>reduced density gradient</strong>:</p>
+<p><span id="eq-s"><span class="math display">\[
+s(\mathbf{r}) = \frac{|\nabla\rho(\mathbf{r})|}{2\left(3\pi^2\right)^{1/3}\rho(\mathbf{r})^{4/3}}.
+\tag{1}\]</span></span></p>
+<p><span class="math inline">\(s = 0\)</span> in the uniform gas. In molecules, <span class="math inline">\(s\)</span> is small (below about 1) in the valence and bonding regions, and it grows without limit in the exponential tails of the density, far from the nuclei.</p>
+<p>Any GGA exchange functional can then be written as the LDA exchange energy density multiplied by an <strong>enhancement factor</strong> <span class="math inline">\(F_x(s)\)</span>:</p>
+<p><span id="eq-fx"><span class="math display">\[
+E_x^{\mathrm{GGA}}[\rho] = -C_x\int\rho(\mathbf{r})^{4/3}\,F_x\big(s(\mathbf{r})\big)\,d\mathbf{r}, \qquad C_x = \frac{3}{4}\left(\frac{3}{\pi}\right)^{1/3}.
+\tag{2}\]</span></span></p>
+<p>(For spin-polarized systems the same formula is applied to each spin density separately.) <span class="math inline">\(F_x = 1\)</span> gives back LSDA. Different GGA exchange functionals are simply different choices of <span class="math inline">\(F_x(s)\)</span>. Because <span class="math inline">\(F_x &gt; 1\)</span>, GGAs make the exchange energy more negative than LSDA, which, as we saw for the hydrogen atom in <a href="../lectures/l05-density-functional-theory.html">Class 5</a>, is what is needed.</p>
+</section>
+<section id="b88-exchange" class="level3" data-number="2.2">
+<h3 data-number="2.2" class="anchored" data-anchor-id="b88-exchange"><span class="header-section-number">2.2</span> B88 exchange</h3>
+<p>In 1988 Axel Becke proposed the exchange functional that made DFT popular in chemistry <span class="citation" data-cites="becke1988">(<a href="#ref-becke1988" role="doc-biblioref">Becke 1988</a>)</span>. In its original form, written for each spin density,</p>
+<p><span id="eq-b88"><span class="math display">\[
+E_x^{\mathrm{B88}} = E_x^{\mathrm{LSDA}} - \beta\sum_\sigma\int\rho_\sigma^{4/3}\,\frac{x_\sigma^2}{1 + 6\beta\,x_\sigma\sinh^{-1}x_\sigma}\,d\mathbf{r}, \qquad x_\sigma = \frac{|\nabla\rho_\sigma|}{\rho_\sigma^{4/3}},
+\tag{3}\]</span></span></p>
+<p>with a single parameter <span class="math inline">\(\beta = 0.0042\)</span> a.u. Becke chose the form so that the exchange energy density has the correct <span class="math inline">\(-1/(2r)\)</span> behavior far from an atom, and fitted <span class="math inline">\(\beta\)</span> to the exact (Hartree–Fock) exchange energies of the noble-gas atoms. B88 is therefore a slightly <strong>empirical</strong> functional: one parameter, fitted to data. It is the “B” in BLYP, BP86 and B3LYP.</p>
+</section>
+<section id="pbe-exchange-and-the-idea-of-exact-constraints" class="level3" data-number="2.3">
+<h3 data-number="2.3" class="anchored" data-anchor-id="pbe-exchange-and-the-idea-of-exact-constraints"><span class="header-section-number">2.3</span> PBE exchange and the idea of exact constraints</h3>
+<p>In 1996 Perdew, Burke and Ernzerhof proposed a GGA with a different philosophy <span class="citation" data-cites="perdew1996">(<a href="#ref-perdew1996" role="doc-biblioref">Perdew, Burke, et al. 1996</a>)</span>. Instead of fitting to data, they chose the simplest form that satisfies known <strong>exact constraints</strong>, properties that the exact functional is proven to have. The PBE enhancement factor is</p>
+<p><span id="eq-pbe"><span class="math display">\[
+F_x^{\mathrm{PBE}}(s) = 1 + \kappa - \frac{\kappa}{1 + \mu s^2/\kappa}, \qquad \kappa = 0.804, \quad \mu \approx 0.2195.
+\tag{4}\]</span></span></p>
+<p>Each number has a physical origin. <span class="math inline">\(\mu\)</span> is chosen so that, for small gradients, the gradient correction to exchange cancels that of PBE correlation, to recover the accurate linear response of the uniform gas. <span class="math inline">\(\kappa\)</span> is chosen so that <span class="math inline">\(F_x\)</span> never exceeds 1.804, a local version of the <strong>Lieb–Oxford bound</strong>, a proven lower limit on how negative the exchange–correlation energy can be. PBE is <strong>non-empirical</strong>: no parameter was fitted to molecular data. This makes it a safe, general-purpose functional for chemistry and especially for solids, where it is the default in many codes.</p>
+<p><a href="#fig-fx" class="quarto-xref">Figure&nbsp;2</a> compares the two enhancement factors. They are almost identical for <span class="math inline">\(s &lt; 1\)</span>, where most of the chemistry happens. They differ in the tails: B88 keeps growing, while PBE levels off toward its bound.</p>
+<div id="fig-fx" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Plot of F_x versus s from 0 to 3. LSDA is a flat line at 1. B88 and PBE start at 1, rise together to about 1.18 at s = 1, then separate: B88 continues almost linearly to about 1.75 at s = 3, PBE bends over to about 1.57. A dotted line at 1.804 marks the local Lieb–Oxford bound used by PBE.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-fx-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/l06-enhancement-factors.png" class="img-fluid figure-img" style="width:80.0%" alt="Plot of F_x versus s from 0 to 3. LSDA is a flat line at 1. B88 and PBE start at 1, rise together to about 1.18 at s = 1, then separate: B88 continues almost linearly to about 1.75 at s = 3, PBE bends over to about 1.57. A dotted line at 1.804 marks the local Lieb–Oxford bound used by PBE.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fx-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Exchange enhancement factors of B88 and PBE as functions of the reduced gradient <span class="math inline">\(s\)</span>, computed from <a href="#eq-b88" class="quarto-xref">Equation&nbsp;3</a> and <a href="#eq-pbe" class="quarto-xref">Equation&nbsp;4</a> for a spin-unpolarized density. LSDA corresponds to <span class="math inline">\(F_x = 1\)</span>. The two GGAs agree closely in the valence region (<span class="math inline">\(s &lt; 1\)</span>) and differ in the low-density tails. Computed with <code>images/src/l04_l06_figures.py</code>.
+</figcaption>
+</figure>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Worked example: GGA exchange for the hydrogen atom
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In <a href="../lectures/l05-density-functional-theory.html">Class 5</a> we evaluated LSDA exchange for the exact density of the hydrogen atom and found <span class="math inline">\(-0.268\)</span> Eh, against the exact <span class="math inline">\(-0.3125\)</span> Eh. With the same density, the two GGAs give (computed with the course script):</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th></th>
+<th style="text-align: right;">LSDA</th>
+<th style="text-align: right;">PBE</th>
+<th style="text-align: right;">B88</th>
+<th style="text-align: right;">Exact</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(E_x\)</span> (Eh)</td>
+<td style="text-align: right;"><span class="math inline">\(-0.268\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(-0.306\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(-0.310\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(-0.3125\)</span></td>
+</tr>
+<tr class="even">
+<td>error (kcal/mol)</td>
+<td style="text-align: right;"><span class="math inline">\(+28\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(+4\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(+2\)</span></td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+<p>The gradient correction removes most of the exchange error. The rest is a remaining self-interaction error, which a semilocal functional cannot remove completely.</p>
+</div>
+</div>
+</section>
+<section id="gga-correlation-and-the-names-of-gga-functionals" class="level3" data-number="2.4">
+<h3 data-number="2.4" class="anchored" data-anchor-id="gga-correlation-and-the-names-of-gga-functionals"><span class="header-section-number">2.4</span> GGA correlation and the names of GGA functionals</h3>
+<p>A GGA functional needs a correlation part too. The common ones are:</p>
+<ul>
+<li><strong>LYP</strong> (Lee, Yang and Parr, 1988) <span class="citation" data-cites="lee1988">(<a href="#ref-lee1988" role="doc-biblioref">Lee et al. 1988</a>)</span>, derived from a correlation formula fitted to the helium atom. It is not built on the uniform gas at all, and it gives zero correlation for any one-electron system, as it should.</li>
+<li><strong>P86</strong> (Perdew, 1986) <span class="citation" data-cites="perdew1986 perdew1986a">(<a href="#ref-perdew1986" role="doc-biblioref">Perdew 1986a</a>, <a href="#ref-perdew1986a" role="doc-biblioref">1986b</a>)</span>, an early gradient correction to LSDA correlation.</li>
+<li><strong>PW91</strong> (Perdew, Wang and co-workers, 1991–1992) <span class="citation" data-cites="perdew1992a">(<a href="#ref-perdew1992a" role="doc-biblioref">Perdew et al. 1992</a>)</span>, a non-empirical GGA for both exchange and correlation, the predecessor of PBE.</li>
+<li><strong>PBE</strong> correlation <span class="citation" data-cites="perdew1996">(<a href="#ref-perdew1996" role="doc-biblioref">Perdew, Burke, et al. 1996</a>)</span>, the non-empirical partner of PBE exchange.</li>
+</ul>
+<p>GGA names usually combine the exchange part and the correlation part: <strong>BLYP</strong> is B88 exchange + LYP correlation, <strong>BP86</strong> is B88 + P86, <strong>PBE</strong> is PBE exchange + PBE correlation. GGAs reduced the errors of LSDA in atomization energies by a large factor, from tens of kcal/mol to typically 5–10 kcal/mol for small molecules, and gave much better hydrogen bonds and barriers. This is why the 1990s were the decade in which chemists adopted DFT.</p>
+<p>A third family of GGAs is built with Becke’s 1997 power-series form <span class="citation" data-cites="becke1997">(<a href="#ref-becke1997" role="doc-biblioref">Becke 1997</a>)</span>, in which <span class="math inline">\(F_x\)</span> and the correlation enhancement factors are written as short power series with coefficients fitted to data. Many modern <strong>empirical</strong> functionals use this form, including the B97 series and the ωB97 family that we will meet below.</p>
+</section>
+</section>
+<section id="rung-3-meta-ggas" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="rung-3-meta-ggas"><span class="header-section-number">3</span> Rung 3: meta-GGAs</h2>
+<section id="the-kinetic-energy-density" class="level3" data-number="3.1">
+<h3 data-number="3.1" class="anchored" data-anchor-id="the-kinetic-energy-density"><span class="header-section-number">3.1</span> The kinetic-energy density</h3>
+<p>The third rung adds an ingredient that depends on the Kohn–Sham orbitals, but only in a semilocal way: the <strong>kinetic-energy density</strong> of each spin,</p>
+<p><span id="eq-tau"><span class="math display">\[
+\tau_\sigma(\mathbf{r}) = \frac{1}{2}\sum_{i}^{\mathrm{occ}}\left|\nabla\varphi_{i\sigma}(\mathbf{r})\right|^2.
+\tag{5}\]</span></span></p>
+<p>Integrated over space, <span class="math inline">\(\tau\)</span> gives the Kohn–Sham kinetic energy <span class="math inline">\(T_s\)</span> of <a href="../lectures/l05-density-functional-theory.html">Class 5</a>. Some meta-GGAs use the <strong>Laplacian</strong> of the density, <span class="math inline">\(\nabla^2\rho\)</span>, instead of or in addition to <span class="math inline">\(\tau\)</span>. Both carry information about how the density is curved, which the gradient alone does not.</p>
+<p>Why is <span class="math inline">\(\tau\)</span> useful? Compare it with the <strong>von Weizsäcker</strong> kinetic-energy density, <span class="math inline">\(\tau_W = |\nabla\rho|^2/(8\rho)\)</span>, which is the exact kinetic-energy density whenever only one orbital is occupied. The ratio <span class="math inline">\(\tau_W/\tau\)</span> equals 1 in regions dominated by a single orbital (for example, any one-electron system, or a region dominated by a single electron pair, like a covalent single bond) and is smaller elsewhere. Modern meta-GGAs use a closely related variable, <span class="math inline">\(\alpha = (\tau - \tau_W)/\tau^{\mathrm{unif}}\)</span>, which is</p>
+<ul>
+<li><span class="math inline">\(\alpha = 0\)</span> in one-orbital regions,</li>
+<li><span class="math inline">\(\alpha = 1\)</span> in the uniform electron gas,</li>
+<li><span class="math inline">\(\alpha \gg 1\)</span> in the region between two closed shells that do not bond (for example, between two weakly interacting molecules).</li>
+</ul>
+<p>So a meta-GGA can <strong>recognize</strong> the kind of chemical region it is in, which a GGA cannot. This lets it, for instance, make the correlation energy vanish for any one-electron density (removing the one-electron self-correlation error of LSDA and most GGAs), and treat single bonds, metallic-like regions and weak interactions differently.</p>
+</section>
+<section id="examples" class="level3" data-number="3.2">
+<h3 data-number="3.2" class="anchored" data-anchor-id="examples"><span class="header-section-number">3.2</span> Examples</h3>
+<ul>
+<li><strong>TPSS</strong> (Tao, Perdew, Staroverov and Scuseria, 2003) <span class="citation" data-cites="tao2003">(<a href="#ref-tao2003" role="doc-biblioref">Tao et al. 2003</a>)</span>, a non-empirical meta-GGA.</li>
+<li><strong>SCAN</strong> (“strongly constrained and appropriately normed”, 2015) <span class="citation" data-cites="sun2015">(<a href="#ref-sun2015" role="doc-biblioref">Sun et al. 2015</a>)</span>, a non-empirical meta-GGA that satisfies all 17 exact constraints known to be appropriate for a meta-GGA, and is “normed” to reproduce exactly a few systems (such as the hydrogen atom and the uniform gas). SCAN is accurate but numerically delicate, and needs fine integration grids. Its revision <strong>r²SCAN</strong> (2020) <span class="citation" data-cites="furness2020">(<a href="#ref-furness2020" role="doc-biblioref">Furness et al. 2020</a>)</span> keeps most of its accuracy with much better numerical behavior.</li>
+<li><strong>Empirical meta-GGAs</strong>, fitted to large databases of reference energies. An example is <strong>B97M-rV</strong> <span class="citation" data-cites="mardirossian2015 mardirossian2017rv">(<a href="#ref-mardirossian2015" role="doc-biblioref">Mardirossian and Head-Gordon 2015</a>; <a href="#ref-mardirossian2017rv" role="doc-biblioref">Mardirossian et al. 2017</a>)</span>.</li>
+</ul>
+<p>Meta-GGAs cost only a little more than GGAs, because <span class="math inline">\(\tau\)</span> is computed from the same orbitals that the program already has. They need finer integration grids, though, because <span class="math inline">\(\tau\)</span> and <span class="math inline">\(\alpha\)</span> vary rapidly in space and many fitted meta-GGAs have oscillating enhancement factors. You will see this directly in <a href="../experiments/ex07-grids.html">Experiment 7</a> and in <a href="../lectures/l11-integration-grids.html">Class 11</a>.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>“Local” means “no Hartree–Fock exchange”, not “LSDA”
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Rungs 1–3 together are called <strong>semilocal</strong> or simply <strong>local</strong> functionals: they use only information at each point (density, gradient, <span class="math inline">\(\tau\)</span>), and no Hartree–Fock exchange. In the Minnesota family, the suffix <strong>-L</strong> marks such a local functional. The suffix does not tell you whether the functional is a GGA or a meta-GGA: for that, you need to know which ingredients it uses.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="rung-4-hybrid-functionals" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="rung-4-hybrid-functionals"><span class="header-section-number">4</span> Rung 4: hybrid functionals</h2>
+<section id="why-mix-in-hartreefock-exchange-the-adiabatic-connection" class="level3" data-number="4.1">
+<h3 data-number="4.1" class="anchored" data-anchor-id="why-mix-in-hartreefock-exchange-the-adiabatic-connection"><span class="header-section-number">4.1</span> Why mix in Hartree–Fock exchange? The adiabatic connection</h3>
+<p>So far, every functional has been a function of local quantities. The fourth rung adds a completely different ingredient: the occupied orbitals themselves, used to compute <strong>exact exchange</strong>, the Hartree–Fock exchange energy of <a href="../lectures/l04-hartree-fock.html">Class 4</a> evaluated with the Kohn–Sham orbitals:</p>
+<p><span id="eq-exx"><span class="math display">\[
+E_x^{\mathrm{HF}} = -\frac{1}{2}\sum_{i,j}^{\mathrm{occ}}K_{ij}.
+\tag{6}\]</span></span></p>
+<p>Why would that help? A rigorous argument comes from the <strong>adiabatic connection</strong>. Imagine scaling the electron–electron repulsion by a factor <span class="math inline">\(\lambda\)</span> that goes from 0 to 1, while adjusting the external potential to keep the density fixed. At <span class="math inline">\(\lambda = 0\)</span> the electrons do not interact: this is the Kohn–Sham system, and its exchange–correlation energy is pure exchange, exactly <span class="math inline">\(E_x^{\mathrm{HF}}\)</span> with KS orbitals. At <span class="math inline">\(\lambda = 1\)</span> we have the real molecule. The exact <span class="math inline">\(E_{xc}\)</span> is the average of the exchange–correlation energy over this path:</p>
+<p><span id="eq-adiabatic"><span class="math display">\[
+E_{xc} = \int_0^1 W_\lambda\,d\lambda,
+\tag{7}\]</span></span></p>
+<p>where <span class="math inline">\(W_\lambda\)</span> is the potential-energy part of exchange–correlation at coupling strength <span class="math inline">\(\lambda\)</span>. We know the <span class="math inline">\(\lambda = 0\)</span> end exactly (<span class="math inline">\(W_0 = E_x^{\mathrm{HF}}\)</span>). Semilocal functionals are best near the <span class="math inline">\(\lambda = 1\)</span> end. A simple approximation to the integral therefore mixes the two. Becke tried exactly this in 1993, with a “half-and-half” mixture of HF exchange and LSDA <span class="citation" data-cites="becke1993a">(<a href="#ref-becke1993a" role="doc-biblioref">A. D. Becke 1993</a>)</span>. A few months later he proposed a more flexible, fitted version <span class="citation" data-cites="becke1993">(<a href="#ref-becke1993" role="doc-biblioref">A. D. J. Becke 1993</a>)</span>, the ancestor of B3LYP.</p>
+<p>The chemical argument is simpler. Hartree–Fock is free of self-interaction (<a href="../lectures/l04-hartree-fock.html">Class 4</a>), while semilocal functionals are not (<a href="../lectures/l05-density-functional-theory.html">Class 5</a>). Their errors often have opposite signs: HF underbinds and gives barriers that are too high, semilocal DFT overbinds and gives barriers that are too low. Mixing the two cancels part of both errors.</p>
+</section>
+<section id="global-hybrids-b3lyp-and-pbe0" class="level3" data-number="4.2">
+<h3 data-number="4.2" class="anchored" data-anchor-id="global-hybrids-b3lyp-and-pbe0"><span class="header-section-number">4.2</span> Global hybrids: B3LYP and PBE0</h3>
+<p>A <strong>global hybrid</strong> uses the same fraction <span class="math inline">\(a_0\)</span> of HF exchange everywhere in space:</p>
+<p><span id="eq-hybrid"><span class="math display">\[
+E_{xc}^{\mathrm{hybrid}} = a_0\,E_x^{\mathrm{HF}} + (1 - a_0)\,E_x^{\mathrm{DFA}} + E_c^{\mathrm{DFA}},
+\tag{8}\]</span></span></p>
+<p>where DFA stands for the underlying semilocal density functional approximation (a GGA or a meta-GGA).</p>
+<p><strong>B3LYP</strong> is the most cited functional in the history of chemistry. Becke’s 1993 three-parameter form <span class="citation" data-cites="becke1993">(<a href="#ref-becke1993" role="doc-biblioref">A. D. J. Becke 1993</a>)</span>, with LYP correlation substituted by Stephens and co-workers in 1994 <span class="citation" data-cites="stephens1994">(<a href="#ref-stephens1994" role="doc-biblioref">Stephens et al. 1994</a>)</span>, is</p>
+<p><span id="eq-b3lyp"><span class="math display">\[
+E_{xc}^{\mathrm{B3LYP}} = (1 - a_0)\,E_x^{\mathrm{LSDA}} + a_0\,E_x^{\mathrm{HF}} + a_x\,\Delta E_x^{\mathrm{B88}} + (1 - a_c)\,E_c^{\mathrm{VWN}} + a_c\,E_c^{\mathrm{LYP}},
+\tag{9}\]</span></span></p>
+<p>with <span class="math inline">\(a_0 = 0.20\)</span>, <span class="math inline">\(a_x = 0.72\)</span> and <span class="math inline">\(a_c = 0.81\)</span>. Here <span class="math inline">\(\Delta E_x^{\mathrm{B88}}\)</span> is the gradient correction part of B88 (<a href="#eq-b88" class="quarto-xref">Equation&nbsp;3</a>, minus its LSDA part). So B3LYP contains <strong>20% HF exchange</strong>. The three parameters were fitted by Becke to a small set of thermochemical data (with PW91 correlation in his original functional, today called <strong>B3PW91</strong>), and the same values were kept when LYP replaced PW91. B3LYP is an empirical hybrid GGA. Because different programs use different forms of VWN correlation (<a href="../lectures/l05-density-functional-theory.html">Class 5</a>), “B3LYP” energies can differ slightly from code to code.</p>
+<p><strong>PBE0</strong> <span class="citation" data-cites="adamo1999 ernzerhof1999">(<a href="#ref-adamo1999" role="doc-biblioref">Adamo and Barone 1999</a>; <a href="#ref-ernzerhof1999" role="doc-biblioref">Ernzerhof and Scuseria 1999</a>)</span> is the non-empirical counterpart:</p>
+<p><span id="eq-pbe0"><span class="math display">\[
+E_{xc}^{\mathrm{PBE0}} = \frac{1}{4}E_x^{\mathrm{HF}} + \frac{3}{4}E_x^{\mathrm{PBE}} + E_c^{\mathrm{PBE}}.
+\tag{10}\]</span></span></p>
+<p>The <strong>25% HF exchange</strong> is not fitted. Perdew, Ernzerhof and Burke argued from perturbation theory that 1/4 is a good general choice for molecules <span class="citation" data-cites="perdew1996a">(<a href="#ref-perdew1996a" role="doc-biblioref">Perdew, Ernzerhof, et al. 1996</a>)</span>.</p>
+<p>Hybrids built on meta-GGAs are <strong>hybrid meta-GGAs</strong>. Examples are TPSSh (TPSS with 10% HF exchange) <span class="citation" data-cites="staroverov2003">(<a href="#ref-staroverov2003" role="doc-biblioref">Staroverov et al. 2003</a>)</span> and several Minnesota functionals: <strong>M06-2X</strong> <span class="citation" data-cites="zhao2008">(<a href="#ref-zhao2008" role="doc-biblioref">Zhao and Truhlar 2008</a>)</span> has <strong>54%</strong> HF exchange (the “2X” stands for doubled HF exchange relative to its parent functional), and <strong>MN15</strong> <span class="citation" data-cites="yu2016a">(<a href="#ref-yu2016a" role="doc-biblioref">Yu, He, et al. 2016</a>)</span> has <strong>44%</strong>. Notice how much the HF fraction varies between functionals. Fitted functionals designed for main-group thermochemistry and barrier heights tend to use more HF exchange (40–60%), while functionals meant also for transition metals use less, because HF exchange makes the static-correlation problems of <a href="../lectures/l05-density-functional-theory.html">Class 5</a> worse.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>The cost of exact exchange
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Exact exchange is computed exactly as in Hartree–Fock: the program must build the exchange matrix from the two-electron integrals, which costs more than the Coulomb part and much more than evaluating a semilocal functional on a grid. In practice, a hybrid calculation takes noticeably longer per SCF cycle than a GGA in the same basis. You will measure this in <a href="../experiments/ex03-organic-a.html">Experiment 3</a>.</p>
+</div>
+</div>
+</section>
+<section id="range-separated-hybrids" class="level3" data-number="4.3">
+<h3 data-number="4.3" class="anchored" data-anchor-id="range-separated-hybrids"><span class="header-section-number">4.3</span> Range-separated hybrids</h3>
+<p>A global hybrid uses the same fraction of HF exchange for electrons that are close together and for electrons that are far apart. That is a compromise. At <strong>short range</strong>, semilocal exchange works reasonably well, and its errors partly cancel those of semilocal correlation. At <strong>long range</strong>, semilocal exchange is qualitatively wrong: the exchange–correlation potential of a semilocal functional decays exponentially far from a molecule, instead of as <span class="math inline">\(-1/r\)</span>. This makes orbital energies, charge-transfer excitations, Rydberg states and stretched bonds poorly described, and leaves residual self-interaction where it hurts most.</p>
+<p><strong>Range-separated hybrids</strong> use different amounts of HF exchange at different electron–electron distances. They split the Coulomb operator with the error function:</p>
+<p><span id="eq-rs"><span class="math display">\[
+\frac{1}{r_{12}} = \underbrace{\frac{\mathrm{erfc}(\omega r_{12})}{r_{12}}}_{\text{short range}} + \underbrace{\frac{\mathrm{erf}(\omega r_{12})}{r_{12}}}_{\text{long range}},
+\tag{11}\]</span></span></p>
+<p>where <span class="math inline">\(\mathrm{erf}\)</span> is the error function, <span class="math inline">\(\mathrm{erfc} = 1 - \mathrm{erf}\)</span>, and the <strong>range-separation parameter</strong> <span class="math inline">\(\omega\)</span> (in bohr<span class="math inline">\(^{-1}\)</span>) sets where the switch happens: <span class="math inline">\(1/\omega\)</span> is roughly the distance at which long range takes over (<a href="#fig-rs" class="quarto-xref">Figure&nbsp;3</a>, left). The exchange energy is then written as</p>
+<p><span id="eq-rsh"><span class="math display">\[
+E_x = c_{\mathrm{SR}}\,E_x^{\mathrm{HF,SR}} + (1 - c_{\mathrm{SR}})\,E_x^{\mathrm{DFA,SR}} + c_{\mathrm{LR}}\,E_x^{\mathrm{HF,LR}} + (1 - c_{\mathrm{LR}})\,E_x^{\mathrm{DFA,LR}},
+\tag{12}\]</span></span></p>
+<p>where <span class="math inline">\(c_{\mathrm{SR}}\)</span> and <span class="math inline">\(c_{\mathrm{LR}}\)</span> are the fractions of HF exchange at short and long range. The effective fraction of HF exchange grows smoothly from <span class="math inline">\(c_{\mathrm{SR}}\)</span> at <span class="math inline">\(r_{12} = 0\)</span> to <span class="math inline">\(c_{\mathrm{LR}}\)</span> at large <span class="math inline">\(r_{12}\)</span> (<a href="#fig-rs" class="quarto-xref">Figure&nbsp;3</a>, right).</p>
+<div id="fig-rs" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Two panels. Left: 1/r decreases steeply; erfc(ωr)/r follows it at short distance and drops to zero by about 5 bohr; erf(ωr)/r starts at about 0.34 at r = 0 and merges with 1/r beyond about 6 bohr. Right: fraction of HF exchange versus distance. ωB97M-V rises from 0.15 at r = 0 to 1.0 by about 6 bohr; M11 rises from 0.428 to 1.0; flat lines at 0.54 (M06-2X), 0.25 (PBE0) and 0.20 (B3LYP).">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-rs-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/l06-range-separation.png" class="img-fluid figure-img" style="width:100.0%" alt="Two panels. Left: 1/r decreases steeply; erfc(ωr)/r follows it at short distance and drops to zero by about 5 bohr; erf(ωr)/r starts at about 0.34 at r = 0 and merges with 1/r beyond about 6 bohr. Right: fraction of HF exchange versus distance. ωB97M-V rises from 0.15 at r = 0 to 1.0 by about 6 bohr; M11 rises from 0.428 to 1.0; flat lines at 0.54 (M06-2X), 0.25 (PBE0) and 0.20 (B3LYP).">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-rs-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: Left: the Coulomb interaction <span class="math inline">\(1/r\)</span> split into a short-range part, <span class="math inline">\(\mathrm{erfc}(\omega r)/r\)</span>, and a long-range part, <span class="math inline">\(\mathrm{erf}(\omega r)/r\)</span>, for <span class="math inline">\(\omega = 0.3\)</span> bohr<span class="math inline">\(^{-1}\)</span>. Right: the effective fraction of Hartree–Fock exchange as a function of the electron–electron distance for two range-separated hybrids (ωB97M-V with <span class="math inline">\(\omega = 0.3\)</span> bohr<span class="math inline">\(^{-1}\)</span>, M11 with <span class="math inline">\(\omega = 0.25\)</span> bohr<span class="math inline">\(^{-1}\)</span>) and three global hybrids. Computed with <code>images/src/l04_l06_figures.py</code>.
+</figcaption>
+</figure>
+</div>
+<p>The most common choice in chemistry is a <strong>long-range corrected</strong> hybrid, with <span class="math inline">\(c_{\mathrm{LR}} = 1\)</span> (100% HF exchange at long range, which restores the correct <span class="math inline">\(-1/r\)</span> potential). The idea goes back to Iikura, Tsuneda, Yanai and Hirao <span class="citation" data-cites="iikura2001">(<a href="#ref-iikura2001" role="doc-biblioref">Iikura et al. 2001</a>)</span>. Examples:</p>
+<div id="tbl-rsh" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-rsh-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;2: Some range-separated hybrids. CAM-B3LYP uses a slightly more general partition than <a href="#eq-rsh" class="quarto-xref">Equation&nbsp;12</a>. HSE does the opposite of a long-range correction: it keeps HF exchange only at short range, which makes calculations on metals and solids cheaper.
+</figcaption>
+<div aria-describedby="tbl-rsh-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 22%">
+<col style="width: 22%">
+<col style="width: 22%">
+<col style="width: 16%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Functional</th>
+<th style="text-align: right;"><span class="math inline">\(c_{\mathrm{SR}}\)</span></th>
+<th style="text-align: right;"><span class="math inline">\(c_{\mathrm{LR}}\)</span></th>
+<th style="text-align: right;"><span class="math inline">\(\omega\)</span> (bohr<span class="math inline">\(^{-1}\)</span>)</th>
+<th>Base rung</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>CAM-B3LYP <span class="citation" data-cites="yanai2004">(<a href="#ref-yanai2004" role="doc-biblioref">Yanai et al. 2004</a>)</span></td>
+<td style="text-align: right;">19%</td>
+<td style="text-align: right;">65%</td>
+<td style="text-align: right;">0.33</td>
+<td>GGA</td>
+</tr>
+<tr class="even">
+<td>ωB97X-V <span class="citation" data-cites="mardirossian2014">(<a href="#ref-mardirossian2014" role="doc-biblioref">Mardirossian and Head-Gordon 2014</a>)</span></td>
+<td style="text-align: right;">16.7%</td>
+<td style="text-align: right;">100%</td>
+<td style="text-align: right;">0.30</td>
+<td>GGA</td>
+</tr>
+<tr class="odd">
+<td>M11 <span class="citation" data-cites="peverati2011">(<a href="#ref-peverati2011" role="doc-biblioref">Peverati and Truhlar 2011</a>)</span></td>
+<td style="text-align: right;">42.8%</td>
+<td style="text-align: right;">100%</td>
+<td style="text-align: right;">0.25</td>
+<td>meta-GGA</td>
+</tr>
+<tr class="even">
+<td>ωB97M-V <span class="citation" data-cites="mardirossian2016a">(<a href="#ref-mardirossian2016a" role="doc-biblioref">Mardirossian and Head-Gordon 2016</a>)</span></td>
+<td style="text-align: right;">15%</td>
+<td style="text-align: right;">100%</td>
+<td style="text-align: right;">0.30</td>
+<td>meta-GGA</td>
+</tr>
+<tr class="odd">
+<td>HSE (screened, for solids) <span class="citation" data-cites="heyd2003">(<a href="#ref-heyd2003" role="doc-biblioref">Heyd et al. 2003</a>)</span></td>
+<td style="text-align: right;">25%</td>
+<td style="text-align: right;">0%</td>
+<td style="text-align: right;">about 0.1</td>
+<td>GGA</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>The “ω” at the beginning of a name (ωB97X-V, ωB97M-V, ωPBE) means range separation. Not every range-separated functional has it in its name, though: M11 and CAM-B3LYP are both range-separated. Range separation is also used in some local functionals, with two <em>different semilocal</em> exchange forms at short and long range and no HF exchange at all. So “range-separated” does not automatically mean “hybrid”.</p>
+</section>
+</section>
+<section id="rung-5-double-hybrids-and-rpa" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="rung-5-double-hybrids-and-rpa"><span class="header-section-number">5</span> Rung 5: double hybrids and RPA</h2>
+<p>The fifth rung uses the <strong>virtual</strong> (unoccupied) Kohn–Sham orbitals as well. <strong>Double hybrids</strong> add a fraction of second-order perturbation (MP2-like) correlation, computed from the virtual orbitals, on top of a hybrid. The first widely used one, <strong>B2PLYP</strong> (Grimme, 2006) <span class="citation" data-cites="grimme2006">(<a href="#ref-grimme2006" role="doc-biblioref">Grimme 2006a</a>)</span>, has 53% HF exchange and 27% MP2-like correlation, with B88 and LYP for the rest. The <strong>random-phase approximation</strong> (RPA) is a different fifth-rung method, which treats correlation through all virtual orbitals and naturally includes dispersion.</p>
+<p>Fifth-rung methods are among the most accurate DFT approaches for main-group thermochemistry <span class="citation" data-cites="goerigk2017">(<a href="#ref-goerigk2017" role="doc-biblioref">Goerigk et al. 2017</a>)</span>. The price is MP2-like cost (<span class="math inline">\(N^5\)</span>) and slow basis-set convergence (like any correlated wave-function method, Class 4). We will not use them in the experiments, and there are no double hybrids in <a href="../experiments/ex02-jacobs-ladder.html">Experiment 2</a>.</p>
+</section>
+<section id="two-design-questions-that-cut-across-the-ladder" class="level2" data-number="6">
+<h2 data-number="6" class="anchored" data-anchor-id="two-design-questions-that-cut-across-the-ladder"><span class="header-section-number">6</span> Two design questions that cut across the ladder</h2>
+<p>The rung tells you <em>which ingredients</em> a functional uses. Two other questions are independent of the rung, and you need both to understand a functional’s name and behavior.</p>
+<section id="how-is-dispersion-included" class="level3" data-number="6.1">
+<h3 data-number="6.1" class="anchored" data-anchor-id="how-is-dispersion-included"><span class="header-section-number">6.1</span> How is dispersion included?</h3>
+<p>As we saw in <a href="../lectures/l05-density-functional-theory.html">Class 5</a>, no semilocal functional describes long-range dispersion, and adding HF exchange does not help (HF has no dispersion at all, Class 4). There are four possibilities:</p>
+<ol type="1">
+<li><strong>Not at all.</strong> Many classic functionals, including plain B3LYP, PBE and PBE0, have no long-range dispersion. They underbind dispersion-dominated complexes and get conformational energies of large flexible molecules wrong.</li>
+<li><strong>An empirical pairwise correction, -D.</strong> Grimme’s corrections add an atom–atom term <span class="math inline">\(-\sum_{AB} C_6^{AB}/R_{AB}^6\)</span> (plus higher terms), switched off at short range by a damping function, on top of the DFT energy. The history: D2 (2006) <span class="citation" data-cites="grimme2006b">(<a href="#ref-grimme2006b" role="doc-biblioref">Grimme 2006b</a>)</span>, D3 (2010) <span class="citation" data-cites="grimme2010">(<a href="#ref-grimme2010" role="doc-biblioref">Grimme et al. 2010</a>)</span>, and the current <strong>D4</strong> (2017–2019) <span class="citation" data-cites="caldeweyher2017 caldeweyher2019">(<a href="#ref-caldeweyher2017" role="doc-biblioref">Caldeweyher et al. 2017</a>, <a href="#ref-caldeweyher2019" role="doc-biblioref">2019</a>)</span>, whose <span class="math inline">\(C_6\)</span> coefficients depend on the atomic partial charges and so on the chemical environment. In this course we always use <strong>-D4</strong>: B3LYP-D4 is B3LYP plus the D4 correction. The correction costs almost nothing.</li>
+<li><strong>A nonlocal correlation functional, -V.</strong> Vydrov and Van Voorhis’s <strong>VV10</strong> <span class="citation" data-cites="vydrov2010">(<a href="#ref-vydrov2010" role="doc-biblioref">Vydrov and Van Voorhis 2010</a>)</span> adds a correlation term that depends on the density at <em>two</em> points at once, <span class="math inline">\(\iint \rho(\mathbf{r})\,\Phi(\mathbf{r},\mathbf{r}')\,\rho(\mathbf{r}')\,d\mathbf{r}\,d\mathbf{r}'\)</span>, so it can see two separate molecules. A “-V” at the end of a name (ωB97X-V, ωB97M-V, B97M-V) means VV10; “-rV” means the revised, faster rVV10 <span class="citation" data-cites="sabatini2013">(<a href="#ref-sabatini2013" role="doc-biblioref">Sabatini et al. 2013</a>)</span>, as in B97M-rV. Note that VV10 is a correlation ingredient; it does not change the rung of the functional.</li>
+<li><strong>Built into a fitted functional.</strong> Highly parametrized functionals such as the Minnesota family were fitted to data that include noncovalent complexes, so they capture <strong>medium-range</strong> dispersion (at van der Waals contact distances) through their parameters, without any explicit term. At long range they behave like any semilocal functional. In the course data files this is labeled “fitted”.</li>
+</ol>
+<p>Dispersion is the topic of <a href="../lectures/l08-dispersion.html">Class 8</a>, and <a href="../experiments/ex04-organic-b.html">Experiment 4</a> compares these options directly.</p>
+</section>
+<section id="non-empirical-or-empirical" class="level3" data-number="6.2">
+<h3 data-number="6.2" class="anchored" data-anchor-id="non-empirical-or-empirical"><span class="header-section-number">6.2</span> Non-empirical or empirical?</h3>
+<p>The second question is how the parameters were chosen.</p>
+<ul>
+<li><strong>Non-empirical</strong> (constraint-satisfying) functionals, like PBE, PBE0, TPSS and SCAN, are built to obey exact constraints of the true functional, with no fitting to molecular data <span class="citation" data-cites="perdew2005">(<a href="#ref-perdew2005" role="doc-biblioref">Perdew et al. 2005</a>)</span>. Their strength is that they are expected to be reasonable for <em>any</em> system, including systems unlike anything their designers tested.</li>
+<li><strong>Empirical</strong> (fitted) functionals, like B3LYP (3 parameters), the B97 family, the Minnesota functionals and ωB97M-V, have parameters fitted to databases of reference energies. ωB97M-V was designed by a “combinatorial” search: its authors fitted thousands of candidate forms and kept the one with the best balance between training and test sets <span class="citation" data-cites="mardirossian2016a">(<a href="#ref-mardirossian2016a" role="doc-biblioref">Mardirossian and Head-Gordon 2016</a>)</span>. Highly parametrized functionals can be very accurate for the kinds of systems they were trained on.</li>
+</ul>
+<p>The danger of fitting is <strong>overfitting</strong>: a functional with many parameters can reproduce its <strong>training set</strong> very well and still fail for systems unlike those in the training set. A fair test of a functional uses data it was not fitted to. This is not a reason to avoid empirical functionals (several of the best functionals available are empirical), but it is a reason to check what a functional was trained on before trusting a good result. You will meet a concrete case in <a href="../experiments/ex05-difficult-cases.html">Experiment 5</a> and in <a href="../lectures/l09-difficult-cases.html">Class 9</a>. In reality the line between the two groups is blurred: many “non-empirical” functionals use exact data for a few simple systems (norms), and most empirical functionals also impose some exact constraints.</p>
+</section>
+<section id="decoding-functional-names" class="level3" data-number="6.3">
+<h3 data-number="6.3" class="anchored" data-anchor-id="decoding-functional-names"><span class="header-section-number">6.3</span> Decoding functional names</h3>
+<p>There is no universal naming rule, but the following conventions cover most cases:</p>
+<div id="tbl-names" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-names-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;3: How to read functional names. Always confirm with the original paper: names are conventions, not definitions.
+</figcaption>
+<div aria-describedby="tbl-names-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Piece of the name</th>
+<th>Meaning</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Exchange + correlation authors</td>
+<td>B = Becke 88, LYP = Lee–Yang–Parr, P86 = Perdew 86, PW91 = Perdew–Wang</td>
+<td>BLYP, BP86</td>
+</tr>
+<tr class="even">
+<td>A number before the correlation part</td>
+<td>number of fitted mixing parameters of a hybrid</td>
+<td>B3LYP, B3PW91</td>
+</tr>
+<tr class="odd">
+<td>“0” at the end</td>
+<td>a parameter-free hybrid</td>
+<td>PBE0</td>
+</tr>
+<tr class="even">
+<td>“M” in B97M, ωB97M</td>
+<td>meta-GGA</td>
+<td>ωB97M-V</td>
+</tr>
+<tr class="odd">
+<td>ω or “LC-” at the start</td>
+<td>range-separated</td>
+<td>ωB97M-V, LC-ωPBE</td>
+</tr>
+<tr class="even">
+<td>“-V”, “-rV”</td>
+<td>VV10 or rVV10 nonlocal correlation</td>
+<td>ωB97M-V, B97M-rV</td>
+</tr>
+<tr class="odd">
+<td>“-D4” (or -D3, -D2)</td>
+<td>empirical dispersion correction added</td>
+<td>B3LYP-D4, PBE-D4</td>
+</tr>
+<tr class="even">
+<td>Minnesota: M + year (+ suffix)</td>
+<td>M = Minnesota, MN = Minnesota nonseparable; 06, 11, 15 = year</td>
+<td>M06-2X, M11, MN15</td>
+</tr>
+<tr class="odd">
+<td>“-2X” (Minnesota)</td>
+<td>doubled HF exchange relative to the parent functional</td>
+<td>M06-2X</td>
+</tr>
+<tr class="even">
+<td>“-L” (Minnesota)</td>
+<td>local: no HF exchange</td>
+<td>MN15-L</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>Four worked examples:</p>
+<ul>
+<li><strong>B3LYP-D4</strong>: Becke’s 3-parameter hybrid with LYP correlation (a hybrid GGA, 20% HF exchange), plus the D4 dispersion correction.</li>
+<li><strong>ωB97M-V</strong>: range-separated (ω) hybrid built on Becke’s 1997 power-series form (B97), meta-GGA (M), with VV10 nonlocal correlation (V). 15% HF exchange at short range, 100% at long range.</li>
+<li><strong>M06-2X</strong>: Minnesota 2006, with “double” HF exchange (54%). Which rung? The name alone does not say; the paper does (it uses <span class="math inline">\(\tau\)</span>).</li>
+<li><strong>MN15-L</strong>: Minnesota 2015, “N” for <em>nonseparable</em> (exchange and correlation are not fitted as separate pieces), “L” for local, so no HF exchange. Whether it is a GGA-type or a meta-GGA-type functional, the name does not say. You need the paper.</li>
+</ul>
+<p>The last two examples carry the main message for Experiment 2: <strong>the name is a hint, the paper is the answer.</strong></p>
+</section>
+</section>
+<section id="experiment-2-climbing-the-ladder-yourself" class="level2" data-number="7">
+<h2 data-number="7" class="anchored" data-anchor-id="experiment-2-climbing-the-ladder-yourself"><span class="header-section-number">7</span> Experiment 2: climbing the ladder yourself</h2>
+<p><a href="../experiments/ex02-jacobs-ladder.html">Experiment 2</a> has no calculations. You will classify 20 functionals into five categories: <strong>LSDA</strong>, <strong>GGA</strong>, <strong>meta-GGA</strong>, <strong>hybrid GGA</strong> and <strong>hybrid meta-GGA</strong> (there are no double hybrids). The point is to learn how to find this information for <em>any</em> functional, which is something you will need every time you read a computational paper or choose a method.</p>
+<p>A reliable procedure, for each functional:</p>
+<ol type="1">
+<li><strong>Does it contain any Hartree–Fock exchange?</strong> If yes, it is a hybrid (global or range-separated). Look for a percentage of “exact” or “HF” exchange in the paper or the Q-Chem manual. If no, it is local (rungs 1–3).</li>
+<li><strong>Does it use the kinetic-energy density <span class="math inline">\(\tau\)</span> or the Laplacian <span class="math inline">\(\nabla^2\rho\)</span>?</strong> If yes, it is a meta-GGA (or a hybrid meta-GGA). Look for <span class="math inline">\(\tau\)</span> in the equations, or for “meta” in the abstract.</li>
+<li><strong>Does it use the density gradient?</strong> If yes (and not <span class="math inline">\(\tau\)</span>), it is a GGA. If it uses only the density, it is LSDA.</li>
+</ol>
+<p>Note separately, for yourself, whether the functional is range-separated and how it handles dispersion. The form does not ask for these, but you will need them in Experiments 3–5.</p>
+<p><strong>Where to look.</strong> The best source is the original paper (the references for every functional appear on the pages of <a href="../experiments/ex03-organic-a.html">Experiments 3–5</a>). Reviews are faster: <span class="citation" data-cites="mardirossian2017">Mardirossian and Head-Gordon (<a href="#ref-mardirossian2017" role="doc-biblioref">2017</a>)</span> and <span class="citation" data-cites="goerigk2017">Goerigk et al. (<a href="#ref-goerigk2017" role="doc-biblioref">2017</a>)</span> classify hundreds of functionals with consistent notation, and <span class="citation" data-cites="peverati2014">Peverati and Truhlar (<a href="#ref-peverati2014" role="doc-biblioref">2014</a>)</span> and <span class="citation" data-cites="yu2016b">Yu, Li, et al. (<a href="#ref-yu2016b" role="doc-biblioref">2016</a>)</span> explain the Minnesota family and the general landscape. The Q-Chem manual lists the functionals available in the program, with their references <span class="citation" data-cites="epifanovsky2021">(<a href="#ref-epifanovsky2021" role="doc-biblioref"><span class="nocase">Epifanovsky et al.</span> 2021</a>)</span>. Avoid unsourced web pages.</p>
+<p><strong>Common traps.</strong></p>
+<ul>
+<li>A functional named after its <em>parameters</em> or its <em>year</em> tells you nothing about its rung.</li>
+<li>“Range-separated” does not imply “hybrid” (see above).</li>
+<li>“-V” adds nonlocal correlation, not HF exchange, and does not move a functional up the ladder.</li>
+<li>“-L” means no HF exchange, but it does not tell you GGA or meta-GGA.</li>
+<li>MN-type (“nonseparable”) functionals are classified, on this simplified ladder, with the GGAs or meta-GGAs of the same ingredients.</li>
+</ul>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Before next week: lock your Experiment 3 predictions
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><a href="../experiments/ex03-organic-a.html">Experiment 3</a> asks you to predict, before running anything, how methods on different rungs will perform on four “easy” organic reactions. Make those predictions with what you learned in Classes 4–6, and lock them in before you start the calculations. Predictions are graded for being made, not for being right.</p>
+</div>
+</div>
+</section>
+<section id="the-16-methods-of-experiments-35-on-the-ladder" class="level2" data-number="8">
+<h2 data-number="8" class="anchored" data-anchor-id="the-16-methods-of-experiments-35-on-the-ladder"><span class="header-section-number">8</span> The 16 methods of Experiments 3–5 on the ladder</h2>
+<p>In Experiments 3, 4 and 5 you will run the same 16 methods: fifteen density functionals and Hartree–Fock, all with the def2-TZVP basis. Every chart in those experiments colors the methods by rung. Several of them are also in the Experiment 2 exercise, so place them on the ladder yourself first, using the procedure above. The complete table is in <a href="../lectures/l07-benchmarking.html">Class 7</a>, which you should read after you submit Experiment 2.</p>
+</section>
+<section id="key-points" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="key-points">Key points</h2>
+<ul>
+<li><strong>Jacob’s ladder</strong> (Perdew, 2001) orders functionals by their ingredients: LSDA (<span class="math inline">\(\rho\)</span>), GGA (<span class="math inline">\(+\nabla\rho\)</span>), meta-GGA (<span class="math inline">\(+\tau\)</span> or <span class="math inline">\(\nabla^2\rho\)</span>), hybrid (<span class="math inline">\(+\)</span> occupied orbitals via HF exchange), double hybrid/RPA (<span class="math inline">\(+\)</span> virtual orbitals). Higher rungs are usually more accurate and always more expensive.</li>
+<li>GGA exchange is LSDA exchange times an <strong>enhancement factor</strong> <span class="math inline">\(F_x(s)\)</span> of the reduced gradient <span class="math inline">\(s\)</span>. <strong>B88</strong> (1988) has one fitted parameter; <strong>PBE</strong> (1996) is non-empirical, with parameters fixed by exact constraints.</li>
+<li><strong>Meta-GGAs</strong> use the kinetic-energy density <span class="math inline">\(\tau\)</span>, which lets them recognize one-orbital regions, uniform-gas-like regions and weak-interaction regions. Examples: TPSS, SCAN, r²SCAN. They need finer grids.</li>
+<li><strong>Global hybrids</strong> mix a fixed fraction of HF exchange: B3LYP 20%, PBE0 25%, M06-2X 54%, MN15 44%. The adiabatic connection justifies mixing; HF exchange reduces self-interaction error.</li>
+<li><strong>Range-separated hybrids</strong> split <span class="math inline">\(1/r_{12}\)</span> with <span class="math inline">\(\mathrm{erf}(\omega r_{12})\)</span>. Long-range corrected hybrids reach 100% HF exchange at long range: ωB97M-V 15% → 100% (<span class="math inline">\(\omega = 0.3\)</span>), M11 42.8% → 100% (<span class="math inline">\(\omega = 0.25\)</span>).</li>
+<li><strong>Double hybrids</strong> (B2PLYP) add MP2-like correlation from virtual orbitals, at MP2-like cost.</li>
+<li><strong>Dispersion</strong> is independent of the rung: none, <strong>-D4</strong>, nonlocal VV10 (“-V”, “-rV”), or fitted (medium range only).</li>
+<li>Functionals are <strong>non-empirical</strong> (constraints) or <strong>empirical</strong> (fitted). Fitted functionals can be excellent, but beware of overfitting and of judging a functional on its own training set.</li>
+<li><strong>The name is a hint, the paper is the answer.</strong></li>
+</ul>
+</section>
+<section id="study-questions" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="study-questions">Study questions</h2>
+<ol type="1">
+<li>List the five rungs of Jacob’s ladder and the ingredient each one adds. Why is each rung more expensive than the one below it?</li>
+<li>Calculate the reduced gradient <span class="math inline">\(s\)</span> for the hydrogen-atom density <span class="math inline">\(\rho = e^{-2r}/\pi\)</span> as a function of <span class="math inline">\(r\)</span>. (Hint: <span class="math inline">\(|\nabla\rho| = 2\rho\)</span>.) Where is <span class="math inline">\(s\)</span> small and where is it large? Which part of <a href="#fig-fx" class="quarto-xref">Figure&nbsp;2</a> matters most for the hydrogen atom’s valence region?</li>
+<li>B88 and PBE exchange agree closely for <span class="math inline">\(s &lt; 1\)</span>. Why do they still give somewhat different energies for atoms and molecules?</li>
+<li>What does the variable <span class="math inline">\(\alpha = (\tau - \tau_W)/\tau^{\mathrm{unif}}\)</span> tell a meta-GGA? Give its value in a one-electron system and in the uniform gas.</li>
+<li>Write the B3LYP and PBE0 formulas. Which parameters were fitted and which were derived? What fraction of HF exchange does each contain?</li>
+<li>Using the adiabatic connection, explain in a few sentences why a hybrid functional should contain <em>some</em> but not 100% HF exchange.</li>
+<li>Sketch the fraction of HF exchange as a function of electron–electron distance for B3LYP, for ωB97M-V and for a screened hybrid like HSE. Explain why long-range correction restores the correct asymptotic potential.</li>
+<li>Decode the names B3PW91, ωB97X-V, PBE-D4 and B97M-rV: what does each part of the name mean? Which of them are hybrids, and which include dispersion, and how?</li>
+<li>A colleague says: “M11 is range-separated, so it must be a hybrid; and B97M-V has a V, so it must be better at dispersion than B97M-rV.” Comment on both statements.</li>
+<li>Why is overfitting a concern for functionals with many parameters? How would you test whether a fitted functional really is better than a non-empirical one?</li>
+</ol>
+</section>
+<section id="further-reading" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="further-reading">Further reading</h2>
+<ul>
+<li><span class="citation" data-cites="perdew2001">Perdew and Schmidt (<a href="#ref-perdew2001" role="doc-biblioref">2001</a>)</span> and <span class="citation" data-cites="perdew2005">Perdew et al. (<a href="#ref-perdew2005" role="doc-biblioref">2005</a>)</span>: the original Jacob’s ladder papers, and a clear statement of the constraint-satisfaction philosophy.</li>
+<li><span class="citation" data-cites="mardirossian2017">Mardirossian and Head-Gordon (<a href="#ref-mardirossian2017" role="doc-biblioref">2017</a>)</span>: a long, careful review of 200 functionals tested on a large database, with a classification of each. The best single reference for Experiment 2.</li>
+<li><span class="citation" data-cites="goerigk2017">Goerigk et al. (<a href="#ref-goerigk2017" role="doc-biblioref">2017</a>)</span>: the GMTKN55 database paper, which also ranks functionals on each rung of the ladder.</li>
+<li><span class="citation" data-cites="peverati2014">Peverati and Truhlar (<a href="#ref-peverati2014" role="doc-biblioref">2014</a>)</span>: a review of the quest for a universal density functional, with the history of the Minnesota functionals.</li>
+<li><span class="citation" data-cites="koch2001">Koch and Holthausen (<a href="#ref-koch2001" role="doc-biblioref">2001</a>)</span>, chapters 6–7: GGAs and hybrids explained for chemists.</li>
+<li><span class="citation" data-cites="becke2014">Becke (<a href="#ref-becke2014" role="doc-biblioref">2014</a>)</span>: Becke’s personal perspective on fifty years of DFT, from the man behind B88 and B3LYP.</li>
+</ul>
+
+
+
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-adamo1999" class="csl-entry" role="listitem">
+Adamo, C., and V. J. Barone. 1999. <em>Chem. Phys.</em> 110: 6158–70.
+</div>
+<div id="ref-becke1988" class="csl-entry" role="listitem">
+Becke, A. D. 1988. <em>Phys. Rev. A</em> 38: 3098–100.
+</div>
+<div id="ref-becke1993a" class="csl-entry" role="listitem">
+Becke, A. D. 1993. <span>“A New Mixing of <span>Hartree–Fock</span> and Local Density-Functional Theories.”</span> <em>J. Chem. Phys.</em> 98: 1372–77. <a href="https://doi.org/10.1063/1.464304">https://doi.org/10.1063/1.464304</a>.
+</div>
+<div id="ref-becke1997" class="csl-entry" role="listitem">
+Becke, A. D. 1997. <span>“Density-Functional Thermochemistry. <span>V</span>. <span>S</span>ystematic Optimization of Exchange-Correlation Functionals.”</span> <em>J. Chem. Phys.</em> 107: 8554–60. <a href="https://doi.org/10.1063/1.475007">https://doi.org/10.1063/1.475007</a>.
+</div>
+<div id="ref-becke1993" class="csl-entry" role="listitem">
+Becke, A. D. J. 1993. <em>Chem. Phys.</em> 98: 5648–52.
+</div>
+<div id="ref-becke2014" class="csl-entry" role="listitem">
+Becke, A. D. J. 2014. <em>Chem. Phys.</em> 140: 18A301.
+</div>
+<div id="ref-caldeweyher2017" class="csl-entry" role="listitem">
+Caldeweyher, E., C. Bannwarth, and S. Grimme. 2017. <em>J. Chem. Phys.</em> 147: 034112.
+</div>
+<div id="ref-caldeweyher2019" class="csl-entry" role="listitem">
+Caldeweyher, E., S. Ehlert, A. Hansen, et al. 2019. <em>Chem. Phys.</em> 150: 154122.
+</div>
+<div id="ref-epifanovsky2021" class="csl-entry" role="listitem">
+<span class="nocase">Epifanovsky, E. et al.</span> 2021. <span>“Software for the Frontiers of Quantum Chemistry: An Overview of Developments in the <span>Q-Chem</span> 5 Package.”</span> <em>J. Chem. Phys.</em> 155: 084801.
+</div>
+<div id="ref-ernzerhof1999" class="csl-entry" role="listitem">
+Ernzerhof, M., and G. E. J. Scuseria. 1999. <em>Chem. Phys.</em> 110: 5029–36.
+</div>
+<div id="ref-furness2020" class="csl-entry" role="listitem">
+Furness, J. W., A. D. Kaplan, J. Ning, J. P. Perdew, and J. Sun. 2020. <span>“Accurate and Numerically Efficient r<span class="math inline">\(^2\)</span><span>SCAN</span> Meta-Generalized Gradient Approximation.”</span> <em>J. Phys. Chem. Lett.</em> 11: 8208–15. <a href="https://doi.org/10.1021/acs.jpclett.0c02405">https://doi.org/10.1021/acs.jpclett.0c02405</a>.
+</div>
+<div id="ref-goerigk2017" class="csl-entry" role="listitem">
+Goerigk, L., A. Hansen, C. Bauer, S. Ehrlich, A. Najibi, and S. Grimme. 2017. <em>Phys. Chem. Chem. Phys.</em> 19: 32184–215.
+</div>
+<div id="ref-grimme2006" class="csl-entry" role="listitem">
+Grimme, S. J. 2006a. <em>Chem. Phys.</em> 124: 034108.
+</div>
+<div id="ref-grimme2006b" class="csl-entry" role="listitem">
+Grimme, S. J. 2006b. <em>Comput. Chem.</em> 27: 1787–99.
+</div>
+<div id="ref-grimme2010" class="csl-entry" role="listitem">
+Grimme, S., J. Antony, S. Ehrlich, and H. J. Krieg. 2010. <em>Chem. Phys.</em> 132: 154104.
+</div>
+<div id="ref-heyd2003" class="csl-entry" role="listitem">
+Heyd, J., G. E. Scuseria, and M. Ernzerhof. 2003. <span>“Hybrid Functionals Based on a Screened <span>Coulomb</span> Potential.”</span> <em>J. Chem. Phys.</em> 118: 8207–15. <a href="https://doi.org/10.1063/1.1564060">https://doi.org/10.1063/1.1564060</a>.
+</div>
+<div id="ref-iikura2001" class="csl-entry" role="listitem">
+Iikura, H., T. Tsuneda, T. Yanai, and K. Hirao. 2001. <span>“A Long-Range Correction Scheme for Generalized-Gradient-Approximation Exchange Functionals.”</span> <em>J. Chem. Phys.</em> 115: 3540–44. <a href="https://doi.org/10.1063/1.1383587">https://doi.org/10.1063/1.1383587</a>.
+</div>
+<div id="ref-koch2001" class="csl-entry" role="listitem">
+Koch, W., and M. C. Holthausen. 2001. <em>A Chemist’s Guide to Density Functional Theory</em>. 2nd ed. Wiley-VCH.
+</div>
+<div id="ref-lee1988" class="csl-entry" role="listitem">
+Lee, C., W. Yang, and R. G. Parr. 1988. <em>Phys. Rev. B</em> 37: 785–89.
+</div>
+<div id="ref-mardirossian2014" class="csl-entry" role="listitem">
+Mardirossian, N., and M. Head-Gordon. 2014. <span>“<span class="math inline">\(\omega\)</span><span>B97X-V</span>: A 10-Parameter, Range-Separated Hybrid, Generalized Gradient Approximation Density Functional with Nonlocal Correlation, Designed by a Survival-of-the-Fittest Strategy.”</span> <em>Phys. Chem. Chem. Phys.</em> 16: 9904–24. <a href="https://doi.org/10.1039/C3CP54374A">https://doi.org/10.1039/C3CP54374A</a>.
+</div>
+<div id="ref-mardirossian2017" class="csl-entry" role="listitem">
+Mardirossian, N., and M. Head-Gordon. 2017. <em>Mol. Phys.</em> 115: 2315–72.
+</div>
+<div id="ref-mardirossian2015" class="csl-entry" role="listitem">
+Mardirossian, N., and M. J. Head-Gordon. 2015. <em>Chem. Phys.</em> 142: 074111.
+</div>
+<div id="ref-mardirossian2016a" class="csl-entry" role="listitem">
+Mardirossian, N., and M. J. Head-Gordon. 2016. <em>Chem. Phys.</em> 144: 214110.
+</div>
+<div id="ref-mardirossian2017rv" class="csl-entry" role="listitem">
+Mardirossian, N., L. Ruiz Pestana, J. C. Womack, C.-K. Skylaris, T. Head-Gordon, and M. Head-Gordon. 2017. <em>J. Phys. Chem. Lett.</em> 8: 35–40.
+</div>
+<div id="ref-perdew1986" class="csl-entry" role="listitem">
+Perdew, J. P. 1986a. <em>Phys. Rev. B</em> 33: 8822–24.
+</div>
+<div id="ref-perdew1986a" class="csl-entry" role="listitem">
+Perdew, J. P. 1986b. <em>Phys. Rev. B</em> 34: 7406.
+</div>
+<div id="ref-perdew1996" class="csl-entry" role="listitem">
+Perdew, J. P., K. Burke, and M. Ernzerhof. 1996. <em>Phys. Rev. Lett.</em> 77: 3865–68.
+</div>
+<div id="ref-perdew1992a" class="csl-entry" role="listitem">
+Perdew, J. P., J. A. Chevary, S. H. Vosko, et al. 1992. <em>Phys. Rev. B</em> 46: 6671–87.
+</div>
+<div id="ref-perdew1996a" class="csl-entry" role="listitem">
+Perdew, J. P., M. Ernzerhof, and K. Burke. 1996. <span>“Rationale for Mixing Exact Exchange with Density Functional Approximations.”</span> <em>J. Chem. Phys.</em> 105: 9982–85. <a href="https://doi.org/10.1063/1.472933">https://doi.org/10.1063/1.472933</a>.
+</div>
+<div id="ref-perdew2005" class="csl-entry" role="listitem">
+Perdew, J. P., A. Ruzsinszky, J. Tao, V. N. Staroverov, G. E. Scuseria, and G. I. Csonka. 2005. <span>“Prescription for the Design and Selection of Density Functional Approximations: More Constraint Satisfaction with Fewer Fits.”</span> <em>J. Chem. Phys.</em> 123: 062201. <a href="https://doi.org/10.1063/1.1904565">https://doi.org/10.1063/1.1904565</a>.
+</div>
+<div id="ref-perdew2001" class="csl-entry" role="listitem">
+Perdew, J. P., and K. Schmidt. 2001. <em>AIP Conf. Proc.</em> 577: 1–20.
+</div>
+<div id="ref-peverati2014" class="csl-entry" role="listitem">
+Peverati, R., and D. G. Truhlar. 2014. <em>Philos. Trans. R. Soc. A</em> 372: 20120476.
+</div>
+<div id="ref-peverati2011" class="csl-entry" role="listitem">
+Peverati, R., and D. G. J. Truhlar. 2011. <em>Phys. Chem. Lett.</em> 2: 2810–17.
+</div>
+<div id="ref-sabatini2013" class="csl-entry" role="listitem">
+Sabatini, R., T. Gorni, and S. de Gironcoli. 2013. <span>“Nonlocal van Der <span>Waals</span> Density Functional Made Simple and Efficient.”</span> <em>Phys. Rev. B</em> 87: 041108. <a href="https://doi.org/10.1103/PhysRevB.87.041108">https://doi.org/10.1103/PhysRevB.87.041108</a>.
+</div>
+<div id="ref-staroverov2003" class="csl-entry" role="listitem">
+Staroverov, V. N., G. E. Scuseria, J. Tao, and J. P. Perdew. 2003. <span>“Comparative Assessment of a New Nonempirical Density Functional: Molecules and Hydrogen-Bonded Complexes.”</span> <em>J. Chem. Phys.</em> 119: 12129–37. <a href="https://doi.org/10.1063/1.1626543">https://doi.org/10.1063/1.1626543</a>.
+</div>
+<div id="ref-stephens1994" class="csl-entry" role="listitem">
+Stephens, P. J., F. J. Devlin, C. F. Chabalowski, and M. J. J. Frisch. 1994. <em>Phys. Chem.</em> 98: 11623–27.
+</div>
+<div id="ref-sun2015" class="csl-entry" role="listitem">
+Sun, J., A. Ruzsinszky, and J. P. Perdew. 2015. <em>Phys. Rev. Lett.</em> 115: 036402.
+</div>
+<div id="ref-tao2003" class="csl-entry" role="listitem">
+Tao, J., J. P. Perdew, V. N. Staroverov, and G. E. Scuseria. 2003. <em>Phys. Rev. Lett.</em> 91: 146401.
+</div>
+<div id="ref-vydrov2010" class="csl-entry" role="listitem">
+Vydrov, O. A., and T. J. Van Voorhis. 2010. <em>Chem. Phys.</em> 133: 244103.
+</div>
+<div id="ref-yanai2004" class="csl-entry" role="listitem">
+Yanai, T., D. P. Tew, and N. C. Handy. 2004. <span>“A New Hybrid Exchange–Correlation Functional Using the <span>Coulomb</span>-Attenuating Method (<span>CAM-B3LYP</span>).”</span> <em>Chem. Phys. Lett.</em> 393: 51–57. <a href="https://doi.org/10.1016/j.cplett.2004.06.011">https://doi.org/10.1016/j.cplett.2004.06.011</a>.
+</div>
+<div id="ref-yu2016a" class="csl-entry" role="listitem">
+Yu, H. S., X. He, S. L. Li, and D. G. Truhlar. 2016. <em>Chem. Sci.</em> 7: 5032–51.
+</div>
+<div id="ref-yu2016b" class="csl-entry" role="listitem">
+Yu, H. S., S. L. Li, and D. G. J. Truhlar. 2016. <em>Chem. Phys.</em> 145: 130901.
+</div>
+<div id="ref-zhao2008" class="csl-entry" role="listitem">
+Zhao, Y., and D. G. Truhlar. 2008. <em>Theor. Chem. Acc.</em> 120: 215–41.
+</div>
+</div></section></div></main> <!-- /main -->
+<!-- Peverati lab logo at the top right of the navbar (light and dark versions). -->
+<script>
+(function () {
+  var css = document.querySelector('link[href$="styles.css"]');
+  var root = css ? css.getAttribute("href").replace(/styles\.css$/, "") : "";
+  var nav = document.querySelector("#quarto-header nav.navbar .navbar-container") ||
+            document.querySelector("#quarto-header nav.navbar .container-fluid");
+  if (!nav) return;
+  var a = document.createElement("a");
+  a.className = "lab-logo";
+  a.href = "https://peverati.github.io";
+  a.title = "Peverati research group";
+  // Both versions are inserted; CSS shows the one that matches the light/dark theme.
+  a.innerHTML =
+    '<img class="logo-for-light" src="' + root + 'images/logo-light.png" alt="Peverati research group logo">' +
+    '<img class="logo-for-dark" src="' + root + 'images/logo-dark.png" alt="Peverati research group logo">';
+  nav.appendChild(a);
+})();
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const toggle = window.document.createElement('button');
+      toggle.type = "button";
+      toggle.setAttribute("role", "switch");
+      toggle.setAttribute("aria-checked", "false");
+      toggle.classList.add('top-right');
+      toggle.classList.add('quarto-color-scheme-toggle');
+      toggle.setAttribute("aria-label", "Toggle dark mode");
+      toggle.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      toggle.appendChild(i);
+      // Put the toggle in a landmark of its own, so that landmark navigation
+      // can reach it.
+      //
+      // The container is always a fresh direct child of body, and the toggle is
+      // never moved into page furniture that the theme or the author controls.
+      // The toggle is positioned against the page, so any ancestor that
+      // establishes a containing block captures it: a positioned element or a
+      // grid for position: absolute, and transform, filter, will-change or
+      // contain for position: fixed. A direct child of body has none of these
+      // to inherit, and the shift when one appears is silent and visual.
+      //
+      // ARIA says a document should have at most one banner, and axe reports a
+      // duplicate whether or not the banners carry distinct labels. So use a
+      // header when the page has no banner yet, and a named region otherwise.
+      //
+      // A header is a banner wherever it sits, unless it is inside sectioning
+      // content, so this cannot just look at the children of body: a custom
+      // page layout wraps the title block header in a plain div. An explicit
+      // role="banner" always counts.
+      const sectioning = 'article, aside, main, nav, section, [role="article"], [role="complementary"], [role="main"], [role="navigation"], [role="region"]';
+      const hasBanner = Array.from(
+        window.document.querySelectorAll('header:not([role]), [role="banner"]')
+      ).some(function(el) {
+        return el.hasAttribute("role") || el.closest(sectioning) === null;
+      });
+      const container = window.document.createElement(hasBanner ? "div" : "header");
+      if (hasBanner) {
+        container.setAttribute("role", "region");
+        container.setAttribute("aria-label", "Toggle dark mode");
+      }
+      container.classList.add('quarto-color-scheme-toggle-container');
+      container.appendChild(toggle);
+      window.document.body.appendChild(container);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/peverati\.github\.io\/advpchem\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+          if (!link.classList.contains('no-external-icon')) {
+          }
+        }
+      }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          // Each band is positioned against its own containing block, which is
+          // not the offsetParent of the lines, so place it from client rects.
+          const placeBand = (band, firstEl, lastEl, codeBlock) => {
+            const container = band.offsetParent;
+            if (container === null) {
+              return;
+            }
+            const containerRect = container.getBoundingClientRect();
+            // Reveal.js scales slides with a transform, so convert client
+            // pixels back to the CSS pixels of the container.
+            const scale = containerRect.height / container.offsetHeight || 1;
+            const firstRect = firstEl.getBoundingClientRect();
+            const lastRect = lastEl.getBoundingClientRect();
+            const top = (firstRect.top - containerRect.top) / scale - container.clientTop + container.scrollTop;
+            const height = (lastRect.bottom - firstRect.top) / scale;
+            band.style.top = top - 2 + "px";
+            band.style.height = height + 4 + "px";
+            if (codeBlock) {
+              // Without the copy button wrapper, the containing block is wider
+              // than the code block, so span the code block explicitly.
+              const blockRect = codeBlock.getBoundingClientRect();
+              band.style.left = (blockRect.left - containerRect.left) / scale - container.clientLeft + container.scrollLeft + "px";
+              band.style.width = blockRect.width / scale + "px";
+            }
+          };
+          if (lineIds.length > 0) {
+            const el = window.document.getElementById(lineIds[0]);
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const parent = el.parentElement.parentElement;
+            // cook up a div (if necessary) and position it
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            placeBand(div, el, lastEl, parent.closest("div.sourceCode") || parent);
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            placeBand(gutterDiv, el, lastEl);
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+  <script type="application/javascript">
+  window.quartoScrollableRegionsLabels = {"code":"Scrollable code","output":"Scrollable output"};
+  </script>
+<nav class="page-navigation" aria-label="Page">
+  <div class="nav-page nav-page-previous">
+      <a href="../lectures/l05-density-functional-theory.html" class="pagination-link" aria-label="Class 5 · Approximating the Hamiltonian II: density functional theory">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Class 5 · Approximating the Hamiltonian II: density functional theory</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../lectures/l07-benchmarking.html" class="pagination-link" aria-label="Class 7 · How we test a functional">
+        <span class="nav-page-text">Class 7 · How we test a functional</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Advanced Physical Chemistry · Florida Institute of Technology</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>Experiments adapted from Morgante &amp; Peverati, <em>Int. J. Quantum Chem.</em> <strong>2020</strong></p>
+</div>
+  </div>
+</footer>
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>
