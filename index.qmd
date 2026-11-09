@@ -21,6 +21,12 @@ Welcome to the computational lab of **Advanced Physical Chemistry**. Over ten ex
 
 Your work is saved automatically **in this browser** as you go. To switch computers, download your submission file and load it on the other machine.
 
+## Lecture notes
+
+All fifteen lecture handouts in one PDF, with a table of contents and a single bibliography: the textbook for this lab. You can also read each lecture online under **Lectures**.
+
+[⬇ Download the lecture notes (PDF)](downloads/advpchem-lecture-notes.pdf){.btn .btn-primary download="advpchem-lecture-notes.pdf"}
+
 ## Before your first experiment
 
 - [Install IQmol and connect to the Q-Chem server](guides/iqmol-setup.qmd)

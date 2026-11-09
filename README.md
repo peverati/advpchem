@@ -19,6 +19,7 @@ content.
 | Change molecules / methods / reference values / questions / predictions / quiz | `data/experiments/exNN.json` (one file drives the form, inputs, checks and charts) |
 | Add a reference | `references.bib`, then cite it as `[@key]` |
 | Semester settings: form links, due dates, release of class results | `data/course.json` |
+| Rebuild the lecture-notes PDF (all handouts in one file; rerun after editing `lectures/`) | `python3 tools/build_textbook.py`, then commit `downloads/advpchem-lecture-notes.pdf` |
 | Regenerate geometries from the archive | `python3 tools/prepare_geometries.py` |
 | Regenerate Colab notebooks | `python3 tools/build_notebooks.py` (needs `nbformat`) |
 

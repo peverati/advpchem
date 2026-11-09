@@ -7,6 +7,8 @@ number-sections: false
 format-links: false
 ---
 
+[⬇ Download all lectures as one PDF](../downloads/advpchem-lecture-notes.pdf){.btn .btn-primary .btn-sm download="advpchem-lecture-notes.pdf"}
+
 Each chapter covers one lecture in more detail than there is time for in
 class. Read it before (or right after) the lecture. Each one ends with key points and
 study questions, and has a printable PDF version under *Other Formats*.

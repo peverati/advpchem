@@ -12,6 +12,7 @@ Course website for the ten DFT experiments of **Advanced Physical Chemistry (CHM
 - `components/*.js`: plain ES modules, no build step. `lab.js` renders the `<div data-lab="…">` placeholders. `core.js` holds the data model, `explore.js` the shared charts, `explorers/*.js` the per-experiment charts, plus special widgets (`grid-explorer`, `landscape`, `nist`, `methodcard`, `ladder`).
 - `downloads/extract_ex07.py`: student-facing, Python 3.8+ standard library only, same file on macOS/Windows/Linux. Instructions are on the Ex7 page (`#sec-extract`).
 - `lectures/`: student handouts, one per class (HTML + PDF, in the site's Lectures menu); `lectures/PLAN.md` is the lecture plan all three products follow. `slides/`: revealjs decks, excluded from the site render (`quarto render slides/<deck>.qmd`). `instructor/`: teaching notes in Markdown, committed but never rendered.
+- `tools/build_textbook.py` → `downloads/advpchem-lecture-notes.pdf` (all handouts as one Typst-compiled book; rebuild and commit it after editing any handout).
 - `tools/aggregate.py`: reads uploaded submissions → private `gradebook/` (git-ignored) + anonymized `data/class/exNN.json`.
 - `tools/build_notebooks.py` → `notebooks/*.ipynb` (Colab, PySCF). `tools/build_experiment_data.py` wrote the Ex4–10 quiz/prediction content once; **do not re-run it** (it would overwrite later JSON edits).
 - `filters/print-handout.lua`: strips the interactive parts from the Word/PDF handouts.
